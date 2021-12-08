@@ -57,7 +57,7 @@ task generateVSCodeExtension(type: NpxTask, dependsOn: [compileVSCodeExtension, 
     inputs.dir('out')
     inputs.dir('images')
     inputs.dir('ls')
-    inputs.dir('syntaxes')
+    inputs.dir('syntax')
     outputs.dir destDir
     doFirst {
         destDir.mkdirs()

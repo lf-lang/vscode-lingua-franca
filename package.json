@@ -47,7 +47,7 @@
             {
                 "language": "lflang",
                 "scopeName": "text.lflang",
-                "path": "./syntaxes/lflang.tmLanguage.json",
+                "path": "./syntax/lflang.tmLanguage.json",
                 "embeddedLanguages": {
                     "meta.embedded.block.c": "c",
                     "meta.embedded.block.cpp": "cpp",
