@@ -265,13 +265,16 @@ function setDiff(
  *     not be equal to begin.
  * @param shadowRanges - The ranges which detected matches to `begin`
  *     and `end` may not intersect
+ * @param possibleNesting - Whether nesting depth greater than 1 is
+ *     possible
  */
 function getContainedRanges(
     document: TextDocument,
     range: Range,
     begin: string,
     end: string,
-    shadowRanges: Range[] = []
+    shadowRanges: Range[] = [],
+    possibleNesting: boolean = true
 ): Range[] {
     const text = document.getText();
     const endOffset = document.offsetAt(range.end);
@@ -302,7 +305,7 @@ function getContainedRanges(
         const nextBegin = indexOf(begin, current);
         const nextEnd = indexOf(end, current);
         if (nextBegin < nextEnd) {
-            depth++;
+            if (possibleNesting || !depth) depth++;
             current = nextBegin + begin.length;
             if (depth == 1) rangeStart = document.positionAt(current);
         } else {
@@ -443,15 +446,14 @@ function provideParameters(
                 document, parameterList, '{', '}', stdShadow
             ));
             const typeValuePairs = getContainedRanges(
-                document, parameterList, ':', ',', stdShadow.concat(values)
+                document, parameterList, ':', ',', stdShadow.concat(values), false
             );
             for (const nonTypeValuePair of setDiff(
                 document, parameterList, typeValuePairs
             )) {
-                for (const word of getWords(document, nonTypeValuePair, stdShadow)) {
-                    parameters.push(document.getText(word));
-                    tokensBuilder.push(word, 'parameter', ['readonly']);
-                }
+                const word = getWords(document, nonTypeValuePair, stdShadow)[0];
+                parameters.push(document.getText(word));
+                tokensBuilder.push(word, 'parameter', ['readonly']);
             }
             for (const typeValuePair of typeValuePairs) {
                 for (const nonValue of setDiff(
