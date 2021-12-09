@@ -364,11 +364,11 @@
             "patterns": [
                 {
                     "name": "constant.numeric.int.lflang",
-                    "match": "((?<![\\w\\d])-)?\\d+\\b(?!\\.)"
+                    "match": "((?<![\\w\\d])-?)\\d+\\b(?!\\.)"
                 },
                 {
                     "name": "constant.numeric.float.lflang",
-                    "match": "((?<![\\w\\d])-)?\\d*\\.\\d+([eE][+\\-]?\\d+)?"
+                    "match": "((?<![\\w\\d])-?)\\d*\\.\\d+([eE][+\\-]?\\d+)?"
                 }
             ]
         },
