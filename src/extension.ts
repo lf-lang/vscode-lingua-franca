@@ -8,7 +8,7 @@ import { Trace } from 'vscode-jsonrpc';
 import { commands, window, workspace, ExtensionContext, languages, TextEditor, TextDocument } from 'vscode';
 import { LanguageClient, LanguageClientOptions, ServerOptions } from 'vscode-languageclient';
 import { legend, semanticTokensProvider } from './highlight';
-import { Config } from './build-lds'
+import { Config } from './config'
 
 let client: LanguageClient;
 

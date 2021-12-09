@@ -4,29 +4,26 @@ import * as fs from 'fs'
 import * as path from 'path'
 import * as rimraf from 'rimraf'
 import simpleGit, { SimpleGit } from 'simple-git';
-import { Command } from 'commander';
+import { Command, OptionValues } from 'commander';
+import { Config } from './config'
 
-const program = new Command();
-
-program
+/**
+ * Return passed in CLI options.
+ * @returns 
+ */
+function getOpts() {
+    const program = new Command();
+    program
     .option('-r, --ref <ref>', 'check out a particular commit')
     .option('-b, --branch <branch>', 'check out the HEAD of a particular branch');
 
-program.parse(process.argv);
-const options = program.opts();
-
-export class Config {
-    static readonly baseDir = path.resolve(path.dirname(require.main.filename), '..')
-    static readonly lsDir = path.resolve(Config.baseDir, 'ls')
-    static readonly ldsJar = 'lflang-lds.jar'
-    static readonly swtJarRegex = /org\.eclipse\.swt\..+(?<version>\.x86.+)\.jar$/
-    static readonly pkgName = 'org.lflang.lds'
-    static readonly repoName = 'lingua-franca'
-    static readonly swtJarsDir = path.resolve(Config.baseDir, path.join(Config.repoName, Config.pkgName, 'target', 'repository', 'plugins'))
-    static readonly ldsJarFile = path.resolve(Config.baseDir, path.join(Config.repoName, Config.pkgName, 'target', 'exe', Config.ldsJar))
-    static readonly repoURL = 'https://github.com/lf-lang/lingua-franca.git'
+    program.parse(process.argv);
+    return program.opts();
 }
 
+/**
+ * Copy jars produced by the Maven build.
+ */
 function copyJars() {
     if (fs.existsSync(Config.lsDir)) {
         rimraf.sync(Config.lsDir);
@@ -36,7 +33,7 @@ function copyJars() {
     // Copy the LDS jar.
     fs.copyFileSync(Config.ldsJarFile, path.join(Config.lsDir, Config.ldsJar))
 
-    // Copy swt plugins, needed by LDS.
+    // Copy SWT plugins, needed by LDS.
     fs.readdirSync(Config.swtJarsDir).forEach(
         (name: string) => {
             let found = name.match(Config.swtJarRegex);
@@ -48,7 +45,11 @@ function copyJars() {
     )
 }
 
-async function fetchDeps() {
+/**
+ * Check out the Lingua Franca repo.
+ * @param options CLI options
+ */
+async function fetchDeps(options: OptionValues) {
 
     if (!fs.existsSync(Config.repoName) || fs.readdirSync(Config.repoName).length === 0) {
         console.log("> cloning lingua-franca repo: " + Config.repoURL)
@@ -71,8 +72,11 @@ async function fetchDeps() {
     }
 }
 
+/**
+ * Build dependencies and collects produced jars. 
+ */
 async function build() {
-    await fetchDeps()
+    await fetchDeps(getOpts())
     const mvn = (require('maven')).create({
         cwd: Config.repoName
     });
