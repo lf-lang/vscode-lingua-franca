@@ -16,6 +16,7 @@ function getOpts() {
     program
     .option('-r, --ref <ref>', 'check out a particular commit')
     .option('-b, --branch <branch>', 'check out the HEAD of a particular branch')
+    .option('-l, --local <path>', 'build from existing local lingua-franca repo')
 
     program.parse(process.argv);
     return program.opts();
