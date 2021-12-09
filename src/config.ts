@@ -8,7 +8,7 @@ import * as path from 'path'
     /**
      * Name of the Language and Diagram Server jar.
      */
-    static readonly ldsJar = 'lflang-lds.jar'
+    static readonly ldsJarName = 'lflang-lds.jar'
     
     /**
      * Regex for matching SWT jars and capturing their version number.
@@ -26,6 +26,11 @@ import * as path from 'path'
     static readonly repoName = 'lingua-franca'
     
     /**
+     * Name of the directory in which the extension locates the jars.
+     */
+    static readonly libDirName = 'lib'
+
+    /**
      * URL of the Lingua Franca repo.
      */
     static readonly repoURL = 'https://github.com/lf-lang/lingua-franca.git'
@@ -33,23 +38,23 @@ import * as path from 'path'
     /**
      * Absolute path to the root directory of the vscode-lingua-franca repo.
      */
-    static readonly baseDir = path.resolve(path.dirname(require.main.filename), '..')
+    static readonly baseDirPath = path.resolve(path.dirname(require.main.filename), '..')
     
     /**
      * Absolute path to the directory in which to put the jar files.
      */
-    static readonly lsDir = path.resolve(Config.baseDir, 'ls')
+    static readonly libDirPath = path.resolve(Config.baseDirPath, Config.libDirName)
     
     /**
      * Absolute path to the directory in which to find the SWT jar files.
      */
-    static readonly swtJarsDir = path.resolve(Config.baseDir, 
+    static readonly swtJarsDirPath = path.resolve(Config.baseDirPath, 
         path.join(Config.repoName, Config.pkgName, 'target', 'repository', 'plugins'))
     
     /**
      * Absolute path to the language and diagram server jar.
      */
-    static readonly ldsJarFile = path.resolve(Config.baseDir, 
-        path.join(Config.repoName, Config.pkgName, 'target', 'exe', Config.ldsJar))
+    static readonly ldsJarFile = path.resolve(Config.baseDirPath, 
+        path.join(Config.repoName, Config.pkgName, 'target', 'exe', Config.ldsJarName))
     
 }

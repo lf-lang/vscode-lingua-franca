@@ -26,21 +26,21 @@ function getOpts() {
  * Copy jars produced by the Maven build.
  */
 function copyJars() {
-    if (fs.existsSync(Config.lsDir)) {
-        rimraf.sync(Config.lsDir);
+    if (fs.existsSync(Config.libDirPath)) {
+        rimraf.sync(Config.libDirPath);
     }
-    fs.mkdirSync(Config.lsDir);
+    fs.mkdirSync(Config.libDirPath);
 
     // Copy the LDS jar.
-    fs.copyFileSync(Config.ldsJarFile, path.join(Config.lsDir, Config.ldsJar))
+    fs.copyFileSync(Config.ldsJarFile, path.join(Config.libDirPath, Config.ldsJarName))
 
     // Copy SWT plugins, needed by LDS.
-    fs.readdirSync(Config.swtJarsDir).forEach(
+    fs.readdirSync(Config.swtJarsDirPath).forEach(
         (name: string) => {
             let found = name.match(Config.swtJarRegex)
             if (found !== null) {
-                fs.copyFileSync(path.join(Config.swtJarsDir, name),
-                    path.join(Config.lsDir, name.replace(found.groups.version, '')))
+                fs.copyFileSync(path.join(Config.swtJarsDirPath, name),
+                    path.join(Config.libDirPath, name.replace(found.groups.version, '')))
             }
         }
     )
@@ -54,12 +54,12 @@ async function fetchDeps(options: OptionValues) {
 
     if (!fs.existsSync(Config.repoName) || fs.readdirSync(Config.repoName).length === 0) {
         console.log("> cloning lingua-franca repo: " + Config.repoURL)
-        await simpleGit(Config.baseDir)
+        await simpleGit(Config.baseDirPath)
         .clone(Config.repoURL)
         .catch((err) => console.log("> error: clone failed: " + err))
     }
 
-    const git: SimpleGit = simpleGit(path.resolve(Config.baseDir, Config.repoName));
+    const git: SimpleGit = simpleGit(path.resolve(Config.baseDirPath, Config.repoName));
 
     if (options.ref) {
         console.log("> using lingua-franca ref: " + options.ref)
