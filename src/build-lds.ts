@@ -3,8 +3,8 @@
 import * as fs from 'fs'
 import * as path from 'path'
 import * as rimraf from 'rimraf'
-import simpleGit, { SimpleGit } from 'simple-git';
-import { Command, OptionValues } from 'commander';
+import simpleGit, { SimpleGit } from 'simple-git'
+import { Command, OptionValues } from 'commander'
 import { Config } from './config'
 
 /**
@@ -15,7 +15,7 @@ function getOpts() {
     const program = new Command();
     program
     .option('-r, --ref <ref>', 'check out a particular commit')
-    .option('-b, --branch <branch>', 'check out the HEAD of a particular branch');
+    .option('-b, --branch <branch>', 'check out the HEAD of a particular branch')
 
     program.parse(process.argv);
     return program.opts();
@@ -36,7 +36,7 @@ function copyJars() {
     // Copy SWT plugins, needed by LDS.
     fs.readdirSync(Config.swtJarsDir).forEach(
         (name: string) => {
-            let found = name.match(Config.swtJarRegex);
+            let found = name.match(Config.swtJarRegex)
             if (found !== null) {
                 fs.copyFileSync(path.join(Config.swtJarsDir, name),
                     path.join(Config.lsDir, name.replace(found.groups.version, '')))
@@ -81,8 +81,9 @@ async function build() {
         cwd: Config.repoName
     });
 
-    mvn.execute(['clean', 'package', '-P', 'lds'], { 'skipTests' : 'true' }).then(() => {
-    copyJars()
+    mvn.execute(['clean', 'package', '-P', 'lds'], { 'skipTests' : 'true' })
+    .then(() => {
+        copyJars()
     });    
 }
 

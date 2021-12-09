@@ -1,9 +1,9 @@
 {
     "name": "lflang-extension",
     "displayName": "Lingua Franca",
-    "description": "A coordination language for defining and composing reactors.",
+    "description": "Lingua Franca for Visual Studio Code (powered by LF Language and Diagram Server). Provides lints, code completion and navigation, formatting and more.",
     "version": "1.0.0",
-    "publisher": "iCyPhy",
+    "publisher": "The Lingua Franca Coordination Language",
     "icon": "images/lf-icon.png",
     "license": "BSD-2-Clause",
     "repository": {
@@ -110,9 +110,10 @@
         "vscode-languageclient": "^6.1.3"
     },
     "scripts": {
-        "build": "tsc && node out/build-lds.js",
         "compile": "tsc",
         "watch": "tsc -w",
-        "package": "vsce package"
+        "build": "tsc && node out/build-lds.js",
+        "deploy": "vsce package && code --install-extension lflang-extension-*.vsix",
+        "install": "npm install && npm run build && npm run deploy"
     }
 }
