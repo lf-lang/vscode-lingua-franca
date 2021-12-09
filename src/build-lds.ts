@@ -6,6 +6,8 @@ import * as rimraf from 'rimraf'
 import simpleGit, { SimpleGit } from 'simple-git'
 import { Command, OptionValues } from 'commander'
 import { Config } from './config'
+import { exit } from 'process';
+import { bold, green, red } from 'colorette'
 
 /**
  * Return passed in CLI options.
@@ -50,7 +52,7 @@ function copyJars() {
  * @param options CLI options
  */
 async function fetchDeps(options: OptionValues) {
-
+    console.log("> fetching Lingua Franca sources...")
     if (!fs.existsSync(Config.repoName) || fs.readdirSync(Config.repoName).length === 0) {
         console.log("> cloning lingua-franca repo: " + Config.repoURL)
         await simpleGit(Config.baseDirPath)
@@ -76,6 +78,7 @@ async function fetchDeps(options: OptionValues) {
  * Build dependencies and collects produced jars. 
  */
 async function build() {
+    await checkInstalled(['code', 'mvn', 'python3'])
     await fetchDeps(getOpts())
     const mvn = (require('maven')).create({
         cwd: Config.repoName
@@ -85,6 +88,21 @@ async function build() {
     .then(() => {
         copyJars()
     });    
+}
+
+async function checkInstalled(deps: string[]) {
+    const which = require('which')
+    let missing = [];
+    console.log("> checking dependencies...")
+    for (let dep of deps) {
+        //console.log(chalk.blue('Hello world!'));
+        await which(dep).then(() => { console.log("> " + dep + green(" [found]")) }).catch(() => { console.log("> " + dep + red(" [not found]")); missing.push(dep)})
+    }
+    if (missing.length > 0) {
+        console.log("> " + bold("please install: " + missing.toString()))
+        console.error("> " + red("missing dependencies; aborting"))
+        exit(1)
+    }
 }
 
 build()
