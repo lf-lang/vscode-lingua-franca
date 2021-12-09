@@ -531,15 +531,22 @@ function provideParameterAssignments(
     for (const reactor of getReactors(
         document, wholeDocument(document)
     )) {
-        applyTokenType(
-            document,
-            getContainedRanges(
-                document, reactor.body, '(', ')', stdShadow
-            ),
-            ['\\w+(?=\\s*=)'],
-            'parameter', [],
-            tokensBuilder
-        );
+        for (const argArea of getContainedRanges(
+            document, reactor.body, '(', ')', stdShadow
+        )) {
+            const gcr = (left: string, right: string) => getContainedRanges(
+                document, argArea, left, right, stdShadow
+            );
+            const nestedExpressions: Range[] = gcr('(', ')')
+                .concat(gcr('{', '}')).concat(gcr('[', ']'));
+            applyTokenType(
+                document,
+                setDiff(document, argArea, nestedExpressions),
+                ['(?<=(^|,)\\s*)\\w+(?=\\s*[=([{])'],
+                'parameter', [],
+                tokensBuilder
+            );
+        }
     }
 }
 
