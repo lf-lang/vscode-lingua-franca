@@ -3,7 +3,7 @@
     "displayName": "Lingua Franca",
     "description": "Lingua Franca for Visual Studio Code (powered by LF Language and Diagram Server). Provides lints, code completion and navigation, formatting and more.",
     "version": "1.0.0",
-    "publisher": "The Lingua Franca Coordination Language",
+    "publisher": "lf-lang",
     "icon": "images/lf-icon.png",
     "license": "BSD-2-Clause",
     "repository": {
