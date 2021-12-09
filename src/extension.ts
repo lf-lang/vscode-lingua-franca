@@ -8,14 +8,14 @@ import { Trace } from 'vscode-jsonrpc';
 import { commands, window, workspace, ExtensionContext, languages, TextEditor, TextDocument } from 'vscode';
 import { LanguageClient, LanguageClientOptions, ServerOptions } from 'vscode-languageclient';
 import { legend, semanticTokensProvider } from './highlight';
-
+import { Config } from './build-lds'
 
 let client: LanguageClient;
 
 export async function activate(context: ExtensionContext) {
     let javaArgs: string[];
-    const lsDir = 'ls'
-    const ldsJar = context.asAbsolutePath(path.join(lsDir, 'lflang-lds.jar'));
+    
+    const ldsJar = context.asAbsolutePath(path.join(Config.lsDir, Config.ldsJar));
     const hasDiagrams = fs.existsSync(ldsJar);
 
     if (hasDiagrams) {
@@ -24,20 +24,20 @@ export async function activate(context: ExtensionContext) {
         let cpSep = ':';
         switch(os.platform()) {
             case 'win32': 
-                swt = context.asAbsolutePath(path.join(lsDir, 'org.eclipse.swt.win32.win32.jar'));
+                swt = context.asAbsolutePath(path.join(Config.lsDir, 'org.eclipse.swt.win32.win32.jar'));
                 cpSep = ';';
                 break;
             case 'darwin': 
-                swt = context.asAbsolutePath(path.join(lsDir, 'org.eclipse.swt.cocoa.macosx.jar'));
+                swt = context.asAbsolutePath(path.join(Config.lsDir, 'org.eclipse.swt.cocoa.macosx.jar'));
                 break;
             default: // maybe a bit too optimistic
-                swt = context.asAbsolutePath(path.join(lsDir, 'org.eclipse.swt.gtk.linux.jar'));
+                swt = context.asAbsolutePath(path.join(Config.lsDir, 'org.eclipse.swt.gtk.linux.jar'));
                 break;
         }
         javaArgs = ['-cp', ldsJar+cpSep+swt, 'org.lflang.diagram.lsp.LanguageDiagramServer'];
     } else {
         // This assumes the extention was build with the standart LS without diagrams only named lflang.jar (requires manual activation in the gradle script)
-        javaArgs = ['-jar', context.asAbsolutePath(path.join(lsDir, 'lflang.jar'))];
+        javaArgs = ['-jar', context.asAbsolutePath(path.join(Config.lsDir, 'lflang.jar'))];
     }
     
     // TODO check if correct java is available
