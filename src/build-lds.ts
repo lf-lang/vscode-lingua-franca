@@ -9,7 +9,6 @@ import { Config } from './config'
 
 /**
  * Return passed in CLI options.
- * @returns 
  */
 function getOpts() {
     const program = new Command();
