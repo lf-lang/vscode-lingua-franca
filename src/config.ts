@@ -6,6 +6,16 @@ import * as path from 'path'
  export class Config {
     
     /**
+     * Executables that have to be on the PATH in order to build.
+     */
+    static readonly buildDeps = ['code', 'jar', 'javac', 'mvn', 'python3']
+
+    /**
+     * Java version required for building.
+     */
+    static readonly javaVersion = '11'
+
+    /**
      * Name of the Language and Diagram Server jar.
      */
     static readonly ldsJarName = 'lflang-lds.jar'

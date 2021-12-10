@@ -75,15 +75,23 @@ async function fetchDeps(options: OptionValues) {
 }
 
 /**
+ * Check whether version of installed Java is correct.
+ */
+function checkJavaVersion() {
+    // FIXME
+}
+
+/**
  * Build dependencies and collects produced jars. 
  */
 async function build() {
-    await checkInstalled(['code', 'mvn', 'python3'])
+    await checkInstalled(Config.buildDeps)
+    checkJavaVersion()
     await fetchDeps(getOpts())
     const mvn = (require('maven')).create({
         cwd: Config.repoName
     });
-
+    console.log("> starting Maven build...")
     mvn.execute(['clean', 'package', '-P', 'lds'], { 'skipTests' : 'true' })
     .then(() => {
         copyJars()
@@ -95,8 +103,12 @@ async function checkInstalled(deps: string[]) {
     let missing = [];
     console.log("> checking dependencies...")
     for (let dep of deps) {
-        //console.log(chalk.blue('Hello world!'));
-        await which(dep).then(() => { console.log("> " + dep + green(" [found]")) }).catch(() => { console.log("> " + dep + red(" [not found]")); missing.push(dep)})
+        await which(dep)
+            .then(() => { console.log("> " + dep + green(" [found]")) })
+            .catch(() => {
+                console.log("> " + dep + red(" [not found]"));
+                missing.push(dep)
+            })
     }
     if (missing.length > 0) {
         console.log("> " + bold("please install: " + missing.toString()))
