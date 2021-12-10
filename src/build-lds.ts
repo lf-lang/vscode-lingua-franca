@@ -8,6 +8,13 @@ import { Command, OptionValues } from 'commander'
 import { Config } from './config'
 import { exit } from 'process';
 import { bold, green, red } from 'colorette'
+import { exec } from 'child_process';
+import { promisify } from 'util';
+
+/**
+ * Utility for running command that returns a promise.
+ */
+const runCmd = promisify(require('child_process').exec);
 
 /**
  * Return passed in CLI options.
@@ -85,8 +92,27 @@ async function fetchDeps(options: OptionValues) {
 /**
  * Check whether version of installed Java is correct.
  */
-function checkJavaVersion() {
-    // FIXME
+async function checkJavaVersion() {
+    console.log("> verifying Java compiler version...")
+    try {
+        const {stdout} = await runCmd('javac --version')
+        const found = stdout.match(Config.javacRegex)
+        if (found) {
+            if (found.groups?.version === "11") {
+                console.log("> Java compiler version is 11")
+                return
+            }
+            // Not 11.
+            console.log("> Java compiler version is " + found.groups?.version)
+            console.log(red("> incompatible version of Java compiler; aborting"))
+            exit(1)
+        }
+    } catch(e) {
+        console.error(e)
+    }
+    
+    console.log(red("> cannot verify version of Java compiler; aborting"))
+    exit(1)
 }
 
 /**
@@ -94,7 +120,7 @@ function checkJavaVersion() {
  */
 async function build() {
     await checkInstalled(Config.buildDeps)
-    checkJavaVersion()
+    await checkJavaVersion()
     await fetchDeps(getOpts())
     const mvn = (require('maven')).create({
         cwd: Config.repoName
@@ -123,8 +149,8 @@ async function checkInstalled(deps: string[]) {
             })
     }
     if (missing.length > 0) {
-        console.log("> " + bold("please install: " + missing.toString()))
-        console.error("> " + red("missing dependencies; aborting"))
+        console.log("> " + bold("> please install: " + missing.toString()))
+        console.error("> " + red("> missing dependencies; aborting"))
         exit(1)
     }
 }

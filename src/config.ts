@@ -13,7 +13,12 @@ import * as path from 'path'
     /**
      * Java version required for building.
      */
-    static readonly javaVersion = '11'
+    static readonly javacVersion = 11
+
+    /**
+     * Regex to capture major version number from "javac --version".
+     */
+    static readonly javacRegex = /javac (?<version>\d+)\.\d+\.\d+/
 
     /**
      * Name of the Language and Diagram Server jar.
@@ -24,7 +29,7 @@ import * as path from 'path'
      * Regex for matching SWT jars and capturing their version number.
      */
     static readonly swtJarRegex = /org\.eclipse\.swt\..+(?<version>\.x86.+)\.jar$/
-    
+
     /**
      * Name of the Language and Diagram Server package.
      */
