@@ -8,8 +8,9 @@ import { Command, OptionValues } from 'commander'
 import { Config } from './config'
 import { exit } from 'process';
 import { bold, green, red } from 'colorette'
-import { exec } from 'child_process';
-import { promisify } from 'util';
+import { exec } from 'child_process'
+import { promisify } from 'util'
+import * as which from 'which'
 
 /**
  * Utility for running command that returns a promise.
@@ -103,10 +104,11 @@ async function checkJavaVersion() {
         const found = stdout.match(Config.javacRegex)
         if (found) {
             if (found.groups?.version == Config.javacVersion) {
-                console.log("> Java compiler version is 11")
+                console.log("> Java compiler version is "
+                    + Config.javacVersion)
                 return
             }
-            // Not 11.
+            // Not the required version.
             console.log("> Java compiler version is " + found.groups?.version)
             console.log(red("> incompatible version of Java compiler (must be "
                 + Config.javacVersion + "); aborting"))
@@ -126,9 +128,16 @@ async function checkJavaVersion() {
 async function build() {
     await checkInstalled(Config.buildDeps)
     await checkJavaVersion()
-    await fetchDeps(getOpts())
+    const opts = getOpts()
+    let co = Config.repoName
+    if (opts.local) {
+        console.log("> using repo located in " + opts.local)
+        co = opts.local
+    } else {
+        await fetchDeps(opts)
+    }
     const mvn = (require('maven')).create({
-        cwd: Config.repoName
+        cwd: co
     });
     console.log("> starting Maven build...")
     mvn.execute(['clean', 'package', '-P', 'lds'], { 'skipTests' : 'true' })
@@ -142,7 +151,6 @@ async function build() {
  * @param deps Array of dependencies.
  */
 async function checkInstalled(deps: string[]) {
-    const which = require('which')
     let missing = [];
     console.log("> checking dependencies...")
     for (let dep of deps) {
