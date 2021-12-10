@@ -440,22 +440,26 @@ function provideParameters(
         for (const parameterList of getContainedRanges(
             document, reactor.declaration, '(', ')', stdShadow
         )) {
-            const values = getContainedRanges(
-                document, parameterList, '(', ')', stdShadow
-            ).concat(getContainedRanges(
-                document, parameterList, '{', '}', stdShadow
-            ));
-            const typeValuePairs = getContainedRanges(
-                document, parameterList, ':', ',', stdShadow.concat(values), false
+            const gcr = (left: string, right: string) => getContainedRanges(
+                document, parameterList, left, right, stdShadow
             );
+            let values = gcr('(', ')').concat(gcr('{', '}')).concat(gcr('[', ']'));
+            values = values.concat(getContainedRanges(
+                document, parameterList, '=', ',', stdShadow.concat(values), false
+            ));
+            const typesAndValues = getContainedRanges(
+                document, parameterList, ':', ',', stdShadow.concat(values), false
+            ).concat(values);
             for (const nonTypeValuePair of setDiff(
-                document, parameterList, typeValuePairs
+                document, parameterList, typesAndValues
             )) {
-                const word = getWords(document, nonTypeValuePair, stdShadow)[0];
-                parameters.push(document.getText(word));
-                tokensBuilder.push(word, 'parameter', ['readonly']);
+                const word: Range = getWords(document, nonTypeValuePair, stdShadow)[0];
+                if (word) {
+                    parameters.push(document.getText(word));
+                    tokensBuilder.push(word, 'parameter', ['readonly']);
+                }
             }
-            for (const typeValuePair of typeValuePairs) {
+            for (const typeValuePair of typesAndValues) {
                 for (const nonValue of setDiff(
                     document, typeValuePair, values
                 )) {
