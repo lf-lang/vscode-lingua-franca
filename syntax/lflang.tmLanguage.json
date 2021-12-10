@@ -429,7 +429,7 @@
         },
         "time-unit": {
             "name": "constant.numeric.lflang",
-            "match": "\\b(nsec|nsecs|usec|usecs|msec|msecs|sec|secs|second|seconds|min|mins|minute|minutes|hour|hours|day|days|week|weeks)\\b"
+            "match": "\\b\\d*(nsec|nsecs|usec|usecs|msec|msecs|sec|secs|second|seconds|min|mins|minute|minutes|hour|hours|day|days|week|weeks)\\b"
         },
         "operator": {
             "name": "keyword.operator.lflang",
@@ -446,7 +446,7 @@
         "instantiation": {
             "patterns": [
                 {
-                    "name": "keyword.operator.new.lflang",
+                    "name": "keyword.control.new.lflang",
                     "match": "\\b(new)\\b"
                 },
                 {
