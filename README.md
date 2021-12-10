@@ -22,7 +22,7 @@ This is not ideal. If there were an IDE that could build the Language and Diagra
 1. Ensure that the appropriate compiler is on your PATH.
   * To build Java files, `javac` is required.
   * To build Kotlin files, [the Kotlin JVM compiler](https://github.com/JetBrains/kotlin/releases/tag/v1.5.30) `kotlinc` is required. It must be the JVM compiler, not the native compiler.
-2. Ensure that the language and diagram server fat JAR exists. This file is called `./ls/lflang-lds.jar`. If it does not exist, then it is necessary to build it using the build task: `npm install`.
+2. Ensure that the language and diagram server fat JAR exists. This file is called `./lib/lflang-lds.jar`. If it does not exist, then it is necessary to build it using the build task: `npm install`.
 3. `cd` into the `org.lflang.lds` directory and run the command: ```python3 uf.py <CANONICAL_NAME>``` where <CANONICAL_NAME> is either:
 * the canonical name of a package that you would like to update, or
 * the canonical name of the class that you would like to update. An example would be: ```python3 uf.py org.lflang.FileConfig```. This will also update any nested classes, and it should work as you would expect even for Kotlin files that do not include exactly one top-level class.
