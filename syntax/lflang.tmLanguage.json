@@ -146,7 +146,7 @@
             "patterns": [
                 {
                     "begin": "(?<=(input|output|action|state).*:)",
-                    "end": "[\\(;\\n]",
+                    "end": "[\\(\\{;\\n]",
                     "patterns": [
                         {
                             "include": "source.cpp"
