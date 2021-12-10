@@ -15,9 +15,12 @@ import { bold, green, red } from 'colorette'
 function getOpts() {
     const program = new Command();
     program
-    .option('-r, --ref <ref>', 'check out a particular commit')
-    .option('-b, --branch <branch>', 'check out the HEAD of a particular branch')
-    .option('-l, --local <path>', 'build from existing local lingua-franca repo')
+        .option('-r, --ref <ref>',
+        'check out a particular commit')
+        .option('-b, --branch <branch>',
+            'check out the HEAD of a particular branch')
+        .option('-l, --local <path>',
+            'build from existing local lingua-franca repo')
 
     program.parse(process.argv);
     return program.opts();
@@ -33,7 +36,8 @@ function copyJars() {
     fs.mkdirSync(Config.libDirPath);
 
     // Copy the LDS jar.
-    fs.copyFileSync(Config.ldsJarFile, path.join(Config.libDirPath, Config.ldsJarName))
+    fs.copyFileSync(Config.ldsJarFile, 
+        path.join(Config.libDirPath, Config.ldsJarName))
 
     // Copy SWT plugins, needed by LDS.
     fs.readdirSync(Config.swtJarsDirPath).forEach(
@@ -41,7 +45,8 @@ function copyJars() {
             let found = name.match(Config.swtJarRegex)
             if (found !== null) {
                 fs.copyFileSync(path.join(Config.swtJarsDirPath, name),
-                    path.join(Config.libDirPath, name.replace(found.groups.version, '')))
+                    path.join(Config.libDirPath, 
+                        name.replace(found.groups.version, '')))
             }
         }
     )
@@ -53,14 +58,16 @@ function copyJars() {
  */
 async function fetchDeps(options: OptionValues) {
     console.log("> fetching Lingua Franca sources...")
-    if (!fs.existsSync(Config.repoName) || fs.readdirSync(Config.repoName).length === 0) {
+    if (!fs.existsSync(Config.repoName)
+        || fs.readdirSync(Config.repoName).length === 0) {
         console.log("> cloning lingua-franca repo: " + Config.repoURL)
         await simpleGit(Config.baseDirPath)
         .clone(Config.repoURL)
         .catch((err) => console.log("> error: clone failed: " + err))
     }
 
-    const git: SimpleGit = simpleGit(path.resolve(Config.baseDirPath, Config.repoName));
+    const git: SimpleGit = simpleGit(
+        path.resolve(Config.baseDirPath, Config.repoName));
 
     if (options.ref) {
         console.log("> using lingua-franca ref: " + options.ref)
@@ -98,6 +105,11 @@ async function build() {
     });    
 }
 
+/**
+ * Check whether the given dependencies are installed.
+ * 
+ * @param deps Array of dependencies.
+ */
 async function checkInstalled(deps: string[]) {
     const which = require('which')
     let missing = [];
