@@ -44,6 +44,7 @@ function copyJars() {
         (name: string) => {
             let found = name.match(Config.swtJarRegex)
             if (found !== null) {
+                // Copy file, strip version numbers.
                 fs.copyFileSync(path.join(Config.swtJarsDirPath, name),
                     path.join(Config.libDirPath, 
                         name.replace(found.groups.version, '')))
@@ -107,7 +108,6 @@ async function build() {
 
 /**
  * Check whether the given dependencies are installed.
- * 
  * @param deps Array of dependencies.
  */
 async function checkInstalled(deps: string[]) {
