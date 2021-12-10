@@ -13,8 +13,9 @@ import { promisify } from 'util';
 
 /**
  * Utility for running command that returns a promise.
+ * @author Marten Lohstroh <marten@berkeley.edu>
  */
-const runCmd = promisify(require('child_process').exec);
+const runCmd = promisify(exec);
 
 /**
  * Return passed in CLI options.

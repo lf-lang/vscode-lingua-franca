@@ -2,6 +2,7 @@ import * as path from 'path'
 
 /**
  * Class that holds configuration settings.
+ * @author Marten Lohstroh <marten@berkeley.edu>
  */
  export class Config {
     
@@ -11,9 +12,9 @@ import * as path from 'path'
     static readonly buildDeps = ['code', 'jar', 'javac', 'mvn', 'python3']
 
     /**
-     * Java version required for building.
+     * Java version required for building (must be a string).
      */
-    static readonly javacVersion = 11
+    static readonly javacVersion = "11"
 
     /**
      * Regex to capture major version number from "javac --version".
