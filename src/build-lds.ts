@@ -98,13 +98,14 @@ async function checkJavaVersion() {
         const {stdout} = await runCmd('javac --version')
         const found = stdout.match(Config.javacRegex)
         if (found) {
-            if (found.groups?.version === "11") {
+            if (found.groups?.version == Config.javacVersion) {
                 console.log("> Java compiler version is 11")
                 return
             }
             // Not 11.
             console.log("> Java compiler version is " + found.groups?.version)
-            console.log(red("> incompatible version of Java compiler; aborting"))
+            console.log(red("> incompatible version of Java compiler (must be "
+                + Config.javacVersion + "); aborting"))
             exit(1)
         }
     } catch(e) {
