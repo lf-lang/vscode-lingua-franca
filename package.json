@@ -29,7 +29,7 @@
     "activationEvents": [
         "onLanguage:lflang"
     ],
-    "main": "out/main",
+    "main": "out/extension",
     "contributes": {
         "languages": [
             {
@@ -114,11 +114,12 @@
         "vscode-languageclient": "^6.1.3"
     },
     "scripts": {
-        "esbuild-base": "esbuild ./src/extension.ts --bundle --outfile=out/main.js --external:vscode --format=cjs --platform=node",
+        "clean": "rm -r out && rm -r lib && rm lflang-extension-*.vsix",
+        "esbuild-base": "esbuild ./src/extension.ts --bundle --outfile=out/extension.js --external:vscode --format=cjs --platform=node",
         "vscode:prepublish": "npm run esbuild-base -- --minify",
         "compile": "npm run esbuild-base -- --sourcemap",
         "watch": "npm run esbuild-base -- --sourcemap --watch",
-        "build": "npx ts-node scripts/build-lds.ts",
+        "build": "npx ts-node src/build-lds.ts",
         "deploy": "vsce package && code --install-extension lflang-extension-*.vsix",
         "install": "npm run build && npm run deploy"
     }
