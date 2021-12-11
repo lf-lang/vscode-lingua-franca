@@ -9,3 +9,4 @@ src/**
 tsconfig.json
 tslint.json
 package-lock.json
+developer-notes.md
