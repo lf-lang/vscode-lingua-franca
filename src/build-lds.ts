@@ -89,7 +89,7 @@ async function fetchDeps(options: OptionValues) {
         await git.checkout(branch).pull()
         .catch((err) => console.log("> error: checkout failed: " + err))
     }
-    console.log("> Updating Git submodules...")
+    console.log("> updating Git submodules...")
     await git.submoduleUpdate(["--init"])
     .catch((err) => console.log("> error: submodule updates failed: " + err))
 }
