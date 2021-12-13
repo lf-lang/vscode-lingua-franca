@@ -1,14 +1,15 @@
 {
     "compilerOptions": {
+        "esModuleInterop": true,
+        "inlineSources": false,
+        "lib": ["esnext"],
         "module": "commonjs",
-        "target": "es2019",
-        "lib": ["ES2019"],
         "moduleResolution": "node",
         "outDir": "./out",
-        "rootDir": "./src",
         "sourceMap": false,
-        "inlineSources": false,
+        "target": "esnext",
+        "rootDir": "./src",
     },
-    "include": ["./src"],
-    "exclude": ["node_modules", ".vscode-test", ".gradle"]
+    "exclude": ["node_modules", ".vscode-test", ".gradle"],
+    "include": ["./src"]
 }

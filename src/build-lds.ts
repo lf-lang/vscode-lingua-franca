@@ -10,7 +10,7 @@ import { exit } from 'process';
 import { bold, green, red } from 'colorette'
 import { exec } from 'child_process'
 import { promisify } from 'util'
-import * as which from 'which'
+import which from 'which'
 
 /**
  * Utility for running command that returns a promise.
