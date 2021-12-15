@@ -140,7 +140,7 @@ async function build() {
         cwd: co
     });
     console.log("> starting Maven build...")
-    mvn.execute(['clean', 'package', '-P', 'lds'], { 'skipTests' : 'true' })
+    mvn.execute(['clean', 'package', '-P', 'lds', '-U'], { 'skipTests' : 'true' })
     .then(() => {
         copyJars()
     });    
