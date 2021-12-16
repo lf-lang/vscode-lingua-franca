@@ -27,6 +27,8 @@ Tests are located in the `src` directory and are marked using the `.test.ts` ext
 Please keep your PRs manageable and easy to review.
  - Provide a clear title and description of the proposed changes;
  - Keep the changes limited to a particular feature, fix, or enhancement;
- - Mark the PR as "draft" until it is ready for review; and
- - Follow the [https://google.github.io/styleguide/tsguide.html](TypeScript
-   style guide) to avoid trivial review feedback.
+ - Mark the PR as "draft" until it is ready for review; 
+ - Provide tests along with your code; and
+ - Follow the [TypeScript style
+   guide](https://google.github.io/styleguide/tsguide.html) to avoid trivial
+   review feedback.
