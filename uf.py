@@ -8,6 +8,7 @@ style consistent with build-lds.ts.
 """
 
 import os
+import shutil
 import argparse
 import subprocess
 import time
@@ -79,7 +80,7 @@ def update_fat_jar(directory, files):
     clean_print('Updating fat jar with {}...'.format(', '.join([
         os.path.basename(class_file) for class_file in class_files
     ])))
-    subprocess.check_call(
+    check_call(
         ['jar', 'uf', fat_jar_abs, *class_files],
         cwd=output_dir
     )
@@ -95,12 +96,23 @@ def compiler(file):
 def _javac_like_compiler(name):
     def compiler(classpath, directory, file, output_dir):
         clean_print('Compiling {}...'.format(file))
-        subprocess.check_call(
+        check_call(
             [name, '-cp', classpath, '-d', output_dir, file],
             cwd=directory,
             shell=(os.name == 'nt')  # True iff the OS is Windows.
         )
     return compiler
+
+def check_call(*args, **kwargs):
+    command = args[0][0]
+    if shutil.which(command) is not None:
+        subprocess.check_call(*args, **kwargs)
+    else:
+        error(
+            "The command {} could not be found. Is {} installed and on your "
+            "path?".format(command, command)
+        )
+        exit(1)
 
 compile_java = _javac_like_compiler('javac')
 """Compiles the Java file `file`.
