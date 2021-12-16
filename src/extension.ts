@@ -5,14 +5,14 @@ import * as os from 'os';
 import * as fs from 'fs';
 
 import { Trace } from 'vscode-jsonrpc';
-import { commands, window, workspace, ExtensionContext, languages, TextEditor, TextDocument, Terminal } from 'vscode';
+import * as vscode from 'vscode';
 import { LanguageClient, LanguageClientOptions, ServerOptions } from 'vscode-languageclient';
 import { legend, semanticTokensProvider } from './highlight';
 import { Config } from './config'
 
 let client: LanguageClient;
 
-export async function activate(context: ExtensionContext) {
+export async function activate(context: vscode.ExtensionContext) {
     let javaArgs: string[];
     
     const ldsJar = context.asAbsolutePath(path.join(Config.libDirName, Config.ldsJarName));
@@ -49,7 +49,7 @@ export async function activate(context: ExtensionContext) {
     let clientOptions: LanguageClientOptions = {
         documentSelector: ['lflang'],
         synchronize: {
-            fileEvents: workspace.createFileSystemWatcher('**/*.*')
+            fileEvents: vscode.workspace.createFileSystemWatcher('**/*.*')
         }
     };
     
@@ -59,7 +59,7 @@ export async function activate(context: ExtensionContext) {
 
     if (hasDiagrams) {
         // Register with Klighd Diagram extension
-        const refId = await commands.executeCommand(
+        const refId = await vscode.commands.executeCommand(
             "klighd-vscode.setLanguageClient",
             client,
             ["lf"]
@@ -75,35 +75,35 @@ export async function activate(context: ExtensionContext) {
         if (choice === "Show output") client.outputChannel.show()
     })
 
-    context.subscriptions.push(commands.registerTextEditorCommand(
+    context.subscriptions.push(vscode.commands.registerTextEditorCommand(
         'linguafranca.build',
-        (textEditor: TextEditor, _) => {
+        (textEditor: vscode.TextEditor, _) => {
             const uri = getLfUri(textEditor.document)
             if (!uri) return;
-            workspace.saveAll().then(function(successful) {
+            vscode.workspace.saveAll().then(function(successful) {
                 if (!successful) return;
                 client.sendRequest('generator/build', uri).then((message: string) => {
-                    if (message) withLogs(window.showInformationMessage)(message);
-                    else withLogs(window.showErrorMessage)('Build failed.');
+                    if (message) withLogs(vscode.window.showInformationMessage)(message);
+                    else withLogs(vscode.window.showErrorMessage)('Build failed.');
                 });
             });
         }
     ));
-    context.subscriptions.push(commands.registerTextEditorCommand(
+    context.subscriptions.push(vscode.commands.registerTextEditorCommand(
         'linguafranca.buildAndRun',
-        (textEditor: TextEditor, _) => {
+        (textEditor: vscode.TextEditor, _) => {
             const uri = getLfUri(textEditor.document)
             if (!uri) return;
-            workspace.saveAll().then(function(successful) {
+            vscode.workspace.saveAll().then(function(successful) {
                 if (!successful) return;
                 client.sendRequest('generator/buildAndRun', uri).then((command: string[]) => {
                     if (!command || !command.length) {
-                        withLogs(window.showErrorMessage)('Build failed.');
+                        withLogs(vscode.window.showErrorMessage)('Build failed.');
                         return;
                     }
                     const runTerminalName = 'Lingua Franca: Run';
-                    let terminal: Terminal = window.terminals.find(t => t.name === runTerminalName);
-                    if (!terminal) terminal = window.createTerminal({
+                    let terminal: vscode.Terminal = vscode.window.terminals.find(t => t.name === runTerminalName);
+                    if (!terminal) terminal = vscode.window.createTerminal({
                         name: runTerminalName,
                         cwd: command[0]
                     });
@@ -114,24 +114,24 @@ export async function activate(context: ExtensionContext) {
             });
         }
     ));
-    workspace.onDidSaveTextDocument(function(textDocument: TextDocument) {
+    vscode.workspace.onDidSaveTextDocument(function(textDocument: vscode.TextDocument) {
         const uri = getLfUri(textDocument, true);
         if (!uri) return; // This is not an LF document, so do nothing.
         client.sendNotification('generator/partialBuild', uri);
     })
 
-    context.subscriptions.push(languages.registerDocumentSemanticTokensProvider(
+    context.subscriptions.push(vscode.languages.registerDocumentSemanticTokensProvider(
         { language: 'lflang', scheme: 'file' },
         semanticTokensProvider,
         legend
     ));
 }
 
-function getLfUri(textDocument: TextDocument, failSilently = false): string | undefined {
+function getLfUri(textDocument: vscode.TextDocument, failSilently = false): string | undefined {
     const uri: string = textDocument.uri.toString();
     if (!uri.endsWith('.lf')) {
         if (!failSilently) {
-            window.showErrorMessage('The currently active file is not a Lingua Franca source file.');
+            vscode.window.showErrorMessage('The currently active file is not a Lingua Franca source file.');
         }
         return undefined;
     }
