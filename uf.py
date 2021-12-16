@@ -2,10 +2,10 @@
 
 """This script updates individual class files in a language
 and diagram server fat jar that has already been created.
-
-FIXME: Ideally this should be a TypeScript file written in a
-style consistent with build-lds.ts.
 """
+
+# FIXME: Ideally this should be a TypeScript file written in a
+#  style consistent with build-lds.ts.
 
 import os
 import shutil
@@ -15,6 +15,9 @@ import time
 import threading
 import tempfile
 import shutil
+
+__author__ = "Peter Donovan"
+__email__ = "peterdonovan@berkeley.edu"
 
 # This is the path to the fat jar that is to be updated.
 FAT_JAR = os.path.join('lib', 'lflang-lds.jar')
