@@ -68,7 +68,7 @@
         "commands": [
             {
                 "command": "linguafranca.build",
-                "title": "Build Lingua Franca File"
+                "title": "Lingua Franca: Build"
             }
         ],
         "menus": {
