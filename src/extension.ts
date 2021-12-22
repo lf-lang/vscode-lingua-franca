@@ -81,7 +81,7 @@ export async function activate(context: ExtensionContext) {
             };
             workspace.saveAll().then(function(successful) {
                 if (!successful) return;
-                client.sendNotification('generator/build', uri);
+                client.sendRequest('generator/build', uri).then(window.showInformationMessage);
             });
         }
     ));
