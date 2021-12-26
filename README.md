@@ -16,10 +16,24 @@ This extension adds language support for [Lingua Franca](https://www.lf-lang.org
 * user-triggered build (<kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>P</kbd>, then `Build Lingua Franca`) 
 
 ## Quick Start
- 1. Install this plugin from the [the VSCode Marketplace](https://marketplace.visualstudio.com/items?itemName=rust-lang.rust) (or by entering `ext install lf-lang.lingua-franca` at the command palette <kbd>Ctrl</kbd> + <kbd>P</kbd>)
- 2. (Skip this step if you already have Lingua Franca projects that you'd like to work on.) Create a new Lingua Franca project by creating a `<My Project Name>/src` folder and putting a file in it that has the `.lf` extension.
- 3. Open a Lingua Franca project (`File > Add Folder to Workspace...`). Open the folder for the whole project (i.e., the folder containing the `src` folder).
+ 1. Install this plugin from the [the VSCode
+    Marketplace](https://marketplace.visualstudio.com/items?itemName=rust-lang.rust)
+    (or by entering `ext install lf-lang.lingua-franca` at the command palette
+    <kbd>Ctrl</kbd> + <kbd>P</kbd>)
+ 2. (Skip this step if you already have Lingua Franca projects that you'd like
+    to work on.) Create a new Lingua Franca project by creating a `<My Project
+    Name>/src` folder and putting a file in it that has the `.lf` extension.
+ 3. Open a Lingua Franca project (`File > Add Folder to Workspace...`). Open the
+    folder for the whole project (i.e., the folder containing the `src` folder).
 
 ## Contributing
-We very much appreciate contributions in the form of [code, tests, documentation](https://github.com/lf-lang/vscode-lingua-franca/issues), [bug reports, and feature requests](https://github.com/lf-lang/vscode-lingua-franca/issues). For more details see [CONTRIBUTING.md](https://github.com/lf-lang/vscode-lingua-franca/blob/main/CONTRIBUTING.md).
+We very much appreciate contributions in the form of 
+[code, tests, documentation](https://github.com/lf-lang/vscode-lingua-franca/issues), [bug reports, and feature requests](https://github.com/lf-lang/vscode-lingua-franca/issues). 
+For more details see 
+[CONTRIBUTING.md](https://github.com/lf-lang/vscode-lingua-franca/blob/main/CONTRIBUTING.md).
 
+# Configuration
+## Diagrams
+To enable diagram-based code navigation, go to `Settings > Extensions > KLighD
+Diagram` and deactivate `Initial Should Select Diagram` and activate `Initial
+Should Select Text` instead.
