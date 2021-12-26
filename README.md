@@ -1,21 +1,19 @@
 # Lingua Franca Support for Visual Studio Code
 
-This extension adds language support for Lingua Franca. It is based on a Language and Diagram Server that provides:
+This extension adds language support for Lingua Franca. It is based on a Language and Diagram Server and provides:
 * content assist
+* find references
 * folding ranges
 * formatting
-* find references
 * get workspace symbols
 * hover
 * interactive diagrams (click on diagrams icon: ![image](https://user-images.githubusercontent.com/33707478/130875545-ad78a9b7-a07b-4eb9-be59-f6c758cc816b.png))
 * rename symbol
+* syntax highlighting
+* target syntax highlighting 
+* target code validation upon build (error highlighting currently for C++ only)
 * quick fixes (beta)
-
-In addition, this extension provides:
- * syntax highlighting
- * target syntax highlighting 
- * user-triggered build (<kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>P</kbd>, then `Build Lingua Franca`)
- * target code validation upon build (currently C++ only)
+* user-triggered build (<kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>P</kbd>, then `Build Lingua Franca`) 
 
 ## Quick Start
  1. Install this plugin from the [the VSCode Marketplace](https://marketplace.visualstudio.com/items?itemName=rust-lang.rust) (or by entering `ext install lf-lang.lingua-franca` at the command palette <kbd>Ctrl</kbd> + <kbd>P</kbd>)
