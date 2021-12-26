@@ -1,13 +1,13 @@
 # Lingua Franca support for Visual Studio Code
 
-This extension adds language support for Lingua Franca. It is based on a Language and Diagram Server and provides:
+This extension adds language support for [Lingua Franca](https://www.lf-lang.org/). It is based on a Language and Diagram Server and provides:
 * content assist
 * find references
 * folding ranges
 * formatting
 * get workspace symbols
 * hover
-* interactive diagrams (click on diagrams icon: ![image](https://user-images.githubusercontent.com/33707478/130875545-ad78a9b7-a07b-4eb9-be59-f6c758cc816b.png))
+* [KlighD](https://github.com/kieler/KLighD)-based interactive diagrams (click on diagrams icon: ![image](https://user-images.githubusercontent.com/33707478/130875545-ad78a9b7-a07b-4eb9-be59-f6c758cc816b.png))
 * rename symbol
 * syntax highlighting
 * target syntax highlighting 
