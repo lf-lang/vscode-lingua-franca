@@ -1,4 +1,4 @@
-# Lingua Franca Support for Visual Studio Code
+# Lingua Franca support for Visual Studio Code
 
 This extension adds language support for Lingua Franca. It is based on a Language and Diagram Server and provides:
 * content assist
