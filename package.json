@@ -69,6 +69,16 @@
             {
                 "command": "linguafranca.build",
                 "title": "Lingua Franca: Build"
+            },
+            {
+                "command": "linguafranca.buildAndRun",
+                "title": "Lingua Franca: Build and Run"
+            }
+        ],
+        "keybindings": [
+            {
+                "command": "linguafranca.buildAndRun",
+                "key": "f5"
             }
         ],
         "menus": {
