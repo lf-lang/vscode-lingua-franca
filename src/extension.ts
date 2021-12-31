@@ -5,7 +5,7 @@ import * as os from 'os';
 import * as fs from 'fs';
 
 import { Trace } from 'vscode-jsonrpc';
-import { commands, window, workspace, ExtensionContext, languages, TextEditor, TextDocument } from 'vscode';
+import { commands, window, workspace, ExtensionContext, languages, TextEditor, TextDocument, Terminal } from 'vscode';
 import { LanguageClient, LanguageClientOptions, ServerOptions } from 'vscode-languageclient';
 import { legend, semanticTokensProvider } from './highlight';
 import { Config } from './config'
@@ -72,21 +72,42 @@ export async function activate(context: ExtensionContext) {
         'linguafranca.build',
         (textEditor: TextEditor, _) => {
             const uri = getLfUri(textEditor.document)
-            if (!uri) {
-                window.showErrorMessage(
-                    'The currently active file is not a Lingua Franca source '
-                    + 'file.'
-                );
-                return;
-            };
+            if (!uri) return;
             workspace.saveAll().then(function(successful) {
                 if (!successful) return;
-                client.sendNotification('generator/build', uri);
+                client.sendRequest('generator/build', uri).then(window.showInformationMessage);
+            });
+        }
+    ));
+    let lastWorkingDirectory: string;
+    context.subscriptions.push(commands.registerTextEditorCommand(
+        'linguafranca.buildAndRun',
+        (textEditor: TextEditor, _) => {
+            const uri = getLfUri(textEditor.document)
+            if (!uri) return;
+            workspace.saveAll().then(function(successful) {
+                if (!successful) return;
+                client.sendRequest('generator/buildAndRun', uri).then((command: string[]) => {
+                    if (!command || !command.length) {
+                        window.showErrorMessage('Build failed.');
+                        return;
+                    }
+                    const runTerminalName = 'Lingua Franca: Run';
+                    let terminal: Terminal = window.terminals.find(t => t.name === runTerminalName);
+                    if (!terminal) terminal = window.createTerminal({
+                        name: runTerminalName,
+                        cwd: command[0]
+                    });
+                    else if (lastWorkingDirectory !== command[0]) terminal.sendText('cd ' + command[0]);
+                    lastWorkingDirectory = command[0];
+                    terminal.show(true);
+                    terminal.sendText(command.slice(1).join(' '));
+                });
             });
         }
     ));
     workspace.onDidSaveTextDocument(function(textDocument: TextDocument) {
-        const uri = getLfUri(textDocument);
+        const uri = getLfUri(textDocument, true);
         if (!uri) return; // This is not an LF document, so do nothing.
         client.sendNotification('generator/partialBuild', uri);
     })
@@ -98,9 +119,14 @@ export async function activate(context: ExtensionContext) {
     ));
 }
 
-function getLfUri(textDocument: TextDocument): string | undefined {
+function getLfUri(textDocument: TextDocument, failSilently = false): string | undefined {
     const uri: string = textDocument.uri.toString();
-    if (!uri.endsWith('.lf')) return undefined;
+    if (!uri.endsWith('.lf')) {
+        if (!failSilently) {
+            window.showErrorMessage('The currently active file is not a Lingua Franca source file.');
+        }
+        return undefined;
+    }
     return uri;
 }
 
