@@ -17,7 +17,7 @@ This extension adds language support for [Lingua Franca](https://www.lf-lang.org
 
 ## Quick Start
  1. Install this plugin from the [the VSCode
-    Marketplace](https://marketplace.visualstudio.com/items?itemName=rust-lang.rust)
+    Marketplace](https://marketplace.visualstudio.com/items?itemName=lf-lang.lingua-franca)
     (or by entering `ext install lf-lang.lingua-franca` at the command palette
     <kbd>Ctrl</kbd> + <kbd>P</kbd>)
  2. (Skip this step if you already have Lingua Franca projects that you'd like
