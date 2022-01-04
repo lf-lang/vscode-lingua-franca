@@ -32,6 +32,10 @@ We very much appreciate contributions in the form of
 For more details see 
 [CONTRIBUTING.md](https://github.com/lf-lang/vscode-lingua-franca/blob/main/CONTRIBUTING.md).
 
+<a href="https://github.com/lf-lang/vscode-lingua-franca/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=lf-lang/vscode-lingua-franca" />
+</a>
+
 # Configuration
 ## Diagrams
 To enable diagram-based code navigation, go to `Settings > Extensions > KLighD
