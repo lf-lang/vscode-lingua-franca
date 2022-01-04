@@ -9,6 +9,7 @@ from the VSCode marketplace. See
 [README.md](https://github.com/lf-lang/vscode-lingua-franca/) for more info.
 
 ## Getting started
+To check out the repository, build from source, and install the VS Code plugin, run the following command:
 ```
 git clone git@github.com:lf-lang/vscode-lingua-franca.git \
 && cd vscode-lingua-franca \
