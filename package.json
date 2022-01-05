@@ -75,12 +75,6 @@
                 "title": "Lingua Franca: Build and Run"
             }
         ],
-        "keybindings": [
-            {
-                "command": "linguafranca.buildAndRun",
-                "key": "f5"
-            }
-        ],
         "menus": {
             "editor/title": [
                 {
