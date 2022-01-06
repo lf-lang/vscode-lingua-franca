@@ -15,6 +15,18 @@ git clone git@github.com:lf-lang/vscode-lingua-franca.git \
 && cd vscode-lingua-franca \
 && npm install
 ```
+(if you do not have a public key set up for authentication with GitHub, you can also use HTTPS:
+```
+git clone https://github.com/lf-lang/vscode-lingua-franca.git \
+&& cd vscode-lingua-franca \
+&& npm install
+```
+
+### Trouble Shooting
+
+#### VS Code not detected on Mac OS X
+If you have VS Code installed, it might not get recognized if it is not on your `PATH`.
+To add `code` to your `PATH` and allow our install script to find it, open the command pallete in VS Code (<kbd>ctrl</kbd>+<kbd>p</kbd>) and type `Install 'code' command in PATH`.
 
 ## Running the tests
 ```
