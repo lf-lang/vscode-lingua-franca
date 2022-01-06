@@ -24,7 +24,7 @@ git clone https://github.com/lf-lang/vscode-lingua-franca.git \
 
 ### Trouble Shooting
 
-#### VS Code not detected on Mac OS X
+#### VS Code is not detected on Mac OS X
 If you have VS Code installed, it might not get recognized if it is not on your `PATH`.
 To add `code` to your `PATH` and allow our install script to find it, open the command pallete in VS Code (<kbd>ctrl</kbd>+<kbd>p</kbd>) and type `Install 'code' command in PATH`.
 
