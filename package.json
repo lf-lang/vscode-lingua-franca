@@ -1,8 +1,8 @@
 {
-    "name": "lingua-franca",
+    "name": "vscode-lingua-franca",
     "displayName": "Lingua Franca",
     "description": "Lingua Franca for Visual Studio Code. Provides lints, code completion and navigation, interactive diagrams, and more.",
-    "version": "1.0.0",
+    "version": "0.1.0",
     "publisher": "lf-lang",
     "icon": "images/icon.png",
     "license": "BSD-2-Clause",
@@ -20,8 +20,10 @@
         "Programming Languages"
     ],
     "keywords": [
-        "distributed",
-        "deterministic actors"
+        "reactors",
+        "coordination",
+        "polyglot",
+        "concurrency"        
     ],
     "extensionDependencies": [
         "kieler.klighd-vscode"
@@ -35,7 +37,7 @@
             {
                 "id": "lflang",
                 "aliases": [
-                    "LF-Lang"
+                    "Lingua Franca"
                 ],
                 "extensions": [
                     ".lf"
