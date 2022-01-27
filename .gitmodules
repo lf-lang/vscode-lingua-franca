@@ -1,0 +1,3 @@
+[submodule "lingua-franca"]
+	path = lingua-franca
+	url = https://github.com/lf-lang/lingua-franca.git
