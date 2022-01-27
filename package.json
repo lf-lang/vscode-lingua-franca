@@ -23,7 +23,8 @@
         "reactors",
         "coordination",
         "polyglot",
-        "concurrency"        
+        "concurrency",
+        "diagrams"
     ],
     "extensionDependencies": [
         "kieler.klighd-vscode"
