@@ -1,10 +1,10 @@
 {
-    "name": "lingua-franca-vscode",
+    "name": "lingua-franca",
     "displayName": "Lingua Franca",
     "description": "Lingua Franca for Visual Studio Code. Provides lints, code completion and navigation, interactive diagrams, and more.",
     "version": "1.0.0",
     "publisher": "lf-lang",
-    "icon": "images/lf-icon.png",
+    "icon": "images/icon.png",
     "license": "BSD-2-Clause",
     "repository": {
         "type": "git",
