@@ -67,31 +67,28 @@ function copyJars() {
  * @param options CLI options
  */
 async function fetchDeps(options: OptionValues) {
-    console.log("> fetching Lingua Franca sources...")
     if (!fs.existsSync(Config.repoName)
         || fs.readdirSync(Config.repoName).length === 0) {
         console.log("> cloning lingua-franca repo: " + Config.repoURL)
-        await simpleGit(Config.baseDirPath)
-        .clone(Config.repoURL)
-        .catch((err) => console.log("> error: clone failed: " + err))
+        await simpleGit(Config.baseDirPath).submoduleUpdate(["--init"])
+        .catch((err) => console.log("> error: submodule update failed: " + err))
     }
 
-    const git: SimpleGit = simpleGit(
+    const nestedGit: SimpleGit = simpleGit(
         path.resolve(Config.baseDirPath, Config.repoName));
 
     if (options.ref) {
         console.log("> using lingua-franca ref: " + options.ref)
-        await git.checkout(options.ref)
+        await nestedGit.checkout(options.ref)
         .catch((err) => console.log("> error: checkout failed: " + err))
-    } else {
-        let branch = options.branch ? options.branch : 'master'
-        console.log("> using lingua-franca branch: " + branch)
-        await git.checkout(branch).pull()
+    } else if (options.branch) {
+        console.log("> using lingua-franca branch: " + options.branch)
+        await nestedGit.checkout(options.branch).pull()
         .catch((err) => console.log("> error: checkout failed: " + err))
     }
     console.log("> updating Git submodules...")
-    await git.submoduleUpdate(["--init"])
-    .catch((err) => console.log("> error: submodule updates failed: " + err))
+    await nestedGit.submoduleUpdate(["--init"])
+    .catch((err) => console.log("> error: nested submodule updates failed: " + err))
 }
 
 /**
@@ -134,8 +131,7 @@ async function build() {
         console.log("> using repo located in " + opts.local)
         co = opts.local
     } else {
-        // FIXME: do a submodule update in vscode-lingua-franca instead
-        // await fetchDeps(opts)
+        await fetchDeps(opts)
     }
     const mvn = (require('maven')).create({
         cwd: co
