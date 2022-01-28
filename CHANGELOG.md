@@ -1,6 +1,8 @@
-# Version 0.1.0
+# Changelog
 
-## Features
+## Version 0.1.0
+
+### Features
 1. KLIghD Diagrams integration, allowing interactive diagrams of Lingua Franca programs.
 1. Syntax highlighting for Lingua Franca and C, C++, Python, TypeScript, and Rust code blocks.
 1. Semantic highlighting for Lingua Franca.
