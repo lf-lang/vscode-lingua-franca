@@ -134,7 +134,7 @@
         "compile": "npm run esbuild-base -- --sourcemap",
         "watch": "npm run esbuild-base -- --sourcemap --watch",
         "build": "npx ts-node src/build-lds.ts",
-        "deploy": "vsce package && code --install-extension lingua-franca-vscode-*.vsix",
+        "deploy": "vsce package && code --install-extension vscode-lingua-franca-*.vsix",
         "install": "npm run build && npm run deploy",
         "test": "jest --coverage",
         "test:watch": "jest --watch"

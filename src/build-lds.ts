@@ -134,7 +134,8 @@ async function build() {
         console.log("> using repo located in " + opts.local)
         co = opts.local
     } else {
-        await fetchDeps(opts)
+        // FIXME: do a submodule update in vscode-lingua-franca instead
+        // await fetchDeps(opts)
     }
     const mvn = (require('maven')).create({
         cwd: co
