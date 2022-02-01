@@ -13,6 +13,8 @@ This extension adds language support for [Lingua Franca](https://www.lf-lang.org
 * user-triggered build (<kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>P</kbd>, then `Build Lingua Franca`) 
 
 ## Quick Start
+
+### Downloading from the VSCode Marketplace
  1. Install this plugin from the [the VSCode
     Marketplace](https://marketplace.visualstudio.com/items?itemName=lf-lang.vscode-lingua-franca)
     (or by entering `ext install lf-lang.vscode-lingua-franca` at the command palette
@@ -22,6 +24,9 @@ This extension adds language support for [Lingua Franca](https://www.lf-lang.org
     Name>/src` folder and putting a file in it that has the `.lf` extension.
  3. Open a Lingua Franca project (`File > Add Folder to Workspace...`). Open the
     folder for the whole project (i.e., the folder containing the `src` folder).
+
+### Building locally
+Do `npm install` at the root of this repo. 
 
 ## Contributing
 We very much appreciate contributions in the form of 
