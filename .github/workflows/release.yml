@@ -1,0 +1,14 @@
+name: Release new version
+
+on:
+  workflow_dispatch:
+
+  jobs:
+    run:
+      runs-on: ubuntu-latest
+      steps:
+        - name: Check out vscode-lingua-franca repository
+          uses: actions/checkout@v2
+        - name: Build the VS Code extension
+          run: |
+            npm install

@@ -1,6 +1,6 @@
 # Changelog
 
-## Version 0.1.0
+## v0.1.0 (unreleased)
 
 ### Features
 1. KLIghD Diagrams integration, allowing interactive diagrams of Lingua Franca programs.
