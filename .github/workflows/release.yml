@@ -15,6 +15,13 @@ jobs:
           java-version: 11
       - name: Setup Node.js environment
         uses: actions/setup-node@v2.1.2
+      - name: Install VS Code
+        run: |
+          sudo apt update
+          sudo apt install software-properties-common apt-transport-https wget
+          wget -q https://packages.microsoft.com/keys/microsoft.asc -O- | sudo apt-key add -
+          sudo add-apt-repository "deb [arch=amd64] https://packages.microsoft.com/repos/vscode stable main"
+          sudo apt install code
       - name: Build the VS Code extension
         run: |
           npm install
