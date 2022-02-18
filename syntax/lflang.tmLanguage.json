@@ -73,7 +73,7 @@
                     "include": "#timer"
                 },
                 {
-                    "include": "#type"
+                    "include": "#member-type"
                 },
                 {
                     "include": "#number"
@@ -118,7 +118,7 @@
             "patterns": [
                 {
                     "begin": "(?<=(input|output|action|state).*:)",
-                    "end": "[\\(;\\n]",
+                    "end": "[\\(;=\\n]",
                     "patterns": [
                         {
                             "include": "source.cpp"
@@ -146,7 +146,7 @@
             "patterns": [
                 {
                     "begin": "(?<=(input|output|action|state).*:)",
-                    "end": "[\\(;\\n]",
+                    "end": "[\\(\\{;=\\n]",
                     "patterns": [
                         {
                             "include": "source.cpp"
@@ -348,15 +348,22 @@
             "name": "storage.modifier.lflang",
             "match": "\\b(timer)\\b"
         },
+        "member-type": {
+            "begin": "(input|output|action|state).*:(\\s*)",
+            "end": "[\\(\\{;=\\n]",
+            "patterns": [{
+                "include": "#type"
+            }]
+        },
         "type": {
             "patterns": [
                 {
                     "name": "entity.name.type.lflang",
-                    "match": "(?<=(input|output|action|state).*:(\\s*))(\\b([A-Z]\\w*)\\b)"
+                    "match": "\\b([A-Z]\\w*)\\b"
                 },
                 {
                     "name": "storage.type.lflang",
-                    "match": "(?<=(input|output|action|state).*:(\\s*))(\\b(\\w+)\\b)"
+                    "match": "\\b(\\w+)\\b"
                 }
             ]
         },
@@ -364,11 +371,11 @@
             "patterns": [
                 {
                     "name": "constant.numeric.int.lflang",
-                    "match": "((?<![\\w\\d])-)?\\d+\\b(?!\\.)"
+                    "match": "((?<![\\w\\d])-?)\\d+\\b(?!\\.)"
                 },
                 {
                     "name": "constant.numeric.float.lflang",
-                    "match": "((?<![\\w\\d])-)?\\d*\\.\\d+([eE][+\\-]?\\d+)?"
+                    "match": "((?<![\\w\\d])-?)\\d*\\.\\d+([eE][+\\-]?\\d+)?"
                 }
             ]
         },
@@ -422,7 +429,7 @@
         },
         "time-unit": {
             "name": "constant.numeric.lflang",
-            "match": "\\b(nsec|nsecs|usec|usecs|msec|msecs|sec|secs|second|seconds|min|mins|minute|minutes|hour|hours|day|days|week|weeks)\\b"
+            "match": "\\b\\d*(nsec|nsecs|usec|usecs|msec|msecs|sec|secs|second|seconds|min|mins|minute|minutes|hour|hours|day|days|week|weeks)\\b"
         },
         "operator": {
             "name": "keyword.operator.lflang",
@@ -439,7 +446,7 @@
         "instantiation": {
             "patterns": [
                 {
-                    "name": "keyword.operator.new.lflang",
+                    "name": "keyword.control.new.lflang",
                     "match": "\\b(new)\\b"
                 },
                 {
@@ -449,6 +456,13 @@
                 {
                     "name": "entity.name.type.lflang",
                     "match": "(?<=\\s*=\\s*new\\s*(\\[[^\\]]*\\])?\\s+)\\w+\\b"
+                },
+                {
+                    "begin": "(?<=\\s*=\\s*new\\s*(\\[[^\\]]*\\])?\\s+\\w+\\s*)<",
+                    "end": ">",
+                    "patterns": [{
+                        "include": "#type"
+                    }]
                 }
             ]
         },
