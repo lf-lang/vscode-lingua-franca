@@ -49,7 +49,7 @@
         "grammars": [
             {
                 "language": "lflang",
-                "scopeName": "text.lflang",
+                "scopeName": "source.lf",
                 "path": "./syntax/lflang.tmLanguage.json",
                 "embeddedLanguages": {
                     "meta.embedded.block.c": "c",

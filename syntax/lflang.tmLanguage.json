@@ -1,6 +1,6 @@
 {
     "name": "Lingua Franca",
-    "scopeName": "text.lflang",
+    "scopeName": "source.lf",
     "fileTypes": [
         "lf"
     ],
