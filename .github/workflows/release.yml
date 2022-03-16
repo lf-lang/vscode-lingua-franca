@@ -9,19 +9,27 @@ jobs:
     steps:
       - name: Check out vscode-lingua-franca repository
         uses: actions/checkout@v2
-      - name: Setup Java JDK
-        uses: actions/setup-java@v1.4.3
-        with:
-          java-version: 11
-      - name: Setup Node.js environment
-        uses: actions/setup-node@v2.1.2
-      - name: Install VS Code
+      # - name: Setup Java JDK
+      #   uses: actions/setup-java@v1.4.3
+      #   with:
+      #     java-version: 11
+      # - name: Setup Node.js environment
+      #   uses: actions/setup-node@v2.1.2
+      # - name: Install VS Code
+      #   run: |
+      #     sudo apt update
+      #     sudo apt install software-properties-common apt-transport-https wget
+      #     wget -q https://packages.microsoft.com/keys/microsoft.asc -O- | sudo apt-key add -
+      #     sudo add-apt-repository "deb [arch=amd64] https://packages.microsoft.com/repos/vscode stable main"
+      #     sudo apt install code
+      # - name: Build the VS Code extension
+      #   run: |
+      #     npm install
+      - name: "Build Changelog"
+        id: build_changelog
+        uses: mikepenz/release-changelog-builder-action@{latest-release}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: "Show Changelog"
         run: |
-          sudo apt update
-          sudo apt install software-properties-common apt-transport-https wget
-          wget -q https://packages.microsoft.com/keys/microsoft.asc -O- | sudo apt-key add -
-          sudo add-apt-repository "deb [arch=amd64] https://packages.microsoft.com/repos/vscode stable main"
-          sudo apt install code
-      - name: Build the VS Code extension
-        run: |
-          npm install
+          echo "${{steps.build_changelog.outputs.changelog}}"
