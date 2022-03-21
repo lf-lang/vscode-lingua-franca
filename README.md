@@ -28,7 +28,7 @@ This extension adds language support for [Lingua Franca](https://www.lf-lang.org
 
 ## Contributing
 We very much appreciate contributions in the form of 
-[code, tests, documentation](https://github.com/lf-lang/vscode-lingua-franca/issues), [bug reports, and feature requests](https://github.com/lf-lang/vscode-lingua-franca/issues). 
+[code, tests, documentation](https://github.com/lf-lang/vscode-lingua-franca/pulls), [bug reports, and feature requests](https://github.com/lf-lang/vscode-lingua-franca/issues). 
 For more details see 
 [CONTRIBUTING.md](https://github.com/lf-lang/vscode-lingua-franca/blob/main/CONTRIBUTING.md).
 
