@@ -8,6 +8,9 @@ on:
       - main
   # Trigger this workflow also on pull_request events.
   pull_request:
+
+jobs:  
+  build:
     steps:
       - name: Check out vscode-lingua-franca repository
         uses: actions/checkout@v2
