@@ -11,6 +11,7 @@ on:
 
 jobs:  
   build:
+    runs-on: ubuntu-latest
     steps:
       - name: Check out vscode-lingua-franca repository
         uses: actions/checkout@v2
