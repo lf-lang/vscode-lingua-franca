@@ -1,14 +1,22 @@
-name: Release new version
+# Main workflow for testing the Lingua Franca Visual Studio Code Extension 
+name: CI
 
 on:
-  workflow_dispatch:
+  # Trigger this workflow on push events, but only on master.
+  push:
+    branches:
+      - main
+  # Trigger this workflow also on pull_request events.
+  pull_request:
 
-jobs:
-  run:
+jobs:  
+  build:
     runs-on: ubuntu-latest
     steps:
       - name: Check out vscode-lingua-franca repository
         uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
       - name: Setup Java JDK
         uses: actions/setup-java@v1.4.3
         with:
@@ -22,6 +30,7 @@ jobs:
           wget -q https://packages.microsoft.com/keys/microsoft.asc -O- | sudo apt-key add -
           sudo add-apt-repository "deb [arch=amd64] https://packages.microsoft.com/repos/vscode stable main"
           sudo apt install code
-      - name: Build the VS Code extension
+      - name: Build, deploy, and test the VS Code extension
         run: |
           npm install
+          npm run test
