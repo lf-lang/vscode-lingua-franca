@@ -18,7 +18,7 @@ jobs:
         with:
           fetch-depth: 0
       - name: Set up build environment
-        uses: ./actions/build-env
+        uses: ./.github/actions/build-env
       - name: Build, deploy, and test the VS Code extension
         run: |
           npm install
