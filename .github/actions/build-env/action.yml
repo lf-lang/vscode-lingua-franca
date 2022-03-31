@@ -1,0 +1,21 @@
+name: Build environment setup
+description: Set up (Linux-only) build environment
+author: Marten Lohstroh <marten@berkeley.edu>
+
+runs:
+  using: composite
+  steps:
+    - name: Set up Java JDK
+      uses: actions/setup-java@v1.4.3
+      with:
+        java-version: 11
+    - name: Set up Node.js environment
+      uses: actions/setup-node@v2.1.2
+    - name: Install VS Code
+      run: |
+        sudo apt update
+        sudo apt install software-properties-common apt-transport-https wget
+        wget -q https://packages.microsoft.com/keys/microsoft.asc -O- | sudo apt-key add -
+        sudo add-apt-repository "deb [arch=amd64] https://packages.microsoft.com/repos/vscode stable main"
+        sudo apt install code
+      shell: bash
