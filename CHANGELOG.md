@@ -1,4 +1,20 @@
 # Changelog
+ 
+## [v0.2.0](https://github.com/lf-lang/vscode-lingua-franca/tree/v0.2.0) (2022-04-01)
+
+**Highlights:**
+
+
+
+[Full Changelog](https://github.com/lf-lang/vscode-lingua-franca/compare/v0.1.0...v0.2.0)
+
+**Closed issues:**
+
+- Enable CI [\#4](https://github.com/lf-lang/vscode-lingua-franca/issues/4)
+
+**Merged pull requests:**
+
+- Submodule update [\#28](https://github.com/lf-lang/vscode-lingua-franca/pull/28) ([lhstrh](https://github.com/lhstrh))
 
 ## [v0.1.0](https://github.com/lf-lang/vscode-lingua-franca/tree/v0.1.0) (02/01/2022)
 
