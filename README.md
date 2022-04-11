@@ -24,7 +24,7 @@ This extension adds language support for [Lingua Franca](https://repo.lf-lang.or
     to work on.) Create a new Lingua Franca project by creating a `<My Project
     Name>/src` folder and put a file in it that has the `.lf` extension.
  3. Open a Lingua Franca project (`File > Add Folder to Workspace...`). The Explorer (upper left in sidebar) should now show your project files. Open the `.lf` file you created.
- 4. Show the diagram for this file by clicking on the diagrams icon at the upper right: ![image](https://user-images.githubusercontent.com/33707478/130875545-ad78a9b7-a07b-4eb9-be59-f6c758cc816b.png))
+ 4. (Optional) Show the diagram for this file by clicking on the diagrams icon at the upper right: ![image](https://user-images.githubusercontent.com/33707478/130875545-ad78a9b7-a07b-4eb9-be59-f6c758cc816b.png))
  5. Compile the `.lf` file using (<kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>P</kbd>, then `Lingua Franca: Build`).
 
 ## Contributing
