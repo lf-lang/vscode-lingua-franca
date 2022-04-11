@@ -14,7 +14,7 @@ This extension adds language support for [Lingua Franca](https://repo.lf-lang.or
 * target syntax highlighting
 * code validation upon edit
 * target code validation upon build (error highlighting currently for C++ only)
-* user-triggered build (<kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>P</kbd>, then `Build Lingua Franca`) 
+* user-triggered build (<kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>P</kbd>, then `Lingua Franca: Build`) 
 
 ## Quick Start
  1. Install this plugin from the [VSCode
@@ -22,9 +22,10 @@ This extension adds language support for [Lingua Franca](https://repo.lf-lang.or
     (in the command palette <kbd>Ctrl</kbd> + <kbd>P</kbd>, enter `ext install lf-lang.vscode-lingua-franca`)
  2. (Skip this step if you already have Lingua Franca projects that you'd like
     to work on.) Create a new Lingua Franca project by creating a `<My Project
-    Name>/src` folder and putting a file in it that has the `.lf` extension.
- 3. Open a Lingua Franca project (`File > Add Folder to Workspace...`). Open the
-    folder for the whole project (i.e., the folder containing the `src` folder).
+    Name>/src` folder and put a file in it that has the `.lf` extension.
+ 3. Open a Lingua Franca project (`File > Add Folder to Workspace...`). The Explorer (upper left in sidebar) should now show your project files. Open the `.lf` file you created.
+ 4. Show the diagram for this file by clicking on the diagrams icon at the upper right: ![image](https://user-images.githubusercontent.com/33707478/130875545-ad78a9b7-a07b-4eb9-be59-f6c758cc816b.png))
+ 5. Compile the `.lf` file using (<kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>P</kbd>, then `Lingua Franca: Build`).
 
 ## Contributing
 We very much appreciate contributions in the form of 
