@@ -4,7 +4,7 @@
 [![Installs](https://vsmarketplacebadge.apphb.com/installs/lf-lang.vscode-lingua-franca.svg)](https://marketplace.visualstudio.com/items?itemName=lf-lang.vscode-lingua-franca)
 [![Installs](https://vsmarketplacebadge.apphb.com/rating-short/lf-lang.vscode-lingua-franca.svg)](https://marketplace.visualstudio.com/items?itemName=lf-lang.vscode-lingua-franca)
 
-This extension adds language support for [Lingua Franca](https://repo.lf-lang.org/). It is based on its Language and Diagram Server and provides:
+This extension adds language support for [Lingua Franca (GitHub](https://repo.lf-lang.org/). It is based on its Language and Diagram Server and provides:
 * find references
 * folding ranges
 * get workspace symbols
