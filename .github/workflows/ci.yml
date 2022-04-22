@@ -16,7 +16,7 @@ jobs:
       - name: Check out vscode-lingua-franca repository
         uses: actions/checkout@v3
         with:
-          fetch-depth: 0
+          submodules: recursive
       - name: Set up build environment
         uses: ./.github/actions/build-env
       - name: Build, deploy, and test the VS Code extension
