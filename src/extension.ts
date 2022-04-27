@@ -3,13 +3,16 @@
 import * as path from 'path';
 import * as os from 'os';
 import * as fs from 'fs';
+import * as vscode from 'vscode'
 
 import { Trace } from 'vscode-jsonrpc';
 import { commands, window, workspace, ExtensionContext, languages, TextEditor, TextDocument, Terminal } from 'vscode';
-import { LanguageClient, LanguageClientOptions, ServerOptions } from 'vscode-languageclient';
+import { LanguageClient, LanguageClientOptions, ServerOptions, StreamInfo } from 'vscode-languageclient';
 import { legend, semanticTokensProvider } from './highlight';
 import { Config } from './config'
+import { connect, NetConnectOpts, Socket } from 'net';
 
+let socket: Socket
 let client: LanguageClient;
 
 export async function activate(context: ExtensionContext) {
@@ -45,6 +48,9 @@ export async function activate(context: ExtensionContext) {
         run : { command: 'java', args: javaArgs },
         debug: { command: 'java', args: javaArgs, options: { env: createDebugEnv() } }
     };
+    if (typeof process.env.LF_LS_PORT !== 'undefined') {
+        serverOptions = createServerOptions(context);
+    }
     
     let clientOptions: LanguageClientOptions = {
         documentSelector: ['lflang'],
@@ -140,3 +146,25 @@ export function deactivate(): Thenable<void> | undefined {
     }
     return client.stop();
 }
+
+/**
+ * Returns {@link ServerOptions} that connects to a socket.
+ * The environment variable `LF_LS_PORT` has to be present for this to work.
+ */
+function createServerOptions(context: vscode.ExtensionContext): ServerOptions {
+    // Connect to language server via socket if a port is specified as an env variable
+    const connectionInfo: NetConnectOpts = {
+        port: parseInt(process.env.LF_LS_PORT, 10),
+    }
+    console.log('Connecting to language server on port: ', connectionInfo.port)
+
+    return async () => {
+        socket = connect(connectionInfo)
+        const result: StreamInfo = {
+            writer: socket,
+            reader: socket,
+        }
+        return result
+    }
+}
+
