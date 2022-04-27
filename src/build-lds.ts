@@ -125,22 +125,22 @@ async function checkJavaVersion() {
 async function build() {
     await checkInstalled(Config.buildDeps)
     await checkJavaVersion()
-    const opts = getOpts()
-    let co = Config.repoName
-    if (opts.local) {
-        console.log("> using repo located in " + opts.local)
-        co = opts.local
-    } else {
-        await fetchDeps(opts)
-    }
-    const mvn = (require('maven')).create({
-        cwd: co
-    });
-    console.log("> starting Maven build...")
-    mvn.execute(['clean', 'package', '-P', 'lds', '-U'], { 'skipTests' : 'true' })
-    .then(() => {
-        copyJars()
-    });    
+    // const opts = getOpts()
+    // let co = Config.repoName
+    // if (opts.local) {
+    //     console.log("> using repo located in " + opts.local)
+    //     co = opts.local
+    // } else {
+    //     await fetchDeps(opts)
+    // }
+    // const mvn = (require('maven')).create({
+    //     cwd: co
+    // });
+    // console.log("> starting Maven build...")
+    // mvn.execute(['clean', 'package', '-P', 'lds', '-U'], { 'skipTests' : 'true' })
+    // .then(() => {
+    //     copyJars()
+    // });    
 }
 
 /**
