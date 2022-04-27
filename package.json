@@ -116,11 +116,11 @@
         "maven": "^5.0.0",
         "node": "^17.3.0",
         "rimraf": "^3.0.2",
-        "simple-git": "^2.48.0",
+        "simple-git": "^3.7.1",
         "ts-jest": "^27.1.1",
         "ts-node": "^10.4.0",
         "typescript": "^3.9.7",
-        "vsce": "^1.103.1",
+        "vsce": "^2.7.0",
         "vscode-test": "^1.4.0",
         "which": "^2.0.2"
     },
