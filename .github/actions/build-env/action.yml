@@ -5,12 +5,8 @@ author: Marten Lohstroh <marten@berkeley.edu>
 runs:
   using: composite
   steps:
-    - name: Set up Java JDK
-      uses: actions/setup-java@v1.4.3
-      with:
-        java-version: 11
-    - name: Set up Node.js environment
-      uses: actions/setup-node@v2.1.2
+    - name: Prepare build environment
+      uses: ./lingua-franca/.github/actions/prepare-build-env
     - name: Install VS Code
       run: |
         sudo apt update

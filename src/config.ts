@@ -14,12 +14,12 @@ import * as path from 'path'
     /**
      * Java version required for building (must be a string).
      */
-    static readonly javacVersion = "11"
+    static readonly javacVersion = "17"
 
     /**
      * Regex to capture major version number from "javac --version".
      */
-    static readonly javacRegex = /javac (?<version>\d+)\.\d+\.\d+/
+    static readonly javacRegex = /javac (?<version>\d+)(\.\d+\.\d+)?/
 
     /**
      * Name of the Language and Diagram Server jar.
