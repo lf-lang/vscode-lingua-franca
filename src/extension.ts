@@ -79,7 +79,6 @@ export async function activate(context: ExtensionContext) {
             });
         }
     ));
-    let lastWorkingDirectory: string;
     context.subscriptions.push(commands.registerTextEditorCommand(
         'linguafranca.buildAndRun',
         (textEditor: TextEditor, _) => {
@@ -98,8 +97,7 @@ export async function activate(context: ExtensionContext) {
                         name: runTerminalName,
                         cwd: command[0]
                     });
-                    else if (lastWorkingDirectory !== command[0]) terminal.sendText('cd ' + command[0]);
-                    lastWorkingDirectory = command[0];
+                    terminal.sendText('cd ' + command[0]);
                     terminal.show(true);
                     terminal.sendText(command.slice(1).join(' '));
                 });
