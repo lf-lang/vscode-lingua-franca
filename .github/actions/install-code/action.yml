@@ -1,12 +1,10 @@
-name: Build environment setup
-description: Set up (Linux-only) build environment
+name: Install VS Code
+description: Set up VS Code (Linux-only)
 author: Marten Lohstroh <marten@berkeley.edu>
 
 runs:
   using: composite
   steps:
-    - name: Prepare build environment
-      uses: ./lingua-franca/.github/actions/prepare-build-env
     - name: Install VS Code
       run: |
         sudo apt update
