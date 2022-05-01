@@ -16,9 +16,8 @@ jobs:
       - name: Check out vscode-lingua-franca repository
         uses: actions/checkout@v3
         with:
-<         submodules: recursive
-          fetch-depth: 0
           submodules: recursive
+          fetch-depth: 0
       - name: Prepare LF build environment
         uses: ./lingua-franca/.github/actions/prepare-build-env
       - name: Install VS Code
