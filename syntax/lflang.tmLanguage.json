@@ -27,6 +27,9 @@
                 },
                 {
                     "include": "#rs-target"
+                },
+                {
+                    "include": "#post-targetspec"
                 }
             ]
         },
