@@ -291,7 +291,7 @@
                 },
                 {
                     "name": "entity.name.type.lflang",
-                    "match": "(?<=\\breactor\\b)(\\s*)(?!at)(?!extends)(\\w+)\\b"
+                    "match": "(?<=\\breactor\\b\\s*)(?!at)(?!extends)(\\w+)\\b"
                 }
             ]
         },
