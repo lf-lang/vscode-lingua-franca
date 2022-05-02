@@ -4,7 +4,7 @@
 [![Installs](https://vsmarketplacebadge.apphb.com/installs/lf-lang.vscode-lingua-franca.svg)](https://marketplace.visualstudio.com/items?itemName=lf-lang.vscode-lingua-franca)
 [![Installs](https://vsmarketplacebadge.apphb.com/rating-short/lf-lang.vscode-lingua-franca.svg)](https://marketplace.visualstudio.com/items?itemName=lf-lang.vscode-lingua-franca)
 
-This extension adds language support for [Lingua Franca (GitHub)](https://repo.lf-lang.org/). It is based on its Language and Diagram Server and provides:
+This extension adds language support for [Lingua Franca (LF)](https://www.lf-lang.org/). It is based on the LF Language and Diagram Server and provides:
 * find references
 * folding ranges
 * get workspace symbols
@@ -13,8 +13,9 @@ This extension adds language support for [Lingua Franca (GitHub)](https://repo.l
 * syntax highlighting
 * target syntax highlighting
 * code validation upon edit
-* target code validation upon build (error highlighting currently for C++ only)
+* target code validation upon build
 * user-triggered build (<kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>P</kbd>, then `Lingua Franca: Build`) 
+* user-triggered build and run (<kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>P</kbd>, then `Lingua Franca: Build and Run`) 
 
 ## Quick Start
  1. Install this plugin from the [VSCode
@@ -25,7 +26,10 @@ This extension adds language support for [Lingua Franca (GitHub)](https://repo.l
     Name>/src` folder and put a file in it that has the `.lf` extension.
  3. Open a Lingua Franca project (`File > Add Folder to Workspace...`). The Explorer (upper left in sidebar) should now show your project files. Open the `.lf` file you created.
  4. (Optional) Show the diagram for this file by clicking on the diagrams icon at the upper right: ![image](https://user-images.githubusercontent.com/33707478/130875545-ad78a9b7-a07b-4eb9-be59-f6c758cc816b.png))
- 5. Compile the `.lf` file using (<kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>P</kbd>, then `Lingua Franca: Build`).
+ 5. Compile the `.lf` file and run it using (<kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>P</kbd>, then `Lingua Franca: Build and Run`).
+
+## Requirements
+This extension requires **Java 17 or up** in order to run its embedded Lingua Franca language server. You might need to install additional software to be able to build or execute target code produced by the Lingua Franca compiler. The extension reports missing dependencies upon attemping to build or run.
 
 ## Contributing
 We very much appreciate contributions in the form of 
