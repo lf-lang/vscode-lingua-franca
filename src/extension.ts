@@ -68,6 +68,13 @@ export async function activate(context: ExtensionContext) {
 
     client.start();
 
+    type messageShower = (message: string, ...items: string[]) => Thenable<string | undefined>
+    const withLogs = (showMessage: messageShower) => (message: string) => showMessage(
+        message, "Show output"
+    ).then(choice => {
+        if (choice === "Show output") client.outputChannel.show()
+    })
+
     context.subscriptions.push(commands.registerTextEditorCommand(
         'linguafranca.build',
         (textEditor: TextEditor, _) => {
@@ -75,7 +82,10 @@ export async function activate(context: ExtensionContext) {
             if (!uri) return;
             workspace.saveAll().then(function(successful) {
                 if (!successful) return;
-                client.sendRequest('generator/build', uri).then(window.showInformationMessage);
+                client.sendRequest('generator/build', uri).then((message: string) => {
+                    if (message) withLogs(window.showInformationMessage)(message);
+                    else withLogs(window.showErrorMessage)('Build failed.');
+                });
             });
         }
     ));
@@ -88,7 +98,7 @@ export async function activate(context: ExtensionContext) {
                 if (!successful) return;
                 client.sendRequest('generator/buildAndRun', uri).then((command: string[]) => {
                     if (!command || !command.length) {
-                        window.showErrorMessage('Build failed.');
+                        withLogs(window.showErrorMessage)('Build failed.');
                         return;
                     }
                     const runTerminalName = 'Lingua Franca: Run';
