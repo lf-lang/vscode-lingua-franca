@@ -34,7 +34,7 @@ const build = (withLogs: messageShowerTransformer, client: LanguageClient) =>
     (textEditor: vscode.TextEditor) => {
         const uri = getLfUri(textEditor.document);
         if (!uri) return;
-        vscode.workspace.saveAll().then(function(successful) {
+        vscode.workspace.saveAll().then((successful: boolean) => {
             if (!successful) return;
             client.sendRequest('generator/build', uri).then((message: string) => {
                 if (message) withLogs(vscode.window.showInformationMessage)(message);
@@ -53,7 +53,7 @@ const buildAndRun = (withLogs: messageShowerTransformer, client: LanguageClient)
     (textEditor: vscode.TextEditor) => {
         const uri = getLfUri(textEditor.document);
         if (!uri) return;
-        vscode.workspace.saveAll().then(function(successful) {
+        vscode.workspace.saveAll().then((successful: boolean) => {
             if (!successful) return;
             client.sendRequest('generator/buildAndRun', uri).then((command: string[]) => {
                 if (!command || !command.length) {

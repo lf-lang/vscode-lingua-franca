@@ -289,7 +289,7 @@ function getContainedRanges(
         while (isInShadowRange(current) && current != -1) {
             current = text.indexOf(token, current + token.length);
         }
-        if (current == -1 || current >= endOffset) return endOffset;
+        if (current === -1 || current >= endOffset) return endOffset;
         return current;
     }
 
@@ -299,11 +299,11 @@ function getContainedRanges(
         if (nextBegin < nextEnd) {
             depth++;
             current = nextBegin + begin.length;
-            if (depth == 1) rangeStart = document.positionAt(current);
+            if (depth === 1) rangeStart = document.positionAt(current);
         } else {
             if (depth) {
                 depth--;
-                if (depth == 0) {
+                if (depth === 0) {
                     ret.push(
                         new Range(rangeStart, document.positionAt(nextEnd))
                     );
