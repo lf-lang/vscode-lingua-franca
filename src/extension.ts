@@ -9,7 +9,7 @@ import * as vscode from 'vscode';
 import { LanguageClient, LanguageClientOptions, ServerOptions } from 'vscode-languageclient';
 import { legend, semanticTokensProvider } from './highlight';
 import { Config } from './config';
-import { registerBuildCommands } from './build-commands';
+import { registerBuildCommands } from './build_commands';
 
 let client: LanguageClient;
 

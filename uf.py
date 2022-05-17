@@ -5,7 +5,7 @@ and diagram server fat jar that has already been created.
 """
 
 # FIXME: Ideally this should be a TypeScript file written in a
-#  style consistent with build-lds.ts.
+#  style consistent with build_lds.ts.
 
 import os
 import shutil
