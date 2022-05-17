@@ -4,4 +4,4 @@
 node_modules/*
 out/*
 .gradle/*
-
+__pycache__/*

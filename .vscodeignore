@@ -1,12 +1,19 @@
 node_modules/
 .git/
+.github/
+.gitmodules/
 lingua-franca/
+__pycache__/*
 src/**
 
 *.vsix
 .gitignore
 .vscodeignore
+CHANGELOG.md
+LICENSE.txt
+jest.config.ts
 tsconfig.json
 tslint.json
+uf.py
 package-lock.json
 developer-notes.md
