@@ -8,7 +8,8 @@ import { Trace } from 'vscode-jsonrpc';
 import * as vscode from 'vscode';
 import { LanguageClient, LanguageClientOptions, ServerOptions } from 'vscode-languageclient';
 import { legend, semanticTokensProvider } from './highlight';
-import { Config } from './config'
+import { Config } from './config';
+import { registerBuildCommands } from './build-commands';
 
 let client: LanguageClient;
 
@@ -60,65 +61,15 @@ export async function activate(context: vscode.ExtensionContext) {
     if (hasDiagrams) {
         // Register with Klighd Diagram extension
         const refId = await vscode.commands.executeCommand(
-            "klighd-vscode.setLanguageClient",
+            'klighd-vscode.setLanguageClient',
             client,
-            ["lf"]
+            ['lf']
         );
     }
 
     client.start();
 
-    type messageShower = (message: string, ...items: string[]) => Thenable<string | undefined>
-    const withLogs = (showMessage: messageShower) => (message: string) => showMessage(
-        message, "Show output"
-    ).then(choice => {
-        if (choice === "Show output") client.outputChannel.show()
-    })
-
-    context.subscriptions.push(vscode.commands.registerTextEditorCommand(
-        'linguafranca.build',
-        (textEditor: vscode.TextEditor, _) => {
-            const uri = getLfUri(textEditor.document)
-            if (!uri) return;
-            vscode.workspace.saveAll().then(function(successful) {
-                if (!successful) return;
-                client.sendRequest('generator/build', uri).then((message: string) => {
-                    if (message) withLogs(vscode.window.showInformationMessage)(message);
-                    else withLogs(vscode.window.showErrorMessage)('Build failed.');
-                });
-            });
-        }
-    ));
-    context.subscriptions.push(vscode.commands.registerTextEditorCommand(
-        'linguafranca.buildAndRun',
-        (textEditor: vscode.TextEditor, _) => {
-            const uri = getLfUri(textEditor.document)
-            if (!uri) return;
-            vscode.workspace.saveAll().then(function(successful) {
-                if (!successful) return;
-                client.sendRequest('generator/buildAndRun', uri).then((command: string[]) => {
-                    if (!command || !command.length) {
-                        withLogs(vscode.window.showErrorMessage)('Build failed.');
-                        return;
-                    }
-                    const runTerminalName = 'Lingua Franca: Run';
-                    let terminal: vscode.Terminal = vscode.window.terminals.find(t => t.name === runTerminalName);
-                    if (!terminal) terminal = vscode.window.createTerminal({
-                        name: runTerminalName,
-                        cwd: command[0]
-                    });
-                    terminal.sendText('cd ' + command[0]);
-                    terminal.show(true);
-                    terminal.sendText(command.slice(1).join(' '));
-                });
-            });
-        }
-    ));
-    vscode.workspace.onDidSaveTextDocument(function(textDocument: vscode.TextDocument) {
-        const uri = getLfUri(textDocument, true);
-        if (!uri) return; // This is not an LF document, so do nothing.
-        client.sendNotification('generator/partialBuild', uri);
-    })
+    registerBuildCommands(context, client);
 
     context.subscriptions.push(vscode.languages.registerDocumentSemanticTokensProvider(
         { language: 'lflang', scheme: 'file' },
@@ -127,21 +78,10 @@ export async function activate(context: vscode.ExtensionContext) {
     ));
 }
 
-function getLfUri(textDocument: vscode.TextDocument, failSilently = false): string | undefined {
-    const uri: string = textDocument.uri.toString();
-    if (!uri.endsWith('.lf')) {
-        if (!failSilently) {
-            vscode.window.showErrorMessage('The currently active file is not a Lingua Franca source file.');
-        }
-        return undefined;
-    }
-    return uri;
-}
-
 function createDebugEnv() {
     return Object.assign({
-        JAVA_OPTS:"-Xdebug -Xrunjdwp:server=y,transport=dt_socket,address=8000,suspend=n,quiet=y"
-    }, process.env)
+        JAVA_OPTS:'-Xdebug -Xrunjdwp:server=y,transport=dt_socket,address=8000,suspend=n,quiet=y'
+    }, process.env);
 }
 
 export function deactivate(): Thenable<void> | undefined {
