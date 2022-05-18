@@ -5,14 +5,15 @@ import * as os from 'os';
 import * as fs from 'fs';
 
 import { Trace } from 'vscode-jsonrpc';
-import { commands, window, workspace, ExtensionContext, languages, TextEditor, TextDocument, Terminal } from 'vscode';
+import * as vscode from 'vscode';
 import { LanguageClient, LanguageClientOptions, ServerOptions } from 'vscode-languageclient';
 import { legend, semanticTokensProvider } from './highlight';
-import { Config } from './config'
+import { Config } from './config';
+import { registerBuildCommands } from './build_commands';
 
 let client: LanguageClient;
 
-export async function activate(context: ExtensionContext) {
+export async function activate(context: vscode.ExtensionContext) {
     let javaArgs: string[];
     
     const ldsJar = context.asAbsolutePath(path.join(Config.libDirName, Config.ldsJarName));
@@ -49,7 +50,7 @@ export async function activate(context: ExtensionContext) {
     let clientOptions: LanguageClientOptions = {
         documentSelector: ['lflang'],
         synchronize: {
-            fileEvents: workspace.createFileSystemWatcher('**/*.*')
+            fileEvents: vscode.workspace.createFileSystemWatcher('**/*.*')
         }
     };
     
@@ -59,89 +60,28 @@ export async function activate(context: ExtensionContext) {
 
     if (hasDiagrams) {
         // Register with Klighd Diagram extension
-        const refId = await commands.executeCommand(
-            "klighd-vscode.setLanguageClient",
+        const refId = await vscode.commands.executeCommand(
+            'klighd-vscode.setLanguageClient',
             client,
-            ["lf"]
+            ['lf']
         );
     }
 
     client.start();
 
-    type messageShower = (message: string, ...items: string[]) => Thenable<string | undefined>
-    const withLogs = (showMessage: messageShower) => (message: string) => showMessage(
-        message, "Show output"
-    ).then(choice => {
-        if (choice === "Show output") client.outputChannel.show()
-    })
+    registerBuildCommands(context, client);
 
-    context.subscriptions.push(commands.registerTextEditorCommand(
-        'linguafranca.build',
-        (textEditor: TextEditor, _) => {
-            const uri = getLfUri(textEditor.document)
-            if (!uri) return;
-            workspace.saveAll().then(function(successful) {
-                if (!successful) return;
-                client.sendRequest('generator/build', uri).then((message: string) => {
-                    if (message) withLogs(window.showInformationMessage)(message);
-                    else withLogs(window.showErrorMessage)('Build failed.');
-                });
-            });
-        }
-    ));
-    context.subscriptions.push(commands.registerTextEditorCommand(
-        'linguafranca.buildAndRun',
-        (textEditor: TextEditor, _) => {
-            const uri = getLfUri(textEditor.document)
-            if (!uri) return;
-            workspace.saveAll().then(function(successful) {
-                if (!successful) return;
-                client.sendRequest('generator/buildAndRun', uri).then((command: string[]) => {
-                    if (!command || !command.length) {
-                        withLogs(window.showErrorMessage)('Build failed.');
-                        return;
-                    }
-                    const runTerminalName = 'Lingua Franca: Run';
-                    let terminal: Terminal = window.terminals.find(t => t.name === runTerminalName);
-                    if (!terminal) terminal = window.createTerminal({
-                        name: runTerminalName,
-                        cwd: command[0]
-                    });
-                    terminal.sendText('cd ' + command[0]);
-                    terminal.show(true);
-                    terminal.sendText(command.slice(1).join(' '));
-                });
-            });
-        }
-    ));
-    workspace.onDidSaveTextDocument(function(textDocument: TextDocument) {
-        const uri = getLfUri(textDocument, true);
-        if (!uri) return; // This is not an LF document, so do nothing.
-        client.sendNotification('generator/partialBuild', uri);
-    })
-
-    context.subscriptions.push(languages.registerDocumentSemanticTokensProvider(
+    context.subscriptions.push(vscode.languages.registerDocumentSemanticTokensProvider(
         { language: 'lflang', scheme: 'file' },
         semanticTokensProvider,
         legend
     ));
 }
 
-function getLfUri(textDocument: TextDocument, failSilently = false): string | undefined {
-    const uri: string = textDocument.uri.toString();
-    if (!uri.endsWith('.lf')) {
-        if (!failSilently) {
-            window.showErrorMessage('The currently active file is not a Lingua Franca source file.');
-        }
-        return undefined;
-    }
-    return uri;
-}
-
 function createDebugEnv() {
     return Object.assign({
-        JAVA_OPTS:"-Xdebug -Xrunjdwp:server=y,transport=dt_socket,address=8000,suspend=n,quiet=y"
-    }, process.env)
+        JAVA_OPTS:'-Xdebug -Xrunjdwp:server=y,transport=dt_socket,address=8000,suspend=n,quiet=y'
+    }, process.env);
 }
 
 export function deactivate(): Thenable<void> | undefined {
