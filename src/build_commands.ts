@@ -75,6 +75,13 @@ const buildAndRun = (withLogs: messageShowerTransformer, client: LanguageClient)
         });
     }
 
+function buildOnSaveEnabled() {
+    const configuration: vscode.WorkspaceConfiguration = vscode.workspace.getConfiguration(
+        'linguafranca', vscode.workspace.workspaceFolders[0].uri
+    );
+    return configuration.get('partialBuildOnSave');
+}
+
 /**
  * Register any build commands in the environment.
  * @param context The context of this VS Code extension.
@@ -93,9 +100,14 @@ export function registerBuildCommands(context: vscode.ExtensionContext, client: 
     context.subscriptions.push(vscode.commands.registerTextEditorCommand(
         'linguafranca.buildAndRun', buildAndRun(withLogs, client)
     ));
-    vscode.workspace.onDidSaveTextDocument(function(textDocument: vscode.TextDocument) {
+    let enabled = buildOnSaveEnabled();
+    vscode.workspace.onDidSaveTextDocument((textDocument: vscode.TextDocument) => {
+        if (!enabled) return;
         const uri = getLfUri(textDocument, true);
         if (!uri) return; // This is not an LF document, so do nothing.
         client.sendNotification('generator/partialBuild', uri);
+    });
+    vscode.workspace.onDidChangeConfiguration(() => {
+        enabled = buildOnSaveEnabled();
     })
 }

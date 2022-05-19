@@ -78,6 +78,16 @@
                 "title": "Lingua Franca: Build and Run"
             }
         ],
+        "configuration": {
+            "title": "LinguaFranca",
+            "properties": {
+                "linguafranca.partialBuildOnSave": {
+                    "type": "boolean",
+                    "default": true,
+                    "description": "Partially build the active Lingua Franca file when it is saved. This facilitates target language syntax checks."
+                }
+            }
+        },
         "menus": {
             "editor/title": [
                 {
