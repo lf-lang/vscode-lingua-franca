@@ -79,7 +79,7 @@ function buildOnSaveEnabled() {
     const configuration: vscode.WorkspaceConfiguration = vscode.workspace.getConfiguration(
         'linguafranca', vscode.workspace.workspaceFolders[0].uri
     );
-    return configuration.get('partialBuildOnSave');
+    return configuration.get('generateCodeOnSave');
 }
 
 /**
@@ -109,5 +109,5 @@ export function registerBuildCommands(context: vscode.ExtensionContext, client: 
     });
     vscode.workspace.onDidChangeConfiguration(() => {
         enabled = buildOnSaveEnabled();
-    })
+    });
 }

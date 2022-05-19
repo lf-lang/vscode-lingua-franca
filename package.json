@@ -81,10 +81,10 @@
         "configuration": {
             "title": "LinguaFranca",
             "properties": {
-                "linguafranca.partialBuildOnSave": {
+                "linguafranca.generateCodeOnSave": {
                     "type": "boolean",
                     "default": true,
-                    "description": "Partially build the active Lingua Franca file when it is saved. This facilitates target language syntax checks."
+                    "description": "Generate code from the active Lingua Franca file when it is saved. This facilitates target language syntax checks."
                 }
             }
         },
