@@ -9,3 +9,7 @@ export function getTerminal(name: string, cwd?: string) {
     }
     return terminal;
 }
+
+export const defaultDict = (defaultValue: any) => (dict: Object) => new Proxy(dict, {
+    get: (target: Object, name: string) => name in target ? target[name] : defaultValue
+});

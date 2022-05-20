@@ -108,8 +108,7 @@ const missingJava: MissingDependency = {
 /**
  * Return a dependency checker that returns whether the given dependency is satisfied and, as a side
  * effect, warns the user if not.
- * @param missingDependency 
- * @returns 
+ * @returns true if the given dependency is satisfied.
  */
 const checkDependency = (missingDependency: MissingDependency) => async () => {
     const checkerResult = await missingDependency.checker();
