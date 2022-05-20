@@ -11,6 +11,7 @@ import { bold, green, red } from 'colorette'
 import { exec } from 'child_process'
 import { promisify } from 'util'
 import which from 'which'
+import { javacVersionChecker, VersionCheckResult } from './check_dependencies';
 
 /**
  * Utility for running command that returns a promise.
@@ -97,24 +98,23 @@ async function fetchDeps(options: OptionValues) {
 async function checkJavaVersion() {
     console.log("> verifying Java compiler version...")
     try {
-        const {stdout} = await runCmd('javac --version')
-        const found = stdout.match(Config.javacRegex)
-        if (found) {
-            if (found.groups?.version == Config.javacVersion) {
-                console.log("> Java compiler version is "
-                    + Config.javacVersion)
-                return
-            }
-            // Not the required version.
-            console.log("> Java compiler version is " + found.groups?.version)
+        const result: VersionCheckResult = await javacVersionChecker()
+        switch (result.isCorrect) {
+        case true:
+            console.log(`> Java compiler version is ${Config.javacVersion}`)
+            return
+        case false:
+            console.log(`> Java compiler version is ${result.version}`)
             console.log(red("> incompatible version of Java compiler (must be "
                 + Config.javacVersion + "); aborting"))
             exit(1)
+        case null:
+            break
         }
     } catch(e) {
         console.error(e)
     }
-    
+
     console.log(red("> cannot verify version of Java compiler; aborting"))
     exit(1)
 }

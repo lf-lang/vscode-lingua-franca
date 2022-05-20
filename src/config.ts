@@ -1,4 +1,5 @@
 import * as path from 'path'
+import { Version } from './check_dependencies';
 
 /**
  * Class that holds configuration settings.
@@ -12,14 +13,19 @@ import * as path from 'path'
     static readonly buildDeps = ['code', 'jar', 'javac', 'mvn', 'python3']
 
     /**
-     * Java version required for building (must be a string).
+     * Java version required for building.
      */
-    static readonly javacVersion = "17"
+    static readonly javacVersion: Version = new Version("17.0.0")
 
     /**
-     * Regex to capture major version number from "javac --version".
+     * Java version required for running the language server.
      */
-    static readonly javacRegex = /javac (?<version>\d+)(\.\d+\.\d+)?/
+    static readonly javaVersion: Version = Config.javacVersion;
+
+    /**
+     * Pylint version required for linting generated Python code.
+     */
+    static readonly pylintVersion: Version = new Version("2.12.0");
 
     /**
      * Name of the Language and Diagram Server jar.

@@ -1,5 +1,6 @@
 import * as vscode from 'vscode';
 import { LanguageClient } from 'vscode-languageclient';
+import { getTerminal } from './utils';
 
 /**
  * Return the URI of the given document, if the document is a Lingua Franca file; else, return
@@ -60,14 +61,7 @@ const buildAndRun = (withLogs: messageShowerTransformer, client: LanguageClient)
                     withLogs(vscode.window.showErrorMessage)('Build failed.');
                     return;
                 }
-                const runTerminalName = 'Lingua Franca: Run';
-                let terminal: vscode.Terminal = vscode.window.terminals.find(
-                    t => t.name === runTerminalName
-                );
-                if (!terminal) terminal = vscode.window.createTerminal({
-                    name: runTerminalName,
-                    cwd: command[0]
-                });
+                const terminal = getTerminal('Lingua Franca: Run', command[0]);
                 terminal.sendText('cd ' + command[0]);
                 terminal.show(true);
                 terminal.sendText(command.slice(1).join(' '));
