@@ -11,7 +11,7 @@ import { bold, green, red } from 'colorette'
 import { exec } from 'child_process'
 import { promisify } from 'util'
 import which from 'which'
-import { javacVersionChecker, VersionCheckResult } from './check_dependencies';
+import { javacVersionChecker, VersionCheckResult } from './version_checker';
 
 /**
  * Utility for running command that returns a promise.

@@ -1,81 +1,8 @@
-import { exec } from "child_process";
-import { promisify } from "util";
-import { Config } from "./config";
-import * as vscode from 'vscode'
-import { getTerminal } from "./utils";
-
-const runCmd = promisify(exec);
-
-export type VersionCheckResult = {
-    version: Version
-    isCorrect: boolean | null
-};
-
-type VersionChecker = () => Promise<VersionCheckResult>;
-
-/**
- * Define a SemVer-style version number.
- */
-export class Version {
-    public static readonly regex = /\b(?<major>\d+)\.(?<minor>\d+)\.(?<patch>\d+)/;
-    readonly major: number;
-    readonly minor: number;
-    readonly patch: number;
-
-    constructor(version: string) {
-        if (!Version.regex.test(version)) {
-            throw new Error(version + " does not describe a valid version number.");
-        }
-        const result = version.match(Version.regex);
-        this.major = parseInt(result.groups.major, 10);
-        this.minor = parseInt(result.groups.minor, 10);
-        this.patch = parseInt(result.groups.patch);
-    }
-
-    isAtLeast(version: Version | string): boolean {
-        if (typeof version === 'string') version = new Version(version);
-        if (this.major > version.major) return true;
-        if (this.major < version.major) return false;
-        if (this.minor > version.minor) return true;
-        if (this.minor < version.minor) return false;
-        return this.patch >= version.patch;
-    }
-
-    isCompatibleWith(version: Version | string): boolean {
-        if (typeof version == 'string') version = new Version(version);
-        return this.major === version.major;
-    }
-
-    toString(): string {
-        return `${this.major}.${this.minor}.${this.patch}`;
-    }
-}
-
-type VersionCheckerMaker = (command: string, sameMajor: boolean) => VersionChecker
-
-/**
- * Create a basic version checker. Note that this assumes that the first valid version number
- * appearing in stdout is the version number of interest.
- * @param command A command that will print the desired version number, as well as perhaps some
- * other text.
- * @returns A VersionChecker that checks the desired version number.
- */
-const basicVersionChecker: VersionCheckerMaker = (command, sameMajor) => async () => {
-    const {stdout} = await runCmd(command);
-    const found = stdout.match(Version.regex);
-    if (found === null) return { version: new Version("0.0.0"), isCorrect: null };
-    const version = new Version(stdout);
-    return {
-        version: version,
-        isCorrect: version.isAtLeast(Config.javaVersion) && (
-            !sameMajor || version.isCompatibleWith(Config.javaVersion)
-        )
-    };
-}
-
-export const javaVersionChecker: VersionChecker = basicVersionChecker('java --version', true);
-export const javacVersionChecker: VersionChecker = basicVersionChecker('javac --version', true);
-export const pylintVersionChecker: VersionChecker = basicVersionChecker('pylint --version', false);
+import { Config } from './config';
+import * as vscode from 'vscode';
+import { getTerminal, MessageShower } from './utils';
+import { Version } from './version';
+import { VersionChecker, javaVersionChecker, pylintVersionChecker } from './version_checker';
 
 type MissingDependency = {
     checker: VersionChecker,
@@ -93,7 +20,7 @@ const missingPylint: MissingDependency = {
         + `${Config.pylintVersion.major}.${Config.pylintVersion.minor} and newer.`,
     requiredVersion: Config.pylintVersion,
     installLink: null,
-    installCommand: 'python3 -m pip install pylint'  // FIXME: Some machines use `python`, not `python3`
+    installCommand: 'pip install pylint'  // FIXME: Should this start with "python3 -m" ?
 }
 
 const missingJava: MissingDependency = {
@@ -105,22 +32,26 @@ const missingJava: MissingDependency = {
     installCommand: null
 }
 
+export type UserFacingVersionChecker = (shower: MessageShower) => () => Promise<boolean>;
+type UserFacingVersionCheckerMaker = (dependency: MissingDependency) => UserFacingVersionChecker;
+
 /**
  * Return a dependency checker that returns whether the given dependency is satisfied and, as a side
  * effect, warns the user if not.
  * @returns true if the given dependency is satisfied.
  */
-const checkDependency = (missingDependency: MissingDependency) => async () => {
+const checkDependency: UserFacingVersionCheckerMaker = (missingDependency: MissingDependency) =>
+        (messageShower: MessageShower) => async () => {
     const checkerResult = await missingDependency.checker();
     if (checkerResult.isCorrect) return true;
-    const message: string = checkerResult.isCorrect === false ? (
+    const message: string = !checkerResult.isCorrect ? (
         missingDependency.wrongVersionMessage ?? missingDependency.message
     ) : missingDependency.message;
     if (!missingDependency.installCommand && !missingDependency.installLink) {
-        vscode.window.showInformationMessage(message);
-        return;
+        messageShower(message);
+        return false;
     }
-    vscode.window.showInformationMessage(message, "Install").then((s: string) => {
+    messageShower(message, "Install").then((s: string) => {
         if (s === "Install") {
             if (missingDependency.installCommand) {
                 getTerminal("Lingua Franca: Install dependencies")
@@ -131,7 +62,7 @@ const checkDependency = (missingDependency: MissingDependency) => async () => {
         }
     });
     return false;
-}
+};
 
-export const checkJava = checkDependency(missingJava);
-export const checkPylint = checkDependency(missingPylint);
+export const checkJava: UserFacingVersionChecker = checkDependency(missingJava);
+export const checkPylint: UserFacingVersionChecker = checkDependency(missingPylint);

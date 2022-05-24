@@ -1,8 +1,8 @@
 import * as vscode from 'vscode';
 import { LanguageClient } from 'vscode-languageclient';
-import { getTerminal } from './utils';
+import { getTerminal, MessageShower } from './utils';
 
-/**
+/**`
  * Return the URI of the given document, if the document is a Lingua Franca file; else, return
  * undefined.
  * @param textDocument A document in the user's editor.
@@ -22,8 +22,7 @@ function getLfUri(textDocument: vscode.TextDocument, failSilently = false): stri
     return uri;
 }
 
-type messageShower = (message: string, ...items: string[]) => Thenable<string | undefined>;
-type messageShowerTransformer = (messageShower: messageShower) => ((message: string) => void);
+type MessageShowerTransformer = (messageShower: MessageShower) => ((message: string) => void);
 
 /**
  * Return the action that should be taken in case of a request to build.
@@ -31,7 +30,7 @@ type messageShowerTransformer = (messageShower: messageShower) => ((message: str
  * @param client The language client.
  * @returns The action that should be taken in case of a request to build.
  */
-const build = (withLogs: messageShowerTransformer, client: LanguageClient) =>
+const build = (withLogs: MessageShowerTransformer, client: LanguageClient) =>
     (textEditor: vscode.TextEditor) => {
         const uri = getLfUri(textEditor.document);
         if (!uri) return;
@@ -50,7 +49,7 @@ const build = (withLogs: messageShowerTransformer, client: LanguageClient) =>
  * @param client The language client.
  * @returns The action that should be taken in case of a request to build and run.
  */
-const buildAndRun = (withLogs: messageShowerTransformer, client: LanguageClient) =>
+const buildAndRun = (withLogs: MessageShowerTransformer, client: LanguageClient) =>
     (textEditor: vscode.TextEditor) => {
         const uri = getLfUri(textEditor.document);
         if (!uri) return;
@@ -82,7 +81,7 @@ function buildOnSaveEnabled() {
  * @param client The language client.
  */
 export function registerBuildCommands(context: vscode.ExtensionContext, client: LanguageClient) {
-    const withLogs = (showMessage: messageShower) => (message: string) => showMessage(
+    const withLogs = (showMessage: MessageShower) => (message: string) => showMessage(
         message, 'Show output'
     ).then(choice => {
         if (choice === 'Show output') client.outputChannel.show();

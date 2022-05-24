@@ -1,6 +1,9 @@
 import * as path from 'path'
-import { Version } from './check_dependencies';
-import { defaultDict } from './utils';
+import { Version } from './version';
+
+const defaultDict = (defaultValue: any) => (dict: Object) => new Proxy(dict, {
+    get: (target: Object, name: string) => name in target ? target[name] : defaultValue
+});
 
 /**
  * Class that holds configuration settings.
