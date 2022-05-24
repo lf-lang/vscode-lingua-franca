@@ -1,7 +1,7 @@
-import { exec } from "child_process";
-import { promisify } from "util";
-import { Config } from "./config";
-import { Version } from "./version";
+import { exec } from 'child_process';
+import { promisify } from 'util';
+import { Config } from './config';
+import { Version } from './version';
 const runCmd = promisify(exec);
 
 export type VersionCheckResult = {
@@ -23,7 +23,7 @@ type VersionCheckerMaker = (command: string, sameMajor: boolean) => VersionCheck
 const basicVersionChecker: VersionCheckerMaker = (command, sameMajor) => async () => {
     const {stdout} = await runCmd(command);
     const found = stdout.match(Version.regex);
-    if (found === null) return { version: new Version("0.0.0"), isCorrect: null };
+    if (found === null) return { version: new Version('0.0.0'), isCorrect: null };
     const version = new Version(stdout);
     return {
         version: version,

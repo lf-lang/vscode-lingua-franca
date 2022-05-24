@@ -5,6 +5,7 @@ node_modules/
 lingua-franca/
 __pycache__/*
 src/**
+out/test/**
 
 *.vsix
 .gitignore

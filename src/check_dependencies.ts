@@ -51,10 +51,10 @@ const checkDependency: UserFacingVersionCheckerMaker = (missingDependency: Missi
         messageShower(message);
         return false;
     }
-    messageShower(message, "Install").then((s: string) => {
-        if (s === "Install") {
+    messageShower(message, 'Install').then((s: string) => {
+        if (s === 'Install') {
             if (missingDependency.installCommand) {
-                getTerminal("Lingua Franca: Install dependencies")
+                getTerminal('Lingua Franca: Install dependencies')
                     .sendText(missingDependency.installCommand);
             } else if (missingDependency.installLink) {
                 vscode.env.openExternal(vscode.Uri.parse(missingDependency.installLink));

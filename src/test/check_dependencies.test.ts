@@ -1,8 +1,8 @@
 
 import { checkJava, checkPylint, UserFacingVersionChecker } from '../check_dependencies';
 import * as vscode from 'vscode';
-const chai = require('chai');
-const spies = require('chai-spies');
+import chai from 'chai';
+import spies from 'chai-spies';
 import { expect } from 'chai';
 import { after } from 'mocha';
 import { MessageShower } from '../utils';
@@ -10,9 +10,9 @@ import { MessageShower } from '../utils';
 chai.use(spies);
 
 enum Dependencies {
-    Present = "present",
-    Missing = "missing",
-    Outdated = "outdated"
+    Present = 'present',
+    Missing = 'missing',
+    Outdated = 'outdated'
 }
 
 suite('test dependency checking',  () => {
@@ -30,7 +30,7 @@ suite('test dependency checking',  () => {
     })();
 
     const getMockMessageShower = () => {
-        const fn = (message: string, ...items: string[]) => Promise.resolve("");
+        const fn = (message: string, ...items: string[]) => Promise.resolve('');
         return { mockMessageShower: fn, spy: chai.spy(fn) }
     };
     
@@ -41,7 +41,7 @@ suite('test dependency checking',  () => {
     const expectFailure = async (checker: UserFacingVersionChecker, mockMessageShower: MessageShower, spy) => {
         expect(await checker(mockMessageShower)()).to.be.false;
         expect(spy).to.have.been.called;
-        expect(spy.arguments.join()).to.contain("Install");
+        expect(spy.arguments.join()).to.contain('Install');
     };
 
     test('java', () => {
@@ -53,7 +53,7 @@ suite('test dependency checking',  () => {
         case Dependencies.Missing:
         case Dependencies.Outdated:
             expectFailure(checkJava, mockMessageShower, spy);
-            expect(spy.arguments.join()).to.contain("Java");
+            expect(spy.arguments.join()).to.contain('Java');
             break;
         }
     });

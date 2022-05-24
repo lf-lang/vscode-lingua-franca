@@ -19,7 +19,7 @@ const defaultDict = (defaultValue: any) => (dict: Object) => new Proxy(dict, {
     /**
      * Java version required for building.
      */
-    static readonly javacVersion: Version = new Version("17.0.0")
+    static readonly javacVersion: Version = new Version('17.0.0')
 
     /**
      * Java version required for running the language server.
@@ -29,7 +29,7 @@ const defaultDict = (defaultValue: any) => (dict: Object) => new Proxy(dict, {
     /**
      * Pylint version required for linting generated Python code.
      */
-    static readonly pylintVersion: Version = new Version("2.12.0");
+    static readonly pylintVersion: Version = new Version('2.12.0');
 
     /**
      * Name of the Language and Diagram Server jar.

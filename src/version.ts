@@ -1,7 +1,7 @@
 /**
  * Define a SemVer-style version number.
  */
- export class Version {
+export class Version {
     public static readonly regex = /\b(?<major>\d+)\.(?<minor>\d+)\.(?<patch>\d+)/;
     readonly major: number;
     readonly minor: number;
@@ -9,7 +9,7 @@
 
     constructor(version: string) {
         if (!Version.regex.test(version)) {
-            throw new Error(version + " does not describe a valid version number.");
+            throw new Error(`${version} does not describe a valid version number.`);
         }
         const result = version.match(Version.regex);
         this.major = parseInt(result.groups.major, 10);
