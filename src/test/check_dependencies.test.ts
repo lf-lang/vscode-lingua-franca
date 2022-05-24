@@ -6,6 +6,7 @@ import spies from 'chai-spies';
 import { expect } from 'chai';
 import { after } from 'mocha';
 import { MessageShower } from '../utils';
+import { Config } from '../config';
 
 chai.use(spies);
 
@@ -29,51 +30,58 @@ suite('test dependency checking',  () => {
         );
     })();
 
-    const getMockMessageShower = () => {
-        const fn = (message: string, ...items: string[]) => Promise.resolve('');
-        return { mockMessageShower: fn, spy: chai.spy(fn) }
-    };
-    
-    const expectSuccess = async (checker: UserFacingVersionChecker, mockMessageShower: MessageShower, spy) => {
-        expect(await checker(mockMessageShower)()).to.be.true;
-        expect(spy).not.to.have.been.called;
-    };
-    const expectFailure = async (checker: UserFacingVersionChecker, mockMessageShower: MessageShower, spy) => {
-        expect(await checker(mockMessageShower)()).to.be.false;
-        expect(spy).to.have.been.called;
-        expect(spy.arguments.join()).to.contain('Install');
+    type Spy = ChaiSpies.SpyFunc1Proxy<string, Thenable<string>>;
+
+    function getMockMessageShower(): Spy {
+        const mock: MessageShower = (message: string, ...items: string[]) => Promise.resolve('');
+        return chai.spy(mock);
     };
 
-    test('java', () => {
-        const { mockMessageShower, spy } = getMockMessageShower();
+    const expectSuccess = async (checker: UserFacingVersionChecker, spy: Spy) => {
+        expect(await checker(spy)()).to.be.true;
+        expect(spy).not.to.have.been.called;
+    };
+    const expectFailure = async (checker: UserFacingVersionChecker, spy: Spy) => {
+        expect(await checker(spy)()).to.be.false;
+        expect(spy).to.have.been.called;
+    };
+
+    test('java', async () => {
+        const spy = getMockMessageShower();
         switch (dependencies) {
         case Dependencies.Present:
-            expectSuccess(checkJava, mockMessageShower, spy);
+            await expectSuccess(checkJava, spy);
             break;
         case Dependencies.Missing:
         case Dependencies.Outdated:
-            expectFailure(checkJava, mockMessageShower, spy);
-            expect(spy.arguments.join()).to.contain('Java');
+            await expectFailure(checkJava, spy);
+            expect(spy).to.have.been.called.with(
+                `Java version ${Config.javaVersion.major} is required for Lingua Franca diagrams `
+                + `and code analysis.`
+            );
             break;
         }
     });
 
-    // it('pylint', () => {
-    //     const mockMessageShower = getMockMessageShower();
-    //     switch (dependencies) {
-    //     case Dependencies.Present:
-    //         expectSuccess(checkPylint, mockMessageShower);
-    //         break;
-    //     case Dependencies.Missing:
-    //         expectFailure(checkPylint, mockMessageShower);
-    //         expect(mockMessageShower.mock.calls[0][0])
-    //             .toEqual(expect.stringContaining('recommended'));
-    //         break;
-    //     case Dependencies.Outdated:
-    //         expectFailure(checkPylint, mockMessageShower);
-    //         expect(mockMessageShower.mock.calls[0][0])
-    //             .toEqual(expect.stringContaining('version'));
-    //         break;
-    //     }
-    // });
+    test('pylint', async () => {
+        const spy = getMockMessageShower();
+        switch (dependencies) {
+        case Dependencies.Present:
+            await expectSuccess(checkPylint, spy);
+            break;
+        case Dependencies.Missing:
+            await expectFailure(checkPylint, spy);
+            expect(spy).to.have.been.called.with(
+                `Pylint is a recommended linter for Lingua Franca's Python target.`
+            );
+            break;
+        case Dependencies.Outdated:
+            await expectFailure(checkPylint, spy);
+            expect(spy).to.have.been.called.with(
+                `The Lingua Franca language server is tested with Pylint version `
+                + `${Config.pylintVersion.major}.${Config.pylintVersion.minor} and newer.`
+            );
+            break;
+        }
+    });
 });

@@ -44,7 +44,7 @@ const checkDependency: UserFacingVersionCheckerMaker = (missingDependency: Missi
         (messageShower: MessageShower) => async () => {
     const checkerResult = await missingDependency.checker();
     if (checkerResult.isCorrect) return true;
-    const message: string = !checkerResult.isCorrect ? (
+    const message: string = checkerResult.isCorrect === false ? (
         missingDependency.wrongVersionMessage ?? missingDependency.message
     ) : missingDependency.message;
     if (!missingDependency.installCommand && !missingDependency.installLink) {

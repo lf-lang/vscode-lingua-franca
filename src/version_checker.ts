@@ -11,7 +11,8 @@ export type VersionCheckResult = {
 
 export type VersionChecker = () => Promise<VersionCheckResult>;
 
-type VersionCheckerMaker = (command: string, sameMajor: boolean) => VersionChecker
+type VersionCheckerMaker = (desiredVersion: Version, command: string, sameMajor: boolean) =>
+    VersionChecker
 
 /**
  * Create a basic version checker. Note that this assumes that the first valid version number
@@ -20,19 +21,25 @@ type VersionCheckerMaker = (command: string, sameMajor: boolean) => VersionCheck
  * other text.
  * @returns A VersionChecker that checks the desired version number.
  */
-const basicVersionChecker: VersionCheckerMaker = (command, sameMajor) => async () => {
-    const {stdout} = await runCmd(command);
+const basicVersionChecker: VersionCheckerMaker = (desiredVersion, command, sameMajor) => async () => {
+    const nullResult = { version: new Version('0.0.0'), isCorrect: null };
+    let stdout: string;
+    try {
+        stdout = (await runCmd(command)).stdout;
+    } catch (error) {
+        return nullResult;
+    }
     const found = stdout.match(Version.regex);
-    if (found === null) return { version: new Version('0.0.0'), isCorrect: null };
+    if (found === null) return nullResult;
     const version = new Version(stdout);
     return {
         version: version,
-        isCorrect: version.isAtLeast(Config.javaVersion) && (
-            !sameMajor || version.isCompatibleWith(Config.javaVersion)
+        isCorrect: version.isAtLeast(desiredVersion) && (
+            !sameMajor || version.isCompatibleWith(desiredVersion)
         )
     };
 }
 
-export const javaVersionChecker: VersionChecker = basicVersionChecker('java --version', true);
-export const javacVersionChecker: VersionChecker = basicVersionChecker('javac --version', true);
-export const pylintVersionChecker: VersionChecker = basicVersionChecker('pylint --version', false);
+export const javaVersionChecker: VersionChecker = basicVersionChecker(Config.javaVersion, 'java --version', true);
+export const javacVersionChecker: VersionChecker = basicVersionChecker(Config.javacVersion, 'javac --version', true);
+export const pylintVersionChecker: VersionChecker = basicVersionChecker(Config.pylintVersion, 'pylint --version', false);

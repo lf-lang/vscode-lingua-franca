@@ -149,7 +149,9 @@
         "build": "npx ts-node src/build_lds.ts",
         "deploy": "vsce package && code --install-extension vscode-lingua-franca-*.vsix",
         "install": "npm run build && npm run deploy",
-        "test": "npx tsc --outDir out/test --inlineSourceMap && node ./out/test/test/test_runner.js --dependencies=present",
-        "test:watch": "jest --watch"
+        "compile-tests": "npx tsc --outDir out/test --inlineSourceMap",
+        "test": "npm run compile-tests && node ./out/test/test/test_runner.js --dependencies=present",
+        "test-dependencies-outdated": "npm run compile-tests && node ./out/test/test/test_runner.js --dependencies=outdated",
+        "test-dependencies-missing": "npm run compile-tests && node ./out/test/test/test_runner.js --dependencies=missing"
     }
 }
