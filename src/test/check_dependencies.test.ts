@@ -32,8 +32,9 @@ suite('test dependency checking',  () => {
 
     type Spy = ChaiSpies.SpyFunc1Proxy<string, Thenable<string>>;
 
-    function getMockMessageShower(): Spy {
-        const mock: MessageShower = (message: string, ...items: string[]) => Promise.resolve('');
+    function getMockMessageShower(buttonClicked?: string): Spy {
+        const mock: MessageShower = (message: string, ...items: string[]) =>
+            Promise.resolve(buttonClicked);
         return chai.spy(mock);
     };
 
@@ -46,7 +47,8 @@ suite('test dependency checking',  () => {
         expect(spy).to.have.been.called;
     };
 
-    test('java', async () => {
+    test('java', async function () {
+        this.timeout(100000);
         const spy = getMockMessageShower();
         switch (dependencies) {
         case Dependencies.Present:
@@ -63,8 +65,9 @@ suite('test dependency checking',  () => {
         }
     });
 
-    test('pylint', async () => {
-        const spy = getMockMessageShower();
+    test('pylint', async function() {
+        this.timeout(60 * 1000);
+        const spy = getMockMessageShower('Install');
         switch (dependencies) {
         case Dependencies.Present:
             await expectSuccess(checkPylint, spy);
@@ -74,6 +77,9 @@ suite('test dependency checking',  () => {
             expect(spy).to.have.been.called.with(
                 `Pylint is a recommended linter for Lingua Franca's Python target.`
             );
+            // Allow enough time for Pylint to be installed.
+            await new Promise(resolve => setTimeout(resolve, 20 * 1000));
+            await expectSuccess(checkPylint, spy);
             break;
         case Dependencies.Outdated:
             await expectFailure(checkPylint, spy);
@@ -81,6 +87,7 @@ suite('test dependency checking',  () => {
                 `The Lingua Franca language server is tested with Pylint version `
                 + `${Config.pylintVersion.major}.${Config.pylintVersion.minor} and newer.`
             );
+            await expectSuccess(checkPylint, spy);
             break;
         }
     });

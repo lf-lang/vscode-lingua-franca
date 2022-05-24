@@ -20,8 +20,8 @@ const missingPylint: MissingDependency = {
         + `${Config.pylintVersion.major}.${Config.pylintVersion.minor} and newer.`,
     requiredVersion: Config.pylintVersion,
     installLink: null,
-    installCommand: 'pip install pylint'  // FIXME: Should this start with "python3 -m" ?
-}
+    installCommand: 'pip3 install pylint'
+};
 
 const missingJava: MissingDependency = {
     checker: javaVersionChecker,
@@ -30,7 +30,7 @@ const missingJava: MissingDependency = {
     requiredVersion: Config.javaVersion,
     installLink: `https://www.oracle.com/java/technologies/downloads/#java${Config.javaVersion.major}`,
     installCommand: null
-}
+};
 
 export type UserFacingVersionChecker = (shower: MessageShower) => () => Promise<boolean>;
 type UserFacingVersionCheckerMaker = (dependency: MissingDependency) => UserFacingVersionChecker;
@@ -51,8 +51,8 @@ const checkDependency: UserFacingVersionCheckerMaker = (missingDependency: Missi
         messageShower(message);
         return false;
     }
-    messageShower(message, 'Install').then((s: string) => {
-        if (s === 'Install') {
+    messageShower(message, 'Install').then((response) => {
+        if (response === 'Install') {
             if (missingDependency.installCommand) {
                 getTerminal('Lingua Franca: Install dependencies')
                     .sendText(missingDependency.installCommand);

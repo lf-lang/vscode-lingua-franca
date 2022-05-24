@@ -8,16 +8,12 @@ import { Command, OptionValues } from 'commander'
 import { Config } from './config'
 import { exit } from 'process';
 import { bold, green, red } from 'colorette'
-import { exec } from 'child_process'
-import { promisify } from 'util'
 import which from 'which'
 import { javacVersionChecker, VersionCheckResult } from './version_checker';
 
 /**
- * Utility for running command that returns a promise.
  * @author Marten Lohstroh <marten@berkeley.edu>
  */
-const runCmd = promisify(exec);
 
 /**
  * Return passed in CLI options.

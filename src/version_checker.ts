@@ -27,6 +27,7 @@ const basicVersionChecker: VersionCheckerMaker = (desiredVersion, command, sameM
     try {
         stdout = (await runCmd(command)).stdout;
     } catch (error) {
+        console.error(error);
         return nullResult;
     }
     const found = stdout.match(Version.regex);
@@ -40,6 +41,6 @@ const basicVersionChecker: VersionCheckerMaker = (desiredVersion, command, sameM
     };
 }
 
-export const javaVersionChecker: VersionChecker = basicVersionChecker(Config.javaVersion, 'java --version', true);
-export const javacVersionChecker: VersionChecker = basicVersionChecker(Config.javacVersion, 'javac --version', true);
-export const pylintVersionChecker: VersionChecker = basicVersionChecker(Config.pylintVersion, 'pylint --version', false);
+export const javaVersionChecker: VersionChecker = basicVersionChecker(Config.javaVersion, 'java -version 2>&1', true);
+export const javacVersionChecker: VersionChecker = basicVersionChecker(Config.javacVersion, 'javac -version 2>&1', true);
+export const pylintVersionChecker: VersionChecker = basicVersionChecker(Config.pylintVersion, 'pip3 show pylint', false);

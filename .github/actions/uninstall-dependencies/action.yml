@@ -1,0 +1,51 @@
+name: Uninstall dependencies
+description: Uninstall dependencies whose presence the VS Code extension may check for.
+
+runs:
+  using: "composite"
+  steps:
+    - name: Uninstall packages
+      uses: ./lingua-franca/.github/actions/uninstall-dependencies
+      with:
+        platform: ${{ matrix.platform }}
+    - name: Uninstall packages Ubuntu
+        # sudo apt-get autoremove python-pip
+      run: |
+        sudo apt-get remove gcc
+        sudo apt-get remove g++
+        rm -rf $JAVA_HOME
+      shell: bash
+      if: ${{ runner.os == 'Linux' }}
+        # sudo rm -rf $(which python)
+        # sudo rm -rf $(which python3)
+        # sudo rm -rf /Library/Frameworks/Python.framework
+    - name: Uninstall packages MacOS
+      run: |
+        sudo rm -rf $(xcode-select -p)
+        sudo rm -rf $JAVA_HOME
+        sudo rm -rf $JAVA_HOME_8_X64
+        sudo rm -rf $JAVA_HOME_11_X64
+        sudo rm -rf $JAVA_HOME_17_X64
+      shell: bash
+      if: ${{ runner.os == 'macOS' }}
+    - name: Uninstall packages Windows
+      run: |
+        del /s $JAVA_HOME
+        del /s $JAVA_HOME_8_X64
+        del /s $JAVA_HOME_11_X64
+        del /s $JAVA_HOME_17_X64
+      shell: PowerShell
+      if: ${{ runner.os == 'Windows' }}
+        # rm -rf $(which python)
+        # rm -rf $(which python3)
+        # rm -rf /Library/Frameworks/Python.framework
+    - run: |
+        rm -rf $(which java)
+        rm -rf $(which java)
+        rm -rf $(which java)
+        rm -rf $JAVA_HOME
+        rm -rf $JAVA_HOME_8_X64
+        rm -rf $JAVA_HOME_11_X64
+        rm -rf $JAVA_HOME_17_X64
+      shell: bash
+      if: ${{ runner.os == 'Windows' }}
