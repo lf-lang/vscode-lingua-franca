@@ -18,7 +18,7 @@ export function run(): Promise<void> {
             files.forEach(f => mocha.addFile(path.resolve(testsRoot, f)));
             try {
                 mocha.run((failures: number) => {
-                    if (failures) e(new Error(`${failures} tests failed.`));
+                    if (failures) e(new Error(`${failures} test${failures == 1 ? '' : 's'} failed.`));
                     else c();
                 });
             } catch (err) {

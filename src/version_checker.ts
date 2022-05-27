@@ -27,7 +27,7 @@ const basicVersionChecker: VersionCheckerMaker = (desiredVersion, command, sameM
     try {
         stdout = (await runCmd(command)).stdout;
     } catch (error) {
-        console.error(error);
+        console.error(`Failed to run "${command}": ${error}`);
         return nullResult;
     }
     const found = stdout.match(Version.regex);
@@ -44,4 +44,5 @@ const basicVersionChecker: VersionCheckerMaker = (desiredVersion, command, sameM
 export const javaVersionChecker: VersionChecker = basicVersionChecker(config.javaVersion, 'java -version 2>&1', true);
 export const javacVersionChecker: VersionChecker = basicVersionChecker(config.javacVersion, 'javac -version 2>&1', true);
 export const python3VersionChecker: VersionChecker = basicVersionChecker(config.pythonVersion, 'python3 -V', false);
+export const nodeVersionChecker: VersionChecker = basicVersionChecker(config.nodeVersion, 'node -v', false);
 export const pylintVersionChecker: VersionChecker = basicVersionChecker(config.pylintVersion, 'pip3 show pylint', false);

@@ -14,6 +14,8 @@ runs:
       run: |
         sudo apt-get remove gcc
         sudo apt-get remove g++
+        echo $(which node)
+        rm -rf $(which node)
         rm -rf $JAVA_HOME
       shell: bash
       if: ${{ runner.os == 'Linux' }}
@@ -21,6 +23,8 @@ runs:
       run: |
         sudo rm -rf $(which python)
         sudo rm -rf $(which python3)
+        echo $(which node)
+        sudo rm -rf $(which node)
         sudo rm -rf /Library/Frameworks/Python.framework
         sudo rm -rf $(xcode-select -p)
         sudo rm -rf $JAVA_HOME
@@ -32,6 +36,8 @@ runs:
     - run: |
         rm -rf $(which python)
         rm -rf $(which python3)
+        echo $(which node)
+        rm -rf $(which node)
         rm -rf /Library/Frameworks/Python.framework
         rm -rf $(which java)
         rm -rf $(which java)

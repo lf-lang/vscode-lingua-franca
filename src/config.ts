@@ -25,6 +25,9 @@ export const pylintVersion: Version = new Version('2.12.0');
 /** The minimum Python version required for compiling LF programs with the Python target. */
 export const pythonVersion: Version = new Version('3.0.0');
 
+/** The minimum Node version required for executing LF programs with the TypeScript target. */
+export const nodeVersion: Version = new Version('0.0.0');
+
 /** Name of the Language and Diagram Server jar. */
 export const ldsJarName = 'lflang-lds.jar';
 

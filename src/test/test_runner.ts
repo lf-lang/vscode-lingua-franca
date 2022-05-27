@@ -6,7 +6,10 @@ async function main() {
     try {
         const extensionDevelopmentPath = path.resolve(__dirname, '../../');
         const extensionTestsPath = path.resolve(__dirname, './index.js');
-        const extensionTestsEnv = { dependencies: require('minimist')(process.argv)['dependencies'] };
+        const extensionTestsEnv: {dependencies: string, PATH?: string} = {
+            dependencies: require('minimist')(process.argv)['dependencies']
+        };
+        if (extensionTestsEnv.dependencies == 'missing0') extensionTestsEnv.PATH = '';
         await runTests({
             extensionDevelopmentPath,
             extensionTestsPath,

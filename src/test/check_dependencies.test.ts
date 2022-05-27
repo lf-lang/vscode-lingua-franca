@@ -1,10 +1,10 @@
 import * as os from 'os';
-import { checkJava, checkPylint, checkPython3, UserFacingVersionChecker } from '../check_dependencies';
+import * as checkDependencies from '../check_dependencies';
 import * as vscode from 'vscode';
 import chai from 'chai';
 import spies from 'chai-spies';
 import { expect } from 'chai';
-import { after } from 'mocha';
+import { after, Context } from 'mocha';
 import { MessageShower } from '../utils';
 import * as config from '../config';
 
@@ -45,12 +45,12 @@ suite('test dependency checking',  () => {
     };
 
     function checkBasicDependency(
-        checker: UserFacingVersionChecker,
+        checker: checkDependencies.UserFacingVersionChecker,
         depMissingMessage: string,
-        thiz?: Mocha.Context
+        context?: Context
     ): Test {
         return async function () {
-            this.timeout(basicDependencyTestTimeout);
+            (context ?? this).timeout(basicDependencyTestTimeout);
             const spy = getMockMessageShower();
             switch (dependencies) {
             case Dependencies.Present:
@@ -62,24 +62,24 @@ suite('test dependency checking',  () => {
                 expect(spy).to.have.been.called.with(depMissingMessage);
                 break;
             case Dependencies.Missing1:
-                (thiz ?? this).test.skip();
+                (context ?? this).test.skip();
             default:
                 throw new Error('unreachable');
             }
         };
     }
 
-    const expectSuccess = async (checker: UserFacingVersionChecker, spy: Spy) => {
+    const expectSuccess = async (checker: checkDependencies.UserFacingVersionChecker, spy: Spy) => {
         expect(await checker(spy)()).to.be.true;
         expect(spy).not.to.have.been.called;
     };
-    const expectFailure = async (checker: UserFacingVersionChecker, spy: Spy) => {
+    const expectFailure = async (checker: checkDependencies.UserFacingVersionChecker, spy: Spy) => {
         expect(await checker(spy)()).to.be.false;
         expect(spy).to.have.been.called;
     };
 
     test('java', checkBasicDependency(
-        checkJava,
+        checkDependencies.checkJava,
         `Java version ${config.javaVersion.major} is required for Lingua Franca diagrams and code analysis.`
     ));
 
@@ -88,37 +88,42 @@ suite('test dependency checking',  () => {
         // function.
         if (os.platform() == 'linux') this.test.skip();
         return await checkBasicDependency(
-            checkPython3,
+            checkDependencies.checkPython3,
             `Python version ${config.pythonVersion} or higher is required for compiling LF programs with the Python target.`,
             this
         )();
     });
+
+    test('node', checkBasicDependency(
+        checkDependencies.checkNode,
+        'Node.js is required for executing LF programs with the TypeScript target.'
+    ));
 
     test('pylint', async function() {
         this.timeout(extendedDependencyTestTimeout);
         const spy = getMockMessageShower('Install');
         switch (dependencies) {
         case Dependencies.Present:
-            await expectSuccess(checkPylint, spy);
+            await expectSuccess(checkDependencies.checkPylint, spy);
             break;
         case Dependencies.Missing0:
             this.test.skip();
         case Dependencies.Missing1:
-            await expectFailure(checkPylint, spy);
+            await expectFailure(checkDependencies.checkPylint, spy);
             expect(spy).to.have.been.called.with(
                 `Pylint is a recommended linter for Lingua Franca's Python target.`
             );
             // Allow enough time for Pylint to be installed.
             await new Promise(resolve => setTimeout(resolve, 20 * 1000));
-            await expectSuccess(checkPylint, spy);
+            await expectSuccess(checkDependencies.checkPylint, spy);
             break;
         case Dependencies.Outdated:
-            await expectFailure(checkPylint, spy);
+            await expectFailure(checkDependencies.checkPylint, spy);
             expect(spy).to.have.been.called.with(
                 `The Lingua Franca language server is tested with Pylint version `
                 + `${config.pylintVersion.major}.${config.pylintVersion.minor} and newer.`
             );
-            await expectSuccess(checkPylint, spy);
+            await expectSuccess(checkDependencies.checkPylint, spy);
             break;
         default:
             throw new Error('unreachable');

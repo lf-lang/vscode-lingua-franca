@@ -34,11 +34,18 @@ const missingJava: MissingDependency = {
 
 const missingPython3: MissingDependency = {
     checker: versionChecker.python3VersionChecker,
-    message: `Python version ${config.javaVersion.major} or higher is required for compiling LF `
-        + `programs with the Python target.`,
+    message: `Python version ${config.pythonVersion} or higher is required for compiling LF programs with the Python target.`,
     requiredVersion: config.pythonVersion,
     installLink: `https://www.python.org/downloads/`,
     installCommand: null
+};
+
+const missingNode: MissingDependency = {
+    checker: versionChecker.nodeVersionChecker,
+    message: 'Node.js is required for executing LF programs with the TypeScript target.',
+    requiredVersion: config.nodeVersion,
+    installLink: 'https://nodejs.org/en/download/',
+    installCommand: null  // TODO: https://nodejs.org/en/download/package-manager/
 };
 
 export type UserFacingVersionChecker = (shower: MessageShower) => () => Promise<boolean>;
@@ -76,3 +83,4 @@ const checkDependency: UserFacingVersionCheckerMaker = (missingDependency: Missi
 export const checkJava: UserFacingVersionChecker = checkDependency(missingJava);
 export const checkPylint: UserFacingVersionChecker = checkDependency(missingPylint);
 export const checkPython3: UserFacingVersionChecker = checkDependency(missingPython3);
+export const checkNode: UserFacingVersionChecker = checkDependency(missingNode);

@@ -2,7 +2,7 @@
  * Define a SemVer-style version number.
  */
 export class Version {
-    public static readonly regex = /\b(?<major>\d+)\.(?<minor>\d+)\.(?<patch>\d+)/;
+    public static readonly regex = /\bv?(?<major>\d+)\.(?<minor>\d+)\.(?<patch>\d+)/;
     readonly major: number;
     readonly minor: number;
     readonly patch: number;
