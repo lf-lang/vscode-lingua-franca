@@ -11,9 +11,10 @@ import { Config } from '../config';
 chai.use(spies);
 
 enum Dependencies {
+    Missing0 = 'missing0',  // Missing even the most basic dependencies
+    Missing1 = 'missing1',  // Missing semi-optional dependencies
+    Outdated = 'outdated',
     Present = 'present',
-    Missing = 'missing',
-    Outdated = 'outdated'
 }
 
 suite('test dependency checking',  () => {
@@ -54,7 +55,7 @@ suite('test dependency checking',  () => {
         case Dependencies.Present:
             await expectSuccess(checkJava, spy);
             break;
-        case Dependencies.Missing:
+        case Dependencies.Missing0:
         case Dependencies.Outdated:
             await expectFailure(checkJava, spy);
             expect(spy).to.have.been.called.with(
@@ -62,6 +63,10 @@ suite('test dependency checking',  () => {
                 + `and code analysis.`
             );
             break;
+        case Dependencies.Missing1:
+            this.test.skip();
+        default:
+            throw new Error('unreachable');
         }
     });
 
@@ -72,7 +77,9 @@ suite('test dependency checking',  () => {
         case Dependencies.Present:
             await expectSuccess(checkPylint, spy);
             break;
-        case Dependencies.Missing:
+        case Dependencies.Missing0:
+            this.test.skip();
+        case Dependencies.Missing1:
             await expectFailure(checkPylint, spy);
             expect(spy).to.have.been.called.with(
                 `Pylint is a recommended linter for Lingua Franca's Python target.`
@@ -89,6 +96,8 @@ suite('test dependency checking',  () => {
             );
             await expectSuccess(checkPylint, spy);
             break;
+        default:
+            throw new Error('unreachable');
         }
     });
 });

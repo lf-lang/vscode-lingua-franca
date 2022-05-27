@@ -9,18 +9,18 @@ runs:
       with:
         platform: ${{ matrix.platform }}
     - name: Uninstall packages Ubuntu
-        # sudo apt-get autoremove python-pip
       run: |
+        sudo apt-get autoremove python-pip
         sudo apt-get remove gcc
         sudo apt-get remove g++
         rm -rf $JAVA_HOME
       shell: bash
       if: ${{ runner.os == 'Linux' }}
-        # sudo rm -rf $(which python)
-        # sudo rm -rf $(which python3)
-        # sudo rm -rf /Library/Frameworks/Python.framework
     - name: Uninstall packages MacOS
       run: |
+        sudo rm -rf $(which python)
+        sudo rm -rf $(which python3)
+        sudo rm -rf /Library/Frameworks/Python.framework
         sudo rm -rf $(xcode-select -p)
         sudo rm -rf $JAVA_HOME
         sudo rm -rf $JAVA_HOME_8_X64
@@ -28,18 +28,18 @@ runs:
         sudo rm -rf $JAVA_HOME_17_X64
       shell: bash
       if: ${{ runner.os == 'macOS' }}
-    - name: Uninstall packages Windows
-      run: |
-        del /s $JAVA_HOME
-        del /s $JAVA_HOME_8_X64
-        del /s $JAVA_HOME_11_X64
-        del /s $JAVA_HOME_17_X64
-      shell: PowerShell
-      if: ${{ runner.os == 'Windows' }}
-        # rm -rf $(which python)
-        # rm -rf $(which python3)
-        # rm -rf /Library/Frameworks/Python.framework
+    # - name: Uninstall packages Windows
+    #   run: |
+    #     del /s $JAVA_HOME
+    #     del /s $JAVA_HOME_8_X64
+    #     del /s $JAVA_HOME_11_X64
+    #     del /s $JAVA_HOME_17_X64
+    #   shell: PowerShell
+    #   if: ${{ runner.os == 'Windows' }}
     - run: |
+        rm -rf $(which python)
+        rm -rf $(which python3)
+        rm -rf /Library/Frameworks/Python.framework
         rm -rf $(which java)
         rm -rf $(which java)
         rm -rf $(which java)

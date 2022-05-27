@@ -17,6 +17,12 @@ jobs:
     runs-on: ${{ matrix.platform }}
     steps:
       - uses: lf-lang/vscode-lingua-franca/.github/actions/build@check-versions
+      - name: Run tests (Linux)
+        run: xvfb-run --auto-servernum --server-args="-screen 0 1280x960x24" -- npm run test-dependencies-missing1
+        if: ${{ runner.os == 'Linux' }}
+      - name: Run tests (non-Linux)
+        run: npm run test-dependencies-missing1
+        if: ${{ runner.os != 'Linux' }}
       - name: Install pylint
         run: python3 -m pip install pylint
       - name: Run tests (Linux)
@@ -36,8 +42,8 @@ jobs:
       # which tools are present and responds appropriately.
       - uses: ./.github/actions/uninstall-dependencies
       - name: Run tests (Linux)
-        run: xvfb-run --auto-servernum --server-args="-screen 0 1280x960x24" -- npm run test-dependencies-missing
+        run: xvfb-run --auto-servernum --server-args="-screen 0 1280x960x24" -- npm run test-dependencies-missing0
         if: ${{ runner.os == 'Linux' }}
       - name: Run tests (non-Linux)
-        run: npm run test-dependencies-missing
+        run: npm run test-dependencies-missing0
         if: ${{ runner.os != 'Linux' }}

@@ -150,6 +150,7 @@
         "compile-tests": "npx tsc --outDir out/test --inlineSourceMap",
         "test": "npm run compile-tests && node ./out/test/test/test_runner.js --dependencies=present",
         "test-dependencies-outdated": "npm run compile-tests && node ./out/test/test/test_runner.js --dependencies=outdated",
-        "test-dependencies-missing": "npm run compile-tests && node ./out/test/test/test_runner.js --dependencies=missing"
+        "test-dependencies-missing0": "npm run compile-tests && node ./out/test/test/test_runner.js --dependencies=missing0",
+        "test-dependencies-missing1": "npm run compile-tests && node ./out/test/test/test_runner.js --dependencies=missing1"
     }
 }
