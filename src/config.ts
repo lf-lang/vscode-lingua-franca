@@ -32,6 +32,11 @@ const defaultDict = (defaultValue: any) => (dict: Object) => new Proxy(dict, {
     static readonly pylintVersion: Version = new Version('2.12.0');
 
     /**
+     * The minimum Python version required for compiling LF programs with the Python target.
+     */
+    static readonly pythonVersion: Version = new Version('3.0.0');
+
+    /**
      * Name of the Language and Diagram Server jar.
      */
     static readonly ldsJarName = 'lflang-lds.jar'

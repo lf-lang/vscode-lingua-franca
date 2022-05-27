@@ -1,5 +1,5 @@
-
-import { checkJava, checkPylint, UserFacingVersionChecker } from '../check_dependencies';
+import * as os from 'os';
+import { checkJava, checkPylint, checkPython3, UserFacingVersionChecker } from '../check_dependencies';
 import * as vscode from 'vscode';
 import chai from 'chai';
 import spies from 'chai-spies';
@@ -49,7 +49,7 @@ suite('test dependency checking',  () => {
     };
 
     test('java', async function () {
-        this.timeout(100000);
+        this.timeout(10 * 1000);
         const spy = getMockMessageShower();
         switch (dependencies) {
         case Dependencies.Present:
@@ -61,6 +61,31 @@ suite('test dependency checking',  () => {
             expect(spy).to.have.been.called.with(
                 `Java version ${Config.javaVersion.major} is required for Lingua Franca diagrams `
                 + `and code analysis.`
+            );
+            break;
+        case Dependencies.Missing1:
+            this.test.skip();
+        default:
+            throw new Error('unreachable');
+        }
+    });
+
+    test('python3', async function() {
+        this.timeout(10 * 1000);
+        // At least some popular Linux distros actually require Python to function (including the
+        // one used in CI).
+        if (os.platform() == 'linux') this.test.skip();
+        const spy = getMockMessageShower();
+        switch (dependencies) {
+        case Dependencies.Present:
+            await expectSuccess(checkPython3, spy);
+            break;
+        case Dependencies.Missing0:
+        case Dependencies.Outdated:
+            await expectFailure(checkPython3, spy);
+            expect(spy).to.have.been.called.with(
+                `Python version ${Config.javaVersion.major} or higher is required for compiling LF `
+                + `programs with the Python target.`
             );
             break;
         case Dependencies.Missing1:

@@ -8,9 +8,10 @@ runs:
       uses: ./lingua-franca/.github/actions/uninstall-dependencies
       with:
         platform: ${{ matrix.platform }}
+    # Ubuntu requires Python to function, so a missing Python installation shouldn't be an issue on
+    # that platform.
     - name: Uninstall packages Ubuntu
       run: |
-        sudo apt-get autoremove python-pip
         sudo apt-get remove gcc
         sudo apt-get remove g++
         rm -rf $JAVA_HOME
@@ -28,14 +29,6 @@ runs:
         sudo rm -rf $JAVA_HOME_17_X64
       shell: bash
       if: ${{ runner.os == 'macOS' }}
-    # - name: Uninstall packages Windows
-    #   run: |
-    #     del /s $JAVA_HOME
-    #     del /s $JAVA_HOME_8_X64
-    #     del /s $JAVA_HOME_11_X64
-    #     del /s $JAVA_HOME_17_X64
-    #   shell: PowerShell
-    #   if: ${{ runner.os == 'Windows' }}
     - run: |
         rm -rf $(which python)
         rm -rf $(which python3)

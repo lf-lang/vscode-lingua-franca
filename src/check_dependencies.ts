@@ -2,10 +2,10 @@ import { Config } from './config';
 import * as vscode from 'vscode';
 import { getTerminal, MessageShower } from './utils';
 import { Version } from './version';
-import { VersionChecker, javaVersionChecker, pylintVersionChecker } from './version_checker';
+import * as versionChecker from './version_checker';
 
 type MissingDependency = {
-    checker: VersionChecker,
+    checker: versionChecker.VersionChecker,
     message: string,
     wrongVersionMessage?: string,
     requiredVersion: Version,
@@ -14,7 +14,7 @@ type MissingDependency = {
 };
 
 const missingPylint: MissingDependency = {
-    checker: pylintVersionChecker,
+    checker: versionChecker.pylintVersionChecker,
     message: `Pylint is a recommended linter for Lingua Franca's Python target.`,
     wrongVersionMessage: `The Lingua Franca language server is tested with Pylint version `
         + `${Config.pylintVersion.major}.${Config.pylintVersion.minor} and newer.`,
@@ -24,11 +24,20 @@ const missingPylint: MissingDependency = {
 };
 
 const missingJava: MissingDependency = {
-    checker: javaVersionChecker,
+    checker: versionChecker.javaVersionChecker,
     message: `Java version ${Config.javaVersion.major} is required for Lingua Franca diagrams and `
         + `code analysis.`,
     requiredVersion: Config.javaVersion,
     installLink: `https://www.oracle.com/java/technologies/downloads/#java${Config.javaVersion.major}`,
+    installCommand: null
+};
+
+const missingPython3: MissingDependency = {
+    checker: versionChecker.python3VersionChecker,
+    message: `Python version ${Config.javaVersion.major} or higher is required for compiling LF `
+        + `programs with the Python target.`,
+    requiredVersion: Config.pythonVersion,
+    installLink: `https://www.python.org/downloads/`,
     installCommand: null
 };
 
@@ -66,3 +75,4 @@ const checkDependency: UserFacingVersionCheckerMaker = (missingDependency: Missi
 
 export const checkJava: UserFacingVersionChecker = checkDependency(missingJava);
 export const checkPylint: UserFacingVersionChecker = checkDependency(missingPylint);
+export const checkPython3: UserFacingVersionChecker = checkDependency(missingPython3);
