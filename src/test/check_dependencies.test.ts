@@ -6,7 +6,7 @@ import spies from 'chai-spies';
 import { expect } from 'chai';
 import { after } from 'mocha';
 import { MessageShower } from '../utils';
-import { Config } from '../config';
+import * as config from '../config';
 
 chai.use(spies);
 
@@ -16,6 +16,11 @@ enum Dependencies {
     Outdated = 'outdated',
     Present = 'present',
 }
+
+type Test = () => Promise<void>;
+
+const basicDependencyTestTimeout = 10 * 1000;  // Time is given in milliseconds.
+const extendedDependencyTestTimeout = 60 * 1000;
 
 suite('test dependency checking',  () => {
     after(() => { vscode.window.showInformationMessage('dependency checking tests complete!') });
@@ -39,6 +44,31 @@ suite('test dependency checking',  () => {
         return chai.spy(mock);
     };
 
+    function checkBasicDependency(
+        checker: UserFacingVersionChecker,
+        depMissingMessage: string,
+        thiz?: Mocha.Context
+    ): Test {
+        return async function () {
+            this.timeout(basicDependencyTestTimeout);
+            const spy = getMockMessageShower();
+            switch (dependencies) {
+            case Dependencies.Present:
+                await expectSuccess(checker, spy);
+                break;
+            case Dependencies.Missing0:
+            case Dependencies.Outdated:
+                await expectFailure(checker, spy);
+                expect(spy).to.have.been.called.with(depMissingMessage);
+                break;
+            case Dependencies.Missing1:
+                (thiz ?? this).test.skip();
+            default:
+                throw new Error('unreachable');
+            }
+        };
+    }
+
     const expectSuccess = async (checker: UserFacingVersionChecker, spy: Spy) => {
         expect(await checker(spy)()).to.be.true;
         expect(spy).not.to.have.been.called;
@@ -48,55 +78,24 @@ suite('test dependency checking',  () => {
         expect(spy).to.have.been.called;
     };
 
-    test('java', async function () {
-        this.timeout(10 * 1000);
-        const spy = getMockMessageShower();
-        switch (dependencies) {
-        case Dependencies.Present:
-            await expectSuccess(checkJava, spy);
-            break;
-        case Dependencies.Missing0:
-        case Dependencies.Outdated:
-            await expectFailure(checkJava, spy);
-            expect(spy).to.have.been.called.with(
-                `Java version ${Config.javaVersion.major} is required for Lingua Franca diagrams `
-                + `and code analysis.`
-            );
-            break;
-        case Dependencies.Missing1:
-            this.test.skip();
-        default:
-            throw new Error('unreachable');
-        }
-    });
+    test('java', checkBasicDependency(
+        checkJava,
+        `Java version ${config.javaVersion.major} is required for Lingua Franca diagrams and code analysis.`
+    ));
 
     test('python3', async function() {
-        this.timeout(10 * 1000);
-        // At least some popular Linux distros actually require Python to function (including the
-        // one used in CI).
+        // At least some popular Linux distros (including the one used in CI) require Python to
+        // function.
         if (os.platform() == 'linux') this.test.skip();
-        const spy = getMockMessageShower();
-        switch (dependencies) {
-        case Dependencies.Present:
-            await expectSuccess(checkPython3, spy);
-            break;
-        case Dependencies.Missing0:
-        case Dependencies.Outdated:
-            await expectFailure(checkPython3, spy);
-            expect(spy).to.have.been.called.with(
-                `Python version ${Config.javaVersion.major} or higher is required for compiling LF `
-                + `programs with the Python target.`
-            );
-            break;
-        case Dependencies.Missing1:
-            this.test.skip();
-        default:
-            throw new Error('unreachable');
-        }
+        return await checkBasicDependency(
+            checkPython3,
+            `Python version ${config.pythonVersion} or higher is required for compiling LF programs with the Python target.`,
+            this
+        )();
     });
 
     test('pylint', async function() {
-        this.timeout(60 * 1000);
+        this.timeout(extendedDependencyTestTimeout);
         const spy = getMockMessageShower('Install');
         switch (dependencies) {
         case Dependencies.Present:
@@ -117,7 +116,7 @@ suite('test dependency checking',  () => {
             await expectFailure(checkPylint, spy);
             expect(spy).to.have.been.called.with(
                 `The Lingua Franca language server is tested with Pylint version `
-                + `${Config.pylintVersion.major}.${Config.pylintVersion.minor} and newer.`
+                + `${config.pylintVersion.major}.${config.pylintVersion.minor} and newer.`
             );
             await expectSuccess(checkPylint, spy);
             break;

@@ -8,7 +8,7 @@ import { Trace } from 'vscode-jsonrpc';
 import * as vscode from 'vscode';
 import { LanguageClient, LanguageClientOptions, ServerOptions } from 'vscode-languageclient';
 import { legend, semanticTokensProvider } from './highlight';
-import { Config } from './config';
+import * as config from './config';
 import { registerBuildCommands } from './build_commands';
 import { checkJava } from './check_dependencies';
 
@@ -24,11 +24,11 @@ export async function activate(context: vscode.ExtensionContext) {
 
     if (!checkJava(vscode.window.showErrorMessage)()) return;
 
-    const ldsJar = context.asAbsolutePath(path.join(Config.libDirName, Config.ldsJarName));
+    const ldsJar = context.asAbsolutePath(path.join(config.libDirName, config.ldsJarName));
     console.assert(fs.existsSync(ldsJar));
     const javaArgs = [
         '-cp',
-        ldsJar + Config.classPathSeparatorsByOs[os.platform()] + Config.swtJarsByOs[os.platform()],
+        ldsJar + config.classPathSeparatorsByOs[os.platform()] + config.swtJarsByOs[os.platform()],
         'org.lflang.diagram.lsp.LanguageDiagramServer'
     ];
 

@@ -1,4 +1,4 @@
-import { Config } from './config';
+import * as config from './config';
 import * as vscode from 'vscode';
 import { getTerminal, MessageShower } from './utils';
 import { Version } from './version';
@@ -17,26 +17,26 @@ const missingPylint: MissingDependency = {
     checker: versionChecker.pylintVersionChecker,
     message: `Pylint is a recommended linter for Lingua Franca's Python target.`,
     wrongVersionMessage: `The Lingua Franca language server is tested with Pylint version `
-        + `${Config.pylintVersion.major}.${Config.pylintVersion.minor} and newer.`,
-    requiredVersion: Config.pylintVersion,
+        + `${config.pylintVersion.major}.${config.pylintVersion.minor} and newer.`,
+    requiredVersion: config.pylintVersion,
     installLink: null,
     installCommand: 'pip3 install pylint'
 };
 
 const missingJava: MissingDependency = {
     checker: versionChecker.javaVersionChecker,
-    message: `Java version ${Config.javaVersion.major} is required for Lingua Franca diagrams and `
+    message: `Java version ${config.javaVersion.major} is required for Lingua Franca diagrams and `
         + `code analysis.`,
-    requiredVersion: Config.javaVersion,
-    installLink: `https://www.oracle.com/java/technologies/downloads/#java${Config.javaVersion.major}`,
+    requiredVersion: config.javaVersion,
+    installLink: `https://www.oracle.com/java/technologies/downloads/#java${config.javaVersion.major}`,
     installCommand: null
 };
 
 const missingPython3: MissingDependency = {
     checker: versionChecker.python3VersionChecker,
-    message: `Python version ${Config.javaVersion.major} or higher is required for compiling LF `
+    message: `Python version ${config.javaVersion.major} or higher is required for compiling LF `
         + `programs with the Python target.`,
-    requiredVersion: Config.pythonVersion,
+    requiredVersion: config.pythonVersion,
     installLink: `https://www.python.org/downloads/`,
     installCommand: null
 };

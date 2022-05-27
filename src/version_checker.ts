@@ -1,6 +1,6 @@
 import { exec } from 'child_process';
 import { promisify } from 'util';
-import { Config } from './config';
+import * as config from './config';
 import { Version } from './version';
 const runCmd = promisify(exec);
 
@@ -41,7 +41,7 @@ const basicVersionChecker: VersionCheckerMaker = (desiredVersion, command, sameM
     };
 }
 
-export const javaVersionChecker: VersionChecker = basicVersionChecker(Config.javaVersion, 'java -version 2>&1', true);
-export const javacVersionChecker: VersionChecker = basicVersionChecker(Config.javacVersion, 'javac -version 2>&1', true);
-export const python3VersionChecker: VersionChecker = basicVersionChecker(Config.pythonVersion, 'python3 -V', false);
-export const pylintVersionChecker: VersionChecker = basicVersionChecker(Config.pylintVersion, 'pip3 show pylint', false);
+export const javaVersionChecker: VersionChecker = basicVersionChecker(config.javaVersion, 'java -version 2>&1', true);
+export const javacVersionChecker: VersionChecker = basicVersionChecker(config.javacVersion, 'javac -version 2>&1', true);
+export const python3VersionChecker: VersionChecker = basicVersionChecker(config.pythonVersion, 'python3 -V', false);
+export const pylintVersionChecker: VersionChecker = basicVersionChecker(config.pylintVersion, 'pip3 show pylint', false);
