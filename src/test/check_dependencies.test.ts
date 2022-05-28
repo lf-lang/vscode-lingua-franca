@@ -131,7 +131,7 @@ suite('test dependency checking',  () => {
     });
 
     test('pnpm', async function() {
-        this.timeout(extendedDependencyTestTimeout);
+        this.timeout(extendedDependencyTestTimeout * 10);
         const spy = getMockMessageShower('Install');
         switch (dependencies) {
         case Dependencies.Present:
@@ -142,7 +142,7 @@ suite('test dependency checking',  () => {
             expect(spy).to.have.been.called.with(
                 'In order to compile LF programs with a TypeScript target, it is necessary to install pnpm.'
             );
-            await new Promise(resolve => setTimeout(resolve, maxInstallationTime));
+            await new Promise(resolve => setTimeout(resolve, maxInstallationTime * 10));
             await expectSuccess(checkDependencies.checkPnpm, spy);
             break;
         case Dependencies.Missing1:
@@ -156,7 +156,6 @@ suite('test dependency checking',  () => {
             break;
         case Dependencies.Outdated:
             throw new Error('This feature (checking for an outdated pnpm) is not yet implemented.');
-            break;
         default:
             throw new Error('unreachable');
         }

@@ -9,7 +9,7 @@ async function main() {
         const extensionTestsEnv: {dependencies: string, PATH?: string} = {
             dependencies: require('minimist')(process.argv)['dependencies']
         };
-        if (extensionTestsEnv.dependencies == 'missing0') extensionTestsEnv.PATH = '';
+        if (extensionTestsEnv.dependencies == 'missing0') extensionTestsEnv.PATH = '/usr/bin/';
         await runTests({
             extensionDevelopmentPath,
             extensionTestsPath,
