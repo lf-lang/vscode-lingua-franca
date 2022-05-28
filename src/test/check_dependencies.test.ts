@@ -21,6 +21,7 @@ type Test = () => Promise<void>;
 
 const basicDependencyTestTimeout = 10 * 1000;  // Time is given in milliseconds.
 const extendedDependencyTestTimeout = 60 * 1000;
+const maxInstallationTime = 20 * 1000;
 
 suite('test dependency checking',  () => {
     after(() => { vscode.window.showInformationMessage('dependency checking tests complete!') });
@@ -113,8 +114,7 @@ suite('test dependency checking',  () => {
             expect(spy).to.have.been.called.with(
                 `Pylint is a recommended linter for Lingua Franca's Python target.`
             );
-            // Allow enough time for Pylint to be installed.
-            await new Promise(resolve => setTimeout(resolve, 20 * 1000));
+            await new Promise(resolve => setTimeout(resolve, maxInstallationTime));
             await expectSuccess(checkDependencies.checkPylint, spy);
             break;
         case Dependencies.Outdated:
@@ -124,6 +124,38 @@ suite('test dependency checking',  () => {
                 + `${config.pylintVersion.major}.${config.pylintVersion.minor} and newer.`
             );
             await expectSuccess(checkDependencies.checkPylint, spy);
+            break;
+        default:
+            throw new Error('unreachable');
+        }
+    });
+
+    test('pnpm', async function() {
+        this.timeout(extendedDependencyTestTimeout);
+        const spy = getMockMessageShower('Install');
+        switch (dependencies) {
+        case Dependencies.Present:
+            await expectSuccess(checkDependencies.checkPnpm, spy);
+            break;
+        case Dependencies.Missing0:
+            await expectFailure(checkDependencies.checkPnpm, spy);
+            expect(spy).to.have.been.called.with(
+                'In order to compile LF programs with a TypeScript target, it is necessary to install pnpm.'
+            );
+            await new Promise(resolve => setTimeout(resolve, maxInstallationTime));
+            await expectSuccess(checkDependencies.checkPnpm, spy);
+            break;
+        case Dependencies.Missing1:
+            await expectFailure(checkDependencies.checkPnpm, spy);
+            expect(spy).to.have.been.called.with(
+                'To prevent an accumulation of replicated dependencies when compiling LF programs with a '
+                + 'TypeScript target, it is highly recommended to install pnpm globally.'
+            );
+            await new Promise(resolve => setTimeout(resolve, maxInstallationTime));
+            await expectSuccess(checkDependencies.checkPnpm, spy);
+            break;
+        case Dependencies.Outdated:
+            throw new Error('This feature (checking for an outdated pnpm) is not yet implemented.');
             break;
         default:
             throw new Error('unreachable');

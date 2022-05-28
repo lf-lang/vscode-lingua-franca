@@ -1,5 +1,6 @@
 import * as config from './config';
 import * as vscode from 'vscode';
+import * as os from 'os';
 import { getTerminal, MessageShower } from './utils';
 import { Version } from './version';
 import * as versionChecker from './version_checker';
@@ -75,6 +76,39 @@ const checkDependency: UserFacingVersionCheckerMaker = (missingDependency: Missi
             } else if (missingDependency.installLink) {
                 vscode.env.openExternal(vscode.Uri.parse(missingDependency.installLink));
             }
+        }
+    });
+    return false;
+};
+
+export const checkPnpm: UserFacingVersionChecker = (messageShower: MessageShower) => async () => {
+    const pnpmCheckerResult = await versionChecker.pnpmVersionChecker();
+    if (pnpmCheckerResult.isCorrect) return true;
+    const npmCheckerResult = await versionChecker.npmVersionChecker();
+    const message = (
+        npmCheckerResult.isCorrect ?
+        'To prevent an accumulation of replicated dependencies when compiling LF programs with a '
+        + 'TypeScript target, it is highly recommended to install pnpm globally.'
+        : 'In order to compile LF programs with a TypeScript target, it is necessary to install pnpm.'
+    );
+    // The following steps are derived from https://pnpm.io/installation
+    const installCommand = (
+        npmCheckerResult.isCorrect ? 'npm install -g pnpm' : (
+            // FIXME: 'corepack enable' might not install the latest PNPM version.
+            (await versionChecker.corepackVersionChecker()).isCorrect ? 'corepack enable' : (
+                // FIXME: PowerShell is the default terminal in Windows VS Code, but if the user has
+                //  set a different terminal as the default, then 'iwr' will fail.
+                os.platform() == 'win32' ? 'iwr https://get.pnpm.io/install.ps1 -useb | iex' : (
+                    (await versionChecker.curlVersionChecker()).isCorrect ?
+                    'curl -fsSL https://get.pnpm.io/install.sh | sh -'
+                    : 'wget -qO- https://get.pnpm.io/install.sh | sh -'
+                )
+            )
+        )
+    );
+    messageShower(message, 'Install').then((response) => {
+        if (response === 'Install') {
+            getTerminal('Lingua Franca: Install dependencies').sendText(installCommand);
         }
     });
     return false;

@@ -28,6 +28,12 @@ export const pythonVersion: Version = new Version('3.0.0');
 /** The minimum Node version required for executing LF programs with the TypeScript target. */
 export const nodeVersion: Version = new Version('0.0.0');
 
+/** The minimum NPM version required for compiling LF programs with the TypeScript target. */
+export const npmVersion: Version = new Version('0.0.0');
+
+/** The minimum PNPM version required for compiling LF programs with the TypeScript target. */
+export const pnpmVersion: Version = new Version('0.0.0');
+
 /** Name of the Language and Diagram Server jar. */
 export const ldsJarName = 'lflang-lds.jar';
 
@@ -53,11 +59,11 @@ export const baseDirPath = path.resolve(path.dirname(require.main.filename), '..
 export const libDirPath = path.resolve(baseDirPath, libDirName);
 
 /** Absolute path to the directory in which to find the SWT jar files. */
-export const swtJarsDirPath = path.resolve(baseDirPath, 
+export const swtJarsDirPath = path.resolve(baseDirPath,
     path.join(repoName, pkgName, 'target', 'repository', 'plugins'));
 
 /** Absolute path to the language and diagram server jar. */
-export const ldsJarFile = path.resolve(baseDirPath, 
+export const ldsJarFile = path.resolve(baseDirPath,
     path.join(repoName, pkgName, 'target', 'exe', ldsJarName));
 
 /** Dictionary mapping OSes to the names of their corresponding SWT jars. */
