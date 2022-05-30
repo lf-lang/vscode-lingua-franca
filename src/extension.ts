@@ -22,7 +22,7 @@ export async function activate(context: vscode.ExtensionContext) {
         legend
     ));
 
-    if (!checkJava(vscode.window.showErrorMessage)()) return;
+    if (!(await checkJava(vscode.window.showErrorMessage)())) return;
 
     const ldsJar = context.asAbsolutePath(path.join(config.libDirName, config.ldsJarName));
     console.assert(fs.existsSync(ldsJar));
