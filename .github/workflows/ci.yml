@@ -61,3 +61,5 @@ jobs:
       - name: Run tests (non-Linux)
         run: npm run test-dependencies-missing0
         if: ${{ runner.os != 'Linux' }}
+      - name: Check that PNPM is installed
+        run: pnpm --version
