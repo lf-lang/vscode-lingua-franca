@@ -10,7 +10,7 @@ import { LanguageClient, LanguageClientOptions, ServerOptions } from 'vscode-lan
 import { legend, semanticTokensProvider } from './highlight';
 import * as config from './config';
 import { registerBuildCommands } from './build_commands';
-import { checkJava } from './check_dependencies';
+import { checkJava, registerDependencyWatcher } from './check_dependencies';
 
 let client: LanguageClient;
 
@@ -21,6 +21,8 @@ export async function activate(context: vscode.ExtensionContext) {
         semanticTokensProvider,
         legend
     ));
+
+    registerDependencyWatcher();
 
     if (!(await checkJava(vscode.window.showErrorMessage)())) return;
 

@@ -46,7 +46,7 @@ const missingNode: MissingDependency = {
     message: 'Node.js is required for executing LF programs with the TypeScript target.',
     requiredVersion: config.nodeVersion,
     installLink: 'https://nodejs.org/en/download/',
-    installCommand: null  // TODO: https://nodejs.org/en/download/package-manager/
+    installCommand: null  // TODO: https://nodejs.org/en/download/package-manager/ and/or `pnpm env use --global lts`
 };
 
 export type UserFacingVersionChecker = (shower: MessageShower) => () => Promise<boolean>;
@@ -118,3 +118,58 @@ export const checkJava: UserFacingVersionChecker = checkDependency(missingJava);
 export const checkPylint: UserFacingVersionChecker = checkDependency(missingPylint);
 export const checkPython3: UserFacingVersionChecker = checkDependency(missingPython3);
 export const checkNode: UserFacingVersionChecker = checkDependency(missingNode);
+
+export function registerDependencyWatcher() {
+    type LanguageConfig = {
+        regexp: RegExp,
+        checks: { checker: UserFacingVersionChecker, isEssential: boolean, alreadyChecked?: boolean }[]
+    };
+    const watcherConfig: LanguageConfig[] = [
+        {
+            regexp: /(?=\\btarget\\s+C\\b)/,
+            checks: []
+        },
+        {
+            regexp: /(?=\\btarget\\s+C?Cpp\\b)/,
+            checks: []
+        },
+        {
+            regexp: /(?=\\btarget\\s+TypeScript\\b)/,
+            checks: [
+                { checker: checkPnpm, isEssential: false },
+                { checker: checkNode, isEssential: true },
+            ]
+        },
+        {
+            regexp: /(?=\\btarget\\s+Python\\b)/,
+            checks: [
+                { checker: checkPython3, isEssential: true },
+                { checker: checkPylint, isEssential: false },
+            ]
+        },
+        {
+            regexp: /(?=\\btarget\\s+Rust\\b)/,
+            checks: []
+        }
+    ];
+    const detectTarget = (text: string) => {
+        for (const line of text.match(/[^\r\n]+/g)) {
+            const target = watcherConfig.find(target => target.regexp.test(line));
+            if (target) return target;
+        }
+    }
+    const doDependencyCheck = (document: vscode.TextDocument) => {
+        if (document.languageId != "lflang") return;
+        const target = detectTarget(document.getText());
+        if (!target) return;
+        for (const check of target.checks.filter(it => !it.alreadyChecked)) {
+            check.alreadyChecked = true;
+            check.checker(
+                check.isEssential ?
+                vscode.window.showErrorMessage : vscode.window.showInformationMessage
+            );
+        }
+    };
+    vscode.workspace.onDidOpenTextDocument(doDependencyCheck);
+    vscode.workspace.onDidSaveTextDocument(doDependencyCheck);
+}
