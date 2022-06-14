@@ -7,10 +7,6 @@ import { expect } from 'chai';
 import { after, Context } from 'mocha';
 import { MessageShower } from '../utils';
 import * as config from '../config';
-import { exec } from 'child_process';
-import { promisify } from 'util';
-import path from 'path';
-const runCmd = promisify(exec);
 
 chai.use(spies);
 
@@ -135,7 +131,7 @@ suite('test dependency checking',  () => {
     });
 
     test('pnpm', async function() {
-        this.timeout(extendedDependencyTestTimeout * 10);
+        this.timeout(extendedDependencyTestTimeout);
         const spy = getMockMessageShower('Install');
         switch (dependencies) {
         case Dependencies.Present:
@@ -146,10 +142,10 @@ suite('test dependency checking',  () => {
             expect(spy).to.have.been.called.with(
                 'In order to compile LF programs with a TypeScript target, it is necessary to install pnpm.'
             );
-            await new Promise(resolve => setTimeout(resolve, maxInstallationTime * 10));
             // The following will fail because PNPM's installation script requires you to open a new
             // terminal in order for PNPM to be on your PATH. I have attempted to source the
             // ~/.bashrc to work around this, without success.
+            // await new Promise(resolve => setTimeout(resolve, maxInstallationTime));
             // await expectSuccess(checkDependencies.checkPnpm, spy);
             break;
         case Dependencies.Missing1:
@@ -165,6 +161,28 @@ suite('test dependency checking',  () => {
             throw new Error('This feature (checking for an outdated pnpm) is not yet implemented.');
         default:
             throw new Error('unreachable');
+        }
+    });
+
+    test('rust', async function() {
+        this.timeout(extendedDependencyTestTimeout);
+        const spy = getMockMessageShower('Install');
+        switch (dependencies) {
+        case Dependencies.Present:
+            await expectSuccess(checkDependencies.checkRust, spy);
+            break;
+        case Dependencies.Missing0:
+            await expectFailure(checkDependencies.checkRust, spy);
+            expect(spy).to.have.been.called.with(
+                'The Rust compiler is required for compiling LF programs with the Rust target.'
+            );
+            await new Promise(resolve => setTimeout(resolve, maxInstallationTime));
+            await expectSuccess(checkDependencies.checkRust, spy);
+            break;
+        case Dependencies.Outdated:
+            throw new Error('Checks for outdated Rust tooling are not implemented yet.');
+        case Dependencies.Missing1:
+            this.test.skip();
         }
     });
 });

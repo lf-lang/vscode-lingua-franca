@@ -21,6 +21,11 @@ jobs:
         run: python3 -m pip install pylint
       - name: Install pnpm
         run: npm i -g pnpm
+      - name: Setup Rust
+        uses: ATiltedTree/setup-rust@v1
+        with:
+          rust-version: ${{ matrix.rust }}
+          components: clippy
       - name: Run tests (Linux)
         run: xvfb-run --auto-servernum --server-args="-screen 0 1280x960x24" -- npm run test
         if: ${{ runner.os == 'Linux' }}

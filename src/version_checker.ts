@@ -51,3 +51,4 @@ export const pnpmVersionChecker: VersionChecker = basicVersionChecker(config.pnp
 export const brewVersionChecker: VersionChecker = basicVersionChecker(new Version('0.0.0'), 'brew -v', false);
 export const corepackVersionChecker: VersionChecker = basicVersionChecker(new Version('0.0.0'), 'corepack -v', false);
 export const curlVersionChecker: VersionChecker = basicVersionChecker(new Version('0.0.0'), 'curl -V', false);
+export const rustVersionChecker: VersionChecker = basicVersionChecker(config.rustVersion, 'rustc --version', false);

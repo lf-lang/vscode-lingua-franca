@@ -7,93 +7,61 @@ import * as versionChecker from './version_checker';
 
 type MissingDependency = {
     checker: versionChecker.VersionChecker,
-    message: string,
-    wrongVersionMessage?: string,
+    message: (v: versionChecker.VersionCheckResult) => string | Promise<string>,
+    wrongVersionMessage?: () => string,
     requiredVersion: Version,
-    installLink?: string,
-    installCommand?: string,
+    installLink: string | null,
+    installCommand: (v: versionChecker.VersionCheckResult) => string | null | Promise<string>,
 };
 
 const missingPylint: MissingDependency = {
     checker: versionChecker.pylintVersionChecker,
-    message: `Pylint is a recommended linter for Lingua Franca's Python target.`,
-    wrongVersionMessage: `The Lingua Franca language server is tested with Pylint version `
+    message: () => `Pylint is a recommended linter for Lingua Franca's Python target.`,
+    wrongVersionMessage: () => `The Lingua Franca language server is tested with Pylint version `
         + `${config.pylintVersion.major}.${config.pylintVersion.minor} and newer.`,
     requiredVersion: config.pylintVersion,
     installLink: null,
-    installCommand: 'pip3 install pylint'
+    installCommand: () => 'pip3 install pylint' // TODO: Check for pip3.
 };
 
 const missingJava: MissingDependency = {
     checker: versionChecker.javaVersionChecker,
-    message: `Java version ${config.javaVersion.major} is required for Lingua Franca diagrams and `
-        + `code analysis.`,
+    message: () => `Java version ${config.javaVersion.major} is required for Lingua Franca diagrams`
+        + ` and code analysis.`,
     requiredVersion: config.javaVersion,
     installLink: `https://www.oracle.com/java/technologies/downloads/#java${config.javaVersion.major}`,
-    installCommand: null
+    installCommand: () => null
 };
 
 const missingPython3: MissingDependency = {
     checker: versionChecker.python3VersionChecker,
-    message: `Python version ${config.pythonVersion} or higher is required for compiling LF programs with the Python target.`,
+    message: () => `Python version ${config.pythonVersion} or higher is required for compiling LF programs with the Python target.`,
     requiredVersion: config.pythonVersion,
     installLink: `https://www.python.org/downloads/`,
-    installCommand: null
+    installCommand: () => null
 };
 
 const missingNode: MissingDependency = {
     checker: versionChecker.nodeVersionChecker,
-    message: 'Node.js is required for executing LF programs with the TypeScript target.',
+    message: () => 'Node.js is required for executing LF programs with the TypeScript target.',
     requiredVersion: config.nodeVersion,
     installLink: 'https://nodejs.org/en/download/',
-    installCommand: null  // TODO: https://nodejs.org/en/download/package-manager/ and/or `pnpm env use --global lts`
+    installCommand: () => null  // TODO: https://nodejs.org/en/download/package-manager/ and/or `pnpm env use --global lts`
 };
 
-export type UserFacingVersionChecker = (shower: MessageShower) => () => Promise<boolean>;
-type UserFacingVersionCheckerMaker = (dependency: MissingDependency) => UserFacingVersionChecker;
-
-/**
- * Return a dependency checker that returns whether the given dependency is satisfied and, as a side
- * effect, warns the user if not.
- * @returns true if the given dependency is satisfied.
- */
-const checkDependency: UserFacingVersionCheckerMaker = (missingDependency: MissingDependency) =>
-        (messageShower: MessageShower) => async () => {
-    const checkerResult = await missingDependency.checker();
-    if (checkerResult.isCorrect) return true;
-    const message: string = checkerResult.isCorrect === false ? (
-        missingDependency.wrongVersionMessage ?? missingDependency.message
-    ) : missingDependency.message;
-    if (!missingDependency.installCommand && !missingDependency.installLink) {
-        messageShower(message);
-        return false;
-    }
-    messageShower(message, 'Install').then((response) => {
-        if (response === 'Install') {
-            if (missingDependency.installCommand) {
-                getTerminal('Lingua Franca: Install dependencies')
-                    .sendText(missingDependency.installCommand);
-            } else if (missingDependency.installLink) {
-                vscode.env.openExternal(vscode.Uri.parse(missingDependency.installLink));
-            }
-        }
-    });
-    return false;
-};
-
-export const checkPnpm: UserFacingVersionChecker = (messageShower: MessageShower) => async () => {
-    const pnpmCheckerResult = await versionChecker.pnpmVersionChecker();
-    if (pnpmCheckerResult.isCorrect) return true;
-    const npmCheckerResult = await versionChecker.npmVersionChecker();
-    const message = (
-        npmCheckerResult.isCorrect ?
+const missingPnpm: MissingDependency = {
+    checker: versionChecker.pnpmVersionChecker,
+    message: async () => (
+        (await versionChecker.npmVersionChecker()).isCorrect ?
         'To prevent an accumulation of replicated dependencies when compiling LF programs with a '
         + 'TypeScript target, it is highly recommended to install pnpm globally.'
         : 'In order to compile LF programs with a TypeScript target, it is necessary to install pnpm.'
-    );
-    // The following steps are derived from https://pnpm.io/installation
-    const installCommand = (
-        npmCheckerResult.isCorrect ? 'npm install -g pnpm' : (
+    ),
+    requiredVersion: config.pnpmVersion,
+    installLink: null,
+    installCommand: async v => (
+        // The following steps are derived from https://pnpm.io/installation
+        v.isCorrect ? 'npm install -g pnpm' : (
             // FIXME: 'corepack enable' might not install the latest PNPM version.
             (await versionChecker.corepackVersionChecker()).isCorrect ? 'corepack enable' : (
                 // FIXME: PowerShell is the default terminal in Windows VS Code, but if the user has
@@ -105,10 +73,56 @@ export const checkPnpm: UserFacingVersionChecker = (messageShower: MessageShower
                 )
             )
         )
-    );
-    messageShower(message, 'Install').then((response) => {
+    )
+};
+
+const missingRust: MissingDependency = {
+    checker: versionChecker.rustVersionChecker,
+    message: () => 'The Rust compiler is required for compiling LF programs with the Rust target.',
+    requiredVersion: config.rustVersion,
+    installLink: 'https://www.rust-lang.org/tools/install',
+    installCommand: async v => (
+        os.platform() == 'win32' ? null : (
+            (await versionChecker.curlVersionChecker()).isCorrect ?
+            'curl --proto \'=https\' --tlsv1.2 -sSf https://sh.rustup.rs | sh' : (
+                null
+            )
+        )
+    )
+}
+
+export type UserFacingVersionChecker = (shower: MessageShower) => () => Promise<boolean>;
+type UserFacingVersionCheckerMaker = (dependency: MissingDependency) => UserFacingVersionChecker;
+
+function toPromise<T>(v: T | Promise<T>): Promise<T> {
+    if (v instanceof Promise<T>) return v;
+    return Promise.resolve(v);
+}
+
+/**
+ * Return a dependency checker that returns whether the given dependency is satisfied and, as a side
+ * effect, warns the user if not.
+ * @returns true if the given dependency is satisfied.
+ */
+const checkDependency: UserFacingVersionCheckerMaker = (missingDependency: MissingDependency) =>
+        (messageShower: MessageShower) => async () => {
+    const checkerResult = await missingDependency.checker();
+    if (checkerResult.isCorrect) return true;
+    const message: string = await toPromise(checkerResult.isCorrect === false ? (
+        missingDependency.wrongVersionMessage?.() ?? missingDependency.message(checkerResult)
+    ) : missingDependency.message(checkerResult));
+    if (!missingDependency.installCommand?.(checkerResult) && !missingDependency.installLink) {
+        messageShower(message);
+        return false;
+    }
+    messageShower(message, 'Install').then(async (response) => {
         if (response === 'Install') {
-            getTerminal('Lingua Franca: Install dependencies').sendText(installCommand);
+            if (missingDependency.installCommand) {
+                getTerminal('Lingua Franca: Install dependencies')
+                    .sendText(await toPromise(missingDependency.installCommand(checkerResult)));
+            } else if (missingDependency.installLink) {
+                vscode.env.openExternal(vscode.Uri.parse(missingDependency.installLink));
+            }
         }
     });
     return false;
@@ -118,6 +132,8 @@ export const checkJava: UserFacingVersionChecker = checkDependency(missingJava);
 export const checkPylint: UserFacingVersionChecker = checkDependency(missingPylint);
 export const checkPython3: UserFacingVersionChecker = checkDependency(missingPython3);
 export const checkNode: UserFacingVersionChecker = checkDependency(missingNode);
+export const checkPnpm: UserFacingVersionChecker = checkDependency(missingPnpm);
+export const checkRust: UserFacingVersionChecker = checkDependency(missingRust);
 
 export function registerDependencyWatcher() {
     type LanguageConfig = {
