@@ -61,8 +61,12 @@ jobs:
     runs-on: ${{ matrix.platform }}
     steps:
       - uses: lf-lang/vscode-lingua-franca/.github/actions/build@check-versions
-      - name: Uninstall Python
-        run: rm -rf $(which python3)
+      - name: Uninstall Java
+        run: |
+          sudo rm -rf $(which java)
+          echo $(which java)
+          sudo rm -rf $(which java)
+          echo $(which java)
         if: runner.os == 'macOS'
       - name: Uninstall Rust
         run: |

@@ -86,8 +86,8 @@ suite('test dependency checking',  () => {
 
     test('python3', async function() {
         // At least some popular Linux distros (including the one used in CI) require Python to
-        // function.
-        if (os.platform() == 'linux') this.test.skip();
+        // function. The MacOS used in CI also does not permit removal of Python3.
+        if (os.platform() === 'linux' || os.platform() === 'darwin') this.test.skip();
         return await checkBasicDependency(
             checkDependencies.checkPython3,
             `Python version ${config.pythonVersion} or higher is required for compiling LF programs with the Python target.`,
