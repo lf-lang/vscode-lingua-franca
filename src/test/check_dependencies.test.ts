@@ -105,11 +105,6 @@ suite('test dependency checking',  () => {
         + `programs with the C or C++ target.`
     ));
 
-    test('node', checkBasicDependency(
-        checkDependencies.checkNode,
-        'Node.js is required for executing LF programs with the TypeScript target.'
-    ));
-
     test('pylint', async function() {
         this.timeout(extendedDependencyTestTimeout);
         const spy = getMockMessageShower('Install');
@@ -135,6 +130,30 @@ suite('test dependency checking',  () => {
             );
             await expectSuccess(checkDependencies.checkPylint, spy);
             break;
+        default:
+            throw new Error('unreachable');
+        }
+    });
+
+    test('node', async function() {
+        this.timeout(extendedDependencyTestTimeout);
+        const spy = getMockMessageShower('Install');
+        switch (dependencies) {
+        case Dependencies.Present:
+            await expectSuccess(checkDependencies.checkNode, spy);
+            break;
+        case Dependencies.Missing0:
+            await expectFailure(checkDependencies.checkNode, spy);
+            expect(spy).to.have.been.called.with(
+                'Node.js is required for executing LF programs with the TypeScript target.'
+            );
+            await new Promise(resolve => setTimeout(resolve, maxInstallationTime));
+            await expectSuccess(checkDependencies.checkNode, spy);
+            break;
+        case Dependencies.Missing1:
+            this.test.skip();
+        case Dependencies.Outdated:
+            throw new Error('This feature (checking for an outdated Node) is not yet implemented.');
         default:
             throw new Error('unreachable');
         }

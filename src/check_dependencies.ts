@@ -11,7 +11,7 @@ type MissingDependency = {
     wrongVersionMessage?: () => string,
     requiredVersion: Version,
     installLink: string | null,
-    installCommand: (v: versionChecker.VersionCheckResult) => string | null | Promise<string>,
+    installCommand: (v: versionChecker.VersionCheckResult) => Promise<string> | null,
 };
 
 const missingPylint: MissingDependency = {
@@ -21,7 +21,7 @@ const missingPylint: MissingDependency = {
         + `${config.pylintVersion.major}.${config.pylintVersion.minor} and newer.`,
     requiredVersion: config.pylintVersion,
     installLink: null,
-    installCommand: () => 'pip3 install pylint' // TODO: Check for pip3.
+    installCommand: async () => 'pip3 install pylint' // TODO: Check for pip3.
 };
 
 const missingJava: MissingDependency = {
@@ -46,7 +46,25 @@ const missingNode: MissingDependency = {
     message: () => 'Node.js is required for executing LF programs with the TypeScript target.',
     requiredVersion: config.nodeVersion,
     installLink: 'https://nodejs.org/en/download/',
-    installCommand: () => null  // TODO: https://nodejs.org/en/download/package-manager/ and/or `pnpm env use --global lts`
+    installCommand: async v => (
+        (await versionChecker.pnpmVersionChecker()).isCorrect ? 'pnpm env use --global lts' : (
+            v.isCorrect === false ? null : (  // Do not install if an (old) Node version is present
+                // Source: https://nodejs.org/en/download/package-manager/
+                (await versionChecker.brewVersionChecker()).isCorrect ? 'brew install node' : (
+                    (await versionChecker.nvmVersionChecker()).isCorrect ? 'nvm install --lts' : (
+                        (await versionChecker.snapVersionChecker()).isCorrect ?
+                            'sudo snap install node --classic' : (
+                                (await versionChecker.aptGetVersionChecker()).isCorrect ?
+                                    'sudo apt-get install nodejs' : (
+                                        (await versionChecker.chocolateyVersionChecker()).isCorrect ?
+                                            'choco install nodejs' : null
+                                    )
+                        )
+                    )
+                )
+            )
+        )
+    )
 };
 
 const missingPnpm: MissingDependency = {
@@ -96,11 +114,6 @@ const missingCmake: MissingDependency = {
 export type UserFacingVersionChecker = (shower: MessageShower) => () => Promise<boolean>;
 type UserFacingVersionCheckerMaker = (dependency: MissingDependency) => UserFacingVersionChecker;
 
-function toPromise<T>(v: T | Promise<T>): Promise<T> {
-    if (v instanceof Promise) return v;
-    return Promise.resolve(v);
-}
-
 /**
  * Return a dependency checker that returns whether the given dependency is satisfied and, as a side
  * effect, warns the user if not.
@@ -110,7 +123,7 @@ const checkDependency: UserFacingVersionCheckerMaker = (missingDependency: Missi
         (messageShower: MessageShower) => async () => {
     const checkerResult = await missingDependency.checker();
     if (checkerResult.isCorrect) return true;
-    const message: string = await toPromise(checkerResult.isCorrect === false ? (
+    const message: string = await (checkerResult.isCorrect === false ? (
         missingDependency.wrongVersionMessage?.() ?? missingDependency.message(checkerResult)
     ) : missingDependency.message(checkerResult));
     if (!missingDependency.installCommand?.(checkerResult) && !missingDependency.installLink) {
@@ -121,7 +134,7 @@ const checkDependency: UserFacingVersionCheckerMaker = (missingDependency: Missi
         if (response === 'Install') {
             if (missingDependency.installCommand) {
                 getTerminal('Lingua Franca: Install dependencies')
-                    .sendText(await toPromise(missingDependency.installCommand(checkerResult)));
+                    .sendText(await missingDependency.installCommand(checkerResult));
             } else if (missingDependency.installLink) {
                 vscode.env.openExternal(vscode.Uri.parse(missingDependency.installLink));
             }

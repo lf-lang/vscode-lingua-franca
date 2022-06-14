@@ -66,3 +66,7 @@ export const corepackVersionChecker: VersionChecker = basicVersionChecker(new Ve
 export const curlVersionChecker: VersionChecker = basicVersionChecker(new Version('0.0.0'), 'curl -V', false);
 export const rustVersionChecker: VersionChecker = basicVersionChecker(config.rustVersion, 'rustc --version', false);
 export const cmakeVersionChecker: VersionChecker = basicVersionChecker(config.rustVersion, 'cmake --version', false);
+export const nvmVersionChecker: VersionChecker = basicVersionChecker(new Version('0.0.0'), 'nvm --version', false);
+export const snapVersionChecker: VersionChecker = basicVersionChecker(new Version('0.0.0'), 'snap --version', false);
+export const aptGetVersionChecker: VersionChecker = basicVersionChecker(new Version('0.0.0'), 'apt-get -v', false);
+export const chocolateyVersionChecker: VersionChecker = basicVersionChecker(new Version('0.0.0'), 'choco -v', false);
