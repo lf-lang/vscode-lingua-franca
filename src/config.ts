@@ -37,7 +37,7 @@ export const npmVersion: Version = new Version('0.0.0');
 export const pnpmVersion: Version = new Version('0.0.0');
 
 /** The minimum PNPM version required for compiling LF programs with the TypeScript target. */
-export const rustVersion: Version = new Version('0.0.0');
+export const rustVersion: Version = new Version('0.0.0');  // FIXME: Update when #1218 is merged in lf-lang/lingua-franca.
 
 /** Name of the Language and Diagram Server jar. */
 export const ldsJarName = 'lflang-lds.jar';

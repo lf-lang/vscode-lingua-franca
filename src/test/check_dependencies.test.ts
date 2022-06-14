@@ -164,25 +164,8 @@ suite('test dependency checking',  () => {
         }
     });
 
-    test('rust', async function() {
-        this.timeout(extendedDependencyTestTimeout);
-        const spy = getMockMessageShower('Install');
-        switch (dependencies) {
-        case Dependencies.Present:
-            await expectSuccess(checkDependencies.checkRust, spy);
-            break;
-        case Dependencies.Missing0:
-            await expectFailure(checkDependencies.checkRust, spy);
-            expect(spy).to.have.been.called.with(
-                'The Rust compiler is required for compiling LF programs with the Rust target.'
-            );
-            await new Promise(resolve => setTimeout(resolve, maxInstallationTime));
-            await expectSuccess(checkDependencies.checkRust, spy);
-            break;
-        case Dependencies.Outdated:
-            throw new Error('Checks for outdated Rust tooling are not implemented yet.');
-        case Dependencies.Missing1:
-            this.test.skip();
-        }
-    });
+    test('rust', checkBasicDependency(
+        checkDependencies.checkRust,
+        'The Rust compiler is required for compiling LF programs with the Rust target.'
+    ));
 });

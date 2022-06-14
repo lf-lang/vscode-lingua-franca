@@ -81,14 +81,7 @@ const missingRust: MissingDependency = {
     message: () => 'The Rust compiler is required for compiling LF programs with the Rust target.',
     requiredVersion: config.rustVersion,
     installLink: 'https://www.rust-lang.org/tools/install',
-    installCommand: async v => (
-        os.platform() == 'win32' ? null : (
-            (await versionChecker.curlVersionChecker()).isCorrect ?
-            'curl --proto \'=https\' --tlsv1.2 -sSf https://sh.rustup.rs | sh' : (
-                null
-            )
-        )
-    )
+    installCommand: () => null  // Their install script is interactive :(
 }
 
 export type UserFacingVersionChecker = (shower: MessageShower) => () => Promise<boolean>;
