@@ -64,6 +64,11 @@ jobs:
       - name: Uninstall Python
         run: rm -rf $(which python3)
         if: runner.os == 'macOS'
+      - name: Uninstall Rust
+        run: |
+          rm -rf $(which rustc)
+          rm -rf $(which cargo)
+        if: runner.os == 'macOS'
       - name: Run tests (Linux)
         run: xvfb-run --auto-servernum --server-args="-screen 0 1280x960x24" -- npm run test-dependencies-missing0
         if: ${{ runner.os == 'Linux' }}
