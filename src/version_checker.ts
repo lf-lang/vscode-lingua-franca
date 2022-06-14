@@ -12,7 +12,9 @@ export type VersionCheckResult = {
 export type VersionChecker = () => Promise<VersionCheckResult>;
 
 type VersionCheckerMaker = (desiredVersion: Version, command: string, sameMajor: boolean) =>
-    VersionChecker
+    VersionChecker;
+
+type VersionCheckerCombiner = (check0: VersionChecker, check1: VersionChecker) => VersionChecker;
 
 /**
  * Create a basic version checker. Note that this assumes that the first valid version number
@@ -41,9 +43,20 @@ const basicVersionChecker: VersionCheckerMaker = (desiredVersion, command, sameM
     };
 }
 
+const theBetterOfEither: VersionCheckerCombiner = (check0, check1) => async () => {
+    const zeroth: VersionCheckResult = await check0();
+    if (zeroth.isCorrect) return zeroth;
+    const first: VersionCheckResult = await check1();
+    if (first.isCorrect) return first;
+    return zeroth;
+};
+
 export const javaVersionChecker: VersionChecker = basicVersionChecker(config.javaVersion, 'java -version 2>&1', true);
 export const javacVersionChecker: VersionChecker = basicVersionChecker(config.javacVersion, 'javac -version 2>&1', true);
-export const python3VersionChecker: VersionChecker = basicVersionChecker(config.pythonVersion, 'python3 -V', false);
+export const python3VersionChecker: VersionChecker = theBetterOfEither(
+    basicVersionChecker(config.pythonVersion, 'python3 -V', false),
+    basicVersionChecker(config.pythonVersion, 'python -V', false)
+);
 export const nodeVersionChecker: VersionChecker = basicVersionChecker(config.nodeVersion, 'node -v', false);
 export const pylintVersionChecker: VersionChecker = basicVersionChecker(config.pylintVersion, 'pip3 show pylint', false);
 export const npmVersionChecker: VersionChecker = basicVersionChecker(config.npmVersion, 'npm --version', false);
