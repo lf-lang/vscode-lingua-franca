@@ -1,5 +1,24 @@
 # Changelog
  
+## [v0.2.1](https://github.com/lf-lang/vscode-lingua-franca/tree/v0.2.1) (2022-05-19)
+
+**Highlights:**
+
+This release includes bug fixes in the Lingua Franca compiler as well as minor enhancements of the user experience in VS Code.
+
+[Full Changelog](https://github.com/lf-lang/vscode-lingua-franca/compare/v0.2.0...v0.2.1)
+
+**Implemented enhancements:**
+
+- Cmake errors need to show more details [\#42](https://github.com/lf-lang/vscode-lingua-franca/issues/42)
+- Any automatic builds should be configurable [\#24](https://github.com/lf-lang/vscode-lingua-franca/issues/24)
+
+**Merged pull requests:**
+
+- Allow users to disable target language validation on save. [\#51](https://github.com/lf-lang/vscode-lingua-franca/pull/51) ([petervdonovan](https://github.com/petervdonovan))
+- Add button to view output from build [\#47](https://github.com/lf-lang/vscode-lingua-franca/pull/47) ([petervdonovan](https://github.com/petervdonovan))
+- Style updates [\#17](https://github.com/lf-lang/vscode-lingua-franca/pull/17) ([petervdonovan](https://github.com/petervdonovan))
+ 
 ## [v0.2.0](https://github.com/lf-lang/vscode-lingua-franca/tree/v0.2.0) (2022-05-02)
 
 **Highlights:**
