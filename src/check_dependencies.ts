@@ -82,7 +82,7 @@ const missingRust: MissingDependency = {
     requiredVersion: config.rustVersion,
     installLink: 'https://www.rust-lang.org/tools/install',
     installCommand: () => null  // Their install script is interactive :(
-}
+};
 
 const missingCmake: MissingDependency = {
     checker: versionChecker.cmakeVersionChecker,
@@ -150,11 +150,15 @@ export function registerDependencyWatcher() {
     const watcherConfig: LanguageConfig[] = [
         {
             regexp: /(?=\\btarget\\s+C\\b)/,
-            checks: []
+            checks: [
+                { checker: checkCmake, isEssential: false },
+            ]
         },
         {
             regexp: /(?=\\btarget\\s+C?Cpp\\b)/,
-            checks: []
+            checks: [
+                { checker: checkCmake, isEssential: true },
+            ]
         },
         {
             regexp: /(?=\\btarget\\s+TypeScript\\b)/,
@@ -172,7 +176,9 @@ export function registerDependencyWatcher() {
         },
         {
             regexp: /(?=\\btarget\\s+Rust\\b)/,
-            checks: []
+            checks: [
+                { checker: checkRust, isEssential: true },
+            ]
         }
     ];
     const detectTarget = (text: string) => {
