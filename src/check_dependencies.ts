@@ -95,7 +95,7 @@ export type UserFacingVersionChecker = (shower: MessageShower) => () => Promise<
 type UserFacingVersionCheckerMaker = (dependency: MissingDependency) => UserFacingVersionChecker;
 
 function toPromise<T>(v: T | Promise<T>): Promise<T> {
-    if (v instanceof Promise<T>) return v;
+    if (v instanceof Promise) return v;
     return Promise.resolve(v);
 }
 
