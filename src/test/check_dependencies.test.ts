@@ -95,6 +95,12 @@ suite('test dependency checking',  () => {
         )();
     });
 
+    test('cmake', checkBasicDependency(
+        checkDependencies.checkCmake,
+        `CMake version ${config.cmakeVersion} or higher is recommended for compiling LF `
+        + `programs with the C or C++ target.`
+    ));
+
     test('node', checkBasicDependency(
         checkDependencies.checkNode,
         'Node.js is required for executing LF programs with the TypeScript target.'

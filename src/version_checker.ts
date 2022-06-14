@@ -52,3 +52,4 @@ export const brewVersionChecker: VersionChecker = basicVersionChecker(new Versio
 export const corepackVersionChecker: VersionChecker = basicVersionChecker(new Version('0.0.0'), 'corepack -v', false);
 export const curlVersionChecker: VersionChecker = basicVersionChecker(new Version('0.0.0'), 'curl -V', false);
 export const rustVersionChecker: VersionChecker = basicVersionChecker(config.rustVersion, 'rustc --version', false);
+export const cmakeVersionChecker: VersionChecker = basicVersionChecker(config.rustVersion, 'cmake --version', false);

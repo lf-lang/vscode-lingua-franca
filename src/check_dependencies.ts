@@ -84,6 +84,15 @@ const missingRust: MissingDependency = {
     installCommand: () => null  // Their install script is interactive :(
 }
 
+const missingCmake: MissingDependency = {
+    checker: versionChecker.cmakeVersionChecker,
+    message: () => `CMake version ${config.cmakeVersion} or higher is recommended for compiling LF `
+        + `programs with the C or C++ target.`,
+    requiredVersion: config.cmakeVersion,
+    installLink: 'https://cmake.org/download/',
+    installCommand: () => null
+};
+
 export type UserFacingVersionChecker = (shower: MessageShower) => () => Promise<boolean>;
 type UserFacingVersionCheckerMaker = (dependency: MissingDependency) => UserFacingVersionChecker;
 
@@ -127,11 +136,16 @@ export const checkPython3: UserFacingVersionChecker = checkDependency(missingPyt
 export const checkNode: UserFacingVersionChecker = checkDependency(missingNode);
 export const checkPnpm: UserFacingVersionChecker = checkDependency(missingPnpm);
 export const checkRust: UserFacingVersionChecker = checkDependency(missingRust);
+export const checkCmake: UserFacingVersionChecker = checkDependency(missingCmake);
 
 export function registerDependencyWatcher() {
     type LanguageConfig = {
         regexp: RegExp,
-        checks: { checker: UserFacingVersionChecker, isEssential: boolean, alreadyChecked?: boolean }[]
+        checks: {
+            checker: UserFacingVersionChecker,
+            isEssential: boolean,
+            alreadyChecked?: boolean
+        }[]
     };
     const watcherConfig: LanguageConfig[] = [
         {

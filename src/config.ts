@@ -19,6 +19,9 @@ export const javacVersion: Version = new Version('17.0.0');
 /** Java version required for running the language server. */
 export const javaVersion: Version = javacVersion;
 
+/** CMake version required for compiling LF programs with the C and C++ targets. */
+export const cmakeVersion: Version = new Version('3.5.0');
+
 /** Pylint version required for linting generated Python code. */
 export const pylintVersion: Version = new Version('2.12.0');
 
