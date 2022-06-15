@@ -135,31 +135,10 @@ suite('test dependency checking',  () => {
         }
     });
 
-    test('node', async function() {
-        this.timeout(extendedDependencyTestTimeout);
-        const spy = getMockMessageShower('Install');
-        switch (dependencies) {
-        case Dependencies.Present:
-            await expectSuccess(checkDependencies.checkNode, spy);
-            break;
-        case Dependencies.Missing0:
-            await expectFailure(checkDependencies.checkNode, spy);
-            expect(spy).to.have.been.called.with(
-                'Node.js is required for executing LF programs with the TypeScript target.'
-            );
-            // This test was too hard to implement in CI for MacOS.
-            if (os.platform() === 'darwin') this.test.skip();
-            await new Promise(resolve => setTimeout(resolve, maxInstallationTime));
-            await expectSuccess(checkDependencies.checkNode, spy);
-            break;
-        case Dependencies.Missing1:
-            this.test.skip();
-        case Dependencies.Outdated:
-            throw new Error('This feature (checking for an outdated Node) is not yet implemented.');
-        default:
-            throw new Error('unreachable');
-        }
-    });
+    test('node', checkBasicDependency(
+        checkDependencies.checkNode,
+        'Node.js is required for executing LF programs with the TypeScript target.'
+    ));
 
     test('pnpm', async function() {
         this.timeout(extendedDependencyTestTimeout);

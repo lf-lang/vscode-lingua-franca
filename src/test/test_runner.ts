@@ -22,14 +22,14 @@ async function main() {
                 try {
                     const currentLocation = await which(d);
                     if (os.platform() === 'win32') {
-                        execSync(
-                            `mklink ${path.resolve(minimalDependenciesPath, d)} ${currentLocation}`
-                        );
+                        console.log(execSync(
+                            `mklink "${path.resolve(minimalDependenciesPath, d)}" "${currentLocation}"`
+                        ));
                     } else {
                         const newLocation = path.resolve(minimalDependenciesPath, d);
-                        execSync(
+                        console.log(execSync(
                             `printf '#!/bin/bash\\n${currentLocation} $@' > ${newLocation} && chmod +x ${newLocation}`
-                        );
+                        ));
                     }
                 } catch (e) {
                     console.log(e);
