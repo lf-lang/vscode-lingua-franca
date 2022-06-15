@@ -126,13 +126,14 @@ const checkDependency: UserFacingVersionCheckerMaker = (missingDependency: Missi
     const message: string = await (checkerResult.isCorrect === false ? (
         missingDependency.wrongVersionMessage?.() ?? missingDependency.message(checkerResult)
     ) : missingDependency.message(checkerResult));
-    if (!missingDependency.installCommand?.(checkerResult) && !missingDependency.installLink) {
+    const installCommand: string = await missingDependency.installCommand?.(checkerResult);
+    if (!installCommand && !missingDependency.installLink) {
         messageShower(message);
         return false;
     }
     messageShower(message, 'Install').then(async (response) => {
         if (response === 'Install') {
-            if (missingDependency.installCommand) {
+            if (installCommand) {
                 getTerminal('Lingua Franca: Install dependencies')
                     .sendText(await missingDependency.installCommand(checkerResult));
             } else if (missingDependency.installLink) {
