@@ -1,5 +1,12 @@
 import * as path from 'path';
+import * as fs from 'fs';
 import { runTests } from '@vscode/test-electron';
+import * as os from 'os';
+import which from 'which';
+import { execSync } from 'child_process';
+
+const minimalDependencies = ['brew', 'curl', 'apt-get', 'choco', 'readlink', 'dirname'];
+const minimalDependenciesPath = 'temporary_test_deps_please_remove';
 
 async function main() {
     try {
@@ -8,7 +15,27 @@ async function main() {
         const extensionTestsEnv: {dependencies: string, PATH?: string} = {
             dependencies: require('minimist')(process.argv)['dependencies']
         };
-        if (extensionTestsEnv.dependencies == 'missing0') extensionTestsEnv.PATH = '/usr/bin/';
+        if (extensionTestsEnv.dependencies == 'missing0') {
+            extensionTestsEnv.PATH = path.resolve(minimalDependenciesPath);
+            fs.mkdirSync(minimalDependenciesPath);
+            for (const d of minimalDependencies) {
+                try {
+                    const currentLocation = await which(d);
+                    if (os.platform() === 'win32') {
+                        execSync(
+                            `mklink ${path.resolve(minimalDependenciesPath, d)} ${currentLocation}`
+                        );
+                    } else {
+                        const newLocation = path.resolve(minimalDependenciesPath, d);
+                        execSync(
+                            `printf '#!/bin/bash\\n${currentLocation} $@' > ${newLocation} && chmod +x ${newLocation}`
+                        );
+                    }
+                } catch (e) {
+                    console.log(e);
+                }
+            }
+        }
         await runTests({
             extensionDevelopmentPath,
             extensionTestsPath,
