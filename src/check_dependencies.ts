@@ -137,7 +137,11 @@ const checkDependency: UserFacingVersionCheckerMaker = (missingDependency: Missi
                 getTerminal('Lingua Franca: Install dependencies')
                     .sendText(await missingDependency.installCommand(checkerResult));
             } else if (missingDependency.installLink) {
-                vscode.env.openExternal(vscode.Uri.parse(missingDependency.installLink));
+                // Related issue: https://github.com/microsoft/vscode/issues/69608
+                vscode.commands.executeCommand(
+                    "vscode.open",
+                    vscode.Uri.parse(missingDependency.installLink)
+                );
             }
         }
     });
