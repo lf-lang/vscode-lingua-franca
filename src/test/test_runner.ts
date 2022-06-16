@@ -19,8 +19,11 @@ async function main() {
             extensionTestsEnv.PATH = path.resolve(minimalDependenciesPath);
             fs.mkdirSync(minimalDependenciesPath);
             for (const d of minimalDependencies) {
+                let currentLocation;
                 try {
-                    const currentLocation = await which(d);
+                    currentLocation = await which(d);
+                } catch (e) { /* Do nothing */ }
+                if (currentLocation) {
                     if (os.platform() === 'win32') {
                         console.log(execSync(
                             `mklink "${path.resolve(minimalDependenciesPath, d)}" "${currentLocation}"`
@@ -31,8 +34,6 @@ async function main() {
                             `printf '#!/bin/bash\\n${currentLocation} $@' > ${newLocation} && chmod +x ${newLocation}`
                         ));
                     }
-                } catch (e) {
-                    console.log(e);
                 }
             }
         }

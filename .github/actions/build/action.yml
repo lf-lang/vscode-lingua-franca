@@ -1,5 +1,5 @@
 name: Build
-description: Set up the repository, install the dependencies required to build the extension, and build the extension.
+description: Set up repository and install dependencies required to build extension.
 
 runs:
   using: "composite"
