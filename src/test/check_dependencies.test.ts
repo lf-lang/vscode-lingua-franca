@@ -10,7 +10,7 @@ import chai from 'chai';
 import spies from 'chai-spies';
 import { expect } from 'chai';
 import { after, Context } from 'mocha';
-import { MessageShower } from '../utils';
+import { getTerminal, MessageShower } from '../utils';
 import * as config from '../config';
 
 chai.use(spies);
@@ -27,6 +27,8 @@ type Test = () => Promise<void>;
 const basicTimeoutMilliseconds = 10 * 1000;
 const extendedTimeoutMilliseconds = 60 * 1000;
 const maxInstallationTimeMilliseconds = 20 * 1000;
+
+const sendNewline = () => getTerminal(config.installDependenciesTerminalName).sendText(os.EOL);
 
 suite('test dependency checking',  () => {
     after(() => { vscode.window.showInformationMessage('dependency checking tests complete!') });
@@ -117,6 +119,7 @@ suite('test dependency checking',  () => {
                 `Pylint is a recommended linter for Lingua Franca's Python target.`
             );
             await new Promise(resolve => setTimeout(resolve, maxInstallationTimeMilliseconds));
+            sendNewline();
             await expectSuccess(checkDependencies.checkPylint, spy);
             break;
         case Dependencies.Outdated:
@@ -154,6 +157,7 @@ suite('test dependency checking',  () => {
             // terminal in order for PNPM to be on your PATH. I have attempted to source the
             // ~/.bashrc to work around this, without success.
             // await new Promise(resolve => setTimeout(resolve, maxInstallationTime));
+            // sendNewline();
             // await expectSuccess(checkDependencies.checkPnpm, spy);
             break;
         case Dependencies.Missing1:
@@ -163,6 +167,7 @@ suite('test dependency checking',  () => {
                 + 'with the TypeScript target, it is highly recommended to install pnpm globally.'
             );
             await new Promise(resolve => setTimeout(resolve, maxInstallationTimeMilliseconds));
+            sendNewline();
             await expectSuccess(checkDependencies.checkPnpm, spy);
             break;
         case Dependencies.Outdated:

@@ -13,6 +13,9 @@ const defaultDict = (defaultValue: any) => (dict: Object) => new Proxy(dict, {
 /** Executables that have to be on the PATH in order to build. */
 export const buildDeps = ['code', 'jar', 'javac', 'mvn', 'python3'];
 
+/** The name of the built-in terminal used to install dependencies. */
+export const installDependenciesTerminalName  = 'Lingua Franca: Install dependencies';
+
 /** Java version required for building. */
 export const javacVersion: Version = new Version('17.0.0');
 

@@ -152,11 +152,19 @@ const checkDependency: UserFacingVersionCheckerMaker = (missingDependency: Missi
         messageShower(message);
         return false;
     }
-    messageShower(message, 'Install').then(async (response) => {
-        if (response === 'Install') {
+    const buttonText = !installCommand ? 'View download page' : (
+        (checkerResult.isCorrect === false) ? 'Update' : 'Install'
+    );
+    messageShower(message, buttonText).then(async (response) => {
+        if (response === buttonText) {
             if (installCommand) {
-                getTerminal('Lingua Franca: Install dependencies')
-                    .sendText(await missingDependency.installCommand(checkerResult));
+                const terminal = getTerminal(config.installDependenciesTerminalName);
+                // If a command was previously sitting in the terminal, run it to clear it out. This
+                //  is a dangerous policy, but we should not simply append the new command to the
+                //  one that was already sitting in the terminal.
+                terminal.sendText(os.EOL);
+                terminal.sendText(await missingDependency.installCommand(checkerResult), false);
+                terminal.show();
             } else if (missingDependency.installLink) {
                 // Related issue: https://github.com/microsoft/vscode/issues/69608
                 vscode.commands.executeCommand(
