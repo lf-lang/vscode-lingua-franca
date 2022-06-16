@@ -1,3 +1,8 @@
+/**
+ * @file Integration tests for the dependency checking mechanism.
+ * @author Peter Donovan <peterdonovan@berkeley.edu>
+ */
+
 import * as os from 'os';
 import * as checkDependencies from '../check_dependencies';
 import * as vscode from 'vscode';
@@ -19,9 +24,9 @@ enum Dependencies {
 
 type Test = () => Promise<void>;
 
-const basicDependencyTestTimeout = 10 * 1000;  // Time is given in milliseconds.
-const extendedDependencyTestTimeout = 60 * 1000;
-const maxInstallationTime = 20 * 1000;
+const basicTimeoutMilliseconds = 10 * 1000;
+const extendedTimeoutMilliseconds = 60 * 1000;
+const maxInstallationTimeMilliseconds = 20 * 1000;
 
 suite('test dependency checking',  () => {
     after(() => { vscode.window.showInformationMessage('dependency checking tests complete!') });
@@ -51,7 +56,7 @@ suite('test dependency checking',  () => {
         context?: Context
     ): Test {
         return async function () {
-            (context ?? this).timeout(basicDependencyTestTimeout);
+            (context ?? this).timeout(basicTimeoutMilliseconds);
             const spy = getMockMessageShower();
             switch (dependencies) {
             case Dependencies.Present:
@@ -81,22 +86,24 @@ suite('test dependency checking',  () => {
 
     test('java', checkBasicDependency(
         checkDependencies.checkJava,
-        `Java version ${config.javaVersion.major} is required for Lingua Franca diagrams and code analysis.`
+        `Java version ${config.javaVersion.major} is required for Lingua Franca diagrams and code `
+            + `analysis.`
     ));
 
     test('python3', checkBasicDependency(
         checkDependencies.checkPython3,
-        `Python version ${config.pythonVersion} or higher is required for compiling LF programs with the Python target.`
+        `Python version ${config.pythonVersion} or higher is required for compiling LF programs `
+            + `with the Python target.`
     ));
 
     test('cmake', checkBasicDependency(
         checkDependencies.checkCmake,
-        `CMake version ${config.cmakeVersion} or higher is recommended for compiling LF `
-        + `programs with the C or C++ target.`
+        `CMake version ${config.cmakeVersion} or higher is recommended for compiling LF programs `
+            + `with the C or C++ target.`
     ));
 
     test('pylint', async function() {
-        this.timeout(extendedDependencyTestTimeout);
+        this.timeout(extendedTimeoutMilliseconds);
         const spy = getMockMessageShower('Install');
         switch (dependencies) {
         case Dependencies.Present:
@@ -109,7 +116,7 @@ suite('test dependency checking',  () => {
             expect(spy).to.have.been.called.with(
                 `Pylint is a recommended linter for Lingua Franca's Python target.`
             );
-            await new Promise(resolve => setTimeout(resolve, maxInstallationTime));
+            await new Promise(resolve => setTimeout(resolve, maxInstallationTimeMilliseconds));
             await expectSuccess(checkDependencies.checkPylint, spy);
             break;
         case Dependencies.Outdated:
@@ -131,7 +138,7 @@ suite('test dependency checking',  () => {
     ));
 
     test('pnpm', async function() {
-        this.timeout(extendedDependencyTestTimeout);
+        this.timeout(extendedTimeoutMilliseconds);
         const spy = getMockMessageShower('Install');
         switch (dependencies) {
         case Dependencies.Present:
@@ -140,7 +147,8 @@ suite('test dependency checking',  () => {
         case Dependencies.Missing0:
             await expectFailure(checkDependencies.checkPnpm, spy);
             expect(spy).to.have.been.called.with(
-                'In order to compile LF programs with a TypeScript target, it is necessary to install pnpm.'
+                'In order to compile LF programs with the TypeScript target, it is necessary to '
+                    + 'install pnpm.'
             );
             // The following will fail because PNPM's installation script requires you to open a new
             // terminal in order for PNPM to be on your PATH. I have attempted to source the
@@ -151,10 +159,10 @@ suite('test dependency checking',  () => {
         case Dependencies.Missing1:
             await expectFailure(checkDependencies.checkPnpm, spy);
             expect(spy).to.have.been.called.with(
-                'To prevent an accumulation of replicated dependencies when compiling LF programs with a '
-                + 'TypeScript target, it is highly recommended to install pnpm globally.'
+                'To prevent an accumulation of replicated dependencies when compiling LF programs '
+                + 'with the TypeScript target, it is highly recommended to install pnpm globally.'
             );
-            await new Promise(resolve => setTimeout(resolve, maxInstallationTime));
+            await new Promise(resolve => setTimeout(resolve, maxInstallationTimeMilliseconds));
             await expectSuccess(checkDependencies.checkPnpm, spy);
             break;
         case Dependencies.Outdated:
@@ -171,7 +179,7 @@ suite('test dependency checking',  () => {
 
     test('rti', async function () {
         if (os.platform() == 'win32') this.test.skip();  // No Windows federated support.
-        this.timeout(basicDependencyTestTimeout);
+        this.timeout(basicTimeoutMilliseconds);
         const spy = getMockMessageShower();
         switch (dependencies) {
         case Dependencies.Present:

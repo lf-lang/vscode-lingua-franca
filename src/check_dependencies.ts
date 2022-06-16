@@ -1,3 +1,8 @@
+/**
+ * @file Specification of user-visible behavior in response for missing dependencies.
+ * @author Peter Donovan <peterdonovan@berkeley.edu>
+ */
+
 import * as config from './config';
 import * as vscode from 'vscode';
 import * as os from 'os';
@@ -21,7 +26,13 @@ const missingPylint: MissingDependency = {
         + `${config.pylintVersion.major}.${config.pylintVersion.minor} and newer.`,
     requiredVersion: config.pylintVersion,
     installLink: null,
-    installCommand: async () => 'pip3 install pylint' // TODO: Check for pip3.
+    installCommand: async () => (
+        (await versionChecker.python3AliasVersionChecker()).isCorrect ?
+            'python3 -m pip install pylint' : (
+                (await versionChecker.pythonAliasVersionChecker()).isCorrect ?
+                    'python -m pip install pylint' : null
+        )
+    )
 };
 
 const missingJava: MissingDependency = {
@@ -80,19 +91,20 @@ const missingPnpm: MissingDependency = {
     checker: versionChecker.pnpmVersionChecker,
     message: async () => (
         (await versionChecker.npmVersionChecker()).isCorrect ?
-        'To prevent an accumulation of replicated dependencies when compiling LF programs with a '
-        + 'TypeScript target, it is highly recommended to install pnpm globally.'
-        : 'In order to compile LF programs with a TypeScript target, it is necessary to install pnpm.'
+        'To prevent an accumulation of replicated dependencies when compiling LF programs with the '
+            + 'TypeScript target, it is highly recommended to install pnpm globally.'
+        : 'In order to compile LF programs with the TypeScript target, it is necessary to install '
+            + 'pnpm.'
     ),
     requiredVersion: config.pnpmVersion,
     installLink: null,
     installCommand: async v => (
         // The following steps are derived from https://pnpm.io/installation
         v.isCorrect ? 'npm install -g pnpm' : (
-            // FIXME: 'corepack enable' might not install the latest PNPM version.
+            // WARNING: 'corepack enable' might not install the latest PNPM version.
             (await versionChecker.corepackVersionChecker()).isCorrect ? 'corepack enable' : (
-                // FIXME: PowerShell is the default terminal in Windows VS Code, but if the user has
-                //  set a different terminal as the default, then 'iwr' will fail.
+                // WARNING: PowerShell is the default terminal in Windows VS Code, but if the user
+                //  has set a different terminal as the default, then 'iwr' will fail.
                 os.platform() == 'win32' ? 'iwr https://get.pnpm.io/install.ps1 -useb | iex' : (
                     (await versionChecker.curlVersionChecker()).isCorrect ?
                     'curl -fsSL https://get.pnpm.io/install.sh | sh -'

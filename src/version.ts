@@ -1,5 +1,6 @@
 /**
  * Define a SemVer-style version number.
+ * @author Peter Donovan <peterdonovan@berkeley.edu>
  */
 export class Version {
     public static readonly regex = /\bv?(?<major>\d+)\.(?<minor>\d+)\.(?<patch>\d+)/;
