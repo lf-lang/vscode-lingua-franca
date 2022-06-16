@@ -19,9 +19,31 @@ type MissingDependency = {
     installCommand: (v: versionChecker.VersionCheckResult) => Promise<string> | null,
 };
 
+// The following are exported solely for testing purposes.
+export const pylintMessage = "Pylint is a recommended linter for Lingua Franca's Python target.";
+export const javaMessage = `Java version ${config.javaVersion.major} is required for Lingua Franca `
+    + `diagrams and code analysis.`;
+export const python3Message = `Python version ${config.pythonVersion} or higher is required for `
+    + `compiling LF programs with the Python target.`;
+export const nodeMessage = 'Node.js is required for executing LF programs with the TypeScript '
+    + 'target.';
+export const rtiMessage = 'The Lingua Franca runtime infrastructure (RTI) is required for executing'
+    + ' federated LF programs.';
+export const pnpmMessage = 'In order to compile LF programs with the TypeScript target, it is '
+    + 'necessary to install pnpm.';
+export const rustMessage = 'The Rust compiler is required for compiling LF programs with the Rust '
+    + 'target.';
+export const cmakeMessage = `CMake version ${config.cmakeVersion} or higher is recommended for '
+    + 'compiling LF programs with the C or C++ target.`;
+
+const wrongVersionMessageOf = (originalMessage: string) =>
+    (badResult: versionChecker.VersionCheckResult) =>
+        `${originalMessage.substring(0, originalMessage.length - 1)}, but the version detected `
+            + `on your system is ${badResult.version}.`;
+
 const missingPylint: MissingDependency = {
     checker: versionChecker.pylintVersionChecker,
-    message: () => `Pylint is a recommended linter for Lingua Franca's Python target.`,
+    message: () => pylintMessage,
     wrongVersionMessage: v => `The Lingua Franca language server is tested with Pylint version `
         + `${config.pylintVersion.major}.${config.pylintVersion.minor} and newer, but the version `
         + `detected on your system is ${v.version}.`,
@@ -38,11 +60,8 @@ const missingPylint: MissingDependency = {
 
 const missingJava: MissingDependency = {
     checker: versionChecker.javaVersionChecker,
-    message: () => `Java version ${config.javaVersion.major} is required for Lingua Franca diagrams`
-        + ` and code analysis.`,
-    wrongVersionMessage: v => `Java version ${config.javaVersion.major} is required for Lingua `
-        + `Franca diagrams and code analysis, but the Java version detected on your system is `
-        + `${v.version}.`,
+    message: () => javaMessage,
+    wrongVersionMessage: wrongVersionMessageOf(javaMessage),
     requiredVersion: config.javaVersion,
     installLink: `https://www.oracle.com/java/technologies/downloads/#java${config.javaVersion.major}`,
     installCommand: () => null
@@ -50,11 +69,8 @@ const missingJava: MissingDependency = {
 
 const missingPython3: MissingDependency = {
     checker: versionChecker.python3VersionChecker,
-    message: () => `Python version ${config.pythonVersion} or higher is required for compiling LF`
-        + ` programs with the Python target.`,
-    wrongVersionMessage: v => `Python version ${config.pythonVersion} or higher is required for `
-        + `compiling LF programs with the Python target, but the version detected on your system is`
-        + ` ${v.version}.`,
+    message: () => python3Message,
+    wrongVersionMessage: wrongVersionMessageOf(python3Message),
     requiredVersion: config.pythonVersion,
     installLink: 'https://www.python.org/downloads/',
     installCommand: () => null
@@ -62,7 +78,7 @@ const missingPython3: MissingDependency = {
 
 const missingNode: MissingDependency = {
     checker: versionChecker.nodeVersionChecker,
-    message: () => 'Node.js is required for executing LF programs with the TypeScript target.',
+    message: () => nodeMessage,
     requiredVersion: config.nodeVersion,
     installLink: 'https://nodejs.org/en/download/',
     installCommand: async v => (
@@ -88,8 +104,7 @@ const missingNode: MissingDependency = {
 
 const missingRti: MissingDependency = {
     checker: versionChecker.rtiVersionChecker,
-    message: () => 'The Lingua Franca runtime infrastructure (RTI) is required for executing '
-        + 'federated LF programs.',
+    message: () => rtiMessage,
     requiredVersion: config.rtiVersion,
     installLink: 'https://www.lf-lang.org/docs/handbook/distributed-execution#installation-of-the-rti',
     installCommand: () => null
@@ -101,8 +116,7 @@ const missingPnpm: MissingDependency = {
         (await versionChecker.npmVersionChecker()).isCorrect ?
         'To prevent an accumulation of replicated dependencies when compiling LF programs with the '
             + 'TypeScript target, it is highly recommended to install pnpm globally.'
-        : 'In order to compile LF programs with the TypeScript target, it is necessary to install '
-            + 'pnpm.'
+        : pnpmMessage
     ),
     requiredVersion: config.pnpmVersion,
     installLink: null,
@@ -130,9 +144,8 @@ const missingPnpm: MissingDependency = {
 
 const missingRust: MissingDependency = {
     checker: versionChecker.rustVersionChecker,
-    message: () => 'The Rust compiler is required for compiling LF programs with the Rust target.',
-    wrongVersionMessage: v => `The Lingua Franca toolchain for Rust is tested with Rust version `
-        + `${config.rustVersion}, but the Rust version detected on your system is `,
+    message: () => rustMessage,
+    wrongVersionMessage: wrongVersionMessageOf(rustMessage),
     requiredVersion: config.rustVersion,
     installLink: 'https://www.rust-lang.org/tools/install',
     installCommand: async v => (
@@ -146,11 +159,8 @@ const missingRust: MissingDependency = {
 
 const missingCmake: MissingDependency = {
     checker: versionChecker.cmakeVersionChecker,
-    message: () => `CMake version ${config.cmakeVersion} or higher is recommended for compiling LF `
-        + `programs with the C or C++ target.`,
-    wrongVersionMessage: v => `CMake version ${config.cmakeVersion} or higher is recommended for `
-        + `compiling LF programs with the C or C++ target, but the version detected on your system`
-        + ` is ${v.version}.`,
+    message: () => cmakeMessage,
+    wrongVersionMessage: wrongVersionMessageOf(cmakeMessage),
     requiredVersion: config.cmakeVersion,
     installLink: 'https://cmake.org/download/',
     installCommand: () => null
