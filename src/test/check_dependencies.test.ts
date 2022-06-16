@@ -79,25 +79,15 @@ suite('test dependency checking',  () => {
         expect(spy).to.have.been.called;
     };
 
-    test('java', function() {
-        // The MacOS used in CI does not permit removal of Java.
-        if (os.platform() === 'darwin') this.test.skip();
-        return checkBasicDependency(
-            checkDependencies.checkJava,
-            `Java version ${config.javaVersion.major} is required for Lingua Franca diagrams and code analysis.`
-        )
-    });
+    test('java', checkBasicDependency(
+        checkDependencies.checkJava,
+        `Java version ${config.javaVersion.major} is required for Lingua Franca diagrams and code analysis.`
+    ));
 
-    test('python3', function() {
-        // At least some popular Linux distros (including the one used in CI) require Python to
-        // function. The MacOS used in CI also does not permit removal of Python3.
-        if (os.platform() === 'linux' || os.platform() === 'darwin') this.test.skip();
-        return checkBasicDependency(
-            checkDependencies.checkPython3,
-            `Python version ${config.pythonVersion} or higher is required for compiling LF programs with the Python target.`,
-            this
-        )();
-    });
+    test('python3', checkBasicDependency(
+        checkDependencies.checkPython3,
+        `Python version ${config.pythonVersion} or higher is required for compiling LF programs with the Python target.`
+    ));
 
     test('cmake', checkBasicDependency(
         checkDependencies.checkCmake,
