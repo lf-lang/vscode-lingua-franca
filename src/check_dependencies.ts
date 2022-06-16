@@ -13,7 +13,7 @@ import * as versionChecker from './version_checker';
 type MissingDependency = {
     checker: versionChecker.VersionChecker,
     message: (v: versionChecker.VersionCheckResult) => string | Promise<string>,
-    wrongVersionMessage?: () => string,
+    wrongVersionMessage?: (v: versionChecker.VersionCheckResult) => string,
     requiredVersion: Version,
     installLink: string | null,
     installCommand: (v: versionChecker.VersionCheckResult) => Promise<string> | null,
@@ -22,8 +22,9 @@ type MissingDependency = {
 const missingPylint: MissingDependency = {
     checker: versionChecker.pylintVersionChecker,
     message: () => `Pylint is a recommended linter for Lingua Franca's Python target.`,
-    wrongVersionMessage: () => `The Lingua Franca language server is tested with Pylint version `
-        + `${config.pylintVersion.major}.${config.pylintVersion.minor} and newer.`,
+    wrongVersionMessage: v => `The Lingua Franca language server is tested with Pylint version `
+        + `${config.pylintVersion.major}.${config.pylintVersion.minor} and newer, but the version `
+        + `detected on your system is ${v.version}.`,
     requiredVersion: config.pylintVersion,
     installLink: null,
     installCommand: async () => (
@@ -39,6 +40,9 @@ const missingJava: MissingDependency = {
     checker: versionChecker.javaVersionChecker,
     message: () => `Java version ${config.javaVersion.major} is required for Lingua Franca diagrams`
         + ` and code analysis.`,
+    wrongVersionMessage: v => `Java version ${config.javaVersion.major} is required for Lingua `
+        + `Franca diagrams and code analysis, but the Java version detected on your system is `
+        + `${v.version}.`,
     requiredVersion: config.javaVersion,
     installLink: `https://www.oracle.com/java/technologies/downloads/#java${config.javaVersion.major}`,
     installCommand: () => null
@@ -48,6 +52,9 @@ const missingPython3: MissingDependency = {
     checker: versionChecker.python3VersionChecker,
     message: () => `Python version ${config.pythonVersion} or higher is required for compiling LF`
         + ` programs with the Python target.`,
+    wrongVersionMessage: v => `Python version ${config.pythonVersion} or higher is required for `
+        + `compiling LF programs with the Python target, but the version detected on your system is`
+        + ` ${v.version}.`,
     requiredVersion: config.pythonVersion,
     installLink: 'https://www.python.org/downloads/',
     installCommand: () => null
@@ -124,6 +131,8 @@ const missingPnpm: MissingDependency = {
 const missingRust: MissingDependency = {
     checker: versionChecker.rustVersionChecker,
     message: () => 'The Rust compiler is required for compiling LF programs with the Rust target.',
+    wrongVersionMessage: v => `The Lingua Franca toolchain for Rust is tested with Rust version `
+        + `${config.rustVersion}, but the Rust version detected on your system is `,
     requiredVersion: config.rustVersion,
     installLink: 'https://www.rust-lang.org/tools/install',
     installCommand: async v => (
@@ -139,6 +148,9 @@ const missingCmake: MissingDependency = {
     checker: versionChecker.cmakeVersionChecker,
     message: () => `CMake version ${config.cmakeVersion} or higher is recommended for compiling LF `
         + `programs with the C or C++ target.`,
+    wrongVersionMessage: v => `CMake version ${config.cmakeVersion} or higher is recommended for `
+        + `compiling LF programs with the C or C++ target, but the version detected on your system`
+        + ` is ${v.version}.`,
     requiredVersion: config.cmakeVersion,
     installLink: 'https://cmake.org/download/',
     installCommand: () => null
@@ -157,7 +169,8 @@ const checkDependency: UserFacingVersionCheckerMaker = (missingDependency: Missi
     const checkerResult = await missingDependency.checker();
     if (checkerResult.isCorrect) return true;
     const message: string = await (checkerResult.isCorrect === false ? (
-        missingDependency.wrongVersionMessage?.() ?? missingDependency.message(checkerResult)
+        missingDependency.wrongVersionMessage?.(checkerResult)
+        ?? missingDependency.message(checkerResult)
     ) : missingDependency.message(checkerResult));
     const installCommand: string = await missingDependency.installCommand?.(checkerResult);
     if (!installCommand && !missingDependency.installLink) {
