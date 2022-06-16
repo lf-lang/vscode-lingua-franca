@@ -170,6 +170,7 @@ suite('test dependency checking',  () => {
     ));
 
     test('rti', async function () {
+        if (os.platform() == 'win32') this.test.skip();  // No Windows federated support.
         this.timeout(basicDependencyTestTimeout);
         const spy = getMockMessageShower();
         switch (dependencies) {

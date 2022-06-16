@@ -33,6 +33,7 @@ jobs:
           .github/actions/install-rti/install.sh
           cd ..
         shell: bash
+        if: ${{ runner.os == 'macOS' || runner.os == 'Linux' }}
       - name: Run tests (Linux)
         run: xvfb-run --auto-servernum --server-args="-screen 0 1280x960x24" -- npm run test
         if: ${{ runner.os == 'Linux' }}
@@ -51,14 +52,6 @@ jobs:
         if: ${{ runner.os == 'Linux' }}
       - name: Run tests (non-Linux)
         run: npm run test-dependencies-missing1
-        if: ${{ runner.os != 'Linux' }}
-      - name: Install pylint
-        run: python3 -m pip install pylint
-      - name: Run tests (Linux)
-        run: xvfb-run --auto-servernum --server-args="-screen 0 1280x960x24" -- npm run test
-        if: ${{ runner.os == 'Linux' }}
-      - name: Run tests (non-Linux)
-        run: npm run test
         if: ${{ runner.os != 'Linux' }}
   test-dependencies-missing0:
     strategy:
