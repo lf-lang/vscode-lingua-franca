@@ -28,9 +28,9 @@ const missingPylint: MissingDependency = {
     installLink: null,
     installCommand: async () => (
         (await versionChecker.python3AliasVersionChecker()).isCorrect ?
-            'python3 -m pip install pylint' : (
-                (await versionChecker.pythonAliasVersionChecker()).isCorrect ?
-                    'python -m pip install pylint' : null
+        'python3 -m pip install pylint' : (
+            (await versionChecker.pythonAliasVersionChecker()).isCorrect ?
+            'python -m pip install pylint' : null
         )
     )
 };
@@ -46,9 +46,10 @@ const missingJava: MissingDependency = {
 
 const missingPython3: MissingDependency = {
     checker: versionChecker.python3VersionChecker,
-    message: () => `Python version ${config.pythonVersion} or higher is required for compiling LF programs with the Python target.`,
+    message: () => `Python version ${config.pythonVersion} or higher is required for compiling LF`
+        + ` programs with the Python target.`,
     requiredVersion: config.pythonVersion,
-    installLink: `https://www.python.org/downloads/`,
+    installLink: 'https://www.python.org/downloads/',
     installCommand: () => null
 };
 
@@ -59,17 +60,17 @@ const missingNode: MissingDependency = {
     installLink: 'https://nodejs.org/en/download/',
     installCommand: async v => (
         (await versionChecker.pnpmVersionChecker()).isCorrect ? 'pnpm env use --global lts' : (
-            v.isCorrect === false ? null : (  // Do not install if an (old) Node version is present
+            v.isCorrect === false ? 'npm update -g npm' : (
                 // Source: https://nodejs.org/en/download/package-manager/
                 (await versionChecker.brewVersionChecker()).isCorrect ? 'brew install node' : (
                     (await versionChecker.nvmVersionChecker()).isCorrect ? 'nvm install --lts' : (
                         (await versionChecker.snapVersionChecker()).isCorrect ?
-                            'sudo snap install node --classic' : (
-                                (await versionChecker.aptGetVersionChecker()).isCorrect ?
-                                    'sudo apt-get install nodejs' : (
-                                        (await versionChecker.chocolateyVersionChecker()).isCorrect ?
-                                            'choco install nodejs' : null
-                                    )
+                        'sudo snap install node --classic' : (
+                            (await versionChecker.aptGetVersionChecker()).isCorrect ?
+                            'sudo apt-get install nodejs' : (
+                                (await versionChecker.chocolateyVersionChecker()).isCorrect ?
+                                'choco install nodejs' : null
+                            )
                         )
                     )
                 )
@@ -99,16 +100,21 @@ const missingPnpm: MissingDependency = {
     requiredVersion: config.pnpmVersion,
     installLink: null,
     installCommand: async v => (
-        // The following steps are derived from https://pnpm.io/installation
-        v.isCorrect ? 'npm install -g pnpm' : (
-            // WARNING: 'corepack enable' might not install the latest PNPM version.
-            (await versionChecker.corepackVersionChecker()).isCorrect ? 'corepack enable' : (
-                // WARNING: PowerShell is the default terminal in Windows VS Code, but if the user
-                //  has set a different terminal as the default, then 'iwr' will fail.
-                os.platform() == 'win32' ? 'iwr https://get.pnpm.io/install.ps1 -useb | iex' : (
-                    (await versionChecker.curlVersionChecker()).isCorrect ?
-                    'curl -fsSL https://get.pnpm.io/install.sh | sh -'
-                    : 'wget -qO- https://get.pnpm.io/install.sh | sh -'
+        v.isCorrect === false ? (
+            (await versionChecker.corepackVersionChecker()).isCorrect ?
+            `corepack prepare pnpm@${config.pnpmLatestKnownGoodVersion}` : null
+        ) : (
+            // The following steps are derived from https://pnpm.io/installation
+            (await versionChecker.npmVersionChecker()).isCorrect ? 'npm install -g pnpm' : (
+                // WARNING: 'corepack enable' might not install the latest PNPM version.
+                (await versionChecker.corepackVersionChecker()).isCorrect ? 'corepack enable' : (
+                    // WARNING: PowerShell is the default terminal in Windows VS Code, but if
+                    //  a different terminal is set as the default, then 'iwr' will fail.
+                    os.platform() == 'win32' ? 'iwr https://get.pnpm.io/install.ps1 -useb | iex' : (
+                        (await versionChecker.curlVersionChecker()).isCorrect ?
+                        'curl -fsSL https://get.pnpm.io/install.sh | sh -'
+                        : 'wget -qO- https://get.pnpm.io/install.sh | sh -'
+                    )
                 )
             )
         )
@@ -120,7 +126,10 @@ const missingRust: MissingDependency = {
     message: () => 'The Rust compiler is required for compiling LF programs with the Rust target.',
     requiredVersion: config.rustVersion,
     installLink: 'https://www.rust-lang.org/tools/install',
-    installCommand: () => null  // Their install script is interactive :(
+    installCommand: async v => (
+        (v.isCorrect === null) ? null : // Their install script is interactive :(
+            'rustup update'  // If someone has rustc, they *should* also have rustup.
+    )
 };
 
 const missingCmake: MissingDependency = {
@@ -186,67 +195,71 @@ export const checkRust: UserFacingVersionChecker = checkDependency(missingRust);
 export const checkCmake: UserFacingVersionChecker = checkDependency(missingCmake);
 export const checkRti: UserFacingVersionChecker = checkDependency(missingRti);
 
-export function registerDependencyWatcher() {
-    type CheckSet = {
-        regexp: RegExp,
-        checks: {
-            checker: UserFacingVersionChecker,
-            isEssential: boolean,
-            alreadyChecked?: boolean
-        }[]
-    };
-    const watcherConfig: CheckSet[] = [
-        {
-            regexp: /(?=\\btarget\\s+C\\b)/,
-            checks: [
-                { checker: checkCmake, isEssential: false },
-            ]
-        },
-        {
-            regexp: /(?=\\btarget\\s+C?Cpp\\b)/,
-            checks: [
-                { checker: checkCmake, isEssential: true },
-            ]
-        },
-        {
-            regexp: /(?=\\btarget\\s+TypeScript\\b)/,
-            checks: [
-                { checker: checkPnpm, isEssential: false },
-                { checker: checkNode, isEssential: true },
-            ]
-        },
-        {
-            regexp: /(?=\\btarget\\s+Python\\b)/,
-            checks: [
-                { checker: checkPython3, isEssential: true },
-                { checker: checkPylint, isEssential: false },
-            ]
-        },
-        {
-            regexp: /(?=\\btarget\\s+Rust\\b)/,
-            checks: [
-                { checker: checkRust, isEssential: true },
-            ]
-        },
-        {
-            regexp: /(?=\\bfederated\\s+(realtime\\s+)?reactor\\b)/,
-            checks: [
-                { checker: checkRti, isEssential: true },
-            ]
-        },
-    ];
-    const doDependencyCheck = (document: vscode.TextDocument) => {
-        if (document.languageId != "lflang") return;
-        for (const checkSet of watcherConfig.filter(it => it.regexp.test(document.getText()))) {
-            for (const check of checkSet.checks.filter(it => !it.alreadyChecked)) {
-                check.alreadyChecked = true;
-                check.checker(
-                    check.isEssential ?
-                    vscode.window.showErrorMessage : vscode.window.showInformationMessage
-                );
-            }
+type CheckSet = {
+    regexp: RegExp,
+    checks: {
+        checker: UserFacingVersionChecker,
+        isEssential: boolean,
+        alreadyChecked?: boolean,
+        satisfied?: boolean
+    }[]
+};
+const watcherConfig: CheckSet[] = [
+    {
+        regexp: /(?=\\btarget\\s+C\\b)/,
+        checks: [
+            { checker: checkCmake, isEssential: false },
+        ]
+    },
+    {
+        regexp: /(?=\\btarget\\s+C?Cpp\\b)/,
+        checks: [
+            { checker: checkCmake, isEssential: true },
+        ]
+    },
+    {
+        regexp: /(?=\\btarget\\s+TypeScript\\b)/,
+        checks: [
+            { checker: checkPnpm, isEssential: false },
+            { checker: checkNode, isEssential: true },
+        ]
+    },
+    {
+        regexp: /(?=\\btarget\\s+Python\\b)/,
+        checks: [
+            { checker: checkPython3, isEssential: true },
+            { checker: checkPylint, isEssential: false },
+        ]
+    },
+    {
+        regexp: /(?=\\btarget\\s+Rust\\b)/,
+        checks: [
+            { checker: checkRust, isEssential: true },
+        ]
+    },
+    {
+        regexp: /(?=\\bfederated\\s+(realtime\\s+)?reactor\\b)/,
+        checks: [
+            { checker: checkRti, isEssential: true },
+        ]
+    },
+];
+const doDependencyCheck = (document: vscode.TextDocument) => {
+    if (document.languageId != "lflang") return;
+    for (const checkSet of watcherConfig.filter(it => it.regexp.test(document.getText()))) {
+        for (const check of checkSet.checks.filter(
+            it => !it.alreadyChecked || (it.isEssential && !it.satisfied))
+        ) {
+            check.alreadyChecked = true;
+            check.checker(
+                check.isEssential ?
+                vscode.window.showErrorMessage : vscode.window.showInformationMessage
+            )().then(satisfied => check.satisfied = satisfied);
         }
-    };
+    }
+};
+
+export function registerDependencyWatcher() {
     vscode.workspace.onDidOpenTextDocument(doDependencyCheck);
     vscode.workspace.onDidSaveTextDocument(doDependencyCheck);
 }

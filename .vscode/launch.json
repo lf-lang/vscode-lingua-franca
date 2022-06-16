@@ -35,9 +35,9 @@
                 "--extensionTestsPath=${workspaceFolder}/out/test/test/index"
             ],
             "env": {
-                "dependencies": "missing"
+                "dependencies": "missing1"
             },
-            "name": "Tests: Dependencies Missing",
+            "name": "Tests: Dependencies Missing1",
             "outFiles": [
                 "${workspaceFolder}/out/test/**/*.js"
             ],

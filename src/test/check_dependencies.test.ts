@@ -28,7 +28,12 @@ const basicTimeoutMilliseconds = 10 * 1000;
 const extendedTimeoutMilliseconds = 60 * 1000;
 const maxInstallationTimeMilliseconds = 20 * 1000;
 
-const sendNewline = () => getTerminal(config.installDependenciesTerminalName).sendText(os.EOL);
+const sendNewline = async () => {
+    // This delay is a hack to ensure that a terminal that is created and used just before this
+    //  command is discovered and used as the destination of the EOL sequence.
+    await new Promise(resolve => setTimeout(resolve, 1000));
+    getTerminal(config.installDependenciesTerminalName).sendText(os.EOL);
+};
 
 suite('test dependency checking',  () => {
     after(() => { vscode.window.showInformationMessage('dependency checking tests complete!') });
@@ -118,8 +123,8 @@ suite('test dependency checking',  () => {
             expect(spy).to.have.been.called.with(
                 `Pylint is a recommended linter for Lingua Franca's Python target.`
             );
-            await new Promise(resolve => setTimeout(resolve, maxInstallationTimeMilliseconds));
             sendNewline();
+            await new Promise(resolve => setTimeout(resolve, maxInstallationTimeMilliseconds));
             await expectSuccess(checkDependencies.checkPylint, spy);
             break;
         case Dependencies.Outdated:
@@ -156,8 +161,8 @@ suite('test dependency checking',  () => {
             // The following will fail because PNPM's installation script requires you to open a new
             // terminal in order for PNPM to be on your PATH. I have attempted to source the
             // ~/.bashrc to work around this, without success.
-            // await new Promise(resolve => setTimeout(resolve, maxInstallationTime));
             // sendNewline();
+            // await new Promise(resolve => setTimeout(resolve, maxInstallationTime));
             // await expectSuccess(checkDependencies.checkPnpm, spy);
             break;
         case Dependencies.Missing1:
@@ -166,8 +171,8 @@ suite('test dependency checking',  () => {
                 'To prevent an accumulation of replicated dependencies when compiling LF programs '
                 + 'with the TypeScript target, it is highly recommended to install pnpm globally.'
             );
-            await new Promise(resolve => setTimeout(resolve, maxInstallationTimeMilliseconds));
             sendNewline();
+            await new Promise(resolve => setTimeout(resolve, maxInstallationTimeMilliseconds));
             await expectSuccess(checkDependencies.checkPnpm, spy);
             break;
         case Dependencies.Outdated:
