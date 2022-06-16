@@ -178,4 +178,24 @@ suite('test dependency checking',  () => {
         checkDependencies.checkRust,
         'The Rust compiler is required for compiling LF programs with the Rust target.'
     ));
+
+    test('rti', async function () {
+        this.timeout(basicDependencyTestTimeout);
+        const spy = getMockMessageShower();
+        switch (dependencies) {
+        case Dependencies.Present:
+            await expectSuccess(checkDependencies.checkRti, spy);
+            break;
+        case Dependencies.Missing0:
+        case Dependencies.Outdated:
+            this.test.skip();
+        case Dependencies.Missing1:
+            await expectFailure(checkDependencies.checkRti, spy);
+            expect(spy).to.have.been.called.with('The Lingua Franca runtime infrastructure (RTI) '
+                + 'is required for executing federated LF programs.');
+            break;
+        default:
+            throw new Error('unreachable');
+        }
+    });
 });

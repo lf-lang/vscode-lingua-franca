@@ -14,7 +14,7 @@ export class Version {
         const result = version.match(Version.regex);
         this.major = parseInt(result.groups.major, 10);
         this.minor = parseInt(result.groups.minor, 10);
-        this.patch = parseInt(result.groups.patch);
+        this.patch = parseInt(result.groups.patch, 10);
     }
 
     isAtLeast(version: Version | string): boolean {

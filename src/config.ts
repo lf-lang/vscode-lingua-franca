@@ -42,6 +42,9 @@ export const pnpmVersion: Version = new Version('0.0.0');
 /** The minimum Rust version required for compiling LF programs with the Rust target. */
 export const rustVersion: Version = new Version('1.59.0');  // FIXME: Actually nightly, but this may be fixed by #1218 in lf-lang/lingua-franca.
 
+/** The minimum RTI version required for executing federated LF programs. */
+export const rtiVersion: Version = new Version('0.0.0');
+
 /** Name of the Language and Diagram Server jar. */
 export const ldsJarName = 'lflang-lds.jar';
 

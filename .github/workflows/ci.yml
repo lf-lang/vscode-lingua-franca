@@ -27,6 +27,12 @@ jobs:
         with:
           rust-version: ${{ matrix.rust }}
           components: clippy
+      - name: Install RTI
+        run: |
+          cd lingua-franca
+          .github/actions/install-rti/install.sh
+          cd ..
+        shell: bash
       - name: Run tests (Linux)
         run: xvfb-run --auto-servernum --server-args="-screen 0 1280x960x24" -- npm run test
         if: ${{ runner.os == 'Linux' }}

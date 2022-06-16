@@ -1,5 +1,6 @@
 import { exec } from 'child_process';
 import { promisify } from 'util';
+import which from 'which';
 import * as config from './config';
 import { Version } from './version';
 const runCmd = promisify(exec);
@@ -70,3 +71,13 @@ export const nvmVersionChecker: VersionChecker = basicVersionChecker(new Version
 export const snapVersionChecker: VersionChecker = basicVersionChecker(new Version('0.0.0'), 'snap --version', false);
 export const aptGetVersionChecker: VersionChecker = basicVersionChecker(new Version('0.0.0'), 'apt-get -v', false);
 export const chocolateyVersionChecker: VersionChecker = basicVersionChecker(new Version('0.0.0'), 'choco -v', false);
+export const rtiVersionChecker: VersionChecker = async () => {
+    // TODO: Update when #1233 is addressed: https://github.com/lf-lang/lingua-franca/issues/1233
+    let exists: boolean;
+    try {
+        exists = (await which("RTI")).length > 0;
+    } catch (e) {
+        return { version: new Version('0.0.0'), isCorrect: null };
+    }
+    return { version: new Version('0.0.0'), isCorrect: exists };
+};

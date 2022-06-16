@@ -67,6 +67,15 @@ const missingNode: MissingDependency = {
     )
 };
 
+const missingRti: MissingDependency = {
+    checker: versionChecker.rtiVersionChecker,
+    message: () => 'The Lingua Franca runtime infrastructure (RTI) is required for executing '
+        + 'federated LF programs.',
+    requiredVersion: config.rtiVersion,
+    installLink: 'https://www.lf-lang.org/docs/handbook/distributed-execution#installation-of-the-rti',
+    installCommand: () => null
+};
+
 const missingPnpm: MissingDependency = {
     checker: versionChecker.pnpmVersionChecker,
     message: async () => (
@@ -155,9 +164,10 @@ export const checkNode: UserFacingVersionChecker = checkDependency(missingNode);
 export const checkPnpm: UserFacingVersionChecker = checkDependency(missingPnpm);
 export const checkRust: UserFacingVersionChecker = checkDependency(missingRust);
 export const checkCmake: UserFacingVersionChecker = checkDependency(missingCmake);
+export const checkRti: UserFacingVersionChecker = checkDependency(missingRti);
 
 export function registerDependencyWatcher() {
-    type LanguageConfig = {
+    type CheckSet = {
         regexp: RegExp,
         checks: {
             checker: UserFacingVersionChecker,
@@ -165,7 +175,7 @@ export function registerDependencyWatcher() {
             alreadyChecked?: boolean
         }[]
     };
-    const watcherConfig: LanguageConfig[] = [
+    const watcherConfig: CheckSet[] = [
         {
             regexp: /(?=\\btarget\\s+C\\b)/,
             checks: [
@@ -197,24 +207,24 @@ export function registerDependencyWatcher() {
             checks: [
                 { checker: checkRust, isEssential: true },
             ]
-        }
+        },
+        {
+            regexp: /(?=\\bfederated\\s+(realtime\\s+)?reactor\\b)/,
+            checks: [
+                { checker: checkRti, isEssential: true },
+            ]
+        },
     ];
-    const detectTarget = (text: string) => {
-        for (const line of text.match(/[^\r\n]+/g)) {
-            const target = watcherConfig.find(target => target.regexp.test(line));
-            if (target) return target;
-        }
-    }
     const doDependencyCheck = (document: vscode.TextDocument) => {
         if (document.languageId != "lflang") return;
-        const target = detectTarget(document.getText());
-        if (!target) return;
-        for (const check of target.checks.filter(it => !it.alreadyChecked)) {
-            check.alreadyChecked = true;
-            check.checker(
-                check.isEssential ?
-                vscode.window.showErrorMessage : vscode.window.showInformationMessage
-            );
+        for (const checkSet of watcherConfig.filter(it => it.regexp.test(document.getText()))) {
+            for (const check of checkSet.checks.filter(it => !it.alreadyChecked)) {
+                check.alreadyChecked = true;
+                check.checker(
+                    check.isEssential ?
+                    vscode.window.showErrorMessage : vscode.window.showInformationMessage
+                );
+            }
         }
     };
     vscode.workspace.onDidOpenTextDocument(doDependencyCheck);
