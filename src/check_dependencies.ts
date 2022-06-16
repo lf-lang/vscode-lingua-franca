@@ -127,8 +127,11 @@ const missingRust: MissingDependency = {
     requiredVersion: config.rustVersion,
     installLink: 'https://www.rust-lang.org/tools/install',
     installCommand: async v => (
-        (v.isCorrect === null) ? null : // Their install script is interactive :(
-            'rustup update'  // If someone has rustc, they *should* also have rustup.
+        // If someone has rustc, they *should* also have rustup.
+        (v.isCorrect === false) ? 'rustup update' : (
+            os.platform() != 'win32' && (await versionChecker.curlVersionChecker()).isCorrect ?
+            'curl --proto \'=https\' --tlsv1.2 -sSf https://sh.rustup.rs | sh' : null
+        )
     )
 };
 
