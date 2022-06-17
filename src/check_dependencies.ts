@@ -11,7 +11,7 @@ import { Version } from './version';
 import * as versionChecker from './version_checker';
 
 // The following are exported solely for testing purposes.
-export const pylintMessage = "Pylint is a recommended linter for Lingua Franca's Python target.";
+export const pylintMessage = 'Pylint is a recommended linter for Lingua Franca\'s Python target.';
 export const javaMessage = `Java version ${config.javaVersion.major} is required for Lingua Franca `
     + `diagrams and code analysis.`;
 export const python3Message = `Python version ${config.pythonVersion} or higher is required for `
@@ -21,7 +21,7 @@ export const nodeMessage = 'Node.js is required for executing LF programs with t
 export const rtiMessage = 'The Lingua Franca runtime infrastructure (RTI) is required for executing'
     + ' federated LF programs.';
 export const pnpmMessage = 'In order to compile LF programs with the TypeScript target, it is '
-    + 'necessary to install pnpm.';
+    + 'necessary to install PNPM.';
 export const rustMessage = 'The Rust compiler is required for compiling LF programs with the Rust '
     + 'target.';
 export const cmakeMessage = `CMake version ${config.cmakeVersion} or higher is recommended for `
@@ -37,6 +37,11 @@ const wrongVersionMessageOf = (originalMessage: string) =>
 export type UserFacingVersionChecker = (shower: MessageShower) => () => Promise<boolean>;
 type UserFacingVersionCheckerMaker = (dependency: DependencyInfo) => UserFacingVersionChecker;
 
+type InstallCommand = {
+    description: string,  // Must be a noun phrase!
+    command: string
+}
+
 type DependencyInfo = {
     name: Dependency,
     checker: versionChecker.VersionChecker,
@@ -44,7 +49,7 @@ type DependencyInfo = {
     wrongVersionMessage?: (v: versionChecker.VersionCheckResult) => string,
     requiredVersion: Version,
     installLink: string | null,
-    installCommand: (v: versionChecker.VersionCheckResult) => Promise<string> | null,
+    installCommand: (v: versionChecker.VersionCheckResult) => Promise<InstallCommand> | null,
     isEssential: boolean,
     alreadyChecked?: boolean,
     satisfied?: boolean
@@ -104,22 +109,33 @@ const watcherConfig: CheckSet[] = [
                 installCommand: async v => (
                     v.isCorrect === false ? (
                         (await versionChecker.corepackVersionChecker()).isCorrect ?
-                        `corepack prepare pnpm@${config.pnpmLatestKnownGoodVersion}` : null
+                        {
+                            description: 'Corepack',
+                            command: `corepack prepare pnpm@${config.pnpmLatestKnownGoodVersion}`
+                        } : null
                     ) : (
                         // The following steps are derived from https://pnpm.io/installation
                         (await versionChecker.npmVersionChecker()).isCorrect ?
-                        'npm install -g pnpm' : (
+                        {description: 'NPM', command: 'npm install -g pnpm' } : (
                             // WARNING: 'corepack enable' might not install the latest PNPM version.
                             (await versionChecker.corepackVersionChecker()).isCorrect ?
-                            'corepack enable' : (
+                            { description: 'Corepack', command: 'corepack enable' } : (
                                 // WARNING: PowerShell is the default terminal in Windows VS Code,
                                 //  but if a different terminal is set as the default, then 'iwr'
                                 //  will fail.
                                 os.platform() == 'win32' ?
-                                'iwr https://get.pnpm.io/install.ps1 -useb | iex' : (
+                                {
+                                    description: 'a Powershell script',
+                                    command: 'iwr https://get.pnpm.io/install.ps1 -useb | iex'
+                                } : (
                                     (await versionChecker.curlVersionChecker()).isCorrect ?
-                                    'curl -fsSL https://get.pnpm.io/install.sh | sh -'
-                                    : 'wget -qO- https://get.pnpm.io/install.sh | sh -'
+                                    {
+                                        description: 'a Bash script',
+                                        command: 'curl -fsSL https://get.pnpm.io/install.sh | sh -'
+                                    } : {
+                                        description: 'a bash script',
+                                        command: 'wget -qO- https://get.pnpm.io/install.sh | sh -'
+                                    }
                                 )
                             )
                         )
@@ -135,19 +151,29 @@ const watcherConfig: CheckSet[] = [
                 installLink: 'https://nodejs.org/en/download/',
                 installCommand: async v => (
                     (await versionChecker.pnpmVersionChecker()).isCorrect ?
-                    'pnpm env use --global lts' : (
-                        v.isCorrect === false ? 'npm update -g npm' : (
+                    { description: 'PNPM', command: 'pnpm env use --global lts' } : (
+                        v.isCorrect === false ?
+                        { description: 'NPM', command: 'npm update -g npm' } : (
                             // Source: https://nodejs.org/en/download/package-manager/
                             (await versionChecker.brewVersionChecker()).isCorrect ?
-                            'brew install node' : (
+                            { description: 'Homebrew', command: 'brew install node' } : (
                                 (await versionChecker.nvmVersionChecker()).isCorrect ?
-                                'nvm install --lts' : (
+                                { description: 'NVM', command: 'nvm install --lts' } : (
                                     (await versionChecker.snapVersionChecker()).isCorrect ?
-                                    'sudo snap install node --classic' : (
+                                    {
+                                        description: 'Snap',
+                                        command: 'sudo snap install node --classic'
+                                    } : (
                                         (await versionChecker.aptGetVersionChecker()).isCorrect ?
-                                        'sudo apt-get install nodejs' : (
+                                        {
+                                            description: 'apt-get',
+                                            command: 'sudo apt-get install nodejs'
+                                         } : (
                                             (await versionChecker.chocolateyVersionChecker()).isCorrect ?
-                                            'choco install nodejs' : null
+                                            {
+                                                description: 'Chocolatey',
+                                                command: 'choco install nodejs'
+                                            } : null
                                         )
                                     )
                                 )
@@ -184,9 +210,9 @@ const watcherConfig: CheckSet[] = [
                 installLink: null,
                 installCommand: async () => (
                     (await versionChecker.python3AliasVersionChecker()).isCorrect ?
-                    'python3 -m pip install pylint' : (
+                    { description: 'Pip', command: 'python3 -m pip install pylint' } : (
                         (await versionChecker.pythonAliasVersionChecker()).isCorrect ?
-                        'python -m pip install pylint' : null
+                        { description: 'Pip', command: 'python -m pip install pylint' } : null
                     )
                 ),
                 isEssential: false
@@ -205,12 +231,16 @@ const watcherConfig: CheckSet[] = [
                 installLink: 'https://www.rust-lang.org/tools/install',
                 installCommand: async v => (
                     // If someone has rustc, they *should* also have rustup.
-                    (v.isCorrect === false) ? 'rustup update' : (
+                    (v.isCorrect === false) ?
+                    { description: 'Rustup', command: 'rustup update' } : (
                         (
                             os.platform() != 'win32'
                             && (await versionChecker.curlVersionChecker()).isCorrect
                         ) ?
-                        'curl --proto \'=https\' --tlsv1.2 -sSf https://sh.rustup.rs | sh' :
+                        {
+                            description: 'an interactive shell script',
+                            command: 'curl --proto \'=https\' --tlsv1.2 -sSf https://sh.rustup.rs | sh'
+                        } :
                         null
                     )
                 ),
@@ -247,28 +277,25 @@ const checkDependency: UserFacingVersionCheckerMaker = (dependency: DependencyIn
         dependency.wrongVersionMessage?.(checkerResult)
         ?? dependency.message(checkerResult)
     ) : dependency.message(checkerResult));
-    const installCommand: string = await dependency.installCommand?.(checkerResult);
+    const installCommand: InstallCommand = await dependency.installCommand?.(checkerResult);
     if (!installCommand && !dependency.installLink) {
         messageShower(message);
         return false;
     }
     const buttonText: string = !installCommand ? 'View download page' : (
-        (checkerResult.isCorrect === false) ? 'Update' : 'Install'
+        `${(checkerResult.isCorrect === false) ? 'Update' : 'Install'} using
+${installCommand.description}`
     );
     messageShower(message, buttonText).then(async (response) => {
         if (response === buttonText) {
             if (installCommand) {
                 const terminal = getTerminal(config.installDependenciesTerminalName);
-                // If a command was previously sitting in the terminal, run it to clear it out. This
-                //  is a dangerous policy, but we should not simply append the new command to the
-                //  one that was already sitting in the terminal.
-                terminal.sendText(os.EOL);
-                terminal.sendText(await dependency.installCommand(checkerResult), false);
+                terminal.sendText(installCommand.command, true);
                 terminal.show();
             } else if (dependency.installLink) {
                 // Related issue: https://github.com/microsoft/vscode/issues/69608
                 vscode.commands.executeCommand(
-                    "vscode.open",
+                    'vscode.open',
                     vscode.Uri.parse(dependency.installLink)
                 );
             }

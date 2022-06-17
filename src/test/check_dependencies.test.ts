@@ -11,8 +11,7 @@ import chai from 'chai';
 import spies from 'chai-spies';
 import { expect } from 'chai';
 import { after, Context } from 'mocha';
-import { getTerminal, MessageShower } from '../utils';
-import * as config from '../config';
+import { MessageShower } from '../utils';
 
 chai.use(spies);
 
@@ -28,14 +27,6 @@ type Test = () => Promise<void>;
 const basicTimeoutMilliseconds = 10 * 1000;
 const extendedTimeoutMilliseconds = 60 * 1000;
 const maxInstallationTimeMilliseconds = 20 * 1000;
-const eolSendWaitTimeMilliseconds = 5 * 1000;  // See? In-order message delivery matters :P
-
-const sendNewline = async () => {
-    // This delay is a hack to ensure that a terminal that is created and used just before this
-    //  command is discovered for use as the destination of the EOL sequence.
-    await new Promise(resolve => setTimeout(resolve, eolSendWaitTimeMilliseconds));
-    getTerminal(config.installDependenciesTerminalName).sendText(os.EOL);
-};
 
 suite('test dependency checking',  () => {
     after(() => { vscode.window.showInformationMessage('dependency checking tests complete!') });
@@ -53,9 +44,11 @@ suite('test dependency checking',  () => {
 
     type Spy = ChaiSpies.SpyFunc1Proxy<string, Thenable<string>>;
 
-    function getMockMessageShower(buttonClicked?: string): Spy {
+    function getMockMessageShower(): Spy {
         const mock: MessageShower = (message: string, ...items: string[]) =>
-            Promise.resolve(buttonClicked);
+            Promise.resolve(items.find(
+                it => it.toLowerCase().includes('update') || it.toLowerCase().includes('install')
+            ));
         return chai.spy(mock);
     };
 
@@ -101,7 +94,7 @@ suite('test dependency checking',  () => {
 
     test('pylint', async function() {
         this.timeout(extendedTimeoutMilliseconds);
-        const spy = getMockMessageShower('Install');
+        const spy = getMockMessageShower();
         switch (dependencies) {
         case DependencyStatus.Present:
             await expectSuccess(Dependency.Pylint, spy);
@@ -111,7 +104,6 @@ suite('test dependency checking',  () => {
         case DependencyStatus.Missing1:
             await expectFailure(Dependency.Pylint, spy);
             expect(spy).to.have.been.called.with(checkDependencies.pylintMessage);
-            sendNewline();
             await new Promise(resolve => setTimeout(resolve, maxInstallationTimeMilliseconds));
             await expectSuccess(Dependency.Pylint, spy);
             break;
@@ -134,7 +126,7 @@ suite('test dependency checking',  () => {
 
     test('pnpm', async function() {
         this.timeout(extendedTimeoutMilliseconds);
-        const spy = getMockMessageShower('Install');
+        const spy = getMockMessageShower();
         switch (dependencies) {
         case DependencyStatus.Present:
             await expectSuccess(Dependency.Pnpm, spy);
@@ -155,7 +147,6 @@ suite('test dependency checking',  () => {
                 'To prevent an accumulation of replicated dependencies when compiling LF programs '
                 + 'with the TypeScript target, it is highly recommended to install pnpm globally.'
             );
-            sendNewline();
             await new Promise(resolve => setTimeout(resolve, maxInstallationTimeMilliseconds));
             await expectSuccess(Dependency.Pnpm, spy);
             break;
