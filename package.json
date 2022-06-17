@@ -148,6 +148,6 @@
         "install": "npm run build && npm run deploy",
         "test": "jest --coverage",
         "test:watch": "jest --watch",
-        "uf": "./uf.py"
+        "amend-jar": "./uf.py"
     }
 }
