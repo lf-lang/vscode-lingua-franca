@@ -12,6 +12,8 @@ import spies from 'chai-spies';
 import { expect } from 'chai';
 import { after, Context } from 'mocha';
 import { MessageShower } from '../utils';
+import * as http from 'http';
+import * as url from 'url';
 
 chai.use(spies);
 
@@ -26,7 +28,8 @@ type Test = () => Promise<void>;
 
 const basicTimeoutMilliseconds = 10 * 1000;
 const extendedTimeoutMilliseconds = 60 * 1000;
-const maxInstallationTimeMilliseconds = 20 * 1000;
+const maxInstallationTimeMilliseconds = 30 * 1000;
+const linkCheckingTimeoutMilliseconds = 60 * 1000;
 
 suite('test dependency checking',  () => {
     after(() => { vscode.window.showInformationMessage('dependency checking tests complete!') });
@@ -159,7 +162,7 @@ suite('test dependency checking',  () => {
 
     test('rust', checkBasicDependency(Dependency.Rust, checkDependencies.rustMessage));
 
-    test('rti', async function () {
+    test('rti', async function() {
         if (os.platform() == 'win32') this.test.skip();  // No Windows federated support.
         this.timeout(basicTimeoutMilliseconds);
         const spy = getMockMessageShower();
@@ -176,6 +179,28 @@ suite('test dependency checking',  () => {
             break;
         default:
             throw new Error('unreachable');
+        }
+    });
+
+    test('hyperlinks', async function() {
+        this.timeout(linkCheckingTimeoutMilliseconds);
+        if (dependencies != DependencyStatus.Present) this.test.skip();
+        for (const checkset of checkDependencies.watcherConfig) {
+            for (const check of checkset.checks) {
+                if (check.installLink) {
+                    console.log(`Checking that the link "${check.installLink}" is not broken...`);
+                    const installUrl = new url.URL(check.installLink);
+                    expect((await new Promise<number>(function(resolve) {
+                        const req = http.request(
+                            { host: installUrl.host, path: installUrl.pathname },
+                            res => {
+                                console.log(`Got status=${res.statusCode}`);
+                                resolve(res.statusCode);
+                            }
+                        ).end();
+                    }))).to.be.lessThan(400);
+                }
+            }
         }
     });
 });

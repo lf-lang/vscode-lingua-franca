@@ -133,6 +133,7 @@
         "simple-git": "^3.7.1",
         "ts-node": "^10.4.0",
         "typescript": "^4.6.4",
+        "url-exist": "^3.0.0",
         "vsce": "^2.7.0",
         "which": "^2.0.2"
     },

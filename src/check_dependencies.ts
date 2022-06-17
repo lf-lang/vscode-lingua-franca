@@ -60,7 +60,7 @@ type CheckSet = {
     checks: DependencyInfo[]
 };
 
-const watcherConfig: CheckSet[] = [
+export const watcherConfig: CheckSet[] = [
     {
         regexp: /./,
         checks: [
