@@ -10,7 +10,7 @@ import { LanguageClient, LanguageClientOptions, ServerOptions } from 'vscode-lan
 import { legend, semanticTokensProvider } from './highlight';
 import * as config from './config';
 import { registerBuildCommands } from './build_commands';
-import { checkJava, registerDependencyWatcher } from './check_dependencies';
+import * as checkDependencies from './check_dependencies';
 
 let client: LanguageClient;
 
@@ -22,9 +22,14 @@ export async function activate(context: vscode.ExtensionContext) {
         legend
     ));
 
-    registerDependencyWatcher();
+    checkDependencies.registerDependencyWatcher();
 
-    if (!(await checkJava(vscode.window.showErrorMessage)())) return;
+    if (!(
+        await checkDependencies.checkerFor
+        (checkDependencies.Dependency.Java)
+        (vscode.window.showErrorMessage)
+        ()
+    )) return;
 
     const ldsJar = context.asAbsolutePath(path.join(config.libDirName, config.ldsJarName));
     console.assert(fs.existsSync(ldsJar));

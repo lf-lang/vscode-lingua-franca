@@ -5,6 +5,7 @@
 
 import * as os from 'os';
 import * as checkDependencies from '../check_dependencies';
+import { Dependency } from '../check_dependencies';
 import * as vscode from 'vscode';
 import chai from 'chai';
 import spies from 'chai-spies';
@@ -15,7 +16,7 @@ import * as config from '../config';
 
 chai.use(spies);
 
-enum Dependencies {
+enum DependencyStatus {
     Missing0 = 'missing0',  // Missing even the most basic dependencies
     Missing1 = 'missing1',  // Missing semi-optional dependencies
     Outdated = 'outdated',
@@ -39,14 +40,14 @@ const sendNewline = async () => {
 suite('test dependency checking',  () => {
     after(() => { vscode.window.showInformationMessage('dependency checking tests complete!') });
 
-    const dependencies: Dependencies = (() => {
+    const dependencies: DependencyStatus = (() => {
         const dependenciesString = process.env.dependencies.toLowerCase();
-        for (const v in Dependencies) {
-            if (v.toLowerCase() === dependenciesString) return Dependencies[v];
+        for (const v in DependencyStatus) {
+            if (v.toLowerCase() === dependenciesString) return DependencyStatus[v];
         }
         throw new Error(
             `"${dependenciesString}" is not a valid dependency state.
-            Acceptable values are "${Object.keys(Dependencies).join('", "')}"`
+            Acceptable values are "${Object.keys(DependencyStatus).join('", "')}"`
         );
     })();
 
@@ -59,7 +60,7 @@ suite('test dependency checking',  () => {
     };
 
     function checkBasicDependency(
-        checker: checkDependencies.UserFacingVersionChecker,
+        dependency: Dependency,
         depMissingMessage: string,
         context?: Context
     ): Test {
@@ -67,15 +68,15 @@ suite('test dependency checking',  () => {
             (context ?? this).timeout(basicTimeoutMilliseconds);
             const spy = getMockMessageShower();
             switch (dependencies) {
-            case Dependencies.Present:
-                await expectSuccess(checker, spy);
+            case DependencyStatus.Present:
+                await expectSuccess(dependency, spy);
                 break;
-            case Dependencies.Missing0:
-            case Dependencies.Outdated:
-                await expectFailure(checker, spy);
+            case DependencyStatus.Missing0:
+            case DependencyStatus.Outdated:
+                await expectFailure(dependency, spy);
                 expect(spy).to.have.been.called.with(depMissingMessage);
                 break;
-            case Dependencies.Missing1:
+            case DependencyStatus.Missing1:
                 (context ?? this).test.skip();
             default:
                 throw new Error('unreachable');
@@ -83,47 +84,38 @@ suite('test dependency checking',  () => {
         };
     }
 
-    const expectSuccess = async (checker: checkDependencies.UserFacingVersionChecker, spy: Spy) => {
-        expect(await checker(spy)()).to.be.true;
+    const expectSuccess = async (dependency: Dependency, spy: Spy) => {
+        expect(await checkDependencies.checkerFor(dependency)(spy)()).to.be.true;
         expect(spy).not.to.have.been.called;
     };
-    const expectFailure = async (checker: checkDependencies.UserFacingVersionChecker, spy: Spy) => {
-        expect(await checker(spy)()).to.be.false;
+    const expectFailure = async (dependency: Dependency, spy: Spy) => {
+        expect(await checkDependencies.checkerFor(dependency)(spy)()).to.be.false;
         expect(spy).to.have.been.called;
     };
 
-    test('java', checkBasicDependency(
-        checkDependencies.checkJava,
-        checkDependencies.javaMessage
-    ));
+    test('java', checkBasicDependency(Dependency.Java, checkDependencies.javaMessage));
 
-    test('python3', checkBasicDependency(
-        checkDependencies.checkPython3,
-        checkDependencies.python3Message
-    ));
+    test('python3', checkBasicDependency(Dependency.Python3, checkDependencies.python3Message));
 
-    test('cmake', checkBasicDependency(
-        checkDependencies.checkCmake,
-        checkDependencies.cmakeMessage
-    ));
+    test('cmake', checkBasicDependency(Dependency.Cmake, checkDependencies.cmakeMessage));
 
     test('pylint', async function() {
         this.timeout(extendedTimeoutMilliseconds);
         const spy = getMockMessageShower('Install');
         switch (dependencies) {
-        case Dependencies.Present:
-            await expectSuccess(checkDependencies.checkPylint, spy);
+        case DependencyStatus.Present:
+            await expectSuccess(Dependency.Pylint, spy);
             break;
-        case Dependencies.Missing0:
+        case DependencyStatus.Missing0:
             this.test.skip();
-        case Dependencies.Missing1:
-            await expectFailure(checkDependencies.checkPylint, spy);
+        case DependencyStatus.Missing1:
+            await expectFailure(Dependency.Pylint, spy);
             expect(spy).to.have.been.called.with(checkDependencies.pylintMessage);
             sendNewline();
             await new Promise(resolve => setTimeout(resolve, maxInstallationTimeMilliseconds));
-            await expectSuccess(checkDependencies.checkPylint, spy);
+            await expectSuccess(Dependency.Pylint, spy);
             break;
-        case Dependencies.Outdated:
+        case DependencyStatus.Outdated:
             throw new Error('unreachable');
             // FIXME: Dead code
             // await expectFailure(checkDependencies.checkPylint, spy);
@@ -138,20 +130,17 @@ suite('test dependency checking',  () => {
         }
     });
 
-    test('node', checkBasicDependency(
-        checkDependencies.checkNode,
-        checkDependencies.nodeMessage
-    ));
+    test('node', checkBasicDependency(Dependency.Node, checkDependencies.nodeMessage));
 
     test('pnpm', async function() {
         this.timeout(extendedTimeoutMilliseconds);
         const spy = getMockMessageShower('Install');
         switch (dependencies) {
-        case Dependencies.Present:
-            await expectSuccess(checkDependencies.checkPnpm, spy);
+        case DependencyStatus.Present:
+            await expectSuccess(Dependency.Pnpm, spy);
             break;
-        case Dependencies.Missing0:
-            await expectFailure(checkDependencies.checkPnpm, spy);
+        case DependencyStatus.Missing0:
+            await expectFailure(Dependency.Pnpm, spy);
             expect(spy).to.have.been.called.with(checkDependencies.pnpmMessage);
             // The following will fail because PNPM's installation script requires you to open a new
             // terminal in order for PNPM to be on your PATH. I have attempted to source the
@@ -160,41 +149,38 @@ suite('test dependency checking',  () => {
             // await new Promise(resolve => setTimeout(resolve, maxInstallationTime));
             // await expectSuccess(checkDependencies.checkPnpm, spy);
             break;
-        case Dependencies.Missing1:
-            await expectFailure(checkDependencies.checkPnpm, spy);
+        case DependencyStatus.Missing1:
+            await expectFailure(Dependency.Pnpm, spy);
             expect(spy).to.have.been.called.with(
                 'To prevent an accumulation of replicated dependencies when compiling LF programs '
                 + 'with the TypeScript target, it is highly recommended to install pnpm globally.'
             );
             sendNewline();
             await new Promise(resolve => setTimeout(resolve, maxInstallationTimeMilliseconds));
-            await expectSuccess(checkDependencies.checkPnpm, spy);
+            await expectSuccess(Dependency.Pnpm, spy);
             break;
-        case Dependencies.Outdated:
+        case DependencyStatus.Outdated:
             throw new Error('This feature (checking for an outdated pnpm) is not yet implemented.');
         default:
             throw new Error('unreachable');
         }
     });
 
-    test('rust', checkBasicDependency(
-        checkDependencies.checkRust,
-        checkDependencies.rustMessage
-    ));
+    test('rust', checkBasicDependency(Dependency.Rust, checkDependencies.rustMessage));
 
     test('rti', async function () {
         if (os.platform() == 'win32') this.test.skip();  // No Windows federated support.
         this.timeout(basicTimeoutMilliseconds);
         const spy = getMockMessageShower();
         switch (dependencies) {
-        case Dependencies.Present:
-            await expectSuccess(checkDependencies.checkRti, spy);
+        case DependencyStatus.Present:
+            await expectSuccess(Dependency.Rti, spy);
             break;
-        case Dependencies.Missing0:
-        case Dependencies.Outdated:
+        case DependencyStatus.Missing0:
+        case DependencyStatus.Outdated:
             this.test.skip();
-        case Dependencies.Missing1:
-            await expectFailure(checkDependencies.checkRti, spy);
+        case DependencyStatus.Missing1:
+            await expectFailure(Dependency.Rti, spy);
             expect(spy).to.have.been.called.with(checkDependencies.rtiMessage);
             break;
         default:
