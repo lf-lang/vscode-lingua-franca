@@ -12,5 +12,5 @@ runs:
     - name: Prepare LF build environment
       uses: ./lingua-franca/.github/actions/prepare-build-env
     - name: Build the VS Code extension
-      run: npm install
+      run: npm install --ignore-scripts
       shell: bash
