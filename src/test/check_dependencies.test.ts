@@ -27,11 +27,12 @@ type Test = () => Promise<void>;
 const basicTimeoutMilliseconds = 10 * 1000;
 const extendedTimeoutMilliseconds = 60 * 1000;
 const maxInstallationTimeMilliseconds = 20 * 1000;
+const eolSendWaitTimeMilliseconds = 5 * 1000;  // See? In-order message delivery matters :P
 
 const sendNewline = async () => {
     // This delay is a hack to ensure that a terminal that is created and used just before this
-    //  command is discovered and used as the destination of the EOL sequence.
-    await new Promise(resolve => setTimeout(resolve, 1000));
+    //  command is discovered for use as the destination of the EOL sequence.
+    await new Promise(resolve => setTimeout(resolve, eolSendWaitTimeMilliseconds));
     getTerminal(config.installDependenciesTerminalName).sendText(os.EOL);
 };
 
