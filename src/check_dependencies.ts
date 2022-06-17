@@ -33,8 +33,8 @@ export const pnpmMessage = 'In order to compile LF programs with the TypeScript 
     + 'necessary to install pnpm.';
 export const rustMessage = 'The Rust compiler is required for compiling LF programs with the Rust '
     + 'target.';
-export const cmakeMessage = `CMake version ${config.cmakeVersion} or higher is recommended for '
-    + 'compiling LF programs with the C or C++ target.`;
+export const cmakeMessage = `CMake version ${config.cmakeVersion} or higher is recommended for `
+    + `compiling LF programs with the C or C++ target.`;
 
 const wrongVersionMessageOf = (originalMessage: string) =>
     (badResult: versionChecker.VersionCheckResult) =>
@@ -44,9 +44,10 @@ const wrongVersionMessageOf = (originalMessage: string) =>
 const missingPylint: MissingDependency = {
     checker: versionChecker.pylintVersionChecker,
     message: () => pylintMessage,
-    wrongVersionMessage: v => `The Lingua Franca language server is tested with Pylint version `
-        + `${config.pylintVersion.major}.${config.pylintVersion.minor} and newer, but the version `
-        + `detected on your system is ${v.version}.`,
+    wrongVersionMessage: wrongVersionMessageOf(
+        `The Lingua Franca language server is tested with Pylint version `
+        + `${config.pylintVersion.major}.${config.pylintVersion.minor} and newer.`
+    ),
     requiredVersion: config.pylintVersion,
     installLink: null,
     installCommand: async () => (

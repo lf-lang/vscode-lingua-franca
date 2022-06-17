@@ -94,20 +94,17 @@ suite('test dependency checking',  () => {
 
     test('java', checkBasicDependency(
         checkDependencies.checkJava,
-        `Java version ${config.javaVersion.major} is required for Lingua Franca diagrams and code `
-            + `analysis.`
+        checkDependencies.javaMessage
     ));
 
     test('python3', checkBasicDependency(
         checkDependencies.checkPython3,
-        `Python version ${config.pythonVersion} or higher is required for compiling LF programs `
-            + `with the Python target.`
+        checkDependencies.python3Message
     ));
 
     test('cmake', checkBasicDependency(
         checkDependencies.checkCmake,
-        `CMake version ${config.cmakeVersion} or higher is recommended for compiling LF programs `
-            + `with the C or C++ target.`
+        checkDependencies.cmakeMessage
     ));
 
     test('pylint', async function() {
@@ -121,20 +118,20 @@ suite('test dependency checking',  () => {
             this.test.skip();
         case Dependencies.Missing1:
             await expectFailure(checkDependencies.checkPylint, spy);
-            expect(spy).to.have.been.called.with(
-                `Pylint is a recommended linter for Lingua Franca's Python target.`
-            );
+            expect(spy).to.have.been.called.with(checkDependencies.pylintMessage);
             sendNewline();
             await new Promise(resolve => setTimeout(resolve, maxInstallationTimeMilliseconds));
             await expectSuccess(checkDependencies.checkPylint, spy);
             break;
         case Dependencies.Outdated:
-            await expectFailure(checkDependencies.checkPylint, spy);
-            expect(spy).to.have.been.called.with(
-                `The Lingua Franca language server is tested with Pylint version `
-                + `${config.pylintVersion.major}.${config.pylintVersion.minor} and newer.`
-            );
-            await expectSuccess(checkDependencies.checkPylint, spy);
+            throw new Error('unreachable');
+            // FIXME: Dead code
+            // await expectFailure(checkDependencies.checkPylint, spy);
+            // expect(spy).to.have.been.called.with(
+            //     `The Lingua Franca language server is tested with Pylint version `
+            //     + `${config.pylintVersion.major}.${config.pylintVersion.minor} and newer.`
+            // );
+            // await expectSuccess(checkDependencies.checkPylint, spy);
             break;
         default:
             throw new Error('unreachable');
@@ -143,7 +140,7 @@ suite('test dependency checking',  () => {
 
     test('node', checkBasicDependency(
         checkDependencies.checkNode,
-        'Node.js is required for executing LF programs with the TypeScript target.'
+        checkDependencies.nodeMessage
     ));
 
     test('pnpm', async function() {
@@ -155,10 +152,7 @@ suite('test dependency checking',  () => {
             break;
         case Dependencies.Missing0:
             await expectFailure(checkDependencies.checkPnpm, spy);
-            expect(spy).to.have.been.called.with(
-                'In order to compile LF programs with the TypeScript target, it is necessary to '
-                    + 'install pnpm.'
-            );
+            expect(spy).to.have.been.called.with(checkDependencies.pnpmMessage);
             // The following will fail because PNPM's installation script requires you to open a new
             // terminal in order for PNPM to be on your PATH. I have attempted to source the
             // ~/.bashrc to work around this, without success.
@@ -185,7 +179,7 @@ suite('test dependency checking',  () => {
 
     test('rust', checkBasicDependency(
         checkDependencies.checkRust,
-        'The Rust compiler is required for compiling LF programs with the Rust target.'
+        checkDependencies.rustMessage
     ));
 
     test('rti', async function () {
@@ -201,8 +195,7 @@ suite('test dependency checking',  () => {
             this.test.skip();
         case Dependencies.Missing1:
             await expectFailure(checkDependencies.checkRti, spy);
-            expect(spy).to.have.been.called.with('The Lingua Franca runtime infrastructure (RTI) '
-                + 'is required for executing federated LF programs.');
+            expect(spy).to.have.been.called.with(checkDependencies.rtiMessage);
             break;
         default:
             throw new Error('unreachable');
