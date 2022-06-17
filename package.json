@@ -147,6 +147,7 @@
         "deploy": "vsce package && code --install-extension vscode-lingua-franca-*.vsix",
         "install": "npm run build && npm run deploy",
         "test": "jest --coverage",
-        "test:watch": "jest --watch"
+        "test:watch": "jest --watch",
+        "uf": "./uf.py"
     }
 }
