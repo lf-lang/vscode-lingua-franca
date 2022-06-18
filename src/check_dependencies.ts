@@ -210,9 +210,10 @@ export const watcherConfig: CheckSet[] = [
                 installLink: null,
                 installCommand: async () => (
                     (await versionChecker.python3AliasVersionChecker()).isCorrect ?
-                    { description: 'Pip', command: 'python3 -m pip install pylint' } : (
+                    { description: 'Pip', command: 'python3 -m pip install pylint --upgrade' } : (
                         (await versionChecker.pythonAliasVersionChecker()).isCorrect ?
-                        { description: 'Pip', command: 'python -m pip install pylint' } : null
+                        { description: 'Pip', command: 'python -m pip install pylint --upgrade' }
+                        : null
                     )
                 ),
                 isEssential: false
@@ -232,7 +233,10 @@ export const watcherConfig: CheckSet[] = [
                 installCommand: async v => (
                     // If someone has rustc, they *should* also have rustup.
                     (v.isCorrect === false) ?
-                    { description: 'Rustup', command: 'rustup update' } : (
+                    {
+                        description: 'Rustup',
+                        command: `rustup default ${config.rustLatestKnownGoodVersion}`
+                    } : (
                         (
                             os.platform() != 'win32'
                             && (await versionChecker.curlVersionChecker()).isCorrect

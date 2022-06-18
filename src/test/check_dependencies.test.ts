@@ -14,6 +14,7 @@ import { after, Context } from 'mocha';
 import { MessageShower } from '../utils';
 import * as http from 'http';
 import * as url from 'url';
+import * as config from '../config';
 
 chai.use(spies);
 
@@ -55,25 +56,22 @@ suite('test dependency checking',  () => {
         return chai.spy(mock);
     };
 
-    function checkBasicDependency(
-        dependency: Dependency,
-        depMissingMessage: string,
-        context?: Context
-    ): Test {
+    function checkBasicDependency(dependency: Dependency, depMissingMessage: string): Test {
         return async function () {
-            (context ?? this).timeout(basicTimeoutMilliseconds);
+            this.timeout(basicTimeoutMilliseconds);
             const spy = getMockMessageShower();
             switch (dependencies) {
             case DependencyStatus.Present:
                 await expectSuccess(dependency, spy);
                 break;
-            case DependencyStatus.Missing0:
             case DependencyStatus.Outdated:
+                this.test.skip();
+            case DependencyStatus.Missing0:
                 await expectFailure(dependency, spy);
                 expect(spy).to.have.been.called.with(depMissingMessage);
                 break;
             case DependencyStatus.Missing1:
-                (context ?? this).test.skip();
+                this.test.skip();
             default:
                 throw new Error('unreachable');
             }
@@ -111,14 +109,14 @@ suite('test dependency checking',  () => {
             await expectSuccess(Dependency.Pylint, spy);
             break;
         case DependencyStatus.Outdated:
-            throw new Error('unreachable');
-            // FIXME: Dead code
-            // await expectFailure(checkDependencies.checkPylint, spy);
-            // expect(spy).to.have.been.called.with(
-            //     `The Lingua Franca language server is tested with Pylint version `
-            //     + `${config.pylintVersion.major}.${config.pylintVersion.minor} and newer.`
-            // );
-            // await expectSuccess(checkDependencies.checkPylint, spy);
+            await expectFailure(Dependency.Pylint, spy);
+            expect(spy).to.have.been.called.with(
+                `The Lingua Franca language server is tested with Pylint version `
+                    + `${config.pylintVersion.major}.${config.pylintVersion.minor} and newer, but `
+                    + `the version detected on your system is 2.10.0.`
+            );
+            await new Promise(resolve => setTimeout(resolve, maxInstallationTimeMilliseconds));
+            await expectSuccess(Dependency.Pylint, spy);
             break;
         default:
             throw new Error('unreachable');
@@ -137,12 +135,6 @@ suite('test dependency checking',  () => {
         case DependencyStatus.Missing0:
             await expectFailure(Dependency.Pnpm, spy);
             expect(spy).to.have.been.called.with(checkDependencies.pnpmMessage);
-            // The following will fail because PNPM's installation script requires you to open a new
-            // terminal in order for PNPM to be on your PATH. I have attempted to source the
-            // ~/.bashrc to work around this, without success.
-            // sendNewline();
-            // await new Promise(resolve => setTimeout(resolve, maxInstallationTime));
-            // await expectSuccess(checkDependencies.checkPnpm, spy);
             break;
         case DependencyStatus.Missing1:
             await expectFailure(Dependency.Pnpm, spy);
@@ -154,13 +146,34 @@ suite('test dependency checking',  () => {
             await expectSuccess(Dependency.Pnpm, spy);
             break;
         case DependencyStatus.Outdated:
-            throw new Error('This feature (checking for an outdated pnpm) is not yet implemented.');
+            this.test.skip();
         default:
             throw new Error('unreachable');
         }
     });
 
-    test('rust', checkBasicDependency(Dependency.Rust, checkDependencies.rustMessage));
+    test('rust', async function () {
+        this.timeout(extendedTimeoutMilliseconds);
+        const spy = getMockMessageShower();
+        switch (dependencies) {
+        case DependencyStatus.Present:
+            await expectSuccess(Dependency.Rust, spy);
+            break;
+        case DependencyStatus.Outdated:
+            await expectFailure(Dependency.Rust, spy);
+            await new Promise(resolve => setTimeout(resolve, maxInstallationTimeMilliseconds));
+            await expectSuccess(Dependency.Rust, spy);
+            break;
+        case DependencyStatus.Missing0:
+            await expectFailure(Dependency.Rust, spy);
+            expect(spy).to.have.been.called.with(checkDependencies.rustMessage);
+            break;
+        case DependencyStatus.Missing1:
+            this.test.skip();
+        default:
+            throw new Error('unreachable');
+        }
+    });
 
     test('rti', async function() {
         if (os.platform() == 'win32') this.test.skip();  // No Windows federated support.

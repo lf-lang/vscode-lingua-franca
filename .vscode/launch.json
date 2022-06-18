@@ -46,5 +46,22 @@
             "runtimeExecutable": "${execPath}",
             "type": "extensionHost"
         },
+        {
+            "args": [
+                "--extensionDevelopmentPath=${workspaceFolder}",
+                "--extensionTestsPath=${workspaceFolder}/out/test/test/index"
+            ],
+            "env": {
+                "dependencies": "outdated"
+            },
+            "name": "Tests: Dependencies Outdated",
+            "outFiles": [
+                "${workspaceFolder}/out/test/**/*.js"
+            ],
+            "preLaunchTask": "npm: compile-tests",
+            "request": "launch",
+            "runtimeExecutable": "${execPath}",
+            "type": "extensionHost"
+        },
     ]
 }

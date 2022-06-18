@@ -48,6 +48,9 @@ export const pnpmLatestKnownGoodVersion: Version = new Version('7.2.1');
 /** The minimum Rust version required for compiling LF programs with the Rust target. */
 export const rustVersion: Version = new Version('1.59.0');  // FIXME: Actually nightly, but this may be fixed by #1218 in lf-lang/lingua-franca.
 
+/** The latest Rust version known to be compatible with our toolchain. */
+export const rustLatestKnownGoodVersion: Version = new Version('1.61.0');
+
 /** The minimum RTI version required for executing federated LF programs. */
 export const rtiVersion: Version = new Version('0.0.0');
 

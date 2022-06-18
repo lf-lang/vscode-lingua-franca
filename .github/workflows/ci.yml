@@ -40,6 +40,23 @@ jobs:
       - name: Run tests (non-Linux)
         run: npm run test
         if: ${{ runner.os != 'Linux' }}
+  test-dependencies-outdated:
+    strategy:
+      matrix:
+        platform: [ubuntu-latest]
+    runs-on: ${{ matrix.platform }}
+    steps:
+      - uses: lf-lang/vscode-lingua-franca/.github/actions/build@check-versions
+      - name: Downgrade dependencies
+        run: |
+          pip install -I pylint==2.10.0
+          rustup default 1.26.0
+      - name: Run tests (Linux)
+        run: xvfb-run --auto-servernum --server-args="-screen 0 1280x960x24" -- npm run test-dependencies-outdated
+        if: ${{ runner.os == 'Linux' }}
+      - name: Run tests (non-Linux)
+        run: npm run test-dependencies-outdated
+        if: ${{ runner.os != 'Linux' }}
   test-dependencies-missing1:
     strategy:
       matrix:
