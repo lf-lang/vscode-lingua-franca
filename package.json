@@ -85,6 +85,11 @@
                     "type": "boolean",
                     "default": true,
                     "description": "Generate code from the active Lingua Franca file when it is saved. This facilitates target language syntax checks."
+                },
+                "linguafranca.format.enable": {
+                    "type": "boolean",
+                    "default": true,
+                    "description": "Enable formatting for Lingua Franca source files."
                 }
             }
         },
