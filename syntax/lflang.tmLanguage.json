@@ -247,7 +247,7 @@
             ]
         },
         "import-statement": {
-            "begin": "(?=^import\\b)",
+            "begin": "(?=^\\s*import\\b)",
             "end": ";|(?<=}.*)$|(?<=import[^\\{]*)$",
             "patterns": [
                 {
