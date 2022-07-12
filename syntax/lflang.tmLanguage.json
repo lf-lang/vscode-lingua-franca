@@ -198,9 +198,19 @@
                     "begin": "\\{=(?!=\\})",
                     "end": "([<>]?[<>+\\-*/%&\\^|]?=\\})",
                     "name": "meta.embedded.block.py",
-                    "patterns": [{
-                        "include": "source.python"
-                    }]
+                    "patterns": [
+                        {
+                            "begin": "\\b(?=import\\b)",
+                            "end": "(?==\\})",
+                            "patterns": [{
+                                "name": "keyword.control.import.python",
+                                "match": "\\b(import|as)\\b"
+                            }]
+                        },
+                        {
+                            "include": "source.python"
+                        }
+                    ]
                 }
             ]
         },
@@ -306,8 +316,8 @@
                     "match": "\\b(mode|initial)\\b"
                 },
                 {
-                    "name": "support.variable.lflang",
-                    "match": "\\b(reset|history)\\b"
+                    "name": "keyword.control.lflang",
+                    "match": "\\b(reset|continue)\\b(?=\\()"
                 },
                 {
                     "name": "storage.modifier.lflang",
@@ -354,8 +364,8 @@
         "state": {
             "patterns": [
                 {
-                    "name": "support.variable.lflang",
-                    "match": "\\b(reset)\\b"
+                    "name": "storage.modifier.lflang",
+                    "match": "\\b(reset)\\b(?=\\s*state)"
                 },
                 {
                     "name": "storage.modifier.lflang",
