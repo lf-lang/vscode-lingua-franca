@@ -247,7 +247,7 @@
             ]
         },
         "import-statement": {
-            "begin": "(?=^import\\b)",
+            "begin": "(?=^\\s*import\\b)",
             "end": ";|(?<=}.*)$|(?<=import[^\\{]*)$",
             "patterns": [
                 {
@@ -302,6 +302,14 @@
                     "match": "\\b(reaction|method|STP|deadline|mutation)\\b"
                 },
                 {
+                    "name": "keyword.control.lflang",
+                    "match": "\\b(mode|initial)\\b"
+                },
+                {
+                    "name": "support.variable.lflang",
+                    "match": "\\b(reset|history)\\b"
+                },
+                {
                     "name": "storage.modifier.lflang",
                     "match": "\\bconst\\b"
                 },
@@ -344,8 +352,16 @@
             ]
         },
         "state": {
-            "name": "storage.modifier.lflang",
-            "match": "\\b(state)\\b"
+            "patterns": [
+                {
+                    "name": "support.variable.lflang",
+                    "match": "\\b(reset)\\b"
+                },
+                {
+                    "name": "storage.modifier.lflang",
+                    "match": "\\b(state)\\b"
+                }
+            ]
         },
         "timer": {
             "name": "storage.modifier.lflang",
@@ -433,7 +449,7 @@
         },
         "startup-shutdown": {
             "name": "support.variable.lflang",
-            "match": "\\b(startup|shutdown)\\b"
+            "match": "\\b(startup|shutdown|reset)\\b"
         },
         "time": {
             "name": "storage.type.lflang",
