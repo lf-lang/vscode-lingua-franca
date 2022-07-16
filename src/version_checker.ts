@@ -83,7 +83,7 @@ export const snapVersionChecker = basicChecker(new Version('0.0.0'), 'snap --ver
 export const aptGetVersionChecker = basicChecker(new Version('0.0.0'), 'apt-get -v', false);
 export const chocolateyVersionChecker = basicChecker(new Version('0.0.0'), 'choco -v', false);
 export const rtiVersionChecker = async () => {
-    // TODO: Update when #1233 is addressed: https://github.com/lf-lang/lingua-franca/issues/1233
+    // TODO: Update when #76 is addressed: https://github.com/lf-lang/reactor-c/issues/76
     let exists: boolean;
     try {
         exists = (await which("RTI")).length > 0;
