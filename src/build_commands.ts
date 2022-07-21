@@ -1,6 +1,6 @@
 import * as vscode from 'vscode';
 import { LanguageClient } from 'vscode-languageclient';
-import { getTerminal, MessageShower } from './utils';
+import { getTerminal, MessageDisplayHelper } from './utils';
 
 /**
  * Return the URI of the given document, if the document is a Lingua Franca file; else, return
@@ -22,7 +22,7 @@ function getLfUri(textDocument: vscode.TextDocument, failSilently = false): stri
     return uri;
 }
 
-type MessageShowerTransformer = (messageShower: MessageShower) => ((message: string) => void);
+type MessageShowerTransformer = (MessageDisplayHelper: MessageDisplayHelper) => ((message: string) => void);
 
 /**
  * Return the action that should be taken in case of a request to build.
@@ -81,7 +81,7 @@ function buildOnSaveEnabled() {
  * @param client The language client.
  */
 export function registerBuildCommands(context: vscode.ExtensionContext, client: LanguageClient) {
-    const withLogs = (showMessage: MessageShower) => (message: string) => showMessage(
+    const withLogs = (showMessage: MessageDisplayHelper) => (message: string) => showMessage(
         message, 'Show output'
     ).then(choice => {
         if (choice === 'Show output') client.outputChannel.show();

@@ -6,7 +6,7 @@
 import * as config from './config';
 import * as vscode from 'vscode';
 import * as os from 'os';
-import { getTerminal, MessageShower } from './utils';
+import { getTerminal, MessageDisplayHelper } from './utils';
 import { Version } from './version';
 import * as versionChecker from './version_checker';
 
@@ -34,7 +34,7 @@ const wrongVersionMessageOf = (originalMessage: string) =>
         `${originalMessage.substring(0, originalMessage.length - 1)}, but the version detected `
             + `on your system is ${badResult.version}.`;
 
-export type UserFacingVersionChecker = (shower: MessageShower) => () => Promise<boolean>;
+export type UserFacingVersionChecker = (shower: MessageDisplayHelper) => () => Promise<boolean>;
 type UserFacingVersionCheckerMaker = (dependency: DependencyInfo) => UserFacingVersionChecker;
 
 type InstallCommand = {
@@ -274,7 +274,7 @@ export const watcherConfig: CheckSet[] = [
  * @returns true if the given dependency is satisfied.
  */
 const checkDependency: UserFacingVersionCheckerMaker = (dependency: DependencyInfo) =>
-        (messageShower: MessageShower) => async () => {
+        (MessageDisplayHelper: MessageDisplayHelper) => async () => {
     const checkerResult: versionChecker.VersionCheckResult = await dependency.checker();
     if (checkerResult.isCorrect) return true;
     const message: string = await (checkerResult.isCorrect === false ? (
@@ -283,14 +283,14 @@ const checkDependency: UserFacingVersionCheckerMaker = (dependency: DependencyIn
     ) : dependency.message(checkerResult));
     const installCommand: InstallCommand = await dependency.installCommand?.(checkerResult);
     if (!installCommand && !dependency.installLink) {
-        messageShower(message);
+        MessageDisplayHelper(message);
         return false;
     }
     const buttonText: string = !installCommand ? 'View download page' : (
         `${(checkerResult.isCorrect === false) ? 'Update' : 'Install'} using
 ${installCommand.description}`
     );
-    messageShower(message, buttonText).then(async (response) => {
+    MessageDisplayHelper(message, buttonText).then(async (response) => {
         if (response === buttonText) {
             if (installCommand) {
                 const terminal = getTerminal(config.installDependenciesTerminalName);

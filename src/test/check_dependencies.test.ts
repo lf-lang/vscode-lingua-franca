@@ -11,7 +11,7 @@ import chai from 'chai';
 import spies from 'chai-spies';
 import { expect } from 'chai';
 import { after, Context } from 'mocha';
-import { MessageShower } from '../utils';
+import { MessageDisplayHelper } from '../utils';
 import * as http from 'http';
 import * as url from 'url';
 import * as config from '../config';
@@ -49,7 +49,7 @@ suite('test dependency checking',  () => {
     type Spy = ChaiSpies.SpyFunc1Proxy<string, Thenable<string>>;
 
     function getMockMessageShower(): Spy {
-        const mock: MessageShower = (message: string, ...items: string[]) =>
+        const mock: MessageDisplayHelper = (message: string, ...items: string[]) =>
             Promise.resolve(items.find(
                 it => it.toLowerCase().includes('update') || it.toLowerCase().includes('install')
             ));

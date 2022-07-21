@@ -10,4 +10,4 @@ export function getTerminal(name: string, cwd?: string) {
     return terminal;
 }
 
-export type MessageShower = (message: string, ...items: string[]) => Thenable<string | undefined>;
+export type MessageDisplayHelper = (message: string, ...items: string[]) => Thenable<string | undefined>;

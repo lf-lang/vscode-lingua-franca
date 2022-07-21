@@ -57,7 +57,7 @@ jobs:
       - name: Run tests (non-Linux)
         run: npm run test-dependencies-outdated
         if: ${{ runner.os != 'Linux' }}
-  test-dependencies-missing1:
+  test-dependencies-missing-extended:
     strategy:
       matrix:
         platform: [ubuntu-latest, macos-latest, windows-latest]
@@ -65,12 +65,12 @@ jobs:
     steps:
       - uses: lf-lang/vscode-lingua-franca/.github/actions/build@check-versions
       - name: Run tests (Linux)
-        run: xvfb-run --auto-servernum --server-args="-screen 0 1280x960x24" -- npm run test-dependencies-missing1
+        run: xvfb-run --auto-servernum --server-args="-screen 0 1280x960x24" -- npm run test-dependencies-missing-extended
         if: ${{ runner.os == 'Linux' }}
       - name: Run tests (non-Linux)
-        run: npm run test-dependencies-missing1
+        run: npm run test-dependencies-missing-extended
         if: ${{ runner.os != 'Linux' }}
-  test-dependencies-missing0:
+  test-dependencies-missing-basic:
     strategy:
       matrix:
         platform: [ubuntu-latest, macos-latest, windows-latest]
@@ -78,8 +78,8 @@ jobs:
     steps:
       - uses: lf-lang/vscode-lingua-franca/.github/actions/build@check-versions
       - name: Run tests (Linux)
-        run: xvfb-run --auto-servernum --server-args="-screen 0 1280x960x24" -- npm run test-dependencies-missing0
+        run: xvfb-run --auto-servernum --server-args="-screen 0 1280x960x24" -- npm run test-dependencies-missing-basic
         if: ${{ runner.os == 'Linux' }}
       - name: Run tests (non-Linux)
-        run: npm run test-dependencies-missing0
+        run: npm run test-dependencies-missing-basic
         if: ${{ runner.os != 'Linux' }}

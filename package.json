@@ -152,8 +152,8 @@
         "install": "npm run clean && npm run build && npm run deploy",
         "test": "npm run compile-tests && node ./out/test/test/test_runner.js --dependencies=present",
         "test-dependencies-outdated": "npm run compile-tests && node ./out/test/test/test_runner.js --dependencies=outdated",
-        "test-dependencies-missing0": "npm run compile-tests && node ./out/test/test/test_runner.js --dependencies=missing0",
-        "test-dependencies-missing1": "npm run compile-tests && node ./out/test/test/test_runner.js --dependencies=missing1",
+        "test-dependencies-missing-basic": "npm run compile-tests && node ./out/test/test/test_runner.js --dependencies=missing0",
+        "test-dependencies-missing-extended": "npm run compile-tests && node ./out/test/test/test_runner.js --dependencies=missing1",
         "amend-jar": "./uf.py"
     }
 }
