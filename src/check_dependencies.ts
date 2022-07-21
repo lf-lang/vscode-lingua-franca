@@ -77,7 +77,7 @@ export const watcherConfig: CheckSet[] = [
         ]
     },
     {
-        regexp: /(?=\\btarget\\s+(C|Cpp|CCpp)\\b)/,
+        regexp: /(?=\btarget\s+(C|Cpp|CCpp)\b)/,
         checks: [
             {
                 name: Dependency.Cmake,
@@ -92,7 +92,7 @@ export const watcherConfig: CheckSet[] = [
         ]
     },
     {
-        regexp: /(?=\\btarget\\s+TypeScript\\b)/,
+        regexp: /(?=\btarget\s+TypeScript\b)/,
         checks: [
             {
                 name: Dependency.Pnpm,
@@ -186,7 +186,7 @@ export const watcherConfig: CheckSet[] = [
         ]
     },
     {
-        regexp: /(?=\\btarget\\s+Python\\b)/,
+        regexp: /(?=\btarget\s+Python\b)/,
         checks: [
             {
                 name: Dependency.Python3,
@@ -221,7 +221,7 @@ export const watcherConfig: CheckSet[] = [
         ]
     },
     {
-        regexp: /(?=\\btarget\\s+Rust\\b)/,
+        regexp: /(?=\btarget\s+Rust\b)/,
         checks: [
             {
                 name: Dependency.Rust,
@@ -253,7 +253,7 @@ export const watcherConfig: CheckSet[] = [
         ]
     },
     {
-        regexp: /(?=\\bfederated\\s+(realtime\\s+)?reactor\\b)/,
+        regexp: /(?=\bfederated\s+(realtime\s+)?reactor\b)/,
         checks: [
             {
                 name: Dependency.Rti,
