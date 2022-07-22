@@ -30,12 +30,13 @@ export async function activate(context: vscode.ExtensionContext) {
         (vscode.window.showErrorMessage)
         ()
     )) return;
-
-    const ldsJar = context.asAbsolutePath(path.join(config.libDirName, config.ldsJarName));
+    const jarInLibDir = filename => context.asAbsolutePath(path.join(config.libDirName, filename));
+    const ldsJar = jarInLibDir(config.ldsJarName);
+    const swtJar = jarInLibDir(config.swtJarsByOs[os.platform()]);
     console.assert(fs.existsSync(ldsJar));
     const javaArgs = [
         '-cp',
-        ldsJar + config.classPathSeparatorsByOs[os.platform()] + config.swtJarsByOs[os.platform()],
+        ldsJar + config.classPathSeparatorsByOs[os.platform()] + swtJar,
         'org.lflang.diagram.lsp.LanguageDiagramServer'
     ];
 
