@@ -1,5 +1,6 @@
 import * as vscode from 'vscode';
 import { LanguageClient } from 'vscode-languageclient';
+import { getTerminal, MessageDisplayHelper } from './utils';
 
 /**
  * Return the URI of the given document, if the document is a Lingua Franca file; else, return
@@ -21,8 +22,7 @@ function getLfUri(textDocument: vscode.TextDocument, failSilently = false): stri
     return uri;
 }
 
-type messageShower = (message: string, ...items: string[]) => Thenable<string | undefined>;
-type messageShowerTransformer = (messageShower: messageShower) => ((message: string) => void);
+type MessageShowerTransformer = (MessageDisplayHelper: MessageDisplayHelper) => ((message: string) => void);
 
 /**
  * Return the action that should be taken in case of a request to build.
@@ -30,18 +30,18 @@ type messageShowerTransformer = (messageShower: messageShower) => ((message: str
  * @param client The language client.
  * @returns The action that should be taken in case of a request to build.
  */
-const build = (withLogs: messageShowerTransformer, client: LanguageClient) =>
-    (textEditor: vscode.TextEditor) => {
-        const uri = getLfUri(textEditor.document);
-        if (!uri) return;
-        vscode.workspace.saveAll().then((successful: boolean) => {
-            if (!successful) return;
-            client.sendRequest('generator/build', uri).then((message: string) => {
-                if (message) withLogs(vscode.window.showInformationMessage)(message);
-                else withLogs(vscode.window.showErrorMessage)('Build failed.');
-            });
+const build = (withLogs: MessageShowerTransformer, client: LanguageClient) =>
+        (textEditor: vscode.TextEditor) => {
+    const uri = getLfUri(textEditor.document);
+    if (!uri) return;
+    vscode.workspace.saveAll().then((successful: boolean) => {
+        if (!successful) return;
+        client.sendRequest('generator/build', uri).then((message: string) => {
+            if (message) withLogs(vscode.window.showInformationMessage)(message);
+            else withLogs(vscode.window.showErrorMessage)('Build failed.');
         });
-    }
+    });
+};
 
 /**
  * Return the action that should be taken in case of a request to build and run.
@@ -49,31 +49,24 @@ const build = (withLogs: messageShowerTransformer, client: LanguageClient) =>
  * @param client The language client.
  * @returns The action that should be taken in case of a request to build and run.
  */
-const buildAndRun = (withLogs: messageShowerTransformer, client: LanguageClient) =>
-    (textEditor: vscode.TextEditor) => {
-        const uri = getLfUri(textEditor.document);
-        if (!uri) return;
-        vscode.workspace.saveAll().then((successful: boolean) => {
-            if (!successful) return;
-            client.sendRequest('generator/buildAndRun', uri).then((command: string[]) => {
-                if (!command || !command.length) {
-                    withLogs(vscode.window.showErrorMessage)('Build failed.');
-                    return;
-                }
-                const runTerminalName = 'Lingua Franca: Run';
-                let terminal: vscode.Terminal = vscode.window.terminals.find(
-                    t => t.name === runTerminalName
-                );
-                if (!terminal) terminal = vscode.window.createTerminal({
-                    name: runTerminalName,
-                    cwd: command[0]
-                });
-                terminal.sendText('cd ' + command[0]);
-                terminal.show(true);
-                terminal.sendText(command.slice(1).join(' '));
-            });
+const buildAndRun = (withLogs: MessageShowerTransformer, client: LanguageClient) =>
+        (textEditor: vscode.TextEditor) => {
+    const uri = getLfUri(textEditor.document);
+    if (!uri) return;
+    vscode.workspace.saveAll().then((successful: boolean) => {
+        if (!successful) return;
+        client.sendRequest('generator/buildAndRun', uri).then((command: string[]) => {
+            if (!command || !command.length) {
+                withLogs(vscode.window.showErrorMessage)('Build failed.');
+                return;
+            }
+            const terminal = getTerminal('Lingua Franca: Run', command[0]);
+            terminal.sendText(`cd ${command[0]}`);
+            terminal.show(true);
+            terminal.sendText(command.slice(1).join(' '));
         });
-    }
+    });
+};
 
 function buildOnSaveEnabled() {
     const configuration: vscode.WorkspaceConfiguration = vscode.workspace.getConfiguration(
@@ -88,7 +81,7 @@ function buildOnSaveEnabled() {
  * @param client The language client.
  */
 export function registerBuildCommands(context: vscode.ExtensionContext, client: LanguageClient) {
-    const withLogs = (showMessage: messageShower) => (message: string) => showMessage(
+    const withLogs = (showMessage: MessageDisplayHelper) => (message: string) => showMessage(
         message, 'Show output'
     ).then(choice => {
         if (choice === 'Show output') client.outputChannel.show();

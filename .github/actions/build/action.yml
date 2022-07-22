@@ -1,0 +1,16 @@
+name: Build
+description: Set up repository and install dependencies required to build extension.
+
+runs:
+  using: "composite"
+  steps:
+    - name: Check out vscode-lingua-franca repository
+      uses: actions/checkout@v3
+      with:
+        submodules: recursive
+        fetch-depth: 1
+    - name: Prepare LF build environment
+      uses: ./lingua-franca/.github/actions/prepare-build-env
+    - name: Build the VS Code extension
+      run: npm install --ignore-scripts
+      shell: bash

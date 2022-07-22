@@ -38,7 +38,7 @@ npm run test
 ```
 
 ## Adding tests
-Tests are located in the `src` directory and are marked using the `.test.ts` extension. We use [Jest](https://jestjs.io/) as our testing framework.
+Tests are located in the `src` directory and are marked using the `.test.ts` extension. We use [Mocha](https://mochajs.org/) as our testing framework.
 
 ## Submitting a Pull Request (PR)
 Please keep your PRs manageable and easy to review.

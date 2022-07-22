@@ -1,0 +1,67 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "args": [
+                "--extensionDevelopmentPath=${workspaceFolder}"
+            ],
+            "name": "Launch Extension",
+            "outFiles": [
+                "${workspaceFolder}/out/**/*.js"
+            ],
+            "request": "launch",
+            "type": "extensionHost"
+        },
+        {
+            "args": [
+                "--extensionDevelopmentPath=${workspaceFolder}",
+                "--extensionTestsPath=${workspaceFolder}/out/test/test/index"
+            ],
+            "env": {
+                "dependencies": "present"
+            },
+            "name": "Tests",
+            "outFiles": [
+                "${workspaceFolder}/out/test/**/*.js"
+            ],
+            "preLaunchTask": "npm: compile-tests",
+            "request": "launch",
+            "runtimeExecutable": "${execPath}",
+            "type": "extensionHost"
+        },
+        {
+            "args": [
+                "--extensionDevelopmentPath=${workspaceFolder}",
+                "--extensionTestsPath=${workspaceFolder}/out/test/test/index"
+            ],
+            "env": {
+                "dependencies": "missing1"
+            },
+            "name": "Tests: Dependencies Missing1",
+            "outFiles": [
+                "${workspaceFolder}/out/test/**/*.js"
+            ],
+            "preLaunchTask": "npm: compile-tests",
+            "request": "launch",
+            "runtimeExecutable": "${execPath}",
+            "type": "extensionHost"
+        },
+        {
+            "args": [
+                "--extensionDevelopmentPath=${workspaceFolder}",
+                "--extensionTestsPath=${workspaceFolder}/out/test/test/index"
+            ],
+            "env": {
+                "dependencies": "outdated"
+            },
+            "name": "Tests: Dependencies Outdated",
+            "outFiles": [
+                "${workspaceFolder}/out/test/**/*.js"
+            ],
+            "preLaunchTask": "npm: compile-tests",
+            "request": "launch",
+            "runtimeExecutable": "${execPath}",
+            "type": "extensionHost"
+        },
+    ]
+}

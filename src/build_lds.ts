@@ -1,3 +1,8 @@
+/**
+ * @file Build script for the language server.
+ * @author Marten Lohstroh <marten@berkeley.edu>
+ */
+
 'use strict';
 
 import * as fs from 'fs'
@@ -5,18 +10,11 @@ import * as path from 'path'
 import * as rimraf from 'rimraf'
 import simpleGit, { SimpleGit } from 'simple-git'
 import { Command, OptionValues } from 'commander'
-import { Config } from './config'
+import * as config from './config'
 import { exit } from 'process';
 import { bold, green, red } from 'colorette'
-import { exec } from 'child_process'
-import { promisify } from 'util'
 import which from 'which'
-
-/**
- * Utility for running command that returns a promise.
- * @author Marten Lohstroh <marten@berkeley.edu>
- */
-const runCmd = promisify(exec);
+import { javacVersionChecker, VersionCheckResult } from './version_checker';
 
 /**
  * Return passed in CLI options.
@@ -39,23 +37,23 @@ function getOpts() {
  * Copy jars produced by the Maven build.
  */
 function copyJars() {
-    if (fs.existsSync(Config.libDirPath)) {
-        rimraf.sync(Config.libDirPath);
+    if (fs.existsSync(config.libDirPath)) {
+        rimraf.sync(config.libDirPath);
     }
-    fs.mkdirSync(Config.libDirPath);
+    fs.mkdirSync(config.libDirPath);
 
     // Copy the LDS jar.
-    fs.copyFileSync(Config.ldsJarFile, 
-        path.join(Config.libDirPath, Config.ldsJarName))
+    fs.copyFileSync(config.ldsJarFile,
+        path.join(config.libDirPath, config.ldsJarName))
 
     // Copy SWT plugins, needed by LDS.
-    fs.readdirSync(Config.swtJarsDirPath).forEach(
+    fs.readdirSync(config.swtJarsDirPath).forEach(
         (name: string) => {
-            let found = name.match(Config.swtJarRegex)
+            let found = name.match(config.swtJarRegex)
             if (found !== null) {
                 // Copy file, strip version numbers.
-                fs.copyFileSync(path.join(Config.swtJarsDirPath, name),
-                    path.join(Config.libDirPath, 
+                fs.copyFileSync(path.join(config.swtJarsDirPath, name),
+                    path.join(config.libDirPath,
                         name.replace(found.groups.version, '')))
             }
         }
@@ -67,15 +65,15 @@ function copyJars() {
  * @param options CLI options
  */
 async function fetchDeps(options: OptionValues) {
-    if (!fs.existsSync(Config.repoName)
-        || fs.readdirSync(Config.repoName).length === 0) {
-        console.log("> cloning lingua-franca repo: " + Config.repoURL)
-        await simpleGit(Config.baseDirPath).submoduleUpdate(["--init"])
+    if (!fs.existsSync(config.repoName)
+        || fs.readdirSync(config.repoName).length === 0) {
+        console.log("> cloning lingua-franca repo: " + config.repoURL)
+        await simpleGit(config.baseDirPath).submoduleUpdate(["--init"])
         .catch((err) => console.log("> error: submodule update failed: " + err))
     }
 
     const nestedGit: SimpleGit = simpleGit(
-        path.resolve(Config.baseDirPath, Config.repoName));
+        path.resolve(config.baseDirPath, config.repoName));
 
     if (options.ref) {
         console.log("> using lingua-franca ref: " + options.ref)
@@ -97,24 +95,23 @@ async function fetchDeps(options: OptionValues) {
 async function checkJavaVersion() {
     console.log("> verifying Java compiler version...")
     try {
-        const {stdout} = await runCmd('javac --version')
-        const found = stdout.match(Config.javacRegex)
-        if (found) {
-            if (found.groups?.version == Config.javacVersion) {
-                console.log("> Java compiler version is "
-                    + Config.javacVersion)
-                return
-            }
-            // Not the required version.
-            console.log("> Java compiler version is " + found.groups?.version)
+        const result: VersionCheckResult = await javacVersionChecker()
+        switch (result.isCorrect) {
+        case true:
+            console.log(`> Java compiler version is ${config.javacVersion}`)
+            return
+        case false:
+            console.log(`> Java compiler version is ${result.version}`)
             console.log(red("> incompatible version of Java compiler (must be "
-                + Config.javacVersion + "); aborting"))
+                + config.javacVersion + "); aborting"))
             exit(1)
+        case null:
+            break
         }
     } catch(e) {
         console.error(e)
     }
-    
+
     console.log(red("> cannot verify version of Java compiler; aborting"))
     exit(1)
 }
@@ -123,18 +120,18 @@ async function checkJavaVersion() {
  * Build dependencies and collects produced jars. 
  */
 async function build() {
-    await checkInstalled(Config.buildDeps)
+    await checkInstalled(config.buildDeps)
     await checkJavaVersion()
     const opts = getOpts()
-    let co = Config.repoName
+    let repo = config.repoName
     if (opts.local) {
         console.log("> using repo located in " + opts.local)
-        co = opts.local
+        repo = opts.local
     } else {
         await fetchDeps(opts)
     }
     const mvn = (require('maven')).create({
-        cwd: co
+        cwd: repo
     });
     console.log("> starting Maven build...")
     mvn.execute(['clean', 'package', '-P', 'lds', '-U'], { 'skipTests' : 'true' })

@@ -9,20 +9,77 @@ on:
   # Trigger this workflow also on pull_request events.
   pull_request:
 
-jobs:  
-  build:
-    runs-on: ubuntu-latest
+jobs:
+  test:
+    strategy:
+      matrix:
+        platform: [ubuntu-latest, macos-latest, windows-latest]
+        rust: [nightly]
+    runs-on: ${{ matrix.platform }}
     steps:
-      - name: Check out vscode-lingua-franca repository
-        uses: actions/checkout@v3
+      - uses: lf-lang/vscode-lingua-franca/.github/actions/build@check-versions
+      - name: Install pylint
+        run: python3 -m pip install pylint
+      - name: Install pnpm
+        run: npm i -g pnpm
+      - name: Setup Rust
+        uses: ATiltedTree/setup-rust@v1
         with:
-          submodules: recursive
-          fetch-depth: 0
-      - name: Prepare LF build environment
-        uses: ./lingua-franca/.github/actions/prepare-build-env
-      - name: Install VS Code
-        uses: ./.github/actions/install-code
-      - name: Build, deploy, and test the VS Code extension
+          rust-version: ${{ matrix.rust }}
+          components: clippy
+      - name: Install RTI
         run: |
-          npm install
-          npm run test
+          cd lingua-franca
+          .github/actions/install-rti/install.sh
+          cd ..
+        shell: bash
+        if: ${{ runner.os == 'macOS' || runner.os == 'Linux' }}
+      - name: Run tests (Linux)
+        run: xvfb-run --auto-servernum --server-args="-screen 0 1280x960x24" -- npm run test
+        if: ${{ runner.os == 'Linux' }}
+      - name: Run tests (non-Linux)
+        run: npm run test
+        if: ${{ runner.os != 'Linux' }}
+  test-dependencies-outdated:
+    strategy:
+      matrix:
+        platform: [ubuntu-latest]
+    runs-on: ${{ matrix.platform }}
+    steps:
+      - uses: lf-lang/vscode-lingua-franca/.github/actions/build@check-versions
+      - name: Downgrade dependencies
+        run: |
+          pip install -I pylint==2.10.0
+          rustup default 1.26.0
+      - name: Run tests (Linux)
+        run: xvfb-run --auto-servernum --server-args="-screen 0 1280x960x24" -- npm run test-dependencies-outdated
+        if: ${{ runner.os == 'Linux' }}
+      - name: Run tests (non-Linux)
+        run: npm run test-dependencies-outdated
+        if: ${{ runner.os != 'Linux' }}
+  test-dependencies-missing-extended:
+    strategy:
+      matrix:
+        platform: [ubuntu-latest, macos-latest, windows-latest]
+    runs-on: ${{ matrix.platform }}
+    steps:
+      - uses: lf-lang/vscode-lingua-franca/.github/actions/build@check-versions
+      - name: Run tests (Linux)
+        run: xvfb-run --auto-servernum --server-args="-screen 0 1280x960x24" -- npm run test-dependencies-missing-extended
+        if: ${{ runner.os == 'Linux' }}
+      - name: Run tests (non-Linux)
+        run: npm run test-dependencies-missing-extended
+        if: ${{ runner.os != 'Linux' }}
+  test-dependencies-missing-basic:
+    strategy:
+      matrix:
+        platform: [ubuntu-latest, macos-latest, windows-latest]
+    runs-on: ${{ matrix.platform }}
+    steps:
+      - uses: lf-lang/vscode-lingua-franca/.github/actions/build@check-versions
+      - name: Run tests (Linux)
+        run: xvfb-run --auto-servernum --server-args="-screen 0 1280x960x24" -- npm run test-dependencies-missing-basic
+        if: ${{ runner.os == 'Linux' }}
+      - name: Run tests (non-Linux)
+        run: npm run test-dependencies-missing-basic
+        if: ${{ runner.os != 'Linux' }}
