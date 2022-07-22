@@ -1,8 +1,8 @@
 # Changelog
  
-## [v0.3.0](https://github.com/lingua-franca/vscode-lingua-franca/tree/v0.3.0) (2022-07-22)
+## [v0.3.0](https://github.com/lf-lang/vscode-lingua-franca/tree/v0.3.0) (2022-07-22)
 
-**Highlights**\n\n This release builds on [Lingua Franca v0.3.0](https://github.com/lf-lang/lingua-franca/tree/v0.3.0) and [KLighD 2.2.0](https://github.com/kieler/KLighD/releases/tag/release-2022-07-2.2.0). The extension is now also checks whether necessary dependencies are installed and assists users in setting up their environment.
+**Highlights**\n\n This release builds on [Lingua Franca v0.3.0](https://github.com/lf-lang/lingua-franca/releases/tag/v0.3.0) and [KLighD 2.2.0](https://github.com/kieler/KLighD/releases/tag/release-2022-07-2.2.0). The extension is now also checks whether necessary dependencies are installed and assists users in setting up their environment.
 
 [Full Changelog](https://github.com/lingua-franca/vscode-lingua-franca/compare/v0.2.1...v0.3.0)
 
