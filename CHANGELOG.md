@@ -1,5 +1,26 @@
 # Changelog
  
+## [v0.3.0](https://github.com/lingua-franca/vscode-lingua-franca/tree/v0.3.0) (2022-07-22)
+
+**Highlights**\n\n This release builds on [Lingua Franca v0.3.0](https://github.com/lf-lang/lingua-franca/tree/v0.3.0) and [KLighD 2.2.0](https://github.com/kieler/KLighD/releases/tag/release-2022-07-2.2.0). The extension is now also checks whether necessary dependencies are installed and assists users in setting up their environment.
+
+[Full Changelog](https://github.com/lingua-franca/vscode-lingua-franca/compare/v0.2.1...v0.3.0)
+
+**✨ Enhancements**
+
+- Syntax highlighting for modes [\#62](https://github.com/lf-lang/vscode-lingua-franca/pull/62) ([a-sr](https://github.com/a-sr))
+
+**🔧 Fixes**
+
+- Correction of import statement highlighting [\#66](https://github.com/lf-lang/vscode-lingua-franca/pull/66) ([petervdonovan](https://github.com/petervdonovan))
+
+**🚧 Maintenance and Refactoring**
+
+- Enable invocation of uf.py via npm run [\#61](https://github.com/lf-lang/vscode-lingua-franca/pull/61) ([petervdonovan](https://github.com/petervdonovan))
+
+- Dependency checks and environment setup assistance [\#55](https://github.com/lf-lang/vscode-lingua-franca/pull/55) ([petervdonovan](https://github.com/petervdonovan))
+
+ 
 ## [v0.2.1](https://github.com/lf-lang/vscode-lingua-franca/tree/v0.2.1) (2022-05-19)
 
 **Highlights:**
