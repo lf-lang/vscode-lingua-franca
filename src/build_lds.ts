@@ -69,24 +69,23 @@ async function fetchDeps(options: OptionValues) {
         || fs.readdirSync(config.repoName).length === 0) {
         console.log("> cloning lingua-franca repo: " + config.repoURL)
         await simpleGit(config.baseDirPath).submoduleUpdate(["--init"])
-        .catch((err) => console.log("> error: submodule update failed: " + err))
+        .catch((err) => { throw Error(`Unable to initialize lingua-franca submodule: ${err}.`) })
     }
 
     const nestedGit: SimpleGit = simpleGit(
         path.resolve(config.baseDirPath, config.repoName));
-
     if (options.ref) {
         console.log("> using lingua-franca ref: " + options.ref)
         await nestedGit.checkout(options.ref)
-        .catch((err) => console.log("> error: checkout failed: " + err))
+        .catch((err) => { throw Error(`Unable to check out lingua-franca: ${err}.`) })
     } else if (options.branch) {
         console.log("> using lingua-franca branch: " + options.branch)
         await nestedGit.checkout(options.branch).pull()
-        .catch((err) => console.log("> error: checkout failed: " + err))
+        .catch((err) => { throw Error(`Unable to check out lingua-franca: ${err}.`) })
     }
     console.log("> updating Git submodules...")
     await nestedGit.submoduleUpdate(["--init"])
-    .catch((err) => console.log("> error: nested submodule updates failed: " + err))
+    .catch((err) => { throw Error(`Unable to update submodules of lingua-franca: ${err}.`) })
 }
 
 /**
@@ -128,7 +127,7 @@ async function build() {
         console.log("> using repo located in " + opts.local)
         repo = opts.local
     } else {
-        await fetchDeps(opts)
+        await fetchDeps(opts).catch((err) => { console.log(err); process.exit(1)})
     }
     const mvn = (require('maven')).create({
         cwd: repo
