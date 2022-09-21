@@ -17,19 +17,33 @@ export type VersionCheckResult = {
 
 export type VersionChecker = () => Promise<VersionCheckResult>;
 
-type VersionCheckerMaker = (desiredVersion: Version, command: string, sameMajor: boolean) =>
-    VersionChecker;
+type VersionCheckerMaker = (
+    desiredVersion: Version,
+    command: string,
+    sameMajor: boolean,
+    permissive?: boolean
+) => VersionChecker;
 
 type VersionCheckerCombiner = (check0: VersionChecker, check1: VersionChecker) => VersionChecker;
 
 /**
  * Create a basic version checker. Note that this assumes that the first valid version number
  * appearing in stdout is the version number of interest.
+ * @param desiredVersion The desired minimal version number.
  * @param command A command that will print the desired version number, as well as perhaps some
  * other text.
+ * @param sameMajor Whether versions with a different major version number should be considered
+ * incompatible, even if they are more recent then the required version.
+ * @param permissive Whether the version number parsing strategy should be permissive in the
+ * version number formats that it accepts.
  * @returns A VersionChecker that checks the desired version number.
  */
-const basicChecker: VersionCheckerMaker = (desiredVersion, command, sameMajor) => async () => {
+const basicChecker: VersionCheckerMaker = (
+    desiredVersion: Version,
+    command: string,
+    sameMajor: boolean,
+    permissive: boolean
+) => async () => {
     const nullResult = { version: new Version('0.0.0'), isCorrect: null };
     let stdout: string;
     try {
@@ -38,9 +52,13 @@ const basicChecker: VersionCheckerMaker = (desiredVersion, command, sameMajor) =
         console.error(`Failed to run "${command}": ${error}`);
         return nullResult;
     }
-    const found = stdout.match(Version.regex);
-    if (found === null) return nullResult;
-    const version = new Version(stdout);
+    let version: Version;
+    try {
+        version = new Version(stdout, permissive);
+    } catch (error) {
+        console.error(error);
+        return nullResult;
+    }
     return {
         version: version,
         isCorrect: version.isAtLeast(desiredVersion) && (
@@ -62,7 +80,7 @@ const theBetterOfEither: VersionCheckerCombiner = (check0, check1) => async () =
 };
 
 export const javaVersionChecker = basicChecker(config.javaVersion, 'java -version 2>&1', false);
-export const javacVersionChecker = basicChecker(config.javacVersion, 'javac -version 2>&1', false);
+export const javacVersionChecker = basicChecker(config.javacVersion, 'javac -version 2>&1', false, true);
 export const python3AliasVersionChecker = basicChecker(config.pythonVersion, 'python3 -V', false);
 export const pythonAliasVersionChecker = basicChecker(config.pythonVersion, 'python -V', false);
 export const python3VersionChecker = theBetterOfEither(
