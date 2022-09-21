@@ -79,7 +79,7 @@ const theBetterOfEither: VersionCheckerCombiner = (check0, check1) => async () =
     return zeroth;
 };
 
-export const javaVersionChecker = basicChecker(config.javaVersion, 'java -version 2>&1', false);
+export const javaVersionChecker = basicChecker(config.javaVersion, 'java -version 2>&1', false, true);
 export const javacVersionChecker = basicChecker(config.javacVersion, 'javac -version 2>&1', false, true);
 export const python3AliasVersionChecker = basicChecker(config.pythonVersion, 'python3 -V', false);
 export const pythonAliasVersionChecker = basicChecker(config.pythonVersion, 'python -V', false);
