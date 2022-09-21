@@ -97,7 +97,7 @@ async function checkJavaVersion() {
         const result: VersionCheckResult = await javacVersionChecker()
         switch (result.isCorrect) {
         case true:
-            console.log(`> Java compiler version is ${config.javacVersion}`)
+            console.log(`> Java compiler version is ${result.version}`)
             return
         case false:
             console.log(`> Java compiler version is ${result.version}`)
@@ -116,7 +116,7 @@ async function checkJavaVersion() {
 }
 
 /**
- * Build dependencies and collects produced jars. 
+ * Build dependencies and collects produced jars.
  */
 async function build() {
     await checkInstalled(config.buildDeps)
@@ -136,7 +136,7 @@ async function build() {
     mvn.execute(['clean', 'package', '-P', 'lds', '-U'], { 'skipTests' : 'true' })
     .then(() => {
         copyJars()
-    });    
+    });
 }
 
 /**
