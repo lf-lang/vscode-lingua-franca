@@ -44,7 +44,7 @@ Tests are located in the `src` directory and are marked using the `.test.ts` ext
 Please keep your PRs manageable and easy to review.
  - Provide a clear title and description of the proposed changes;
  - Keep the changes limited to a particular feature, fix, or enhancement;
- - Mark the PR as "draft" until it is ready for review; 
+ - Mark the PR as "draft" until it is ready for review;
  - Provide tests along with your code; and
  - Follow the [TypeScript style
    guide](https://google.github.io/styleguide/tsguide.html) to avoid trivial
@@ -55,7 +55,13 @@ For development purposes, it is possible to manually perform an incremental buil
 instead running the Python script `./uf.py`. This script will re-compile Java and Kotlin files and add them to the fat jar using
 the `jar` command with the `-uf` flag.
 
-A suggested workflow is as follows:
+We suggest the following workflow for debugging the extension (implemented in TypeScript):
+1. Run the command `npm run compile` to generate JavaScript together with a source map (in the `out` directory). The source map is necessary for breakpoints to work.
+2. Set breakpoints in the TypeScript source files.
+3. Open `./src/extension.ts` in Visual Studio Code.
+4. Press <kbd>F5</kbd> to run the extension in a new Extension Development Host window.
+
+We suggest the following workflow for debugging the language server (implemented in Java/Kotlin):
 1. Ensure that the appropriate compiler is on your PATH.
   * To build Java files, `javac` is required.
   * To build Kotlin files, [the Kotlin JVM compiler](https://github.com/JetBrains/kotlin/releases/tag/v1.5.30) `kotlinc` is required. It must be the JVM compiler, not the native compiler.
