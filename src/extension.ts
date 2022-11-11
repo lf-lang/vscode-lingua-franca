@@ -6,13 +6,15 @@ import * as fs from 'fs';
 
 import { Trace } from 'vscode-jsonrpc';
 import * as vscode from 'vscode';
-import { LanguageClient, LanguageClientOptions, ServerOptions } from 'vscode-languageclient';
+import { connect, NetConnectOpts, Socket } from 'net';
+import { LanguageClient, LanguageClientOptions, ServerOptions, StreamInfo } from 'vscode-languageclient';
 import { legend, semanticTokensProvider } from './highlight';
 import * as config from './config';
 import { registerBuildCommands } from './build_commands';
 import * as checkDependencies from './check_dependencies';
 
 let client: LanguageClient;
+let socket: Socket
 
 export async function activate(context: vscode.ExtensionContext) {
 
@@ -108,5 +110,12 @@ export function deactivate(): Thenable<void> | undefined {
     if (!client) {
         return undefined;
     }
-    return client.stop();
+    if (socket) {
+        // Don't call client.stop when we are connected via socket for development.
+        // That call will end the LS server, leading to a bad dev experience.
+        socket.end();
+        return;
+    } else {
+        return client.stop();
+    }
 }
