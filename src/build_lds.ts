@@ -56,6 +56,13 @@ function copyJar() {
 }
 
 /**
+ * Delete stale data.
+ */
+function clean() {
+    rimraf.sync(config.ldsJarBuildDir);
+}
+
+/**
  * Check out the Lingua Franca repo.
  * @param options CLI options
  */
@@ -117,6 +124,7 @@ async function build() {
     await checkInstalled(config.buildDeps)
     await checkJavaVersion()
     const opts = getOpts()
+    clean()
     let repo = config.repoName
     if (opts.local) {
         console.log("> using repo located in " + opts.local)

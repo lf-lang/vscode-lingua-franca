@@ -72,7 +72,10 @@ export const baseDirPath = path.resolve(path.dirname(require.main.filename), '..
 /** Absolute path to the directory in which to put the jar files. */
 export const libDirPath = path.resolve(baseDirPath, libDirName);
 
+/** Absolute path to the build directory of the language and diagram server jar. */
+export const ldsJarBuildDir = path.resolve(baseDirPath,
+    path.join(repoName, 'org.lflang.diagram', 'build', 'libs'));
+
 /** Absolute path to the language and diagram server jar. */
-// TODO handle version in file name
-export const sourceLdsJarFile = path.resolve(baseDirPath,
-    path.join(repoName, 'org.lflang.diagram', 'build', 'libs', 'org.lflang.diagram-+(?).+(?).+(?)?(-SNAPSHOT)-lds.jar'));
+export const sourceLdsJarFile = path.join(ldsJarBuildDir,
+    'org.lflang.diagram-+(?).+(?).+(?)?(-SNAPSHOT)-lds.jar');
