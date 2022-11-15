@@ -12,6 +12,7 @@ import simpleGit, { SimpleGit } from 'simple-git'
 import { Command, OptionValues } from 'commander'
 import * as config from './config'
 import { exit } from 'process';
+import { execSync } from 'child_process'
 import { bold, green, red } from 'colorette'
 import which from 'which'
 import { javacVersionChecker, VersionCheckResult } from './version_checker';
@@ -34,30 +35,17 @@ function getOpts() {
 }
 
 /**
- * Copy jars produced by the Maven build.
+ * Copy jar produced by the Gradle build.
  */
-function copyJars() {
+function copyJar() {
     if (fs.existsSync(config.libDirPath)) {
         rimraf.sync(config.libDirPath);
     }
     fs.mkdirSync(config.libDirPath);
 
     // Copy the LDS jar.
-    fs.copyFileSync(config.ldsJarFile,
+    fs.copyFileSync(config.sourceLdsJarFile,
         path.join(config.libDirPath, config.ldsJarName))
-
-    // Copy SWT plugins, needed by LDS.
-    fs.readdirSync(config.swtJarsDirPath).forEach(
-        (name: string) => {
-            let found = name.match(config.swtJarRegex)
-            if (found !== null) {
-                // Copy file, strip version numbers.
-                fs.copyFileSync(path.join(config.swtJarsDirPath, name),
-                    path.join(config.libDirPath,
-                        name.replace(found.groups.version, '')))
-            }
-        }
-    )
 }
 
 /**
@@ -129,14 +117,13 @@ async function build() {
     } else {
         await fetchDeps(opts).catch((err) => { console.log(err); process.exit(1)})
     }
-    const mvn = (require('maven')).create({
-        cwd: repo
-    });
-    console.log("> starting Maven build...")
-    mvn.execute(['clean', 'package', '-P', 'lds', '-U'], { 'skipTests' : 'true' })
-    .then(() => {
-        copyJars()
-    });
+    console.log("> starting Gradle build...")
+    try {
+        execSync("./gradlew generateLanguageDiagramServer", { cwd: repo, stdio: 'inherit' });
+        copyJar();
+    } catch(e) {
+        console.error(e);
+    }
 }
 
 /**

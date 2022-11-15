@@ -57,12 +57,6 @@ export const rtiVersion: Version = new Version('0.0.0');
 /** Name of the Language and Diagram Server jar. */
 export const ldsJarName = 'lflang-lds.jar';
 
-/** Regex for matching SWT jars and capturing their version number. */
-export const swtJarRegex = /org\.eclipse\.swt\..+(?<version>\.x86.+)\.jar$/;
-
-/** Name of the Language and Diagram Server package. */
-export const pkgName = 'org.lflang.lds';
-
 /** Name of the Lingua Franca repo. */
 export const repoName = 'lingua-franca';
 
@@ -78,21 +72,7 @@ export const baseDirPath = path.resolve(path.dirname(require.main.filename), '..
 /** Absolute path to the directory in which to put the jar files. */
 export const libDirPath = path.resolve(baseDirPath, libDirName);
 
-/** Absolute path to the directory in which to find the SWT jar files. */
-export const swtJarsDirPath = path.resolve(baseDirPath,
-    path.join(repoName, pkgName, 'target', 'repository', 'plugins'));
-
 /** Absolute path to the language and diagram server jar. */
-export const ldsJarFile = path.resolve(baseDirPath,
-    path.join(repoName, pkgName, 'target', 'exe', ldsJarName));
-
-/** Dictionary mapping OSes to the names of their corresponding SWT jars. */
-export const swtJarsByOs = defaultDict('org.eclipse.swt.gtk.linux.jar')({
-    'win32': 'org.eclipse.swt.win32.win32.jar',
-    'darwin': 'org.eclipse.swt.cocoa.macosx.jar'
-});
-
-/** Dictionary mapping OSes to their corresponding classpath separators. */
-export const classPathSeparatorsByOs = defaultDict(':')({
-    'win32': ';',
-});
+// TODO handle version in file name
+export const sourceLdsJarFile = path.resolve(baseDirPath,
+    path.join(repoName, 'org.lflang.diagram', 'build', 'libs', 'org.lflang.diagram-0.3.1-SNAPSHOT-lds.jar'));

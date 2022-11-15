@@ -13,6 +13,20 @@
             "type": "extensionHost"
         },
         {
+            "env": {
+                "LF_LS_PORT": "7670"
+            },
+            "args": [
+                "--extensionDevelopmentPath=${workspaceFolder}"
+            ],
+            "name": "Launch Extension (Socket)",
+            "outFiles": [
+                "${workspaceFolder}/out/**/*.js"
+            ],
+            "request": "launch",
+            "type": "extensionHost"
+        },
+        {
             "args": [
                 "--extensionDevelopmentPath=${workspaceFolder}",
                 "--extensionTestsPath=${workspaceFolder}/out/test/test/index"
