@@ -75,4 +75,4 @@ export const libDirPath = path.resolve(baseDirPath, libDirName);
 /** Absolute path to the language and diagram server jar. */
 // TODO handle version in file name
 export const sourceLdsJarFile = path.resolve(baseDirPath,
-    path.join(repoName, 'org.lflang.diagram', 'build', 'libs', 'org.lflang.diagram-0.3.1-SNAPSHOT-lds.jar'));
+    path.join(repoName, 'org.lflang.diagram', 'build', 'libs', 'org.lflang.diagram-+(?).+(?).+(?)?(-SNAPSHOT)-lds.jar'));
