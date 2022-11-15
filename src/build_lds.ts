@@ -16,6 +16,7 @@ import { execSync } from 'child_process'
 import { bold, green, red } from 'colorette'
 import which from 'which'
 import { javacVersionChecker, VersionCheckResult } from './version_checker';
+import { glob } from 'glob';
 
 /**
  * Return passed in CLI options.
@@ -42,10 +43,16 @@ function copyJar() {
         rimraf.sync(config.libDirPath);
     }
     fs.mkdirSync(config.libDirPath);
-
-    // Copy the LDS jar.
-    fs.copyFileSync(config.sourceLdsJarFile,
-        path.join(config.libDirPath, config.ldsJarName))
+    const ldsJarMatches = glob.sync(config.sourceLdsJarFile);
+    if (ldsJarMatches.length > 1) {
+        throw Error(`Multiple matches to ${config.sourceLdsJarFile} were found. `
+         + `Please delete the jars that you do not want to use.`);
+    } else if (ldsJarMatches.length == 0) {
+        throw Error(`Failed to find the LDS fat jar because there were no matches to `
+         + `${config.sourceLdsJarFile} in the file system.`);
+    } else {
+        fs.copyFileSync(ldsJarMatches[0], path.join(config.libDirPath, config.ldsJarName));
+    }
 }
 
 /**
