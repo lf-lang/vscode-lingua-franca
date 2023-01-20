@@ -61,7 +61,7 @@ const buildAndRun = (withLogs: MessageShowerTransformer, client: LanguageClient)
                 return;
             }
             const terminal = getTerminal('Lingua Franca: Run', command[0]);
-            terminal.sendText(`cd ${command[0]}`);
+            terminal.sendText(`cd "${command[0]}"`);
             terminal.show(true);
             terminal.sendText(command.slice(1).join(' '));
         });
