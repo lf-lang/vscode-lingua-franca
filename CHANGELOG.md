@@ -1,5 +1,28 @@
 # Changelog
  
+## [v0.4.0](https://github.com/lf-lang/vscode-lingua-franca/tree/v0.4.0) (2023-03-01)
+
+**Highlights**
+
+This release comes with an updated Lingua Franca compiler, a code formatting feature (Ctrl + Shift + I), and built-in checks for dependencies.
+
+**🚀 New Features**
+
+- Formatting [\#70](https://github.com/lf-lang/vscode-lingua-franca/pull/70) ([petervdonovan](https://github.com/petervdonovan))
+- Support for Java versions > 17 [\#83](https://github.com/lf-lang/vscode-lingua-franca/pull/83) ([lhstrh](https://github.com/lhstrh))
+
+**✨ Enhancements**
+
+- Language and diagram server built using Gradle [\#85](https://github.com/lf-lang/vscode-lingua-franca/pull/85) ([a-sr](https://github.com/a-sr))
+- Up-to-date types for NodeJS [\#95](https://github.com/lf-lang/vscode-lingua-franca/pull/95) ([lhstrh](https://github.com/lhstrh))
+
+**🔧 Fixes**
+
+- Removal of hardcoded LDS jar versions [\#87](https://github.com/lf-lang/vscode-lingua-franca/pull/87) ([petervdonovan](https://github.com/petervdonovan))
+- Fix "Build and Run" command with paths that contain spaces [\#89](https://github.com/lf-lang/vscode-lingua-franca/pull/89) ([a-sr](https://github.com/a-sr))
+
+
+ 
 ## [v0.3.1](https://github.com/lingua-franca/vscode-lingua-franca/tag/v0.3.1) (2022-07-23)
 
 **Highlights** This is a patch release to correct faulty artifacts that were released on the VS Code Marketplace/Open VSX Registry on 07-22-2022. Version 0.3.0 of the VS Code extension may experience runtime errors that are due to uncaught (and now corrected) build errors in our release workflow on GitHub Actions.
