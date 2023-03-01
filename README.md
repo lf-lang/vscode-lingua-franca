@@ -1,5 +1,8 @@
 # Lingua Franca support for Visual Studio Code
 [![CI](https://github.com/lf-lang/vscode-lingua-franca/actions/workflows/ci.yml/badge.svg)](https://github.com/lf-lang/vscode-lingua-franca/actions/workflows/ci.yml)
+[![VS Marketplace](https://vsmarketplacebadge.apphb.com/version/lf-lang.vscode-lingua-franca.svg)](https://marketplace.visualstudio.com/items?itemName=lf-lang.vscode-lingua-franca)
+[![Installs](https://vsmarketplacebadge.apphb.com/installs/lf-lang.vscode-lingua-franca.svg)](https://marketplace.visualstudio.com/items?itemName=lf-lang.vscode-lingua-franca)
+[![Installs](https://vsmarketplacebadge.apphb.com/rating-short/lf-lang.vscode-lingua-franca.svg)](https://marketplace.visualstudio.com/items?itemName=lf-lang.vscode-lingua-franca)
 
 This extension adds language support for [Lingua Franca (LF)](https://www.lf-lang.org/). It is based on the LF Language and Diagram Server and provides:
 * find references
