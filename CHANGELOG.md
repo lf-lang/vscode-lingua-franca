@@ -1,5 +1,14 @@
 # Changelog
  
+## [v0.4.1](https://github.com/lf-lang/vscode-lingua-franca/tree/v0.4.1) (2023-03-01)
+
+**Highlights**
+
+This patch release is to satisfy the VS Marketplace requirements for publication.
+
+- Removal of bad links [\#98](https://github.com/lf-lang/vscode-lingua-franca/pull/98) ([lhstrh](https://github.com/lhstrh))
+
+ 
 ## [v0.4.0](https://github.com/lf-lang/vscode-lingua-franca/tree/v0.4.0) (2023-03-01)
 
 **Highlights**
