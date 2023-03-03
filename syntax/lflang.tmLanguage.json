@@ -422,7 +422,7 @@
                 {
                     "name": "string.quoted.double.lflang",
                     "begin": "\"",
-                    "end": "(?<=(\\\\.|[^\"\\\\])*)(\"|$)",
+                    "end": "(?<!\")(\"|$)",
                     "patterns": [{
                         "include": "#string-helper"
                     }]
