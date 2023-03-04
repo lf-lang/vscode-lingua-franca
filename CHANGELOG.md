@@ -1,5 +1,12 @@
 # Changelog
  
+## [v0.4.2](https://github.com/lf-lang/vscode-lingua-franca/tree/v0.4.2) (2023-03-04)
+
+**Highlights**
+
+This patch release provides a fix for lf-lang/lingua-franca#1619.
+
+- No changes 
 ## [v0.4.1](https://github.com/lf-lang/vscode-lingua-franca/tree/v0.4.1) (2023-03-01)
 
 **Highlights**
