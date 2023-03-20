@@ -120,7 +120,19 @@
             "begin": "(?=\\btarget\\s+C\\b)",
             "patterns": [
                 {
-                    "begin": "(?<=(input|output|action|state).*:)",
+                    "begin": "(?<=(input|state)).*:(.*);\n",
+                    "end": "[\\(;\\n]",
+                    "patterns": [
+                        {
+                            "include": "source.cpp"
+                        },
+                        {
+                            "include": "#type"
+                        }
+                    ]
+                },
+                {
+                    "begin": "(?<=(output|action)).*:(.*);\n",
                     "end": "[\\(;\\n]",
                     "patterns": [
                         {
@@ -405,11 +417,11 @@
                 },
                 {
                     "name": "storage.type.lflang",
-                    "match": "(?<=(input|state).*:\\s*(\\b(\\w+)\\b)"
+                    "match": "(?<=(input|state)).*:\\s*(\\b(\\w+)\\b)"
                 },
                 {
                     "name": "storage.type.lflang",
-                    "match": "(?<=(output|action).*:\\s*(\\b(\\w+)\\b)"
+                    "match": "(?<=(output|action)).*:\\s*(\\b(\\w+)\\b)"
                 }
             ]
         },
