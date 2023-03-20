@@ -148,7 +148,19 @@
             "begin": "(?=\\btarget\\s+C?Cpp\\b)",
             "patterns": [
                 {
-                    "begin": "(?<=(input|output|action|state).*:)",
+                    "begin": "(?<=(input|state)).*:(.*);\n",
+                    "end": "[\\(;\\n]",
+                    "patterns": [
+                        {
+                            "include": "source.cpp"
+                        },
+                        {
+                            "include": "#type"
+                        }
+                    ]
+                },
+                {
+                    "begin": "(?<=(output|action)).*:(.*);\n",
                     "end": "[\\(;\\n]",
                     "patterns": [
                         {
@@ -219,7 +231,11 @@
             "patterns": [
                 {
                     "name": "entity.name.type.lflang",
-                    "match": "(?<=(input|output|action|state).*:(\\s*))(\\b(\\w+)\\b)"
+                    "match": "(?<=(input|state)).*:\\s*(\\b(\\w+)\\b)"
+                },
+                {
+                    "name": "entity.name.type.lflang",
+                    "match": "(?<=(output|action)).*:\\s*(\\b(\\w+)\\b)"
                 },
                 {
                     "include": "#post-targetspec"
@@ -252,7 +268,7 @@
                 },
                 {
                     "name": "variable.parameter.lflang",
-                    "match": "(?<=(^|,|\\{)(\\s)*)\\b([\\w\\-]+)\\b(?=(\\s)*:)"
+                    "match": "(^|(?<=(,|\\{)))(\\s)*\\b([\\w\\-]+)\\b(?=(\\s)*:)"
                 }
             ]
         },
@@ -301,7 +317,7 @@
                 },
                 {
                     "name": "entity.name.type.lflang",
-                    "match": "(?<=\\breactor\\b\\s*)(?!at)(?!extends)(\\w+)\\b"
+                    "match": "(?<=\\breactor\\b)\\s*(?!at)(?!extends)(\\w+)\\b"
                 }
             ]
         },
@@ -325,7 +341,7 @@
                 },
                 {
                     "name": "entity.name.function.member.lflang",
-                    "match": "(?<=\\bmethod\\b\\s+)\\w+\\b"
+                    "match": "(?<=\\bmethod\\b)\\s+(\\w+)\\b"
                 }
             ]
         },
@@ -381,11 +397,19 @@
             "patterns": [
                 {
                     "name": "entity.name.type.lflang",
-                    "match": "(?<=(input|output|action|state).*:(\\s*))(\\b([A-Z]\\w*)\\b)"
+                    "match": "(?<=(input|state)).*:\\s*(\\b([A-Z]\\w*)\\b)"
+                },
+                {
+                    "name": "entity.name.type.lflang",
+                    "match": "(?<=(output|action)).*:\\s*(\\b([A-Z]\\w*)\\b)"
                 },
                 {
                     "name": "storage.type.lflang",
-                    "match": "(?<=(input|output|action|state).*:(\\s*))(\\b(\\w+)\\b)"
+                    "match": "(?<=(input|state).*:\\s*(\\b(\\w+)\\b)"
+                },
+                {
+                    "name": "storage.type.lflang",
+                    "match": "(?<=(output|action).*:\\s*(\\b(\\w+)\\b)"
                 }
             ]
         },
@@ -422,7 +446,7 @@
                 {
                     "name": "string.quoted.double.lflang",
                     "begin": "\"",
-                    "end": "(?<=(\\\\.|[^\"\\\\])*)(\"|$)",
+                    "end": "(?<!\")(\"|$)",
                     "patterns": [{
                         "include": "#string-helper"
                     }]
@@ -430,7 +454,7 @@
                 {
                     "name": "string.quoted.single.lflang",
                     "begin": "'",
-                    "end": "(?<=(\\\\.|[^'\\\\])*)('|$)",
+                    "end": "(?<!')('|$)",
                     "patterns": [{
                         "include": "#string-helper"
                     }]
@@ -493,7 +517,7 @@
                 },
                 {
                     "name": "variable.other.lflang",
-                    "match": "(?<=\\w+((\\.)|(::)))(\\b\\w+\\b)"
+                    "match": "(?<=((\\w\\.)|(::)))(\\b\\w+\\b)"
                 }
             ]
         },
