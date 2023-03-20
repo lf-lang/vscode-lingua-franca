@@ -253,7 +253,7 @@
         "target-specification": {
             "name": "meta.targetspec.lflang",
             "begin": "(?=\\btarget\\b)",
-            "end": ";|(?<=}.*)$|(?<=target[^\\{]*)$",
+            "end": ";|(?<=})$|(?<=target)[^\\{]*$",
             "patterns": [
                 {
                     "include": "#context-insensitive"
@@ -274,7 +274,7 @@
         },
         "import-statement": {
             "begin": "(?=^\\s*import\\b)",
-            "end": ";|(?<=}.*)$|(?<=import[^\\{]*)$",
+            "end": ";|(?<=})$|(?<=import)[^\\{]*$",
             "patterns": [
                 {
                     "include": "#context-insensitive"
@@ -501,7 +501,7 @@
                 },
                 {
                     "name": "entity.name.type.lflang",
-                    "match": "(?<=\\s*=\\s*new\\s*(\\[[^\\]]*\\])?\\s+)\\w+\\b"
+                    "match": "(?<=new)\\s*(\\[[^\\]]*\\])?\\s+(\\w+)\\b"
                 }
             ]
         },
