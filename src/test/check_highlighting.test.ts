@@ -22,7 +22,7 @@ const registry = new vsctm.Registry({
     onigLib: vscodeOnigurumaLib,
     loadGrammar: async (_: string) => {
         const grammarFile = path.join(
-            "syntax", "lflang.tmLanguage.json"
+          root, "syntax", "lflang.tmLanguage.json"
         )
         const data: any = fs.readFileSync(grammarFile)
         return vsctm.parseRawGrammar(data.toString(), grammarFile)
@@ -66,7 +66,7 @@ suite('test syntax highlighting', () => {
         this.timeout(timeout);
         const grammar = await registry.loadGrammar("source.lf")
         let files = glob.sync(`lingua-franca/test/**/**.lf`, { cwd: root, ignore: "**/*-gen/**" })
-        for (const file of files) {
+        for (const file of files.map(it => path.resolve(root, it))) {
             const code = fs.readFileSync(file).toString()
             const annotated = annotateCode(code, grammar)
             const relPath = path.relative(path.join(root, "lingua-franca", "test"), file)
