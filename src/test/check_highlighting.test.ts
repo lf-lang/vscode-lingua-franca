@@ -8,19 +8,6 @@ import glob from 'glob';
 const root = path.join(__dirname, "..", ".." , "..")
 const timeout = 12000
 
-/**
- * Return a Promise that gives the contents of a file.
- * @param p A path to the file relative to the location of this script.
- */
-function readFile(p: string): Promise<string> {
-    return new Promise((resolve, reject) => {
-      return fs.readFile(
-        path.resolve(root, p),
-        (error: any, data: any) => error ? reject(error) : resolve(data.toString())
-      );
-    })
-}
-
 const wasmBin = fs.readFileSync(path.join(root, path.join(
     "node_modules", "vscode-oniguruma", "release", "onig.wasm"
   ))).buffer;
@@ -37,7 +24,7 @@ const registry = new vsctm.Registry({
         const grammarFile = path.join(
             "syntax", "lflang.tmLanguage.json"
         )
-        const data: any = await readFile(grammarFile)
+        const data: any = fs.readFileSync(grammarFile)
         return vsctm.parseRawGrammar(data.toString(), grammarFile)
     }
 });
