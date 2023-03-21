@@ -61,6 +61,8 @@ function annotateCode(code: string, grammar: vsctm.IGrammar): string {
   return ret
 }
 
+const normalizeEol = (s: string) => s.replace(/\r?\n|\r/g, "\n")
+
 suite('test syntax highlighting', () => {
     test('all', async function() {
         this.timeout(timeout);
@@ -73,7 +75,7 @@ suite('test syntax highlighting', () => {
             const testPath = path.resolve(root, "test", "known-good", relPath.replace(".lf", ".txt"))
             if (fs.existsSync(testPath)) {
                 const knownGood = fs.readFileSync(testPath).toString()
-                expect(annotated).to.eql(knownGood);
+                expect(normalizeEol(annotated)).to.eql(normalizeEol(knownGood));
             } else {
                 console.log(`Found LF integration test at "${file} without a corresponding annotated". Creating corresponding annotated file at ${testPath}.`)
                 fs.mkdirSync(path.dirname(testPath), { recursive: true })
