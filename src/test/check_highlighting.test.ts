@@ -4,6 +4,7 @@ import * as vsctm from "vscode-textmate"
 import fs from "fs"
 import path from "path"
 import glob from 'glob';
+import dependency_status, { DependencyStatus } from './dependency_status';
 
 const root = path.join(__dirname, "..", ".." , "..")
 const timeout = 12000
@@ -65,6 +66,7 @@ const normalizeEol = (s: string) => s.replace(/\r?\n|\r/g, "\n")
 
 suite('test syntax highlighting', () => {
     test('all', async function() {
+        if (dependency_status() != DependencyStatus.Present) return;
         this.timeout(timeout);
         const grammar = await registry.loadGrammar("source.lf")
         let files = glob.sync(`lingua-franca/test/**/**.lf`, { cwd: root, ignore: "**/*-gen/**" })
