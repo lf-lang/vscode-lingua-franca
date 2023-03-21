@@ -2,14 +2,13 @@
 <span class="source-lf comment-line-double-dash-lflang">// value.</span>
 <span class="source-lf meta-targetspec-lflang keyword-control-lflang">target</span><span class="source-lf meta-targetspec-lflang"> </span><span class="source-lf meta-targetspec-lflang constant-language-lflang">C</span>
 <span class="source-lf"></span>
-<span class="source-lf keyword-control-lflang">preamble</span><span class="source-lf"> {</span><span class="source-lf keyword-operator-lflang">=</span>
-<span class="source-lf">    typedef struct hello_t {</span>
-<span class="source-lf">        char</span><span class="source-lf keyword-operator-lflang">*</span><span class="source-lf"> name;</span>
-<span class="source-lf">        int value;</span>
-<span class="source-lf">    } hello_t;</span>
-<span class="source-lf keyword-operator-lflang">=</span><span class="source-lf">}</span>
-<span class="source-lf"></span>
 <span class="source-lf storage-modifier-lflang">main</span><span class="source-lf"> </span><span class="source-lf storage-modifier-lflang">reactor</span><span class="source-lf"> </span><span class="source-lf entity-name-type-lflang">StructAsState</span><span class="source-lf"> {</span>
+<span class="source-lf">    </span><span class="source-lf keyword-control-lflang">preamble</span><span class="source-lf"> {</span><span class="source-lf keyword-operator-lflang">=</span>
+<span class="source-lf">        typedef struct hello_t {</span>
+<span class="source-lf">            char</span><span class="source-lf keyword-operator-lflang">*</span><span class="source-lf"> name;</span>
+<span class="source-lf">            int value;</span>
+<span class="source-lf">        } hello_t;</span>
+<span class="source-lf">    </span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf">}</span>
 <span class="source-lf comment-line-double-dash-lflang">    </span><span class="source-lf comment-line-double-dash-lflang">// Notice that target code delimiters are no longer necessary.</span>
 <span class="source-lf">    </span><span class="source-lf storage-modifier-lflang">state</span><span class="source-lf"> s:</span><span class="source-lf"> </span><span class="source-lf storage-type-lflang">hello_t</span><span class="source-lf">(</span><span class="source-lf string-quoted-double-lflang">"</span><span class="source-lf string-quoted-double-lflang">Earth</span><span class="source-lf string-quoted-double-lflang">"</span><span class="source-lf">, </span><span class="source-lf constant-numeric-int-lflang">42</span><span class="source-lf">)</span>
 <span class="source-lf"></span>

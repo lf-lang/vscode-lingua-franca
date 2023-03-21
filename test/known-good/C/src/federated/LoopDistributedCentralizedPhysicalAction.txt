@@ -15,23 +15,19 @@
 <span class="source-lf"></span>
 <span class="source-lf keyword-control-lflang">preamble</span><span class="source-lf"> {</span><span class="source-lf keyword-operator-lflang">=</span>
 <span class="source-lf comment-line-double-dash-lflang">    </span><span class="source-lf comment-line-double-dash-lflang">#include <unistd.h> // Defines sleep()</span>
-<span class="source-lf">    extern bool stop;</span>
-<span class="source-lf">    void</span><span class="source-lf keyword-operator-lflang">*</span><span class="source-lf"> ping(void</span><span class="source-lf keyword-operator-lflang">*</span><span class="source-lf"> actionref);</span>
+<span class="source-lf">    bool stop </span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf"> </span><span class="source-lf constant-language-lflang">false</span><span class="source-lf">;</span>
+<span class="source-lf comment-line-double-dash-lflang">    </span><span class="source-lf comment-line-double-dash-lflang">// Thread to trigger an action once every second.</span>
+<span class="source-lf">    void</span><span class="source-lf keyword-operator-lflang">*</span><span class="source-lf"> ping(void</span><span class="source-lf keyword-operator-lflang">*</span><span class="source-lf"> actionref) {</span>
+<span class="source-lf">        while(!stop) {</span>
+<span class="source-lf">            lf_print(</span><span class="source-lf string-quoted-double-lflang">"</span><span class="source-lf string-quoted-double-lflang">Scheduling action.</span><span class="source-lf string-quoted-double-lflang">"</span><span class="source-lf">);</span>
+<span class="source-lf">            lf_schedule(actionref, </span><span class="source-lf constant-numeric-int-lflang">0</span><span class="source-lf">);</span>
+<span class="source-lf">            sleep(</span><span class="source-lf constant-numeric-int-lflang">1</span><span class="source-lf">);</span>
+<span class="source-lf">        }</span>
+<span class="source-lf">        return NULL;</span>
+<span class="source-lf">    }</span>
 <span class="source-lf keyword-operator-lflang">=</span><span class="source-lf">}</span>
 <span class="source-lf"></span>
 <span class="source-lf storage-modifier-lflang">reactor</span><span class="source-lf"> </span><span class="source-lf entity-name-type-lflang">Looper</span><span class="source-lf">(incr: int(</span><span class="source-lf constant-numeric-int-lflang">1</span><span class="source-lf">), delay: </span><span class="source-lf storage-type-lflang">time</span><span class="source-lf">(</span><span class="source-lf constant-numeric-int-lflang">0</span><span class="source-lf"> </span><span class="source-lf constant-numeric-lflang">msec</span><span class="source-lf">)) {</span>
-<span class="source-lf">    </span><span class="source-lf keyword-control-lflang">preamble</span><span class="source-lf"> {</span><span class="source-lf keyword-operator-lflang">=</span>
-<span class="source-lf">        bool stop </span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf"> </span><span class="source-lf constant-language-lflang">false</span><span class="source-lf">;</span>
-<span class="source-lf comment-line-double-dash-lflang">        </span><span class="source-lf comment-line-double-dash-lflang">// Thread to trigger an action once every second.</span>
-<span class="source-lf">        void</span><span class="source-lf keyword-operator-lflang">*</span><span class="source-lf"> ping(void</span><span class="source-lf keyword-operator-lflang">*</span><span class="source-lf"> actionref) {</span>
-<span class="source-lf">            while(!stop) {</span>
-<span class="source-lf">                lf_print(</span><span class="source-lf string-quoted-double-lflang">"</span><span class="source-lf string-quoted-double-lflang">Scheduling action.</span><span class="source-lf string-quoted-double-lflang">"</span><span class="source-lf">);</span>
-<span class="source-lf">                lf_schedule(actionref, </span><span class="source-lf constant-numeric-int-lflang">0</span><span class="source-lf">);</span>
-<span class="source-lf">                sleep(</span><span class="source-lf constant-numeric-int-lflang">1</span><span class="source-lf">);</span>
-<span class="source-lf">            }</span>
-<span class="source-lf">            return NULL;</span>
-<span class="source-lf">        }</span>
-<span class="source-lf">    </span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf">}</span>
 <span class="source-lf">    </span><span class="source-lf storage-modifier-lflang">input</span><span class="source-lf"> in:</span><span class="source-lf"> </span><span class="source-lf storage-type-lflang">int</span>
 <span class="source-lf">    </span><span class="source-lf storage-modifier-lflang">output</span><span class="source-lf"> out:</span><span class="source-lf"> </span><span class="source-lf storage-type-lflang">int</span>
 <span class="source-lf">    </span><span class="source-lf storage-modifier-lflang">physical</span><span class="source-lf"> </span><span class="source-lf storage-modifier-lflang">action</span><span class="source-lf"> a(delay)</span>

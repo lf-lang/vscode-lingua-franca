@@ -10,15 +10,6 @@
 <span class="source-lf meta-targetspec-lflang">}</span>
 <span class="source-lf"></span>
 <span class="source-lf storage-modifier-lflang">reactor</span><span class="source-lf"> </span><span class="source-lf entity-name-type-lflang">Scheduler</span><span class="source-lf"> {</span>
-<span class="source-lf">    </span><span class="source-lf keyword-control-lflang">preamble</span><span class="source-lf"> {</span><span class="source-lf keyword-operator-lflang">=</span>
-<span class="source-lf comment-line-double-dash-lflang">        </span><span class="source-lf comment-line-double-dash-lflang">#ifdef __cplusplus</span>
-<span class="source-lf">        extern </span><span class="source-lf string-quoted-double-lflang">"</span><span class="source-lf string-quoted-double-lflang">C</span><span class="source-lf string-quoted-double-lflang">"</span><span class="source-lf"> {</span>
-<span class="source-lf comment-line-double-dash-lflang">        </span><span class="source-lf comment-line-double-dash-lflang">#endif</span>
-<span class="source-lf comment-line-double-dash-lflang">        </span><span class="source-lf comment-line-double-dash-lflang">#include "include/core/reactor_common.h"</span>
-<span class="source-lf comment-line-double-dash-lflang">        </span><span class="source-lf comment-line-double-dash-lflang">#ifdef __cplusplus</span>
-<span class="source-lf">        }</span>
-<span class="source-lf comment-line-double-dash-lflang">        </span><span class="source-lf comment-line-double-dash-lflang">#endif</span>
-<span class="source-lf">    </span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf">}</span>
 <span class="source-lf">    </span><span class="source-lf storage-modifier-lflang">logical</span><span class="source-lf"> </span><span class="source-lf storage-modifier-lflang">action</span><span class="source-lf"> act</span>
 <span class="source-lf comment-line-double-dash-lflang">    </span><span class="source-lf comment-line-double-dash-lflang">// List of microsteps. Size = 16</span>
 <span class="source-lf">    </span><span class="source-lf storage-modifier-lflang">state</span><span class="source-lf"> microstep_delay_list:</span><span class="source-lf"> </span><span class="source-lf storage-type-lflang">uint32_t</span><span class="source-lf">[]</span><span class="source-lf">(</span>
