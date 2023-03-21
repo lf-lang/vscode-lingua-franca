@@ -40,7 +40,7 @@ const registry = new vsctm.Registry({
 function annotateCode(code: string, grammar: vsctm.IGrammar): string {
   let prevState: vsctm.StateStack | null = null
   let ret: string = ""
-  for (const line of code.split("\n")) {
+  for (const line of code.split(/\r?\n|\r/)) {
     let result: vsctm.ITokenizeLineResult = grammar.tokenizeLine(line, prevState)
     prevState = result.ruleStack
     if (result.stoppedEarly) {

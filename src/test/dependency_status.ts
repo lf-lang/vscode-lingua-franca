@@ -5,8 +5,10 @@ export enum DependencyStatus {
     Present = 'present',
 }
 export default () => {
+    if (!process.env.dependencies) return DependencyStatus.Present
     const dependenciesString = process.env.dependencies.toLowerCase();
     for (const v in DependencyStatus) {
+        if (v === undefined) return DependencyStatus.Present
         if (v.toLowerCase() === dependenciesString) return DependencyStatus[v];
     }
     throw new Error(
