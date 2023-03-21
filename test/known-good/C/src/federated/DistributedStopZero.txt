@@ -1,0 +1,86 @@
+<span class="source-lf comment-block-lflang">/**</span>
+<span class="source-lf comment-block-lflang"> * Test for lf_request_stop() in federated execution with centralized</span>
+<span class="source-lf comment-block-lflang"> * coordination at tag (0,0).</span>
+<span class="source-lf comment-block-lflang"> *</span>
+<span class="source-lf comment-block-lflang"> * @author Soroush Bateni</span>
+<span class="source-lf comment-block-lflang"> </span><span class="source-lf comment-block-lflang">*/</span>
+<span class="source-lf meta-targetspec-lflang keyword-control-lflang">target</span><span class="source-lf meta-targetspec-lflang"> </span><span class="source-lf meta-targetspec-lflang constant-language-lflang">C</span>
+<span class="source-lf"></span>
+<span class="source-lf storage-modifier-lflang">reactor</span><span class="source-lf"> </span><span class="source-lf entity-name-type-lflang">Sender</span><span class="source-lf"> {</span>
+<span class="source-lf">    </span><span class="source-lf storage-modifier-lflang">output</span><span class="source-lf"> out:</span><span class="source-lf"> </span><span class="source-lf storage-type-lflang">int</span>
+<span class="source-lf">    </span><span class="source-lf storage-modifier-lflang">timer</span><span class="source-lf"> t(</span><span class="source-lf constant-numeric-int-lflang">0</span><span class="source-lf">, </span><span class="source-lf constant-numeric-int-lflang">1</span><span class="source-lf"> </span><span class="source-lf constant-numeric-lflang">usec</span><span class="source-lf">)</span>
+<span class="source-lf"></span>
+<span class="source-lf">    </span><span class="source-lf keyword-control-lflang">reaction</span><span class="source-lf">(t) </span><span class="source-lf keyword-operator-lflang">-></span><span class="source-lf"> out {</span><span class="source-lf keyword-operator-lflang">=</span>
+<span class="source-lf">        printf(</span><span class="source-lf string-quoted-double-lflang">"</span><span class="source-lf string-quoted-double-lflang">Sending 42 at (%lld, %u).</span><span class="source-lf string-quoted-double-lflang constant-character-escape">\n</span><span class="source-lf string-quoted-double-lflang">"</span><span class="source-lf">,</span>
+<span class="source-lf">                     lf_time_logical_elapsed(),</span>
+<span class="source-lf">                     lf_tag()</span><span class="source-lf keyword-operator-lflang">.</span><span class="source-lf">microstep);</span>
+<span class="source-lf">        lf_set(out, </span><span class="source-lf constant-numeric-int-lflang">42</span><span class="source-lf">);</span>
+<span class="source-lf"></span>
+<span class="source-lf">        tag_t zero </span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf"> (tag_t) { </span><span class="source-lf keyword-operator-lflang">.</span><span class="source-lf storage-type-lflang">time</span><span class="source-lf"> </span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf"> lf_time_start(), </span><span class="source-lf keyword-operator-lflang">.</span><span class="source-lf">microstep </span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf"> 0u };</span>
+<span class="source-lf">        if (lf_tag_compare(lf_tag(), zero) </span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf"> </span><span class="source-lf constant-numeric-int-lflang">0</span><span class="source-lf">) {</span>
+<span class="source-lf comment-line-double-dash-lflang">            </span><span class="source-lf comment-line-double-dash-lflang">// Request stop at (0,0)</span>
+<span class="source-lf">            printf(</span><span class="source-lf string-quoted-double-lflang">"</span><span class="source-lf string-quoted-double-lflang">Requesting stop at (%lld, %u).</span><span class="source-lf string-quoted-double-lflang constant-character-escape">\n</span><span class="source-lf string-quoted-double-lflang">"</span><span class="source-lf">,</span>
+<span class="source-lf">                     lf_time_logical_elapsed(),</span>
+<span class="source-lf">                     lf_tag()</span><span class="source-lf keyword-operator-lflang">.</span><span class="source-lf">microstep);</span>
+<span class="source-lf">            lf_request_stop();</span>
+<span class="source-lf">        }</span>
+<span class="source-lf">    </span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf">}</span>
+<span class="source-lf"></span>
+<span class="source-lf">    </span><span class="source-lf keyword-control-lflang">reaction</span><span class="source-lf">(</span><span class="source-lf support-variable-lflang">shutdown</span><span class="source-lf">) {</span><span class="source-lf keyword-operator-lflang">=</span>
+<span class="source-lf">        if (lf_time_logical_elapsed() !</span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf"> USEC(</span><span class="source-lf constant-numeric-int-lflang">0</span><span class="source-lf">) ||</span>
+<span class="source-lf">            lf_tag()</span><span class="source-lf keyword-operator-lflang">.</span><span class="source-lf">microstep !</span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf"> </span><span class="source-lf constant-numeric-int-lflang">1</span><span class="source-lf">) {</span>
+<span class="source-lf">            fprintf(stderr, </span><span class="source-lf string-quoted-double-lflang">"</span><span class="source-lf string-quoted-double-lflang">ERROR: Sender failed to stop the federation in time. </span><span class="source-lf string-quoted-double-lflang">"</span>
+<span class="source-lf">                    </span><span class="source-lf string-quoted-double-lflang">"</span><span class="source-lf string-quoted-double-lflang">Stopping at (%lld, %u).</span><span class="source-lf string-quoted-double-lflang constant-character-escape">\n</span><span class="source-lf string-quoted-double-lflang">"</span><span class="source-lf">,</span>
+<span class="source-lf">                     lf_time_logical_elapsed(),</span>
+<span class="source-lf">                     lf_tag()</span><span class="source-lf keyword-operator-lflang">.</span><span class="source-lf">microstep);</span>
+<span class="source-lf">            exit(</span><span class="source-lf constant-numeric-int-lflang">1</span><span class="source-lf">);</span>
+<span class="source-lf">        }</span>
+<span class="source-lf">        printf(</span><span class="source-lf string-quoted-double-lflang">"</span><span class="source-lf string-quoted-double-lflang">SUCCESS: Successfully stopped the federation at (%lld, %u).</span><span class="source-lf string-quoted-double-lflang constant-character-escape">\n</span><span class="source-lf string-quoted-double-lflang">"</span><span class="source-lf">,</span>
+<span class="source-lf">                     lf_time_logical_elapsed(),</span>
+<span class="source-lf">                     lf_tag()</span><span class="source-lf keyword-operator-lflang">.</span><span class="source-lf">microstep);</span>
+<span class="source-lf">    </span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf">}</span>
+<span class="source-lf">}</span>
+<span class="source-lf"></span>
+<span class="source-lf storage-modifier-lflang">reactor</span><span class="source-lf"> </span><span class="source-lf entity-name-type-lflang">Receiver</span><span class="source-lf"> {</span>
+<span class="source-lf">    </span><span class="source-lf storage-modifier-lflang">input</span><span class="source-lf"> in:</span><span class="source-lf"> </span><span class="source-lf storage-type-lflang">int</span>
+<span class="source-lf"></span>
+<span class="source-lf">    </span><span class="source-lf keyword-control-lflang">reaction</span><span class="source-lf">(in) {</span><span class="source-lf keyword-operator-lflang">=</span>
+<span class="source-lf">        printf(</span><span class="source-lf string-quoted-double-lflang">"</span><span class="source-lf string-quoted-double-lflang">Received %d at (%lld, %u).</span><span class="source-lf string-quoted-double-lflang constant-character-escape">\n</span><span class="source-lf string-quoted-double-lflang">"</span><span class="source-lf">,</span>
+<span class="source-lf">                     in</span><span class="source-lf keyword-operator-lflang">-></span><span class="source-lf">value,</span>
+<span class="source-lf">                     lf_time_logical_elapsed(),</span>
+<span class="source-lf">                     lf_tag()</span><span class="source-lf keyword-operator-lflang">.</span><span class="source-lf">microstep);</span>
+<span class="source-lf">        tag_t zero </span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf"> (tag_t) { </span><span class="source-lf keyword-operator-lflang">.</span><span class="source-lf storage-type-lflang">time</span><span class="source-lf"> </span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf"> lf_time_start(), </span><span class="source-lf keyword-operator-lflang">.</span><span class="source-lf">microstep </span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf"> 0u };</span>
+<span class="source-lf">        if (lf_tag_compare(lf_tag(), zero) </span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf"> </span><span class="source-lf constant-numeric-int-lflang">0</span><span class="source-lf">) {</span>
+<span class="source-lf comment-line-double-dash-lflang">            </span><span class="source-lf comment-line-double-dash-lflang">// Request stop at (0,0)</span>
+<span class="source-lf">            printf(</span><span class="source-lf string-quoted-double-lflang">"</span><span class="source-lf string-quoted-double-lflang">Requesting stop at (%lld, %u).</span><span class="source-lf string-quoted-double-lflang constant-character-escape">\n</span><span class="source-lf string-quoted-double-lflang">"</span><span class="source-lf">,</span>
+<span class="source-lf">                     lf_time_logical_elapsed(),</span>
+<span class="source-lf">                     lf_tag()</span><span class="source-lf keyword-operator-lflang">.</span><span class="source-lf">microstep);</span>
+<span class="source-lf">            lf_request_stop();</span>
+<span class="source-lf">        }</span>
+<span class="source-lf">    </span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf">}</span>
+<span class="source-lf"></span>
+<span class="source-lf">    </span><span class="source-lf keyword-control-lflang">reaction</span><span class="source-lf">(</span><span class="source-lf support-variable-lflang">shutdown</span><span class="source-lf">) {</span><span class="source-lf keyword-operator-lflang">=</span>
+<span class="source-lf comment-line-double-dash-lflang">        </span><span class="source-lf comment-line-double-dash-lflang">// Sender should have requested stop earlier than the receiver.</span>
+<span class="source-lf comment-line-double-dash-lflang">        </span><span class="source-lf comment-line-double-dash-lflang">// Therefore, the shutdown events must occur at (0, 0) on the</span>
+<span class="source-lf comment-line-double-dash-lflang">        </span><span class="source-lf comment-line-double-dash-lflang">// receiver.</span>
+<span class="source-lf">        if (lf_time_logical_elapsed() !</span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf"> USEC(</span><span class="source-lf constant-numeric-int-lflang">0</span><span class="source-lf">) ||</span>
+<span class="source-lf">            lf_tag()</span><span class="source-lf keyword-operator-lflang">.</span><span class="source-lf">microstep !</span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf"> </span><span class="source-lf constant-numeric-int-lflang">1</span><span class="source-lf">) {</span>
+<span class="source-lf">            fprintf(stderr, </span><span class="source-lf string-quoted-double-lflang">"</span><span class="source-lf string-quoted-double-lflang">ERROR: Receiver failed to stop the federation in time. </span><span class="source-lf string-quoted-double-lflang">"</span>
+<span class="source-lf">                    </span><span class="source-lf string-quoted-double-lflang">"</span><span class="source-lf string-quoted-double-lflang">Stopping at (%lld, %u).</span><span class="source-lf string-quoted-double-lflang constant-character-escape">\n</span><span class="source-lf string-quoted-double-lflang">"</span><span class="source-lf">,</span>
+<span class="source-lf">                     lf_time_logical_elapsed(),</span>
+<span class="source-lf">                     lf_tag()</span><span class="source-lf keyword-operator-lflang">.</span><span class="source-lf">microstep);</span>
+<span class="source-lf">            exit(</span><span class="source-lf constant-numeric-int-lflang">1</span><span class="source-lf">);</span>
+<span class="source-lf">        }</span>
+<span class="source-lf">        printf(</span><span class="source-lf string-quoted-double-lflang">"</span><span class="source-lf string-quoted-double-lflang">SUCCESS: Successfully stopped the federation at (%lld, %u).</span><span class="source-lf string-quoted-double-lflang constant-character-escape">\n</span><span class="source-lf string-quoted-double-lflang">"</span><span class="source-lf">,</span>
+<span class="source-lf">                     lf_time_logical_elapsed(),</span>
+<span class="source-lf">                     lf_tag()</span><span class="source-lf keyword-operator-lflang">.</span><span class="source-lf">microstep);</span>
+<span class="source-lf">    </span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf">}</span>
+<span class="source-lf">}</span>
+<span class="source-lf"></span>
+<span class="source-lf storage-modifier-lflang">federated</span><span class="source-lf"> </span><span class="source-lf storage-modifier-lflang">reactor</span><span class="source-lf"> {</span>
+<span class="source-lf">    </span><span class="source-lf variable-other-constant-reactorinstance-lflang">sender</span><span class="source-lf"> </span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf"> </span><span class="source-lf keyword-operator-new-lflang">new</span><span class="source-lf"> </span><span class="source-lf entity-name-type-lflang">Sender</span><span class="source-lf">()</span>
+<span class="source-lf">    </span><span class="source-lf variable-other-constant-reactorinstance-lflang">receiver</span><span class="source-lf"> </span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf"> </span><span class="source-lf keyword-operator-new-lflang">new</span><span class="source-lf"> </span><span class="source-lf entity-name-type-lflang">Receiver</span><span class="source-lf">()</span>
+<span class="source-lf"></span>
+<span class="source-lf">    </span><span class="source-lf variable-other-constant-reactorinstance-lflang">sender</span><span class="source-lf keyword-operator-lflang">.</span><span class="source-lf variable-other-lflang">out</span><span class="source-lf"> </span><span class="source-lf keyword-operator-lflang">-></span><span class="source-lf"> </span><span class="source-lf variable-other-constant-reactorinstance-lflang">receiver</span><span class="source-lf keyword-operator-lflang">.</span><span class="source-lf variable-other-lflang">in</span>
+<span class="source-lf">}</span>
+<span class="source-lf"></span>

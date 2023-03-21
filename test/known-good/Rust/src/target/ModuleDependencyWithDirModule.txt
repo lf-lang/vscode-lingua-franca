@@ -1,0 +1,16 @@
+<span class="source-lf comment-line-double-dash-lflang">// The same as CompositionWithPorts.lf, but as a single file project</span>
+<span class="source-lf meta-targetspec-lflang keyword-control-lflang">target</span><span class="source-lf meta-targetspec-lflang"> </span><span class="source-lf meta-targetspec-lflang constant-language-lflang">Rust</span><span class="source-lf meta-targetspec-lflang"> {</span>
+<span class="source-lf meta-targetspec-lflang">    </span><span class="source-lf meta-targetspec-lflang variable-parameter-lflang">rust-include</span><span class="source-lf meta-targetspec-lflang">: </span><span class="source-lf meta-targetspec-lflang string-quoted-double-lflang">"</span><span class="source-lf meta-targetspec-lflang string-quoted-double-lflang">testmod</span><span class="source-lf meta-targetspec-lflang string-quoted-double-lflang">"</span>
+<span class="source-lf meta-targetspec-lflang">}</span>
+<span class="source-lf"></span>
+<span class="source-lf storage-modifier-lflang">main</span><span class="source-lf"> </span><span class="source-lf storage-modifier-lflang">reactor</span><span class="source-lf"> {</span>
+<span class="source-lf">    </span><span class="source-lf storage-modifier-lflang">timer</span><span class="source-lf"> t(</span><span class="source-lf constant-numeric-int-lflang">0</span><span class="source-lf">)</span>
+<span class="source-lf"></span>
+<span class="source-lf">    </span><span class="source-lf keyword-control-lflang">reaction</span><span class="source-lf">(t) {</span><span class="source-lf keyword-operator-lflang">=</span>
+<span class="source-lf">        use </span><span class="source-lf variable-other-constant-reactorinstance-lflang">crate</span><span class="source-lf keyword-operator-lflang">::</span><span class="source-lf variable-other-lflang">testmod</span><span class="source-lf keyword-operator-lflang">::</span><span class="source-lf keyword-operator-lflang">*</span><span class="source-lf">;</span>
+<span class="source-lf">        assert_eq!(</span><span class="source-lf constant-numeric-int-lflang">44</span><span class="source-lf">, something());</span>
+<span class="source-lf">        assert_eq!(</span><span class="source-lf string-quoted-double-lflang">"</span><span class="source-lf string-quoted-double-lflang">other</span><span class="source-lf string-quoted-double-lflang">"</span><span class="source-lf">, </span><span class="source-lf variable-other-constant-reactorinstance-lflang">other</span><span class="source-lf keyword-operator-lflang">::</span><span class="source-lf variable-other-lflang">from_other</span><span class="source-lf">());</span>
+<span class="source-lf">        println!(</span><span class="source-lf string-quoted-double-lflang">"</span><span class="source-lf string-quoted-double-lflang">success</span><span class="source-lf string-quoted-double-lflang">"</span><span class="source-lf">);</span>
+<span class="source-lf">    </span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf">}</span>
+<span class="source-lf">}</span>
+<span class="source-lf"></span>

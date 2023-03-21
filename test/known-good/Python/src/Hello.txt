@@ -1,0 +1,53 @@
+<span class="source-lf comment-line-double-dash-lflang"># This test checks that logical time is incremented an appropriate amount as a</span>
+<span class="source-lf comment-line-double-dash-lflang"># result of an invocation of the schedule() function at runtime. It also</span>
+<span class="source-lf comment-line-double-dash-lflang"># performs various smoke tests of timing aligned reactions. The first instance</span>
+<span class="source-lf comment-line-double-dash-lflang"># has a period of 4 seconds, the second of 2 seconds, and the third (composite)</span>
+<span class="source-lf comment-line-double-dash-lflang"># or 1 second.</span>
+<span class="source-lf meta-targetspec-lflang keyword-control-lflang">target</span><span class="source-lf meta-targetspec-lflang"> </span><span class="source-lf meta-targetspec-lflang constant-language-lflang">Python</span><span class="source-lf meta-targetspec-lflang"> {</span>
+<span class="source-lf meta-targetspec-lflang">    </span><span class="source-lf meta-targetspec-lflang variable-parameter-lflang">timeout</span><span class="source-lf meta-targetspec-lflang">: </span><span class="source-lf meta-targetspec-lflang constant-numeric-int-lflang">10</span><span class="source-lf meta-targetspec-lflang"> </span><span class="source-lf meta-targetspec-lflang constant-numeric-lflang">sec</span><span class="source-lf meta-targetspec-lflang">,</span>
+<span class="source-lf meta-targetspec-lflang">    </span><span class="source-lf meta-targetspec-lflang variable-parameter-lflang">fast</span><span class="source-lf meta-targetspec-lflang">: </span><span class="source-lf meta-targetspec-lflang constant-language-lflang">true</span>
+<span class="source-lf meta-targetspec-lflang">}</span>
+<span class="source-lf"></span>
+<span class="source-lf storage-modifier-lflang">reactor</span><span class="source-lf"> </span><span class="source-lf entity-name-type-lflang">Reschedule</span><span class="source-lf">(period(</span><span class="source-lf constant-numeric-int-lflang">2</span><span class="source-lf"> </span><span class="source-lf constant-numeric-lflang">sec</span><span class="source-lf">), message(</span><span class="source-lf string-quoted-double-lflang">"</span><span class="source-lf string-quoted-double-lflang">Hello Python</span><span class="source-lf string-quoted-double-lflang">"</span><span class="source-lf">)) {</span>
+<span class="source-lf">    </span><span class="source-lf storage-modifier-lflang">state</span><span class="source-lf"> count(</span><span class="source-lf constant-numeric-int-lflang">0</span><span class="source-lf">)</span>
+<span class="source-lf">    </span><span class="source-lf storage-modifier-lflang">state</span><span class="source-lf"> previous_time(</span><span class="source-lf constant-numeric-int-lflang">0</span><span class="source-lf">)</span>
+<span class="source-lf">    </span><span class="source-lf storage-modifier-lflang">timer</span><span class="source-lf"> t(</span><span class="source-lf constant-numeric-int-lflang">1</span><span class="source-lf"> </span><span class="source-lf constant-numeric-lflang">sec</span><span class="source-lf">, period)</span>
+<span class="source-lf">    </span><span class="source-lf storage-modifier-lflang">logical</span><span class="source-lf"> </span><span class="source-lf storage-modifier-lflang">action</span><span class="source-lf"> a</span>
+<span class="source-lf"></span>
+<span class="source-lf">    </span><span class="source-lf keyword-control-lflang">reaction</span><span class="source-lf">(t) </span><span class="source-lf keyword-operator-lflang">-></span><span class="source-lf"> a </span><span class="source-lf meta-embedded-block-py">{=</span>
+<span class="source-lf meta-embedded-block-py">        print(self.message)</span>
+<span class="source-lf meta-embedded-block-py">        a.schedule(MSEC(200))</span>
+<span class="source-lf meta-embedded-block-py">        # Print the current time.</span>
+<span class="source-lf meta-embedded-block-py">        self.previous_time = lf.time.logical()</span>
+<span class="source-lf meta-embedded-block-py">        secs = self.previous_time/BILLION</span>
+<span class="source-lf meta-embedded-block-py">        print("Current time is ", self.previous_time)</span>
+<span class="source-lf meta-embedded-block-py">        print("Which is {:f} Plus {:d} nanoseconds.\n".format(secs, self.previous_time % BILLION))</span>
+<span class="source-lf meta-embedded-block-py">    </span><span class="source-lf meta-embedded-block-py">=}</span>
+<span class="source-lf"></span>
+<span class="source-lf">    </span><span class="source-lf keyword-control-lflang">reaction</span><span class="source-lf">(a) </span><span class="source-lf meta-embedded-block-py">{=</span>
+<span class="source-lf meta-embedded-block-py">        self.count += 1</span>
+<span class="source-lf meta-embedded-block-py">        print("***** action {:d} at time {:d}\n".format(self.count, lf.time.logical()))</span>
+<span class="source-lf meta-embedded-block-py">        # Check if a.value is not None.</span>
+<span class="source-lf meta-embedded-block-py">        if a.value is not None:</span>
+<span class="source-lf meta-embedded-block-py">            sys.stderr.write("FAILURE: Expected a.value to be None, but it exists.\n")</span>
+<span class="source-lf meta-embedded-block-py">            exit(2)</span>
+<span class="source-lf meta-embedded-block-py">        tm = lf.time.logical()</span>
+<span class="source-lf meta-embedded-block-py">        if (tm - self.previous_time) != 200000000:</span>
+<span class="source-lf meta-embedded-block-py">            sys.stderr.write("FAILURE: Expected 200ms of logical time to elapse but got {:d} nanoseconds.\n".format(tm - self.previous_time))</span>
+<span class="source-lf meta-embedded-block-py">            exit(1)</span>
+<span class="source-lf meta-embedded-block-py">    </span><span class="source-lf meta-embedded-block-py">=}</span>
+<span class="source-lf">}</span>
+<span class="source-lf"></span>
+<span class="source-lf storage-modifier-lflang">reactor</span><span class="source-lf"> </span><span class="source-lf entity-name-type-lflang">Inside</span><span class="source-lf">(period(</span><span class="source-lf constant-numeric-int-lflang">1</span><span class="source-lf"> </span><span class="source-lf constant-numeric-lflang">sec</span><span class="source-lf">), message(</span><span class="source-lf string-quoted-double-lflang">"</span><span class="source-lf string-quoted-double-lflang">Composite default message.</span><span class="source-lf string-quoted-double-lflang">"</span><span class="source-lf">)) {</span>
+<span class="source-lf">    </span><span class="source-lf variable-other-constant-reactorinstance-lflang">third_instance</span><span class="source-lf"> </span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf"> </span><span class="source-lf keyword-operator-new-lflang">new</span><span class="source-lf"> </span><span class="source-lf entity-name-type-lflang">Reschedule</span><span class="source-lf">(period </span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf"> period, message </span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf"> message)</span>
+<span class="source-lf">}</span>
+<span class="source-lf"></span>
+<span class="source-lf storage-modifier-lflang">main</span><span class="source-lf"> </span><span class="source-lf storage-modifier-lflang">reactor</span><span class="source-lf"> </span><span class="source-lf entity-name-type-lflang">Hello</span><span class="source-lf"> {</span>
+<span class="source-lf">    </span><span class="source-lf variable-other-constant-reactorinstance-lflang">first_instance</span><span class="source-lf"> </span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf"> </span><span class="source-lf keyword-operator-new-lflang">new</span><span class="source-lf"> </span><span class="source-lf entity-name-type-lflang">Reschedule</span><span class="source-lf">(</span>
+<span class="source-lf">        period </span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf"> </span><span class="source-lf constant-numeric-int-lflang">4</span><span class="source-lf"> </span><span class="source-lf constant-numeric-lflang">sec</span><span class="source-lf">,</span>
+<span class="source-lf">        message </span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf"> </span><span class="source-lf string-quoted-double-lflang">"</span><span class="source-lf string-quoted-double-lflang">Hello from first_instance.</span><span class="source-lf string-quoted-double-lflang">"</span>
+<span class="source-lf">    )</span>
+<span class="source-lf">    </span><span class="source-lf variable-other-constant-reactorinstance-lflang">second_instance</span><span class="source-lf"> </span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf"> </span><span class="source-lf keyword-operator-new-lflang">new</span><span class="source-lf"> </span><span class="source-lf entity-name-type-lflang">Reschedule</span><span class="source-lf">(message </span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf"> </span><span class="source-lf string-quoted-double-lflang">"</span><span class="source-lf string-quoted-double-lflang">Hello from second_instance.</span><span class="source-lf string-quoted-double-lflang">"</span><span class="source-lf">)</span>
+<span class="source-lf">    </span><span class="source-lf variable-other-constant-reactorinstance-lflang">composite_instance</span><span class="source-lf"> </span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf"> </span><span class="source-lf keyword-operator-new-lflang">new</span><span class="source-lf"> </span><span class="source-lf entity-name-type-lflang">Inside</span><span class="source-lf">(message </span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf"> </span><span class="source-lf string-quoted-double-lflang">"</span><span class="source-lf string-quoted-double-lflang">Hello from composite_instance.</span><span class="source-lf string-quoted-double-lflang">"</span><span class="source-lf">)</span>
+<span class="source-lf">}</span>
+<span class="source-lf"></span>

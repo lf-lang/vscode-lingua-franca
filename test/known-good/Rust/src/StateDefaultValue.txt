@@ -1,0 +1,15 @@
+<span class="source-lf meta-targetspec-lflang keyword-control-lflang">target</span><span class="source-lf meta-targetspec-lflang"> </span><span class="source-lf meta-targetspec-lflang constant-language-lflang">Rust</span>
+<span class="source-lf"></span>
+<span class="source-lf storage-modifier-lflang">main</span><span class="source-lf"> </span><span class="source-lf storage-modifier-lflang">reactor</span><span class="source-lf"> {</span>
+<span class="source-lf comment-line-double-dash-lflang">    </span><span class="source-lf comment-line-double-dash-lflang">// missing initializers are taken to mean "initialize to Default::default()"</span>
+<span class="source-lf">    </span><span class="source-lf storage-modifier-lflang">state</span><span class="source-lf"> foo_default: </span><span class="source-lf entity-name-type-lflang">u32</span>
+<span class="source-lf">    </span><span class="source-lf storage-modifier-lflang">state</span><span class="source-lf"> vec_default: </span><span class="source-lf entity-name-type-lflang">Vec</span><span class="source-lf"><u32></span>
+<span class="source-lf">    </span><span class="source-lf storage-modifier-lflang">state</span><span class="source-lf"> option: </span><span class="source-lf entity-name-type-lflang">Option</span><span class="source-lf"><Vec<u32>></span>
+<span class="source-lf"></span>
+<span class="source-lf">    </span><span class="source-lf keyword-control-lflang">reaction</span><span class="source-lf">(</span><span class="source-lf support-variable-lflang">startup</span><span class="source-lf">) {</span><span class="source-lf keyword-operator-lflang">=</span>
+<span class="source-lf">        assert_eq!(</span><span class="source-lf variable-other-constant-reactorinstance-lflang">self</span><span class="source-lf keyword-operator-lflang">.</span><span class="source-lf variable-other-lflang">foo_default</span><span class="source-lf">, </span><span class="source-lf constant-numeric-int-lflang">0</span><span class="source-lf">);</span>
+<span class="source-lf">        assert_eq!(</span><span class="source-lf variable-other-constant-reactorinstance-lflang">self</span><span class="source-lf keyword-operator-lflang">.</span><span class="source-lf variable-other-lflang">vec_default</span><span class="source-lf">, vec![]);</span>
+<span class="source-lf">        assert_eq!(</span><span class="source-lf variable-other-constant-reactorinstance-lflang">self</span><span class="source-lf keyword-operator-lflang">.</span><span class="source-lf variable-other-lflang">option</span><span class="source-lf">, None);</span>
+<span class="source-lf">    </span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf">}</span>
+<span class="source-lf">}</span>
+<span class="source-lf"></span>

@@ -1,0 +1,104 @@
+<span class="source-lf comment-block-lflang">/**</span>
+<span class="source-lf comment-block-lflang"> * Basic library of reactors for testing token types.</span>
+<span class="source-lf comment-block-lflang"> * @author Hou Seng (Steven) Wong (housengw@berkeley.edu)</span>
+<span class="source-lf comment-block-lflang"> * @author Edward A. Lee (eal@berkeley.edu)</span>
+<span class="source-lf comment-block-lflang"> </span><span class="source-lf comment-block-lflang">*/</span>
+<span class="source-lf meta-targetspec-lflang keyword-control-lflang">target</span><span class="source-lf meta-targetspec-lflang"> </span><span class="source-lf meta-targetspec-lflang constant-language-lflang">C</span><span class="source-lf meta-targetspec-lflang"> {</span>
+<span class="source-lf meta-targetspec-lflang">    </span><span class="source-lf meta-targetspec-lflang variable-parameter-lflang">files</span><span class="source-lf meta-targetspec-lflang">: [</span><span class="source-lf meta-targetspec-lflang string-quoted-double-lflang">"</span><span class="source-lf meta-targetspec-lflang string-quoted-double-lflang">../include/array.h</span><span class="source-lf meta-targetspec-lflang string-quoted-double-lflang">"</span><span class="source-lf meta-targetspec-lflang">]</span>
+<span class="source-lf meta-targetspec-lflang">}</span>
+<span class="source-lf"></span>
+<span class="source-lf keyword-control-lflang">preamble</span><span class="source-lf"> {</span><span class="source-lf keyword-operator-lflang">=</span>
+<span class="source-lf comment-line-double-dash-lflang">    </span><span class="source-lf comment-line-double-dash-lflang">#include "array.h"</span>
+<span class="source-lf keyword-operator-lflang">=</span><span class="source-lf">}</span>
+<span class="source-lf"></span>
+<span class="source-lf comment-block-lflang">/**</span>
+<span class="source-lf comment-block-lflang"> * @brief Produce a sequence of arrays of length 3 with increasing values.</span>
+<span class="source-lf comment-block-lflang"> * Values are produced at intervals of 1 ms. The first arrray has value [0, 1,</span>
+<span class="source-lf comment-block-lflang"> * 2], the second has value [3, 4, 5], etc. The output token will have a</span>
+<span class="source-lf comment-block-lflang"> * destructor and copy constructor associated with it so that its memory can be</span>
+<span class="source-lf comment-block-lflang"> * managed automatically by the C runtime.</span>
+<span class="source-lf comment-block-lflang"> </span><span class="source-lf comment-block-lflang">*/</span>
+<span class="source-lf storage-modifier-lflang">reactor</span><span class="source-lf"> </span><span class="source-lf entity-name-type-lflang">TokenSource</span><span class="source-lf"> {</span>
+<span class="source-lf">    </span><span class="source-lf storage-modifier-lflang">output</span><span class="source-lf"> out:</span><span class="source-lf"> </span><span class="source-lf storage-type-lflang">int_array_t</span><span class="source-lf">*</span>
+<span class="source-lf">    </span><span class="source-lf storage-modifier-lflang">state</span><span class="source-lf"> count:</span><span class="source-lf"> </span><span class="source-lf storage-type-lflang">int</span><span class="source-lf">(</span><span class="source-lf constant-numeric-int-lflang">0</span><span class="source-lf">)</span>
+<span class="source-lf">    </span><span class="source-lf storage-modifier-lflang">timer</span><span class="source-lf"> t(</span><span class="source-lf constant-numeric-int-lflang">0</span><span class="source-lf">, </span><span class="source-lf constant-numeric-int-lflang">1</span><span class="source-lf"> ms)</span>
+<span class="source-lf"></span>
+<span class="source-lf">    </span><span class="source-lf keyword-control-lflang">reaction</span><span class="source-lf">(</span><span class="source-lf support-variable-lflang">startup</span><span class="source-lf">) </span><span class="source-lf keyword-operator-lflang">-></span><span class="source-lf"> out {</span><span class="source-lf keyword-operator-lflang">=</span>
+<span class="source-lf">        lf_set_destructor(out, int_array_destructor);</span>
+<span class="source-lf">        lf_set_copy_constructor(out, int_array_copy_constructor);</span>
+<span class="source-lf">    </span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf">}</span>
+<span class="source-lf"></span>
+<span class="source-lf">    </span><span class="source-lf keyword-control-lflang">reaction</span><span class="source-lf">(t) </span><span class="source-lf keyword-operator-lflang">-></span><span class="source-lf"> out {</span><span class="source-lf keyword-operator-lflang">=</span>
+<span class="source-lf">        int_array_t</span><span class="source-lf keyword-operator-lflang">*</span><span class="source-lf"> array </span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf">  int_array_constructor(</span><span class="source-lf constant-numeric-int-lflang">3</span><span class="source-lf">);</span>
+<span class="source-lf">        for (size_t i </span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf"> </span><span class="source-lf constant-numeric-int-lflang">0</span><span class="source-lf">; i < array</span><span class="source-lf keyword-operator-lflang">-></span><span class="source-lf">length; i</span><span class="source-lf keyword-operator-lflang">+</span><span class="source-lf keyword-operator-lflang">+</span><span class="source-lf">) {</span>
+<span class="source-lf">            array</span><span class="source-lf keyword-operator-lflang">-></span><span class="source-lf">data[i] </span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf"> self</span><span class="source-lf keyword-operator-lflang">-></span><span class="source-lf">count</span><span class="source-lf keyword-operator-lflang">+</span><span class="source-lf keyword-operator-lflang">+</span><span class="source-lf">;</span>
+<span class="source-lf">        }</span>
+<span class="source-lf">        lf_set(out, array);</span>
+<span class="source-lf">    </span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf">}</span>
+<span class="source-lf">}</span>
+<span class="source-lf"></span>
+<span class="source-lf comment-block-lflang">/**</span>
+<span class="source-lf comment-block-lflang"> * @brief Print input array values and test for expected value. The expected</span>
+<span class="source-lf comment-block-lflang"> * value is a scaled version of the sequence of values produced by the</span>
+<span class="source-lf comment-block-lflang"> * TokenSource, where the scaling factor is given by the scale parameter.</span>
+<span class="source-lf comment-block-lflang"> </span><span class="source-lf comment-block-lflang">*/</span>
+<span class="source-lf storage-modifier-lflang">reactor</span><span class="source-lf"> </span><span class="source-lf entity-name-type-lflang">TokenPrint</span><span class="source-lf">(scale: int(</span><span class="source-lf constant-numeric-int-lflang">1</span><span class="source-lf">)) {</span>
+<span class="source-lf">    </span><span class="source-lf storage-modifier-lflang">input</span><span class="source-lf"> in:</span><span class="source-lf"> </span><span class="source-lf storage-type-lflang">int_array_t</span><span class="source-lf">*</span>
+<span class="source-lf">    </span><span class="source-lf storage-modifier-lflang">state</span><span class="source-lf"> count:</span><span class="source-lf"> </span><span class="source-lf storage-type-lflang">int</span><span class="source-lf">(</span><span class="source-lf constant-numeric-int-lflang">0</span><span class="source-lf">)</span>
+<span class="source-lf">    </span><span class="source-lf storage-modifier-lflang">state</span><span class="source-lf"> input_received:</span><span class="source-lf"> </span><span class="source-lf storage-type-lflang">bool</span><span class="source-lf">(</span><span class="source-lf constant-language-lflang">false</span><span class="source-lf">)</span>
+<span class="source-lf"></span>
+<span class="source-lf">    </span><span class="source-lf keyword-control-lflang">reaction</span><span class="source-lf">(in) {</span><span class="source-lf keyword-operator-lflang">=</span>
+<span class="source-lf">        self</span><span class="source-lf keyword-operator-lflang">-></span><span class="source-lf">input_received </span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf"> </span><span class="source-lf constant-language-lflang">true</span><span class="source-lf">;</span>
+<span class="source-lf">        bool failed </span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf"> </span><span class="source-lf constant-language-lflang">false</span><span class="source-lf">; </span><span class="source-lf comment-line-double-dash-lflang">// For testing.</span>
+<span class="source-lf">        printf(</span><span class="source-lf string-quoted-double-lflang">"</span><span class="source-lf string-quoted-double-lflang">TokenPrint received: [</span><span class="source-lf string-quoted-double-lflang">"</span><span class="source-lf">);</span>
+<span class="source-lf">        for (int i </span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf"> </span><span class="source-lf constant-numeric-int-lflang">0</span><span class="source-lf">; i < in</span><span class="source-lf keyword-operator-lflang">-></span><span class="source-lf">value</span><span class="source-lf keyword-operator-lflang">-></span><span class="source-lf">length; i</span><span class="source-lf keyword-operator-lflang">+</span><span class="source-lf keyword-operator-lflang">+</span><span class="source-lf">) {</span>
+<span class="source-lf">            if (i > </span><span class="source-lf constant-numeric-int-lflang">0</span><span class="source-lf">) printf(</span><span class="source-lf string-quoted-double-lflang">"</span><span class="source-lf string-quoted-double-lflang">, </span><span class="source-lf string-quoted-double-lflang">"</span><span class="source-lf">);</span>
+<span class="source-lf">            printf(</span><span class="source-lf string-quoted-double-lflang">"</span><span class="source-lf string-quoted-double-lflang">%d</span><span class="source-lf string-quoted-double-lflang">"</span><span class="source-lf">, in</span><span class="source-lf keyword-operator-lflang">-></span><span class="source-lf">value</span><span class="source-lf keyword-operator-lflang">-></span><span class="source-lf">data[i]);</span>
+<span class="source-lf comment-line-double-dash-lflang">            </span><span class="source-lf comment-line-double-dash-lflang">// For testing, check whether values match expectation.</span>
+<span class="source-lf">            if (in</span><span class="source-lf keyword-operator-lflang">-></span><span class="source-lf">value</span><span class="source-lf keyword-operator-lflang">-></span><span class="source-lf">data[i] !</span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf"> self</span><span class="source-lf keyword-operator-lflang">-></span><span class="source-lf">scale </span><span class="source-lf keyword-operator-lflang">*</span><span class="source-lf"> self</span><span class="source-lf keyword-operator-lflang">-></span><span class="source-lf">count) {</span>
+<span class="source-lf">                failed </span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf"> </span><span class="source-lf constant-language-lflang">true</span><span class="source-lf">;</span>
+<span class="source-lf">            }</span>
+<span class="source-lf">            self</span><span class="source-lf keyword-operator-lflang">-></span><span class="source-lf">count</span><span class="source-lf keyword-operator-lflang">+</span><span class="source-lf keyword-operator-lflang">+</span><span class="source-lf">;</span>
+<span class="source-lf">        }</span>
+<span class="source-lf">        printf(</span><span class="source-lf string-quoted-double-lflang">"</span><span class="source-lf string-quoted-double-lflang">]</span><span class="source-lf string-quoted-double-lflang constant-character-escape">\n</span><span class="source-lf string-quoted-double-lflang">"</span><span class="source-lf">);</span>
+<span class="source-lf">        if (failed) {</span>
+<span class="source-lf">            printf(</span><span class="source-lf string-quoted-double-lflang">"</span><span class="source-lf string-quoted-double-lflang">ERROR: Value received by Print does not match expectation!</span><span class="source-lf string-quoted-double-lflang constant-character-escape">\n</span><span class="source-lf string-quoted-double-lflang">"</span><span class="source-lf">);</span>
+<span class="source-lf">            exit(</span><span class="source-lf constant-numeric-int-lflang">1</span><span class="source-lf">);</span>
+<span class="source-lf">        }</span>
+<span class="source-lf">    </span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf">}</span>
+<span class="source-lf"></span>
+<span class="source-lf">    </span><span class="source-lf keyword-control-lflang">reaction</span><span class="source-lf">(</span><span class="source-lf support-variable-lflang">shutdown</span><span class="source-lf">) {</span><span class="source-lf keyword-operator-lflang">=</span>
+<span class="source-lf">        if (!self</span><span class="source-lf keyword-operator-lflang">-></span><span class="source-lf">input_received) {</span>
+<span class="source-lf">            lf_print_error_and_exit(</span><span class="source-lf string-quoted-double-lflang">"</span><span class="source-lf string-quoted-double-lflang">TokenPrint: No input received!</span><span class="source-lf string-quoted-double-lflang">"</span><span class="source-lf">);</span>
+<span class="source-lf">        }</span>
+<span class="source-lf">    </span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf">}</span>
+<span class="source-lf">}</span>
+<span class="source-lf"></span>
+<span class="source-lf comment-block-lflang">/**</span>
+<span class="source-lf comment-block-lflang"> * @brief Multiply an input array by the scale factor given as a parameter. The</span>
+<span class="source-lf comment-block-lflang"> * input is declared mutable so, if possible, the input token will be modified</span>
+<span class="source-lf comment-block-lflang"> * rather than allocating a new token.</span>
+<span class="source-lf comment-block-lflang"> </span><span class="source-lf comment-block-lflang">*/</span>
+<span class="source-lf storage-modifier-lflang">reactor</span><span class="source-lf"> </span><span class="source-lf entity-name-type-lflang">TokenScale</span><span class="source-lf">(scale: int(</span><span class="source-lf constant-numeric-int-lflang">2</span><span class="source-lf">)) {</span>
+<span class="source-lf">    </span><span class="source-lf storage-modifier-lflang">mutable</span><span class="source-lf"> </span><span class="source-lf storage-modifier-lflang">input</span><span class="source-lf"> in:</span><span class="source-lf"> </span><span class="source-lf storage-type-lflang">int_array_t</span><span class="source-lf">*</span>
+<span class="source-lf">    </span><span class="source-lf storage-modifier-lflang">output</span><span class="source-lf"> out:</span><span class="source-lf"> </span><span class="source-lf storage-type-lflang">int_array_t</span><span class="source-lf">*</span>
+<span class="source-lf"></span>
+<span class="source-lf">    </span><span class="source-lf keyword-control-lflang">reaction</span><span class="source-lf">(in) </span><span class="source-lf keyword-operator-lflang">-></span><span class="source-lf"> out {</span><span class="source-lf keyword-operator-lflang">=</span>
+<span class="source-lf">        for (int i </span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf"> </span><span class="source-lf constant-numeric-int-lflang">0</span><span class="source-lf">; i < in</span><span class="source-lf keyword-operator-lflang">-></span><span class="source-lf">value</span><span class="source-lf keyword-operator-lflang">-></span><span class="source-lf">length; i</span><span class="source-lf keyword-operator-lflang">+</span><span class="source-lf keyword-operator-lflang">+</span><span class="source-lf">) {</span>
+<span class="source-lf">            in</span><span class="source-lf keyword-operator-lflang">-></span><span class="source-lf">value</span><span class="source-lf keyword-operator-lflang">-></span><span class="source-lf">data[i] </span><span class="source-lf keyword-operator-lflang">*</span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf"> self</span><span class="source-lf keyword-operator-lflang">-></span><span class="source-lf">scale;</span>
+<span class="source-lf">        }</span>
+<span class="source-lf">        lf_set_token(out, in</span><span class="source-lf keyword-operator-lflang">-></span><span class="source-lf">token);</span>
+<span class="source-lf">    </span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf">}</span>
+<span class="source-lf">}</span>
+<span class="source-lf"></span>
+<span class="source-lf comment-block-lflang">/**</span><span class="source-lf comment-block-lflang"> @brief Delay a token using a logical action. The delay is 1 ms. </span><span class="source-lf comment-block-lflang">*/</span>
+<span class="source-lf storage-modifier-lflang">reactor</span><span class="source-lf"> </span><span class="source-lf entity-name-type-lflang">TokenDelay</span><span class="source-lf"> {</span>
+<span class="source-lf">    </span><span class="source-lf storage-modifier-lflang">input</span><span class="source-lf"> in:</span><span class="source-lf"> </span><span class="source-lf storage-type-lflang">int_array_t</span><span class="source-lf">*</span>
+<span class="source-lf">    </span><span class="source-lf storage-modifier-lflang">output</span><span class="source-lf"> out:</span><span class="source-lf"> </span><span class="source-lf storage-type-lflang">int_array_t</span><span class="source-lf">*</span>
+<span class="source-lf">    </span><span class="source-lf storage-modifier-lflang">logical</span><span class="source-lf"> </span><span class="source-lf storage-modifier-lflang">action</span><span class="source-lf"> a:</span><span class="source-lf"> </span><span class="source-lf storage-type-lflang">int_array_t</span><span class="source-lf">*</span>
+<span class="source-lf"></span>
+<span class="source-lf">    </span><span class="source-lf keyword-control-lflang">reaction</span><span class="source-lf">(a) </span><span class="source-lf keyword-operator-lflang">-></span><span class="source-lf"> out {</span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf"> lf_set_token(out, a</span><span class="source-lf keyword-operator-lflang">-></span><span class="source-lf">token); </span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf">}</span>
+<span class="source-lf"></span>
+<span class="source-lf">    </span><span class="source-lf keyword-control-lflang">reaction</span><span class="source-lf">(in) </span><span class="source-lf keyword-operator-lflang">-></span><span class="source-lf"> a {</span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf"> lf_schedule_token(a, MSEC(</span><span class="source-lf constant-numeric-int-lflang">1</span><span class="source-lf">), in</span><span class="source-lf keyword-operator-lflang">-></span><span class="source-lf">token); </span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf">}</span>
+<span class="source-lf">}</span>
+<span class="source-lf"></span>

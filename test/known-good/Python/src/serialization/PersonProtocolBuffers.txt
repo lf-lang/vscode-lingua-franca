@@ -1,0 +1,45 @@
+<span class="source-lf comment-block-lflang">/**</span>
+<span class="source-lf comment-block-lflang"> * This example demonstrates a very simple use of protocol buffers within a</span>
+<span class="source-lf comment-block-lflang"> * reactor. It encodes and decodes a very simple protocol buffer definition in</span>
+<span class="source-lf comment-block-lflang"> * Person.proto. This reactor is heavily based on the examples at</span>
+<span class="source-lf comment-block-lflang"> * https://github.com/protobuf-c/protobuf-c/wiki/Examples. This example just</span>
+<span class="source-lf comment-block-lflang"> * packs and unpacks a message.</span>
+<span class="source-lf comment-block-lflang"> *</span>
+<span class="source-lf comment-block-lflang"> * To run this example first install the protocol buffers compiler from</span>
+<span class="source-lf comment-block-lflang"> * https://github.com/protocolbuffers/protobuf. It is also available from</span>
+<span class="source-lf comment-block-lflang"> * homebrew on a Mac via</span>
+<span class="source-lf comment-block-lflang"> *</span>
+<span class="source-lf comment-block-lflang"> * $ brew install protobuf</span>
+<span class="source-lf comment-block-lflang"> *</span>
+<span class="source-lf comment-block-lflang"> * Building protobuf from source is slow, so avoid doing that if possible. Next,</span>
+<span class="source-lf comment-block-lflang"> * install the Google APIs for Python</span>
+<span class="source-lf comment-block-lflang"> *</span>
+<span class="source-lf comment-block-lflang"> * $ pip3 install --upgrade google-api-python-client</span>
+<span class="source-lf comment-block-lflang"> *</span>
+<span class="source-lf comment-block-lflang"> * The code generator assumes that executables are installed within the PATH. On</span>
+<span class="source-lf comment-block-lflang"> * a Mac, this is typically at /usr/local/bin.</span>
+<span class="source-lf comment-block-lflang"> </span><span class="source-lf comment-block-lflang">*/</span>
+<span class="source-lf meta-targetspec-lflang keyword-control-lflang">target</span><span class="source-lf meta-targetspec-lflang"> </span><span class="source-lf meta-targetspec-lflang constant-language-lflang">Python</span><span class="source-lf meta-targetspec-lflang"> {</span>
+<span class="source-lf meta-targetspec-lflang">    </span><span class="source-lf meta-targetspec-lflang variable-parameter-lflang">protobufs</span><span class="source-lf meta-targetspec-lflang">: </span><span class="source-lf meta-targetspec-lflang variable-other-constant-reactorinstance-lflang">Person</span><span class="source-lf meta-targetspec-lflang keyword-operator-lflang">.</span><span class="source-lf meta-targetspec-lflang variable-other-lflang">proto</span>
+<span class="source-lf meta-targetspec-lflang">}</span>
+<span class="source-lf"></span>
+<span class="source-lf storage-modifier-lflang">main</span><span class="source-lf"> </span><span class="source-lf storage-modifier-lflang">reactor</span><span class="source-lf"> {</span>
+<span class="source-lf">    </span><span class="source-lf keyword-control-lflang">reaction</span><span class="source-lf">(</span><span class="source-lf support-variable-lflang">startup</span><span class="source-lf">) </span><span class="source-lf meta-embedded-block-py">{=</span>
+<span class="source-lf meta-embedded-block-py">        person = Person.Person()</span>
+<span class="source-lf meta-embedded-block-py"></span>
+<span class="source-lf meta-embedded-block-py">        person.name = "Lingua Franca"</span>
+<span class="source-lf meta-embedded-block-py">        person.id = 1</span>
+<span class="source-lf meta-embedded-block-py">        person.email = "eal@berkeley.edu"</span>
+<span class="source-lf meta-embedded-block-py"></span>
+<span class="source-lf meta-embedded-block-py">        # Pack the message into buffer.</span>
+<span class="source-lf meta-embedded-block-py">        serialized_msg = person.SerializeToString()</span>
+<span class="source-lf meta-embedded-block-py"></span>
+<span class="source-lf meta-embedded-block-py">        # Now unpack the message from buffer.</span>
+<span class="source-lf meta-embedded-block-py">        unpacked = Person.Person()</span>
+<span class="source-lf meta-embedded-block-py">        unpacked.ParseFromString(serialized_msg)</span>
+<span class="source-lf meta-embedded-block-py"></span>
+<span class="source-lf meta-embedded-block-py">        # Extract and print the unpacked message.</span>
+<span class="source-lf meta-embedded-block-py">        print("Name: ", unpacked.name)</span>
+<span class="source-lf meta-embedded-block-py">    </span><span class="source-lf meta-embedded-block-py">=}</span>
+<span class="source-lf">}</span>
+<span class="source-lf"></span>

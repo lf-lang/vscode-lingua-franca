@@ -1,0 +1,17 @@
+<span class="source-lf comment-line-double-dash-lflang">// This is used by the test for the ability to import a reactor definition that</span>
+<span class="source-lf comment-line-double-dash-lflang">// itself imports a reactor definition.</span>
+<span class="source-lf meta-targetspec-lflang keyword-control-lflang">target</span><span class="source-lf meta-targetspec-lflang"> </span><span class="source-lf meta-targetspec-lflang constant-language-lflang">TypeScript</span><span class="source-lf meta-targetspec-lflang"> {</span>
+<span class="source-lf meta-targetspec-lflang">    </span><span class="source-lf meta-targetspec-lflang variable-parameter-lflang">timeout</span><span class="source-lf meta-targetspec-lflang">: </span><span class="source-lf meta-targetspec-lflang constant-numeric-int-lflang">2</span><span class="source-lf meta-targetspec-lflang"> </span><span class="source-lf meta-targetspec-lflang constant-numeric-lflang">sec</span>
+<span class="source-lf meta-targetspec-lflang">}</span>
+<span class="source-lf"></span>
+<span class="source-lf storage-modifier-lflang">reactor</span><span class="source-lf"> </span><span class="source-lf entity-name-type-lflang">ImportedAgain</span><span class="source-lf"> {</span>
+<span class="source-lf">    </span><span class="source-lf storage-modifier-lflang">input</span><span class="source-lf"> x: </span><span class="source-lf storage-type-lflang">number</span>
+<span class="source-lf"></span>
+<span class="source-lf">    </span><span class="source-lf keyword-control-lflang">reaction</span><span class="source-lf">(x) {</span><span class="source-lf keyword-operator-lflang">=</span>
+<span class="source-lf">        </span><span class="source-lf variable-other-constant-reactorinstance-lflang">console</span><span class="source-lf keyword-operator-lflang">.</span><span class="source-lf variable-other-lflang">log</span><span class="source-lf">(</span><span class="source-lf string-quoted-double-lflang">"</span><span class="source-lf string-quoted-double-lflang">Received: </span><span class="source-lf string-quoted-double-lflang">"</span><span class="source-lf"> </span><span class="source-lf keyword-operator-lflang">+</span><span class="source-lf"> x);</span>
+<span class="source-lf">        if ((x as number) !</span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf"> </span><span class="source-lf constant-numeric-int-lflang">42</span><span class="source-lf">) {</span>
+<span class="source-lf">            </span><span class="source-lf variable-other-constant-reactorinstance-lflang">util</span><span class="source-lf keyword-operator-lflang">.</span><span class="source-lf variable-other-lflang">requestErrorStop</span><span class="source-lf">(</span><span class="source-lf string-quoted-double-lflang">"</span><span class="source-lf string-quoted-double-lflang">ERROR: Expected input to be 42. Got: </span><span class="source-lf string-quoted-double-lflang">"</span><span class="source-lf"> </span><span class="source-lf keyword-operator-lflang">+</span><span class="source-lf"> x);</span>
+<span class="source-lf">        }</span>
+<span class="source-lf">    </span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf">}</span>
+<span class="source-lf">}</span>
+<span class="source-lf"></span>

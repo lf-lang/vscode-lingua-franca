@@ -1,0 +1,14 @@
+<span class="source-lf comment-line-double-dash-lflang">// Check that a state variable can have a char literal initializer</span>
+<span class="source-lf meta-targetspec-lflang keyword-control-lflang">target</span><span class="source-lf meta-targetspec-lflang"> </span><span class="source-lf meta-targetspec-lflang constant-language-lflang">Cpp</span>
+<span class="source-lf"></span>
+<span class="source-lf storage-modifier-lflang">main</span><span class="source-lf"> </span><span class="source-lf storage-modifier-lflang">reactor</span><span class="source-lf"> </span><span class="source-lf entity-name-type-lflang">CharLiteralInitializer</span><span class="source-lf"> {</span>
+<span class="source-lf">    </span><span class="source-lf storage-modifier-lflang">state</span><span class="source-lf"> c:</span><span class="source-lf"> </span><span class="source-lf storage-type-lflang">char</span><span class="source-lf">(</span><span class="source-lf string-quoted-single-lflang">'</span><span class="source-lf string-quoted-single-lflang">x</span><span class="source-lf string-quoted-single-lflang">'</span><span class="source-lf">)</span>
+<span class="source-lf"></span>
+<span class="source-lf">    </span><span class="source-lf keyword-control-lflang">reaction</span><span class="source-lf">(</span><span class="source-lf support-variable-lflang">startup</span><span class="source-lf">) {</span><span class="source-lf keyword-operator-lflang">=</span>
+<span class="source-lf">        if (c !</span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf"> </span><span class="source-lf string-quoted-single-lflang">'</span><span class="source-lf string-quoted-single-lflang">x</span><span class="source-lf string-quoted-single-lflang">'</span><span class="source-lf">) {</span>
+<span class="source-lf">            </span><span class="source-lf variable-other-constant-reactorinstance-lflang">std</span><span class="source-lf keyword-operator-lflang">::</span><span class="source-lf variable-other-lflang">cout</span><span class="source-lf"> << </span><span class="source-lf string-quoted-double-lflang">"</span><span class="source-lf string-quoted-double-lflang">FAILED: Expected 'x', got </span><span class="source-lf string-quoted-double-lflang">"</span><span class="source-lf"> << c << </span><span class="source-lf string-quoted-single-lflang">'</span><span class="source-lf string-quoted-single-lflang constant-character-escape">\n</span><span class="source-lf string-quoted-single-lflang">'</span><span class="source-lf">;</span>
+<span class="source-lf">            exit(</span><span class="source-lf constant-numeric-int-lflang">1</span><span class="source-lf">);</span>
+<span class="source-lf">        }</span>
+<span class="source-lf">    </span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf">}</span>
+<span class="source-lf">}</span>
+<span class="source-lf"></span>

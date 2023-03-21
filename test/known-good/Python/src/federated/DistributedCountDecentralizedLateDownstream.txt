@@ -1,0 +1,103 @@
+<span class="source-lf comment-block-lflang">/**</span>
+<span class="source-lf comment-block-lflang"> * Test a form of a distributed deterministic system where a federate that</span>
+<span class="source-lf comment-block-lflang"> * receives timestamped messages has a timer in addition to the messages as</span>
+<span class="source-lf comment-block-lflang"> * triggers. Therefore, careful coordination of the advancement of time using</span>
+<span class="source-lf comment-block-lflang"> * Ptides is needed. In addition, this test shows that the STP violation is</span>
+<span class="source-lf comment-block-lflang"> * passed down the hierarchy until it is handled.</span>
+<span class="source-lf comment-block-lflang"> *</span>
+<span class="source-lf comment-block-lflang"> * An STP violation occurs if when a message with intended tag g1 arrives on a</span>
+<span class="source-lf comment-block-lflang"> * port p after the receiving federate has progressed far enough that it cannot</span>
+<span class="source-lf comment-block-lflang"> * process an event with tag g1 on the port p. This test has a fast timer (10</span>
+<span class="source-lf comment-block-lflang"> * usec period) in the receiving federate so that the receiving federate is</span>
+<span class="source-lf comment-block-lflang"> * continually advancing its current tag, and hence an STP violation is more</span>
+<span class="source-lf comment-block-lflang"> * likely to occur. Furthermore, this test sets the STP threshold to 0, which</span>
+<span class="source-lf comment-block-lflang"> * makes the violation extremely likely to occur. It could still not occur,</span>
+<span class="source-lf comment-block-lflang"> * however, if the message arrives between ticks of the 10 usec timer.</span>
+<span class="source-lf comment-block-lflang"> *</span>
+<span class="source-lf comment-block-lflang"> * @author Edward A. Lee</span>
+<span class="source-lf comment-block-lflang"> * @author Soroush Bateni</span>
+<span class="source-lf comment-block-lflang"> </span><span class="source-lf comment-block-lflang">*/</span>
+<span class="source-lf meta-targetspec-lflang keyword-control-lflang">target</span><span class="source-lf meta-targetspec-lflang"> </span><span class="source-lf meta-targetspec-lflang constant-language-lflang">Python</span><span class="source-lf meta-targetspec-lflang"> {</span>
+<span class="source-lf meta-targetspec-lflang comment-line-double-dash-lflang">    </span><span class="source-lf meta-targetspec-lflang comment-line-double-dash-lflang"># 9 msec headroom for the last (probably tardy) message to arrive.</span>
+<span class="source-lf meta-targetspec-lflang">    </span><span class="source-lf meta-targetspec-lflang variable-parameter-lflang">timeout</span><span class="source-lf meta-targetspec-lflang">: </span><span class="source-lf meta-targetspec-lflang constant-numeric-int-lflang">1900</span><span class="source-lf meta-targetspec-lflang"> </span><span class="source-lf meta-targetspec-lflang constant-numeric-lflang">msec</span><span class="source-lf meta-targetspec-lflang">,</span>
+<span class="source-lf meta-targetspec-lflang">    </span><span class="source-lf meta-targetspec-lflang variable-parameter-lflang">coordination</span><span class="source-lf meta-targetspec-lflang">: decentralized</span>
+<span class="source-lf meta-targetspec-lflang">}</span>
+<span class="source-lf"></span>
+<span class="source-lf keyword-control-import-lflang">import</span><span class="source-lf"> </span><span class="source-lf entity-name-type-lflang">Count</span><span class="source-lf"> </span><span class="source-lf keyword-control-import-lflang">from</span><span class="source-lf"> </span><span class="source-lf string-quoted-double-lflang">"</span><span class="source-lf string-quoted-double-lflang">../lib/Count.lf</span><span class="source-lf string-quoted-double-lflang">"</span>
+<span class="source-lf"></span>
+<span class="source-lf storage-modifier-lflang">reactor</span><span class="source-lf"> </span><span class="source-lf entity-name-type-lflang">ImportantActuator</span><span class="source-lf"> {</span>
+<span class="source-lf">    </span><span class="source-lf storage-modifier-lflang">input</span><span class="source-lf"> inp</span>
+<span class="source-lf comment-line-double-dash-lflang">    </span><span class="source-lf comment-line-double-dash-lflang"># Count messages that arrive without STP violation.</span>
+<span class="source-lf">    </span><span class="source-lf storage-modifier-lflang">state</span><span class="source-lf"> success(</span><span class="source-lf constant-numeric-int-lflang">0</span><span class="source-lf">)</span>
+<span class="source-lf">    </span><span class="source-lf storage-modifier-lflang">state</span><span class="source-lf"> success_stp_violation(</span><span class="source-lf constant-numeric-int-lflang">0</span><span class="source-lf">)</span>
+<span class="source-lf comment-line-double-dash-lflang">    </span><span class="source-lf comment-line-double-dash-lflang"># Force a timer to be invoked periodically</span>
+<span class="source-lf">    </span><span class="source-lf storage-modifier-lflang">timer</span><span class="source-lf"> t(</span><span class="source-lf constant-numeric-int-lflang">0</span><span class="source-lf">, </span><span class="source-lf constant-numeric-int-lflang">10</span><span class="source-lf"> </span><span class="source-lf constant-numeric-lflang">usec</span><span class="source-lf">)</span>
+<span class="source-lf comment-line-double-dash-lflang">    </span><span class="source-lf comment-line-double-dash-lflang"># to ensure logical time will advance in the absence of incoming messages.</span>
+<span class="source-lf">    </span><span class="source-lf storage-modifier-lflang">state</span><span class="source-lf"> c(</span><span class="source-lf constant-numeric-int-lflang">0</span><span class="source-lf">)</span>
+<span class="source-lf"></span>
+<span class="source-lf">    </span><span class="source-lf keyword-control-lflang">reaction</span><span class="source-lf">(inp) </span><span class="source-lf meta-embedded-block-py">{=</span>
+<span class="source-lf meta-embedded-block-py">        current_tag = lf.tag()</span>
+<span class="source-lf meta-embedded-block-py">        print(f"ImportantActuator: At tag ({lf.tag().time}, {lf.tag().microstep}) received {inp.value}. "</span>
+<span class="source-lf meta-embedded-block-py">              f"Intended tag is ({inp.intended_tag.time - lf.time.start()}, {inp.intended_tag.microstep}).")</span>
+<span class="source-lf meta-embedded-block-py">        if lf.tag() == Tag((SEC(1) *  self.c) + + lf.time.start(), 0):</span>
+<span class="source-lf meta-embedded-block-py">            self.success += 1 # Message was on-time</span>
+<span class="source-lf meta-embedded-block-py">        else:</span>
+<span class="source-lf meta-embedded-block-py">            self.sys.stderr.write("Normal reaction was invoked, but current tag doesn't match expected tag.")</span>
+<span class="source-lf meta-embedded-block-py">            self.sys.exit(1)</span>
+<span class="source-lf meta-embedded-block-py">        self.c += 1</span>
+<span class="source-lf meta-embedded-block-py">    </span><span class="source-lf meta-embedded-block-py">=}</span><span class="source-lf"> </span><span class="source-lf keyword-control-lflang">STP</span><span class="source-lf">(</span><span class="source-lf constant-numeric-int-lflang">0</span><span class="source-lf">) </span><span class="source-lf meta-embedded-block-py">{=</span>
+<span class="source-lf meta-embedded-block-py">        current_tag = lf.tag()</span>
+<span class="source-lf meta-embedded-block-py">        print(f"ImportantActuator: At tag ({lf.time.logical_elapsed()}, {lf.tag().microstep}), message has violated the STP offset "</span>
+<span class="source-lf meta-embedded-block-py">              f"by ({lf.tag().time - inp.intended_tag.time}, {lf.tag().microstep - inp.intended_tag.microstep}).")</span>
+<span class="source-lf meta-embedded-block-py">        self.success_stp_violation += 1</span>
+<span class="source-lf meta-embedded-block-py">        self.c += 1</span>
+<span class="source-lf meta-embedded-block-py">    </span><span class="source-lf meta-embedded-block-py">=}</span>
+<span class="source-lf"></span>
+<span class="source-lf">    </span><span class="source-lf keyword-control-lflang">reaction</span><span class="source-lf">(t) </span><span class="source-lf meta-embedded-block-py">{=</span>
+<span class="source-lf meta-embedded-block-py">        # Do nothing.</span>
+<span class="source-lf meta-embedded-block-py">    </span><span class="source-lf meta-embedded-block-py">=}</span>
+<span class="source-lf"></span>
+<span class="source-lf">    </span><span class="source-lf keyword-control-lflang">reaction</span><span class="source-lf">(</span><span class="source-lf support-variable-lflang">shutdown</span><span class="source-lf">) </span><span class="source-lf meta-embedded-block-py">{=</span>
+<span class="source-lf meta-embedded-block-py">        if (self.success +  self.success_stp_violation) != 2:</span>
+<span class="source-lf meta-embedded-block-py">            self.sys.stderr.write("Failed to detect STP violation in messages.")</span>
+<span class="source-lf meta-embedded-block-py">            self.sys.exit(1)</span>
+<span class="source-lf meta-embedded-block-py">        else:</span>
+<span class="source-lf meta-embedded-block-py">            print(f"Successfully detected STP violations ({self.success_stp_violation} violations, {self.success} on-time).")</span>
+<span class="source-lf meta-embedded-block-py">    </span><span class="source-lf meta-embedded-block-py">=}</span>
+<span class="source-lf">}</span>
+<span class="source-lf"></span>
+<span class="source-lf storage-modifier-lflang">reactor</span><span class="source-lf"> </span><span class="source-lf entity-name-type-lflang">Print</span><span class="source-lf"> {</span>
+<span class="source-lf">    </span><span class="source-lf storage-modifier-lflang">input</span><span class="source-lf"> inp</span>
+<span class="source-lf"></span>
+<span class="source-lf">    </span><span class="source-lf keyword-control-lflang">reaction</span><span class="source-lf">(inp) </span><span class="source-lf meta-embedded-block-py">{=</span>
+<span class="source-lf meta-embedded-block-py">        current_tag = lf.tag();</span>
+<span class="source-lf meta-embedded-block-py">        print(f"Print reactor: at tag ({lf.time.logical_elapsed()}, lf.tag().microstep) received {inp.value}. "</span>
+<span class="source-lf meta-embedded-block-py">              f"Intended tag is ({inp.intended_tag.time - lf.time.start()}, {inp.intended_tag.microstep}).")</span>
+<span class="source-lf meta-embedded-block-py">    </span><span class="source-lf meta-embedded-block-py">=}</span>
+<span class="source-lf">}</span>
+<span class="source-lf"></span>
+<span class="source-lf storage-modifier-lflang">reactor</span><span class="source-lf"> </span><span class="source-lf entity-name-type-lflang">Receiver</span><span class="source-lf"> {</span>
+<span class="source-lf">    </span><span class="source-lf storage-modifier-lflang">input</span><span class="source-lf"> inp</span>
+<span class="source-lf comment-line-double-dash-lflang">    </span><span class="source-lf comment-line-double-dash-lflang"># Force a timer to be invoke periodically</span>
+<span class="source-lf">    </span><span class="source-lf storage-modifier-lflang">timer</span><span class="source-lf"> t(</span><span class="source-lf constant-numeric-int-lflang">0</span><span class="source-lf">, </span><span class="source-lf constant-numeric-int-lflang">10</span><span class="source-lf"> </span><span class="source-lf constant-numeric-lflang">msec</span><span class="source-lf">)</span>
+<span class="source-lf comment-line-double-dash-lflang">    </span><span class="source-lf comment-line-double-dash-lflang"># to ensure logical time will advance in the absence of incoming messages.</span>
+<span class="source-lf">    </span><span class="source-lf storage-modifier-lflang">state</span><span class="source-lf"> c(</span><span class="source-lf constant-numeric-int-lflang">0</span><span class="source-lf">)</span>
+<span class="source-lf">    </span><span class="source-lf variable-other-constant-reactorinstance-lflang">p</span><span class="source-lf"> </span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf"> </span><span class="source-lf keyword-operator-new-lflang">new</span><span class="source-lf"> </span><span class="source-lf entity-name-type-lflang">Print</span><span class="source-lf">()</span>
+<span class="source-lf">    </span><span class="source-lf variable-other-constant-reactorinstance-lflang">a</span><span class="source-lf"> </span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf"> </span><span class="source-lf keyword-operator-new-lflang">new</span><span class="source-lf"> </span><span class="source-lf entity-name-type-lflang">ImportantActuator</span><span class="source-lf">()</span>
+<span class="source-lf"></span>
+<span class="source-lf">    </span><span class="source-lf keyword-control-lflang">reaction</span><span class="source-lf">(inp) </span><span class="source-lf keyword-operator-lflang">-></span><span class="source-lf"> </span><span class="source-lf variable-other-constant-reactorinstance-lflang">p</span><span class="source-lf keyword-operator-lflang">.</span><span class="source-lf variable-other-lflang">inp</span><span class="source-lf">, </span><span class="source-lf variable-other-constant-reactorinstance-lflang">a</span><span class="source-lf keyword-operator-lflang">.</span><span class="source-lf variable-other-lflang">inp</span><span class="source-lf"> </span><span class="source-lf meta-embedded-block-py">{=</span>
+<span class="source-lf meta-embedded-block-py">        p.inp.set(inp.value + 1)</span>
+<span class="source-lf meta-embedded-block-py">        a.inp.set(inp.value + 1)</span>
+<span class="source-lf meta-embedded-block-py">    </span><span class="source-lf meta-embedded-block-py">=}</span>
+<span class="source-lf"></span>
+<span class="source-lf">    </span><span class="source-lf keyword-control-lflang">reaction</span><span class="source-lf">(t) </span><span class="source-lf meta-embedded-block-py">{=</span>
+<span class="source-lf meta-embedded-block-py">        # Do nothing.</span>
+<span class="source-lf meta-embedded-block-py">    </span><span class="source-lf meta-embedded-block-py">=}</span>
+<span class="source-lf">}</span>
+<span class="source-lf"></span>
+<span class="source-lf storage-modifier-lflang">federated</span><span class="source-lf"> </span><span class="source-lf storage-modifier-lflang">reactor</span><span class="source-lf"> {</span>
+<span class="source-lf">    </span><span class="source-lf variable-other-constant-reactorinstance-lflang">c</span><span class="source-lf"> </span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf"> </span><span class="source-lf keyword-operator-new-lflang">new</span><span class="source-lf"> </span><span class="source-lf entity-name-type-lflang">Count</span><span class="source-lf">(period </span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf"> </span><span class="source-lf constant-numeric-int-lflang">1</span><span class="source-lf"> </span><span class="source-lf constant-numeric-lflang">sec</span><span class="source-lf">)</span>
+<span class="source-lf">    </span><span class="source-lf variable-other-constant-reactorinstance-lflang">r</span><span class="source-lf"> </span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf"> </span><span class="source-lf keyword-operator-new-lflang">new</span><span class="source-lf"> </span><span class="source-lf entity-name-type-lflang">Receiver</span><span class="source-lf">()</span>
+<span class="source-lf">    </span><span class="source-lf variable-other-constant-reactorinstance-lflang">c</span><span class="source-lf keyword-operator-lflang">.</span><span class="source-lf variable-other-lflang">out</span><span class="source-lf"> </span><span class="source-lf keyword-operator-lflang">-></span><span class="source-lf"> </span><span class="source-lf variable-other-constant-reactorinstance-lflang">r</span><span class="source-lf keyword-operator-lflang">.</span><span class="source-lf variable-other-lflang">inp</span><span class="source-lf">  </span><span class="source-lf comment-line-double-dash-lflang"># Indicating a 'logical' connection.</span>
+<span class="source-lf">}</span>
+<span class="source-lf"></span>

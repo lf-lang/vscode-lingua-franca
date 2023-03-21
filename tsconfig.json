@@ -2,7 +2,7 @@
     "compilerOptions": {
         "esModuleInterop": true,
         "inlineSources": false,
-        "lib": ["esnext"],
+        "lib": ["esnext", "dom"],
         "module": "commonjs",
         "moduleResolution": "node",
         "outDir": "./out",

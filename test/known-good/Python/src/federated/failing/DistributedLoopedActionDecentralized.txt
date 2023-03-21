@@ -1,0 +1,68 @@
+<span class="source-lf comment-block-lflang">/**</span>
+<span class="source-lf comment-block-lflang"> * Test a sender-receiver network system that relies on microsteps being taken</span>
+<span class="source-lf comment-block-lflang"> * into account. The purpose of this test is to check whether the</span>
+<span class="source-lf comment-block-lflang"> * functionalities pertinent to dynamic STP offset adjustments are present and</span>
+<span class="source-lf comment-block-lflang"> * functioning to a degree.</span>
+<span class="source-lf comment-block-lflang"> *</span>
+<span class="source-lf comment-block-lflang"> * This version of the test does not use a centralized coordinator to advance</span>
+<span class="source-lf comment-block-lflang"> * tag. Therefore, the receiver will rely on an STP offset (initially zero) to</span>
+<span class="source-lf comment-block-lflang"> * wait long enough for messages to arrive before advancing its tag. In this</span>
+<span class="source-lf comment-block-lflang"> * test, the STP offset is initially zero and gradually raised every time an STP</span>
+<span class="source-lf comment-block-lflang"> * violation is perceived until no STP violation is observed. Therefore, the</span>
+<span class="source-lf comment-block-lflang"> * exact outcome of the test will depend on actual runtime timing.</span>
+<span class="source-lf comment-block-lflang"> *</span>
+<span class="source-lf comment-block-lflang"> * @author Soroush Bateni</span>
+<span class="source-lf comment-block-lflang"> </span><span class="source-lf comment-block-lflang">*/</span>
+<span class="source-lf comment-line-double-dash-lflang"># reason for failing: in_.intended_tag are not supported in python target</span>
+<span class="source-lf meta-targetspec-lflang keyword-control-lflang">target</span><span class="source-lf meta-targetspec-lflang"> </span><span class="source-lf meta-targetspec-lflang constant-language-lflang">Python</span><span class="source-lf meta-targetspec-lflang"> {</span>
+<span class="source-lf meta-targetspec-lflang">    </span><span class="source-lf meta-targetspec-lflang variable-parameter-lflang">timeout</span><span class="source-lf meta-targetspec-lflang">: </span><span class="source-lf meta-targetspec-lflang constant-numeric-int-lflang">1</span><span class="source-lf meta-targetspec-lflang"> </span><span class="source-lf meta-targetspec-lflang constant-numeric-lflang">sec</span><span class="source-lf meta-targetspec-lflang">,</span>
+<span class="source-lf meta-targetspec-lflang">    </span><span class="source-lf meta-targetspec-lflang variable-parameter-lflang">coordination</span><span class="source-lf meta-targetspec-lflang">: decentralized</span>
+<span class="source-lf meta-targetspec-lflang">}</span>
+<span class="source-lf"></span>
+<span class="source-lf keyword-control-import-lflang">import</span><span class="source-lf"> </span><span class="source-lf entity-name-type-lflang">Sender</span><span class="source-lf"> </span><span class="source-lf keyword-control-import-lflang">from</span><span class="source-lf"> </span><span class="source-lf string-quoted-double-lflang">"</span><span class="source-lf string-quoted-double-lflang">../lib/LoopedActionSender.lf</span><span class="source-lf string-quoted-double-lflang">"</span>
+<span class="source-lf keyword-control-import-lflang">import</span><span class="source-lf"> </span><span class="source-lf entity-name-type-lflang">Receiver</span><span class="source-lf"> </span><span class="source-lf keyword-control-import-lflang">from</span><span class="source-lf"> </span><span class="source-lf string-quoted-double-lflang">"</span><span class="source-lf string-quoted-double-lflang">DistributedLoopedAction.lf</span><span class="source-lf string-quoted-double-lflang">"</span>
+<span class="source-lf"></span>
+<span class="source-lf storage-modifier-lflang">reactor</span><span class="source-lf"> </span><span class="source-lf entity-name-type-lflang">STPReceiver</span><span class="source-lf">(</span>
+<span class="source-lf">    take_a_break_after(</span><span class="source-lf constant-numeric-int-lflang">10</span><span class="source-lf">),</span>
+<span class="source-lf">    break_interval(</span><span class="source-lf constant-numeric-int-lflang">400</span><span class="source-lf"> </span><span class="source-lf constant-numeric-lflang">msec</span><span class="source-lf">),</span>
+<span class="source-lf">    stp_offset(</span><span class="source-lf constant-numeric-int-lflang">0</span><span class="source-lf">)</span>
+<span class="source-lf">) {</span>
+<span class="source-lf">    </span><span class="source-lf storage-modifier-lflang">input</span><span class="source-lf"> inp</span>
+<span class="source-lf">    </span><span class="source-lf storage-modifier-lflang">state</span><span class="source-lf"> last_time_updated_stp(</span><span class="source-lf constant-numeric-int-lflang">0</span><span class="source-lf">)</span>
+<span class="source-lf">    </span><span class="source-lf variable-other-constant-reactorinstance-lflang">receiver</span><span class="source-lf"> </span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf"> </span><span class="source-lf keyword-operator-new-lflang">new</span><span class="source-lf"> </span><span class="source-lf entity-name-type-lflang">Receiver</span><span class="source-lf">(take_a_break_after </span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf"> </span><span class="source-lf constant-numeric-int-lflang">10</span><span class="source-lf">, break_interval </span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf"> </span><span class="source-lf constant-numeric-int-lflang">400</span><span class="source-lf"> </span><span class="source-lf constant-numeric-lflang">msec</span><span class="source-lf">)</span>
+<span class="source-lf">    </span><span class="source-lf storage-modifier-lflang">timer</span><span class="source-lf"> t(</span><span class="source-lf constant-numeric-int-lflang">0</span><span class="source-lf">, </span><span class="source-lf constant-numeric-int-lflang">1</span><span class="source-lf"> </span><span class="source-lf constant-numeric-lflang">msec</span><span class="source-lf">)  </span><span class="source-lf comment-line-double-dash-lflang"># Force advancement of logical time</span>
+<span class="source-lf"></span>
+<span class="source-lf">    </span><span class="source-lf keyword-control-lflang">reaction</span><span class="source-lf">(inp) </span><span class="source-lf keyword-operator-lflang">-></span><span class="source-lf"> </span><span class="source-lf variable-other-constant-reactorinstance-lflang">receiver</span><span class="source-lf keyword-operator-lflang">.</span><span class="source-lf variable-other-lflang">in_</span><span class="source-lf"> </span><span class="source-lf meta-embedded-block-py">{=</span>
+<span class="source-lf meta-embedded-block-py">        print(f"Received {inp.value}.")</span>
+<span class="source-lf meta-embedded-block-py">        receiver.in_.set(inp.value)</span>
+<span class="source-lf meta-embedded-block-py">    </span><span class="source-lf meta-embedded-block-py">=}</span><span class="source-lf"> </span><span class="source-lf keyword-control-lflang">STP</span><span class="source-lf">(stp_offset) </span><span class="source-lf meta-embedded-block-py">{=</span>
+<span class="source-lf meta-embedded-block-py">        print(f"Received {inp.value} late.")</span>
+<span class="source-lf meta-embedded-block-py">        current_tag = lf.tag()</span>
+<span class="source-lf meta-embedded-block-py">        print(f"STP violation of "</span>
+<span class="source-lf meta-embedded-block-py">            f"({current_tag.time - inp.intended_tag.time}, "</span>
+<span class="source-lf meta-embedded-block-py">            f"{current_tag.microstep - inp.intended_tag.microstep}) "</span>
+<span class="source-lf meta-embedded-block-py">            "perceived on the input.")</span>
+<span class="source-lf meta-embedded-block-py">        receiver.inp.set(inp.value)</span>
+<span class="source-lf meta-embedded-block-py">        # Only update the STP offset once per</span>
+<span class="source-lf meta-embedded-block-py">        # time step.</span>
+<span class="source-lf meta-embedded-block-py">        if current_tag.time != self.last_time_updated_stp :</span>
+<span class="source-lf meta-embedded-block-py">            print(f"Raising the STP offset by {MSEC(10)}.")</span>
+<span class="source-lf meta-embedded-block-py">            lf_set_stp_offset(MSEC(10))</span>
+<span class="source-lf meta-embedded-block-py">            self.last_time_updated_stp = current_tag.time</span>
+<span class="source-lf meta-embedded-block-py">    </span><span class="source-lf meta-embedded-block-py">=}</span>
+<span class="source-lf"></span>
+<span class="source-lf">    </span><span class="source-lf keyword-control-lflang">reaction</span><span class="source-lf">(t) </span><span class="source-lf meta-embedded-block-py">{=</span>
+<span class="source-lf meta-embedded-block-py">        # Do nothing</span>
+<span class="source-lf meta-embedded-block-py">    </span><span class="source-lf meta-embedded-block-py">=}</span>
+<span class="source-lf">}</span>
+<span class="source-lf"></span>
+<span class="source-lf storage-modifier-lflang">federated</span><span class="source-lf"> </span><span class="source-lf storage-modifier-lflang">reactor</span><span class="source-lf"> </span><span class="source-lf entity-name-type-lflang">DistributedLoopedActionDecentralized</span><span class="source-lf"> {</span>
+<span class="source-lf">    </span><span class="source-lf variable-other-constant-reactorinstance-lflang">sender</span><span class="source-lf"> </span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf"> </span><span class="source-lf keyword-operator-new-lflang">new</span><span class="source-lf"> </span><span class="source-lf entity-name-type-lflang">Sender</span><span class="source-lf">(take_a_break_after </span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf"> </span><span class="source-lf constant-numeric-int-lflang">10</span><span class="source-lf">, break_interval </span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf"> </span><span class="source-lf constant-numeric-int-lflang">400</span><span class="source-lf"> </span><span class="source-lf constant-numeric-lflang">msec</span><span class="source-lf">)</span>
+<span class="source-lf">    </span><span class="source-lf variable-other-constant-reactorinstance-lflang">stpReceiver</span><span class="source-lf"> </span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf"> </span><span class="source-lf keyword-operator-new-lflang">new</span><span class="source-lf"> </span><span class="source-lf entity-name-type-lflang">STPReceiver</span><span class="source-lf">(</span>
+<span class="source-lf">        take_a_break_after </span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf"> </span><span class="source-lf constant-numeric-int-lflang">10</span><span class="source-lf">,</span>
+<span class="source-lf">        break_interval </span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf"> </span><span class="source-lf constant-numeric-int-lflang">400</span><span class="source-lf"> </span><span class="source-lf constant-numeric-lflang">msec</span>
+<span class="source-lf">    )</span>
+<span class="source-lf"></span>
+<span class="source-lf">    </span><span class="source-lf variable-other-constant-reactorinstance-lflang">sender</span><span class="source-lf keyword-operator-lflang">.</span><span class="source-lf variable-other-lflang">out</span><span class="source-lf"> </span><span class="source-lf keyword-operator-lflang">-></span><span class="source-lf"> </span><span class="source-lf variable-other-constant-reactorinstance-lflang">stpReceiver</span><span class="source-lf keyword-operator-lflang">.</span><span class="source-lf variable-other-lflang">inp</span>
+<span class="source-lf">}</span>
+<span class="source-lf"></span>

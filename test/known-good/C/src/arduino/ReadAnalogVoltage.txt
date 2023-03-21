@@ -1,0 +1,29 @@
+<span class="source-lf comment-block-lflang">/**</span>
+<span class="source-lf comment-block-lflang"> * This example reads an analog input on pin 0, converts it to voltage, and</span>
+<span class="source-lf comment-block-lflang"> * prints the result to the Serial Monitor. Graphical representation is</span>
+<span class="source-lf comment-block-lflang"> * available using Serial Plotter (Tools > Serial Plotter menu). Attach the</span>
+<span class="source-lf comment-block-lflang"> * center pin of a potentiometer to pin A0, and the outside pins to +5V and</span>
+<span class="source-lf comment-block-lflang"> * ground.</span>
+<span class="source-lf comment-block-lflang"> </span><span class="source-lf comment-block-lflang">*/</span>
+<span class="source-lf meta-targetspec-lflang keyword-control-lflang">target</span><span class="source-lf meta-targetspec-lflang"> </span><span class="source-lf meta-targetspec-lflang constant-language-lflang">C</span><span class="source-lf meta-targetspec-lflang"> {</span>
+<span class="source-lf meta-targetspec-lflang">    </span><span class="source-lf meta-targetspec-lflang variable-parameter-lflang">platform</span><span class="source-lf meta-targetspec-lflang">: {</span>
+<span class="source-lf meta-targetspec-lflang">        </span><span class="source-lf meta-targetspec-lflang variable-parameter-lflang">name</span><span class="source-lf meta-targetspec-lflang">: </span><span class="source-lf meta-targetspec-lflang string-quoted-double-lflang">"</span><span class="source-lf meta-targetspec-lflang string-quoted-double-lflang">arduino</span><span class="source-lf meta-targetspec-lflang string-quoted-double-lflang">"</span><span class="source-lf meta-targetspec-lflang">,</span>
+<span class="source-lf meta-targetspec-lflang">        </span><span class="source-lf meta-targetspec-lflang variable-parameter-lflang">board</span><span class="source-lf meta-targetspec-lflang">: </span><span class="source-lf meta-targetspec-lflang string-quoted-double-lflang">"</span><span class="source-lf meta-targetspec-lflang string-quoted-double-lflang">arduino:avr:mega</span><span class="source-lf meta-targetspec-lflang string-quoted-double-lflang">"</span>
+<span class="source-lf meta-targetspec-lflang">    }</span>
+<span class="source-lf">}</span>
+<span class="source-lf"></span>
+<span class="source-lf storage-modifier-lflang">main</span><span class="source-lf"> </span><span class="source-lf storage-modifier-lflang">reactor</span><span class="source-lf"> </span><span class="source-lf entity-name-type-lflang">ReadAnalogVoltage</span><span class="source-lf"> {</span>
+<span class="source-lf">    </span><span class="source-lf storage-modifier-lflang">logical</span><span class="source-lf"> </span><span class="source-lf storage-modifier-lflang">action</span><span class="source-lf"> a</span>
+<span class="source-lf"></span>
+<span class="source-lf">    </span><span class="source-lf keyword-control-lflang">reaction</span><span class="source-lf">(</span><span class="source-lf support-variable-lflang">startup</span><span class="source-lf">) </span><span class="source-lf keyword-operator-lflang">-></span><span class="source-lf"> a {</span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf"> lf_schedule(a, </span><span class="source-lf constant-numeric-int-lflang">0</span><span class="source-lf">); </span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf">}</span>
+<span class="source-lf"></span>
+<span class="source-lf">    </span><span class="source-lf keyword-control-lflang">reaction</span><span class="source-lf">(a) </span><span class="source-lf keyword-operator-lflang">-></span><span class="source-lf"> a {</span><span class="source-lf keyword-operator-lflang">=</span>
+<span class="source-lf">        int sensorValue </span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf"> analogRead(A0);</span>
+<span class="source-lf comment-line-double-dash-lflang">        </span><span class="source-lf comment-line-double-dash-lflang">// Convert the analog reading (which goes from 0 - 1023) to a voltage (0 - 5V):</span>
+<span class="source-lf">        float voltage </span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf"> sensorValue </span><span class="source-lf keyword-operator-lflang">*</span><span class="source-lf"> (</span><span class="source-lf constant-numeric-float-lflang">5.0</span><span class="source-lf"> </span><span class="source-lf keyword-operator-lflang">/</span><span class="source-lf"> </span><span class="source-lf constant-numeric-float-lflang">1023.0</span><span class="source-lf">);</span>
+<span class="source-lf comment-line-double-dash-lflang">        </span><span class="source-lf comment-line-double-dash-lflang">// print out the value you read:</span>
+<span class="source-lf">        </span><span class="source-lf variable-other-constant-reactorinstance-lflang">Serial</span><span class="source-lf keyword-operator-lflang">.</span><span class="source-lf variable-other-lflang">println</span><span class="source-lf">(voltage);</span>
+<span class="source-lf">        lf_schedule(a, </span><span class="source-lf constant-numeric-int-lflang">0</span><span class="source-lf">);</span>
+<span class="source-lf">    </span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf">}</span>
+<span class="source-lf">}</span>
+<span class="source-lf"></span>

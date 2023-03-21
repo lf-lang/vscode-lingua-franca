@@ -1,0 +1,33 @@
+<span class="source-lf comment-block-lflang">/**</span>
+<span class="source-lf comment-block-lflang"> * A sender reactor that outputs integers in superdense time.</span>
+<span class="source-lf comment-block-lflang"> *</span>
+<span class="source-lf comment-block-lflang"> * @author Soroush Bateni</span>
+<span class="source-lf comment-block-lflang"> * @author Hokeun Kim</span>
+<span class="source-lf comment-block-lflang"> </span><span class="source-lf comment-block-lflang">*/</span>
+<span class="source-lf meta-targetspec-lflang keyword-control-lflang">target</span><span class="source-lf meta-targetspec-lflang"> </span><span class="source-lf meta-targetspec-lflang constant-language-lflang">TypeScript</span>
+<span class="source-lf"></span>
+<span class="source-lf comment-block-lflang">/**</span>
+<span class="source-lf comment-block-lflang"> * @param takeBreakAfter: Indicates how many messages are sent in consecutive</span>
+<span class="source-lf comment-block-lflang"> * superdense time</span>
+<span class="source-lf comment-block-lflang"> * @param breakInterval: Determines how long the reactor should take a break</span>
+<span class="source-lf comment-block-lflang"> * after sending takeBreakAfter messages.</span>
+<span class="source-lf comment-block-lflang"> </span><span class="source-lf comment-block-lflang">*/</span>
+<span class="source-lf storage-modifier-lflang">reactor</span><span class="source-lf"> </span><span class="source-lf entity-name-type-lflang">Sender</span><span class="source-lf">(takeBreakAfter: number(</span><span class="source-lf constant-numeric-int-lflang">10</span><span class="source-lf">), breakInterval: </span><span class="source-lf storage-type-lflang">time</span><span class="source-lf">(</span><span class="source-lf constant-numeric-int-lflang">400</span><span class="source-lf"> </span><span class="source-lf constant-numeric-lflang">msec</span><span class="source-lf">)) {</span>
+<span class="source-lf">    </span><span class="source-lf storage-modifier-lflang">output</span><span class="source-lf"> out: </span><span class="source-lf storage-type-lflang">number</span>
+<span class="source-lf">    </span><span class="source-lf storage-modifier-lflang">logical</span><span class="source-lf"> </span><span class="source-lf storage-modifier-lflang">action</span><span class="source-lf"> act</span>
+<span class="source-lf">    </span><span class="source-lf storage-modifier-lflang">state</span><span class="source-lf"> sentMessages: </span><span class="source-lf storage-type-lflang">number</span><span class="source-lf">(</span><span class="source-lf constant-numeric-int-lflang">0</span><span class="source-lf">)</span>
+<span class="source-lf"></span>
+<span class="source-lf">    </span><span class="source-lf keyword-control-lflang">reaction</span><span class="source-lf">(</span><span class="source-lf support-variable-lflang">startup</span><span class="source-lf">, act) </span><span class="source-lf keyword-operator-lflang">-></span><span class="source-lf"> act, out {</span><span class="source-lf keyword-operator-lflang">=</span>
+<span class="source-lf comment-line-double-dash-lflang">        </span><span class="source-lf comment-line-double-dash-lflang">// Send a message on out</span>
+<span class="source-lf">        out </span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf"> sentMessages;</span>
+<span class="source-lf">        sentMessages</span><span class="source-lf keyword-operator-lflang">+</span><span class="source-lf keyword-operator-lflang">+</span><span class="source-lf">;</span>
+<span class="source-lf">        if (sentMessages < takeBreakAfter) {</span>
+<span class="source-lf">            </span><span class="source-lf variable-other-constant-reactorinstance-lflang">actions</span><span class="source-lf keyword-operator-lflang">.</span><span class="source-lf variable-other-constant-reactorinstance-lflang">act</span><span class="source-lf keyword-operator-lflang">.</span><span class="source-lf variable-other-lflang">schedule</span><span class="source-lf">(</span><span class="source-lf constant-numeric-int-lflang">0</span><span class="source-lf">, null);</span>
+<span class="source-lf">        } else {</span>
+<span class="source-lf comment-line-double-dash-lflang">            </span><span class="source-lf comment-line-double-dash-lflang">// Take a break</span>
+<span class="source-lf">            sentMessages </span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf"> </span><span class="source-lf constant-numeric-int-lflang">0</span><span class="source-lf">;</span>
+<span class="source-lf">            </span><span class="source-lf variable-other-constant-reactorinstance-lflang">actions</span><span class="source-lf keyword-operator-lflang">.</span><span class="source-lf variable-other-constant-reactorinstance-lflang">act</span><span class="source-lf keyword-operator-lflang">.</span><span class="source-lf variable-other-lflang">schedule</span><span class="source-lf">(breakInterval, null);</span>
+<span class="source-lf">        }</span>
+<span class="source-lf">    </span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf">}</span>
+<span class="source-lf">}</span>
+<span class="source-lf"></span>

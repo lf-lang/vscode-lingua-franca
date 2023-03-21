@@ -1,0 +1,49 @@
+<span class="source-lf comment-block-lflang">/**</span>
+<span class="source-lf comment-block-lflang"> * This example creates a Protocol Buffer message and passes it to another</span>
+<span class="source-lf comment-block-lflang"> * reactor without packing and unpacking. This demonstrates that local</span>
+<span class="source-lf comment-block-lflang"> * communication, within one shared-memory machine, need not incur the overhead</span>
+<span class="source-lf comment-block-lflang"> * of packing and unpacking.</span>
+<span class="source-lf comment-block-lflang"> *</span>
+<span class="source-lf comment-block-lflang"> * To run this example first install the protocol buffers compiler from</span>
+<span class="source-lf comment-block-lflang"> * https://github.com/protocolbuffers/protobuf. It is also available from</span>
+<span class="source-lf comment-block-lflang"> * homebrew on a Mac via</span>
+<span class="source-lf comment-block-lflang"> *</span>
+<span class="source-lf comment-block-lflang"> * $ brew install protobuf</span>
+<span class="source-lf comment-block-lflang"> *</span>
+<span class="source-lf comment-block-lflang"> * Building protobuf from source is slow, so avoid doing that if possible.</span>
+<span class="source-lf comment-block-lflang"> </span><span class="source-lf comment-block-lflang">*/</span>
+<span class="source-lf meta-targetspec-lflang keyword-control-lflang">target</span><span class="source-lf meta-targetspec-lflang"> </span><span class="source-lf meta-targetspec-lflang constant-language-lflang">TypeScript</span><span class="source-lf meta-targetspec-lflang"> {</span>
+<span class="source-lf meta-targetspec-lflang">    </span><span class="source-lf meta-targetspec-lflang variable-parameter-lflang">protobufs</span><span class="source-lf meta-targetspec-lflang">: </span><span class="source-lf meta-targetspec-lflang variable-other-constant-reactorinstance-lflang">ProtoHelloWorld</span><span class="source-lf meta-targetspec-lflang keyword-operator-lflang">.</span><span class="source-lf meta-targetspec-lflang variable-other-lflang">proto</span>
+<span class="source-lf meta-targetspec-lflang">}</span>
+<span class="source-lf"></span>
+<span class="source-lf storage-modifier-lflang">reactor</span><span class="source-lf"> </span><span class="source-lf entity-name-type-lflang">SourceProto</span><span class="source-lf"> {</span>
+<span class="source-lf">    </span><span class="source-lf storage-modifier-lflang">output</span><span class="source-lf"> out: </span><span class="source-lf entity-name-type-lflang">ProtoHelloWorld</span><span class="source-lf keyword-operator-lflang">.</span><span class="source-lf variable-other-lflang">ProtoHelloWorld</span>
+<span class="source-lf"></span>
+<span class="source-lf">    </span><span class="source-lf keyword-control-lflang">reaction</span><span class="source-lf">(</span><span class="source-lf support-variable-lflang">startup</span><span class="source-lf">) </span><span class="source-lf keyword-operator-lflang">-></span><span class="source-lf"> out {</span><span class="source-lf keyword-operator-lflang">=</span>
+<span class="source-lf comment-line-double-dash-lflang">        </span><span class="source-lf comment-line-double-dash-lflang">// The contents of a compiled proto file are imported in</span>
+<span class="source-lf comment-line-double-dash-lflang">        </span><span class="source-lf comment-line-double-dash-lflang">// TypeScript as "import * as <.protoFileName>". So the constructor</span>
+<span class="source-lf comment-line-double-dash-lflang">        </span><span class="source-lf comment-line-double-dash-lflang">// for class ProtoHelloWorld from the file ProtoHelloWorld.proto is</span>
+<span class="source-lf comment-line-double-dash-lflang">        </span><span class="source-lf comment-line-double-dash-lflang">// ProtoHelloWorld.ProtoHelloWorld()</span>
+<span class="source-lf">        let </span><span class="source-lf variable-other-constant-reactorinstance-lflang">helloObject</span><span class="source-lf"> </span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf"> </span><span class="source-lf keyword-operator-new-lflang">new</span><span class="source-lf"> </span><span class="source-lf entity-name-type-lflang">ProtoHelloWorld</span><span class="source-lf keyword-operator-lflang">.</span><span class="source-lf variable-other-lflang">ProtoHelloWorld</span><span class="source-lf">();</span>
+<span class="source-lf">        </span><span class="source-lf variable-other-constant-reactorinstance-lflang">helloObject</span><span class="source-lf keyword-operator-lflang">.</span><span class="source-lf variable-other-lflang">setName</span><span class="source-lf">(</span><span class="source-lf string-quoted-double-lflang">"</span><span class="source-lf string-quoted-double-lflang">Hello World</span><span class="source-lf string-quoted-double-lflang">"</span><span class="source-lf">);</span>
+<span class="source-lf">        </span><span class="source-lf variable-other-constant-reactorinstance-lflang">helloObject</span><span class="source-lf keyword-operator-lflang">.</span><span class="source-lf variable-other-lflang">setNumber</span><span class="source-lf">(</span><span class="source-lf constant-numeric-int-lflang">42</span><span class="source-lf">);</span>
+<span class="source-lf">        out </span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf"> helloObject;</span>
+<span class="source-lf">    </span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf">}</span>
+<span class="source-lf">}</span>
+<span class="source-lf"></span>
+<span class="source-lf storage-modifier-lflang">reactor</span><span class="source-lf"> </span><span class="source-lf entity-name-type-lflang">SinkProto</span><span class="source-lf"> {</span>
+<span class="source-lf">    </span><span class="source-lf storage-modifier-lflang">input</span><span class="source-lf"> x: </span><span class="source-lf entity-name-type-lflang">ProtoHelloWorld</span><span class="source-lf keyword-operator-lflang">.</span><span class="source-lf variable-other-lflang">ProtoHelloWorld</span>
+<span class="source-lf"></span>
+<span class="source-lf">    </span><span class="source-lf keyword-control-lflang">reaction</span><span class="source-lf">(x) {</span><span class="source-lf keyword-operator-lflang">=</span>
+<span class="source-lf">        if (x !</span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf"> undefined) {</span>
+<span class="source-lf">            </span><span class="source-lf variable-other-constant-reactorinstance-lflang">console</span><span class="source-lf keyword-operator-lflang">.</span><span class="source-lf variable-other-lflang">log</span><span class="source-lf">(`Received: name</span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf">${</span><span class="source-lf variable-other-constant-reactorinstance-lflang">x</span><span class="source-lf keyword-operator-lflang">.</span><span class="source-lf variable-other-lflang">getName</span><span class="source-lf">()}, number</span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf">${</span><span class="source-lf variable-other-constant-reactorinstance-lflang">x</span><span class="source-lf keyword-operator-lflang">.</span><span class="source-lf variable-other-lflang">getNumber</span><span class="source-lf">()}</span><span class="source-lf keyword-operator-lflang">.</span><span class="source-lf">`)</span>
+<span class="source-lf">        }</span>
+<span class="source-lf">    </span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf">}</span>
+<span class="source-lf">}</span>
+<span class="source-lf"></span>
+<span class="source-lf storage-modifier-lflang">main</span><span class="source-lf"> </span><span class="source-lf storage-modifier-lflang">reactor</span><span class="source-lf"> </span><span class="source-lf entity-name-type-lflang">ProtoNoPacking</span><span class="source-lf"> {</span>
+<span class="source-lf">    </span><span class="source-lf variable-other-constant-reactorinstance-lflang">s</span><span class="source-lf"> </span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf"> </span><span class="source-lf keyword-operator-new-lflang">new</span><span class="source-lf"> </span><span class="source-lf entity-name-type-lflang">SourceProto</span><span class="source-lf">()</span>
+<span class="source-lf">    </span><span class="source-lf variable-other-constant-reactorinstance-lflang">d</span><span class="source-lf"> </span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf"> </span><span class="source-lf keyword-operator-new-lflang">new</span><span class="source-lf"> </span><span class="source-lf entity-name-type-lflang">SinkProto</span><span class="source-lf">()</span>
+<span class="source-lf">    </span><span class="source-lf variable-other-constant-reactorinstance-lflang">s</span><span class="source-lf keyword-operator-lflang">.</span><span class="source-lf variable-other-lflang">out</span><span class="source-lf"> </span><span class="source-lf keyword-operator-lflang">-></span><span class="source-lf"> </span><span class="source-lf variable-other-constant-reactorinstance-lflang">d</span><span class="source-lf keyword-operator-lflang">.</span><span class="source-lf variable-other-lflang">x</span>
+<span class="source-lf">}</span>
+<span class="source-lf"></span>

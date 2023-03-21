@@ -1,0 +1,22 @@
+<span class="source-lf comment-block-lflang">/**</span>
+<span class="source-lf comment-block-lflang"> * This example reads an analog input on pin 0, prints the result to the Serial</span>
+<span class="source-lf comment-block-lflang"> * Monitor. Graphical representation is available using Serial Plotter (Tools ></span>
+<span class="source-lf comment-block-lflang"> * Serial Plotter menu). Attach the center pin of a potentiometer to pin A0, and</span>
+<span class="source-lf comment-block-lflang"> * the outside pins to +5V and ground.</span>
+<span class="source-lf comment-block-lflang"> </span><span class="source-lf comment-block-lflang">*/</span>
+<span class="source-lf meta-targetspec-lflang keyword-control-lflang">target</span><span class="source-lf meta-targetspec-lflang"> </span><span class="source-lf meta-targetspec-lflang constant-language-lflang">C</span><span class="source-lf meta-targetspec-lflang"> {</span>
+<span class="source-lf meta-targetspec-lflang">    </span><span class="source-lf meta-targetspec-lflang variable-parameter-lflang">platform</span><span class="source-lf meta-targetspec-lflang">: {</span>
+<span class="source-lf meta-targetspec-lflang">        </span><span class="source-lf meta-targetspec-lflang variable-parameter-lflang">name</span><span class="source-lf meta-targetspec-lflang">: </span><span class="source-lf meta-targetspec-lflang string-quoted-double-lflang">"</span><span class="source-lf meta-targetspec-lflang string-quoted-double-lflang">arduino</span><span class="source-lf meta-targetspec-lflang string-quoted-double-lflang">"</span><span class="source-lf meta-targetspec-lflang">,</span>
+<span class="source-lf meta-targetspec-lflang">        </span><span class="source-lf meta-targetspec-lflang variable-parameter-lflang">board</span><span class="source-lf meta-targetspec-lflang">: </span><span class="source-lf meta-targetspec-lflang string-quoted-double-lflang">"</span><span class="source-lf meta-targetspec-lflang string-quoted-double-lflang">arduino:avr:mega</span><span class="source-lf meta-targetspec-lflang string-quoted-double-lflang">"</span>
+<span class="source-lf meta-targetspec-lflang">    }</span>
+<span class="source-lf">}</span>
+<span class="source-lf"></span>
+<span class="source-lf storage-modifier-lflang">main</span><span class="source-lf"> </span><span class="source-lf storage-modifier-lflang">reactor</span><span class="source-lf"> </span><span class="source-lf entity-name-type-lflang">AnalogReadSerial</span><span class="source-lf"> {</span>
+<span class="source-lf">    </span><span class="source-lf storage-modifier-lflang">timer</span><span class="source-lf"> t1(</span><span class="source-lf constant-numeric-int-lflang">0</span><span class="source-lf">, </span><span class="source-lf constant-numeric-int-lflang">1</span><span class="source-lf"> </span><span class="source-lf constant-numeric-lflang">msec</span><span class="source-lf">)</span>
+<span class="source-lf"></span>
+<span class="source-lf">    </span><span class="source-lf keyword-control-lflang">reaction</span><span class="source-lf">(t1) {</span><span class="source-lf keyword-operator-lflang">=</span>
+<span class="source-lf">        int sensorValue </span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf"> analogRead(A0);</span>
+<span class="source-lf">        </span><span class="source-lf variable-other-constant-reactorinstance-lflang">Serial</span><span class="source-lf keyword-operator-lflang">.</span><span class="source-lf variable-other-lflang">println</span><span class="source-lf">(sensorValue);</span>
+<span class="source-lf">    </span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf">}</span>
+<span class="source-lf">}</span>
+<span class="source-lf"></span>

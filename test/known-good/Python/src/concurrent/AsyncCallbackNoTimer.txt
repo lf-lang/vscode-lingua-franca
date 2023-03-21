@@ -1,0 +1,65 @@
+<span class="source-lf comment-block-lflang">/**</span>
+<span class="source-lf comment-block-lflang"> * Test asynchronous callbacks that trigger a physical action. This test creates</span>
+<span class="source-lf comment-block-lflang"> * a concurrent Python thread that schedule a physical action twice.</span>
+<span class="source-lf comment-block-lflang"> *</span>
+<span class="source-lf comment-block-lflang"> * There are no timers in this test to drive the logical time forward. This is</span>
+<span class="source-lf comment-block-lflang"> * important in the Python target since the user Python threads should be</span>
+<span class="source-lf comment-block-lflang"> * allowed to execute independently of the underlying C core runtime, without</span>
+<span class="source-lf comment-block-lflang"> * the C runtime polling the Python context with a reaction to a timer.</span>
+<span class="source-lf comment-block-lflang"> </span><span class="source-lf comment-block-lflang">*/</span>
+<span class="source-lf meta-targetspec-lflang keyword-control-lflang">target</span><span class="source-lf meta-targetspec-lflang"> </span><span class="source-lf meta-targetspec-lflang constant-language-lflang">Python</span><span class="source-lf meta-targetspec-lflang"> {</span>
+<span class="source-lf meta-targetspec-lflang">    </span><span class="source-lf meta-targetspec-lflang variable-parameter-lflang">timeout</span><span class="source-lf meta-targetspec-lflang">: </span><span class="source-lf meta-targetspec-lflang constant-numeric-int-lflang">2</span><span class="source-lf meta-targetspec-lflang"> </span><span class="source-lf meta-targetspec-lflang constant-numeric-lflang">sec</span>
+<span class="source-lf meta-targetspec-lflang">}</span>
+<span class="source-lf"></span>
+<span class="source-lf storage-modifier-lflang">main</span><span class="source-lf"> </span><span class="source-lf storage-modifier-lflang">reactor</span><span class="source-lf"> {</span>
+<span class="source-lf">    </span><span class="source-lf keyword-control-lflang">preamble</span><span class="source-lf"> </span><span class="source-lf meta-embedded-block-py">{=</span>
+<span class="source-lf meta-embedded-block-py">        # Note that preamble code is generated inside the reactor class in Python</span>
+<span class="source-lf meta-embedded-block-py">        </span><span class="source-lf meta-embedded-block-py keyword-control-import-python">import</span><span class="source-lf meta-embedded-block-py"> time</span>
+<span class="source-lf meta-embedded-block-py">        </span><span class="source-lf meta-embedded-block-py keyword-control-import-python">import</span><span class="source-lf meta-embedded-block-py"> threading</span>
+<span class="source-lf meta-embedded-block-py"></span>
+<span class="source-lf meta-embedded-block-py">        def callback(self, a):</span>
+<span class="source-lf meta-embedded-block-py">            # Schedule twice. If the action is not physical, these should</span>
+<span class="source-lf meta-embedded-block-py">            # get consolidated into a single action triggering. If it is,</span>
+<span class="source-lf meta-embedded-block-py">            # then they cause two separate triggerings with close but not</span>
+<span class="source-lf meta-embedded-block-py">            # equal time stamps. The minimum time between these is determined</span>
+<span class="source-lf meta-embedded-block-py">            # by the argument in the physical action definition.</span>
+<span class="source-lf meta-embedded-block-py">            a.schedule(0)</span>
+<span class="source-lf meta-embedded-block-py">            a.schedule(0)</span>
+<span class="source-lf meta-embedded-block-py"></span>
+<span class="source-lf meta-embedded-block-py">        # Simulate time passing before a callback occurs.</span>
+<span class="source-lf meta-embedded-block-py">        def take_time(self, a):</span>
+<span class="source-lf meta-embedded-block-py">            # The best Python can offer short of directly using ctypes to call nanosleep</span>
+<span class="source-lf meta-embedded-block-py">            self.time.sleep(0.1)</span>
+<span class="source-lf meta-embedded-block-py">            self.callback(a)</span>
+<span class="source-lf meta-embedded-block-py">            return None</span>
+<span class="source-lf meta-embedded-block-py">    </span><span class="source-lf meta-embedded-block-py">=}</span>
+<span class="source-lf"></span>
+<span class="source-lf">    </span><span class="source-lf storage-modifier-lflang">state</span><span class="source-lf"> threads(</span><span class="source-lf meta-embedded-block-py">{=</span><span class="source-lf meta-embedded-block-py"> list() </span><span class="source-lf meta-embedded-block-py">=}</span><span class="source-lf">)</span>
+<span class="source-lf">    </span><span class="source-lf storage-modifier-lflang">state</span><span class="source-lf"> expected_time(</span><span class="source-lf constant-numeric-int-lflang">100</span><span class="source-lf"> </span><span class="source-lf constant-numeric-lflang">msec</span><span class="source-lf">)</span>
+<span class="source-lf">    </span><span class="source-lf storage-modifier-lflang">state</span><span class="source-lf"> toggle(</span><span class="source-lf constant-language-lflang">false</span><span class="source-lf">)</span>
+<span class="source-lf"></span>
+<span class="source-lf">    </span><span class="source-lf storage-modifier-lflang">physical</span><span class="source-lf"> </span><span class="source-lf storage-modifier-lflang">action</span><span class="source-lf"> a(</span><span class="source-lf constant-numeric-int-lflang">100</span><span class="source-lf"> </span><span class="source-lf constant-numeric-lflang">msec</span><span class="source-lf">)</span>
+<span class="source-lf">    </span><span class="source-lf storage-modifier-lflang">state</span><span class="source-lf"> i(</span><span class="source-lf constant-numeric-int-lflang">0</span><span class="source-lf">)</span>
+<span class="source-lf"></span>
+<span class="source-lf">    </span><span class="source-lf keyword-control-lflang">reaction</span><span class="source-lf">(</span><span class="source-lf support-variable-lflang">startup</span><span class="source-lf">) </span><span class="source-lf keyword-operator-lflang">-></span><span class="source-lf"> a </span><span class="source-lf meta-embedded-block-py">{=</span>
+<span class="source-lf meta-embedded-block-py">        # start new thread, provide callback</span>
+<span class="source-lf meta-embedded-block-py">        x = self.threading.Thread(target=self.take_time, args=(a,))</span>
+<span class="source-lf meta-embedded-block-py">        self.threads.append(x)</span>
+<span class="source-lf meta-embedded-block-py">        x.start()</span>
+<span class="source-lf meta-embedded-block-py">    </span><span class="source-lf meta-embedded-block-py">=}</span>
+<span class="source-lf"></span>
+<span class="source-lf">    </span><span class="source-lf keyword-control-lflang">reaction</span><span class="source-lf">(a) </span><span class="source-lf meta-embedded-block-py">{=</span>
+<span class="source-lf meta-embedded-block-py">        elapsed_time = lf.time.logical_elapsed()</span>
+<span class="source-lf meta-embedded-block-py">        print("Asynchronous callback {:d}: Assigned logical time greater than start time by {:d} nsec.".format(self.i, elapsed_time));</span>
+<span class="source-lf meta-embedded-block-py">        self.i += 1</span>
+<span class="source-lf meta-embedded-block-py">        if elapsed_time <= self.expected_time:</span>
+<span class="source-lf meta-embedded-block-py">            sys.stderr.write("ERROR: Expected logical time to be larger than {:d}.".format(self.expected_time));</span>
+<span class="source-lf meta-embedded-block-py">            exit(1)</span>
+<span class="source-lf meta-embedded-block-py">        if self.toggle:</span>
+<span class="source-lf meta-embedded-block-py">            self.toggle = False</span>
+<span class="source-lf meta-embedded-block-py">            self.expected_time += 200000000</span>
+<span class="source-lf meta-embedded-block-py">        else:</span>
+<span class="source-lf meta-embedded-block-py">            self.toggle = True</span>
+<span class="source-lf meta-embedded-block-py">    </span><span class="source-lf meta-embedded-block-py">=}</span>
+<span class="source-lf">}</span>
+<span class="source-lf"></span>
