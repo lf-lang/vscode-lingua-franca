@@ -4,6 +4,7 @@ import * as vsctm from "vscode-textmate"
 import fs from "fs"
 import path from "path"
 import glob from 'glob';
+import { green, red } from 'colorette';
 import dependency_status, { DependencyStatus } from './dependency_status';
 
 const root = path.join(__dirname, "..", ".." , "..")
@@ -77,7 +78,14 @@ suite('test syntax highlighting', () => {
             const testPath = path.resolve(root, "test", "known-good", relPath.replace(".lf", ".txt"))
             if (fs.existsSync(testPath)) {
                 const knownGood = fs.readFileSync(testPath).toString()
-                expect(normalizeEol(annotated)).to.eql(normalizeEol(knownGood));
+                process.stdout.write(`checking ${path.basename(testPath)}...`)
+                try {
+                    expect(normalizeEol(annotated)).to.eql(normalizeEol(knownGood));
+                } catch (e) {
+                    console.log(` ${red('✗')}`)
+                    throw e;
+                }
+                console.log(` ${green('✓')}`)
             } else {
                 console.log(`Found LF integration test at "${file} without a corresponding annotated". Creating corresponding annotated file at ${testPath}.`)
                 fs.mkdirSync(path.dirname(testPath), { recursive: true })
