@@ -1,0 +1,23 @@
+<span class="source-lf comment-line-double-dash-lflang">// tests that the time type can be nested in type arguments.</span>
+<span class="source-lf meta-targetspec-lflang keyword-control-lflang">target</span><span class="source-lf meta-targetspec-lflang"> </span><span class="source-lf meta-targetspec-lflang constant-language-lflang">Rust</span>
+<span class="source-lf"></span>
+<span class="source-lf storage-modifier-lflang">reactor</span><span class="source-lf"> </span><span class="source-lf entity-name-type-lflang">R</span><span class="source-lf"> {</span>
+<span class="source-lf">    </span><span class="source-lf storage-modifier-lflang">input</span><span class="source-lf"> in: </span><span class="source-lf entity-name-type-lflang">Vec</span><span class="source-lf"><</span><span class="source-lf storage-type-lflang">time</span><span class="source-lf">></span>
+<span class="source-lf">    </span><span class="source-lf storage-modifier-lflang">output</span><span class="source-lf"> out: </span><span class="source-lf entity-name-type-lflang">Vec</span><span class="source-lf"><</span><span class="source-lf storage-type-lflang">time</span><span class="source-lf">></span>
+<span class="source-lf"></span>
+<span class="source-lf">    in </span><span class="source-lf keyword-operator-lflang">-></span><span class="source-lf"> out</span>
+<span class="source-lf"></span>
+<span class="source-lf">    </span><span class="source-lf keyword-control-lflang">reaction</span><span class="source-lf">(in) {</span><span class="source-lf keyword-operator-lflang">=</span>
+<span class="source-lf">        </span><span class="source-lf variable-other-constant-reactorinstance-lflang">ctx</span><span class="source-lf keyword-operator-lflang">.</span><span class="source-lf variable-other-lflang">use_ref</span><span class="source-lf">(r</span><span class="source-lf comment-line-double-dash-lflang">#in, |a| {</span>
+<span class="source-lf">            assert_eq!(a, Some(&vec![delay!(</span><span class="source-lf constant-numeric-int-lflang">20</span><span class="source-lf"> ms)]));</span>
+<span class="source-lf">            println!(</span><span class="source-lf string-quoted-double-lflang">"</span><span class="source-lf string-quoted-double-lflang">success</span><span class="source-lf string-quoted-double-lflang">"</span><span class="source-lf">);</span>
+<span class="source-lf">        });</span>
+<span class="source-lf">    </span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf">}</span>
+<span class="source-lf">}</span>
+<span class="source-lf"></span>
+<span class="source-lf storage-modifier-lflang">main</span><span class="source-lf"> </span><span class="source-lf storage-modifier-lflang">reactor</span><span class="source-lf"> {</span>
+<span class="source-lf">    </span><span class="source-lf variable-other-constant-reactorinstance-lflang">p</span><span class="source-lf"> </span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf"> </span><span class="source-lf keyword-operator-new-lflang">new</span><span class="source-lf"> </span><span class="source-lf entity-name-type-lflang">R</span><span class="source-lf">()</span>
+<span class="source-lf"></span>
+<span class="source-lf">    </span><span class="source-lf keyword-control-lflang">reaction</span><span class="source-lf">(</span><span class="source-lf support-variable-lflang">startup</span><span class="source-lf">) </span><span class="source-lf keyword-operator-lflang">-></span><span class="source-lf"> </span><span class="source-lf variable-other-constant-reactorinstance-lflang">p</span><span class="source-lf keyword-operator-lflang">.</span><span class="source-lf variable-other-lflang">in</span><span class="source-lf"> {</span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf"> </span><span class="source-lf variable-other-constant-reactorinstance-lflang">ctx</span><span class="source-lf keyword-operator-lflang">.</span><span class="source-lf variable-other-lflang">set</span><span class="source-lf">(p__in, vec![delay!(</span><span class="source-lf constant-numeric-int-lflang">20</span><span class="source-lf"> ms)]); </span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf">}</span>
+<span class="source-lf">}</span>
+<span class="source-lf"></span>
