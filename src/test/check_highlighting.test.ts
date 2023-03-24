@@ -78,14 +78,13 @@ suite('test syntax highlighting', () => {
             const testPath = path.resolve(root, "test", "known-good", relPath.replace(".lf", ".txt"))
             if (fs.existsSync(testPath)) {
                 const knownGood = fs.readFileSync(testPath).toString()
-                process.stdout.write(`checking ${relPath}...`)
                 try {
                     expect(normalizeEol(annotated)).to.eql(normalizeEol(knownGood));
                 } catch (e) {
-                    console.log(` ${red('✗')}`)
+                    console.log(`${relPath} ${red('✗')}`)
                     throw e;
                 }
-                console.log(` ${green('✓')}`)
+                console.log(`${relPath} ${green('✓')}`)
             } else {
                 console.log(`Found LF integration test at "${file} without a corresponding annotated". Creating corresponding annotated file at ${testPath}.`)
                 fs.mkdirSync(path.dirname(testPath), { recursive: true })
