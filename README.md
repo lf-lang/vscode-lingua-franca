@@ -28,6 +28,15 @@ This extension adds language support for [Lingua Franca (LF)](https://www.lf-lan
 ## Requirements
 This extension requires **Java 17 or up** in order to run its embedded Lingua Franca language server. You might need to install additional software to be able to build or execute target code produced by the Lingua Franca compiler. The extension reports missing dependencies upon attempting to build or run.
 
+## Settings
+
+Automatic code generation is enabled by default to allow target code to be validated on save. To disable automatic code generation, add the following to `.vscode/settings.json`:
+```json
+{
+    "linguafranca.generateCodeOnSave": false
+}
+```
+
 ## Contributing
 We very much appreciate contributions in the form of 
 [code, tests, documentation](https://github.com/lf-lang/vscode-lingua-franca/pulls), [bug reports, and feature requests](https://github.com/lf-lang/vscode-lingua-franca/issues). 
