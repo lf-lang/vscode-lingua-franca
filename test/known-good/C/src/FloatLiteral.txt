@@ -1,0 +1,26 @@
+<span class="source-lf meta-targetspec-lflang keyword-control-lflang">target</span><span class="source-lf meta-targetspec-lflang"> </span><span class="source-lf meta-targetspec-lflang constant-language-lflang">C</span>
+<span class="source-lf"></span>
+<span class="source-lf comment-line-double-dash-lflang">// This test verifies that floating-point literals are handled correctly.</span>
+<span class="source-lf storage-modifier-lflang">main</span><span class="source-lf"> </span><span class="source-lf storage-modifier-lflang">reactor</span><span class="source-lf"> {</span>
+<span class="source-lf">    </span><span class="source-lf keyword-control-lflang">preamble</span><span class="source-lf"> {</span><span class="source-lf keyword-operator-lflang">=</span>
+<span class="source-lf comment-line-double-dash-lflang">        </span><span class="source-lf comment-line-double-dash-lflang">#include <math.h></span>
+<span class="source-lf">    </span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf">}</span>
+<span class="source-lf"></span>
+<span class="source-lf">    </span><span class="source-lf storage-modifier-lflang">state</span><span class="source-lf"> N:</span><span class="source-lf"> </span><span class="source-lf storage-type-lflang">double</span><span class="source-lf">(</span><span class="source-lf constant-numeric-float-lflang">6.0221409e+23</span><span class="source-lf">)</span>
+<span class="source-lf">    </span><span class="source-lf storage-modifier-lflang">state</span><span class="source-lf"> charge:</span><span class="source-lf"> </span><span class="source-lf storage-type-lflang">double</span><span class="source-lf">(</span><span class="source-lf keyword-operator-lflang">-</span><span class="source-lf constant-numeric-float-lflang">1.6021766E-19</span><span class="source-lf">)</span>
+<span class="source-lf">    </span><span class="source-lf storage-modifier-lflang">state</span><span class="source-lf"> minus_epsilon:</span><span class="source-lf"> </span><span class="source-lf storage-type-lflang">double</span><span class="source-lf">(</span><span class="source-lf keyword-operator-lflang">-</span><span class="source-lf keyword-operator-lflang">.</span><span class="source-lf">01e0)</span>
+<span class="source-lf">    </span><span class="source-lf storage-modifier-lflang">state</span><span class="source-lf"> expected:</span><span class="source-lf"> </span><span class="source-lf storage-type-lflang">double</span><span class="source-lf">(</span><span class="source-lf keyword-operator-lflang">.</span><span class="source-lf">964853323188E5)</span>
+<span class="source-lf"></span>
+<span class="source-lf">    </span><span class="source-lf keyword-control-lflang">reaction</span><span class="source-lf">(</span><span class="source-lf support-variable-lflang">startup</span><span class="source-lf">) {</span><span class="source-lf keyword-operator-lflang">=</span>
+<span class="source-lf">        double F </span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf"> </span><span class="source-lf keyword-operator-lflang">-</span><span class="source-lf"> self</span><span class="source-lf keyword-operator-lflang">-></span><span class="source-lf">N </span><span class="source-lf keyword-operator-lflang">*</span><span class="source-lf"> self</span><span class="source-lf keyword-operator-lflang">-></span><span class="source-lf">charge;</span>
+<span class="source-lf">        if (fabs(F </span><span class="source-lf keyword-operator-lflang">-</span><span class="source-lf"> self</span><span class="source-lf keyword-operator-lflang">-></span><span class="source-lf">expected) < fabs(self</span><span class="source-lf keyword-operator-lflang">-></span><span class="source-lf">minus_epsilon)) {</span>
+<span class="source-lf">            lf_print(</span><span class="source-lf string-quoted-double-lflang">"</span><span class="source-lf string-quoted-double-lflang">The Faraday constant is roughly %f.</span><span class="source-lf string-quoted-double-lflang">"</span><span class="source-lf">, F);</span>
+<span class="source-lf">        } else {</span>
+<span class="source-lf">            lf_print_error_and_exit(</span>
+<span class="source-lf">                </span><span class="source-lf string-quoted-double-lflang">"</span><span class="source-lf string-quoted-double-lflang">ERROR: Expected %f but computed %f.</span><span class="source-lf string-quoted-double-lflang">"</span><span class="source-lf">,</span>
+<span class="source-lf">                self</span><span class="source-lf keyword-operator-lflang">-></span><span class="source-lf">expected, F</span>
+<span class="source-lf">            );</span>
+<span class="source-lf">        }</span>
+<span class="source-lf">    </span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf">}</span>
+<span class="source-lf">}</span>
+<span class="source-lf"></span>

@@ -1,0 +1,13 @@
+<span class="source-lf comment-line-double-dash-lflang">// This is used by the test for the ability to import a reactor definition that</span>
+<span class="source-lf comment-line-double-dash-lflang">// itself imports a reactor definition.</span>
+<span class="source-lf meta-targetspec-lflang keyword-control-lflang">target</span><span class="source-lf meta-targetspec-lflang"> </span><span class="source-lf meta-targetspec-lflang constant-language-lflang">Rust</span>
+<span class="source-lf"></span>
+<span class="source-lf storage-modifier-lflang">reactor</span><span class="source-lf"> </span><span class="source-lf entity-name-type-lflang">ImportedAgain</span><span class="source-lf"> {</span>
+<span class="source-lf">    </span><span class="source-lf storage-modifier-lflang">input</span><span class="source-lf"> x: </span><span class="source-lf entity-name-type-lflang">u32</span>
+<span class="source-lf"></span>
+<span class="source-lf">    </span><span class="source-lf keyword-control-lflang">reaction</span><span class="source-lf">(x) {</span><span class="source-lf keyword-operator-lflang">=</span>
+<span class="source-lf">        assert_eq!(Some(</span><span class="source-lf constant-numeric-int-lflang">42</span><span class="source-lf">), </span><span class="source-lf variable-other-constant-reactorinstance-lflang">ctx</span><span class="source-lf keyword-operator-lflang">.</span><span class="source-lf variable-other-lflang">get</span><span class="source-lf">(x));</span>
+<span class="source-lf">        println!(</span><span class="source-lf string-quoted-double-lflang">"</span><span class="source-lf string-quoted-double-lflang">success</span><span class="source-lf string-quoted-double-lflang">"</span><span class="source-lf">);</span>
+<span class="source-lf">    </span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf">}</span>
+<span class="source-lf">}</span>
+<span class="source-lf"></span>

@@ -1,0 +1,15 @@
+<span class="source-lf comment-block-lflang">/**</span>
+<span class="source-lf comment-block-lflang"> * Tests that `shutdown` is triggered even if the program exits because of</span>
+<span class="source-lf comment-block-lflang"> * timeout target property.</span>
+<span class="source-lf comment-block-lflang"> </span><span class="source-lf comment-block-lflang">*/</span>
+<span class="source-lf meta-targetspec-lflang keyword-control-lflang">target</span><span class="source-lf meta-targetspec-lflang"> </span><span class="source-lf meta-targetspec-lflang constant-language-lflang">Rust</span><span class="source-lf meta-targetspec-lflang"> {</span>
+<span class="source-lf meta-targetspec-lflang">    </span><span class="source-lf meta-targetspec-lflang variable-parameter-lflang">timeout</span><span class="source-lf meta-targetspec-lflang">: </span><span class="source-lf meta-targetspec-lflang constant-numeric-int-lflang">30</span><span class="source-lf meta-targetspec-lflang"> </span><span class="source-lf meta-targetspec-lflang constant-numeric-lflang">msec</span>
+<span class="source-lf meta-targetspec-lflang">}</span>
+<span class="source-lf"></span>
+<span class="source-lf storage-modifier-lflang">main</span><span class="source-lf"> </span><span class="source-lf storage-modifier-lflang">reactor</span><span class="source-lf"> </span><span class="source-lf entity-name-type-lflang">StopTimeout</span><span class="source-lf"> {</span>
+<span class="source-lf">    </span><span class="source-lf keyword-control-lflang">reaction</span><span class="source-lf">(</span><span class="source-lf support-variable-lflang">shutdown</span><span class="source-lf">) {</span><span class="source-lf keyword-operator-lflang">=</span>
+<span class="source-lf">        assert_tag_is!(ctx, T0 </span><span class="source-lf keyword-operator-lflang">+</span><span class="source-lf"> </span><span class="source-lf constant-numeric-int-lflang">30</span><span class="source-lf"> ms);</span>
+<span class="source-lf">        println!(</span><span class="source-lf string-quoted-double-lflang">"</span><span class="source-lf string-quoted-double-lflang">Success!</span><span class="source-lf string-quoted-double-lflang">"</span><span class="source-lf">); </span><span class="source-lf comment-line-double-dash-lflang">// if this is not printed the test failed</span>
+<span class="source-lf">    </span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf">}</span>
+<span class="source-lf">}</span>
+<span class="source-lf"></span>

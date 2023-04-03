@@ -1,0 +1,50 @@
+<span class="source-lf comment-block-lflang">/**</span>
+<span class="source-lf comment-block-lflang"> * Test a particularly simple form of a distributed deterministic system where a</span>
+<span class="source-lf comment-block-lflang"> * federation that receives timestamped messages has only those messages as</span>
+<span class="source-lf comment-block-lflang"> * triggers. Therefore, no additional coordination of the advancement of time</span>
+<span class="source-lf comment-block-lflang"> * (HLA or Ptides) is needed.</span>
+<span class="source-lf comment-block-lflang"> * @author Edward A. Lee</span>
+<span class="source-lf comment-block-lflang"> </span><span class="source-lf comment-block-lflang">*/</span>
+<span class="source-lf meta-targetspec-lflang keyword-control-lflang">target</span><span class="source-lf meta-targetspec-lflang"> </span><span class="source-lf meta-targetspec-lflang constant-language-lflang">Python</span>
+<span class="source-lf"></span>
+<span class="source-lf storage-modifier-lflang">reactor</span><span class="source-lf"> </span><span class="source-lf entity-name-type-lflang">Source</span><span class="source-lf"> {</span>
+<span class="source-lf">    </span><span class="source-lf storage-modifier-lflang">output</span><span class="source-lf"> out</span>
+<span class="source-lf"></span>
+<span class="source-lf">    </span><span class="source-lf keyword-control-lflang">reaction</span><span class="source-lf">(</span><span class="source-lf support-variable-lflang">startup</span><span class="source-lf">) </span><span class="source-lf keyword-operator-lflang">-></span><span class="source-lf"> out </span><span class="source-lf meta-embedded-block-py">{=</span>
+<span class="source-lf meta-embedded-block-py">        print("Sending 'Hello World!' message from source federate.");</span>
+<span class="source-lf meta-embedded-block-py">        out.set("Hello World!")</span>
+<span class="source-lf meta-embedded-block-py">        lf_request_stop()</span>
+<span class="source-lf meta-embedded-block-py">    </span><span class="source-lf meta-embedded-block-py">=}</span>
+<span class="source-lf">}</span>
+<span class="source-lf"></span>
+<span class="source-lf storage-modifier-lflang">reactor</span><span class="source-lf"> </span><span class="source-lf entity-name-type-lflang">Destination</span><span class="source-lf"> {</span>
+<span class="source-lf">    </span><span class="source-lf storage-modifier-lflang">input</span><span class="source-lf"> _in</span>
+<span class="source-lf">    </span><span class="source-lf storage-modifier-lflang">state</span><span class="source-lf"> received(</span><span class="source-lf constant-language-lflang">false</span><span class="source-lf">)</span>
+<span class="source-lf"></span>
+<span class="source-lf">    </span><span class="source-lf keyword-control-lflang">reaction</span><span class="source-lf">(</span><span class="source-lf support-variable-lflang">startup</span><span class="source-lf">) </span><span class="source-lf meta-embedded-block-py">{=</span><span class="source-lf meta-embedded-block-py"> print("Destination started.") </span><span class="source-lf meta-embedded-block-py">=}</span>
+<span class="source-lf"></span>
+<span class="source-lf">    </span><span class="source-lf keyword-control-lflang">reaction</span><span class="source-lf">(_in) </span><span class="source-lf meta-embedded-block-py">{=</span>
+<span class="source-lf meta-embedded-block-py">        print(f"At logical time {lf.time.logical_elapsed()}, destination received {_in.value}")</span>
+<span class="source-lf meta-embedded-block-py">        if _in.value != "Hello World!":</span>
+<span class="source-lf meta-embedded-block-py">            sys.stderr.write("ERROR: Expected to receive 'Hello World!'\n");</span>
+<span class="source-lf meta-embedded-block-py">            exit(1)</span>
+<span class="source-lf meta-embedded-block-py">        self.received = True</span>
+<span class="source-lf meta-embedded-block-py">    </span><span class="source-lf meta-embedded-block-py">=}</span>
+<span class="source-lf"></span>
+<span class="source-lf">    </span><span class="source-lf keyword-control-lflang">reaction</span><span class="source-lf">(</span><span class="source-lf support-variable-lflang">shutdown</span><span class="source-lf">) </span><span class="source-lf meta-embedded-block-py">{=</span>
+<span class="source-lf meta-embedded-block-py">        print("Shutdown invoked.")</span>
+<span class="source-lf meta-embedded-block-py">        if self.received is not True:</span>
+<span class="source-lf meta-embedded-block-py">            sys.stderr.write("ERROR: Destination did not receive the message.")</span>
+<span class="source-lf meta-embedded-block-py">            exit(1)</span>
+<span class="source-lf meta-embedded-block-py">    </span><span class="source-lf meta-embedded-block-py">=}</span>
+<span class="source-lf">}</span>
+<span class="source-lf"></span>
+<span class="source-lf storage-modifier-lflang">federated</span><span class="source-lf"> </span><span class="source-lf storage-modifier-lflang">reactor</span><span class="source-lf"> </span><span class="source-lf entity-name-type-lflang">HelloDistributed</span><span class="source-lf"> </span><span class="source-lf storage-modifier-lflang">at</span><span class="source-lf"> localhost {</span>
+<span class="source-lf comment-line-double-dash-lflang">    </span><span class="source-lf comment-line-double-dash-lflang"># reaction(startup) {= print("Printing something in top-level federated</span>
+<span class="source-lf comment-line-double-dash-lflang">    </span><span class="source-lf comment-line-double-dash-lflang"># reactor.")</span>
+<span class="source-lf comment-line-double-dash-lflang">    </span><span class="source-lf comment-line-double-dash-lflang"># =} Reactor s is in federate Source</span>
+<span class="source-lf">    </span><span class="source-lf variable-other-constant-reactorinstance-lflang">s</span><span class="source-lf"> </span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf"> </span><span class="source-lf keyword-operator-new-lflang">new</span><span class="source-lf"> </span><span class="source-lf entity-name-type-lflang">Source</span><span class="source-lf">()</span>
+<span class="source-lf">    </span><span class="source-lf variable-other-constant-reactorinstance-lflang">d</span><span class="source-lf"> </span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf"> </span><span class="source-lf keyword-operator-new-lflang">new</span><span class="source-lf"> </span><span class="source-lf entity-name-type-lflang">Destination</span><span class="source-lf">()  </span><span class="source-lf comment-line-double-dash-lflang"># Reactor d is in federate Destination</span>
+<span class="source-lf">    </span><span class="source-lf variable-other-constant-reactorinstance-lflang">s</span><span class="source-lf keyword-operator-lflang">.</span><span class="source-lf variable-other-lflang">out</span><span class="source-lf"> </span><span class="source-lf keyword-operator-lflang">-></span><span class="source-lf"> </span><span class="source-lf variable-other-constant-reactorinstance-lflang">d</span><span class="source-lf keyword-operator-lflang">.</span><span class="source-lf variable-other-lflang">_in</span><span class="source-lf">  </span><span class="source-lf comment-line-double-dash-lflang"># This version preserves the timestamp.</span>
+<span class="source-lf">}</span>
+<span class="source-lf"></span>

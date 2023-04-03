@@ -1,0 +1,46 @@
+<span class="source-lf comment-line-double-dash-lflang"># This checks that a logical action is scheduled the specified logical time</span>
+<span class="source-lf comment-line-double-dash-lflang"># after the current logical time.</span>
+<span class="source-lf meta-targetspec-lflang keyword-control-lflang">target</span><span class="source-lf meta-targetspec-lflang"> </span><span class="source-lf meta-targetspec-lflang constant-language-lflang">Python</span><span class="source-lf meta-targetspec-lflang"> {</span>
+<span class="source-lf meta-targetspec-lflang">    </span><span class="source-lf meta-targetspec-lflang variable-parameter-lflang">fast</span><span class="source-lf meta-targetspec-lflang">: </span><span class="source-lf meta-targetspec-lflang constant-language-lflang">true</span><span class="source-lf meta-targetspec-lflang">,</span>
+<span class="source-lf meta-targetspec-lflang">    </span><span class="source-lf meta-targetspec-lflang variable-parameter-lflang">timeout</span><span class="source-lf meta-targetspec-lflang">: </span><span class="source-lf meta-targetspec-lflang constant-numeric-int-lflang">3</span><span class="source-lf meta-targetspec-lflang"> </span><span class="source-lf meta-targetspec-lflang constant-numeric-lflang">sec</span>
+<span class="source-lf meta-targetspec-lflang">}</span>
+<span class="source-lf"></span>
+<span class="source-lf storage-modifier-lflang">reactor</span><span class="source-lf"> </span><span class="source-lf entity-name-type-lflang">foo</span><span class="source-lf"> {</span>
+<span class="source-lf">    </span><span class="source-lf storage-modifier-lflang">input</span><span class="source-lf"> x</span>
+<span class="source-lf">    </span><span class="source-lf storage-modifier-lflang">output</span><span class="source-lf"> y</span>
+<span class="source-lf">    </span><span class="source-lf storage-modifier-lflang">logical</span><span class="source-lf"> </span><span class="source-lf storage-modifier-lflang">action</span><span class="source-lf"> a</span>
+<span class="source-lf"></span>
+<span class="source-lf">    </span><span class="source-lf keyword-control-lflang">reaction</span><span class="source-lf">(x) </span><span class="source-lf keyword-operator-lflang">-></span><span class="source-lf"> y, a </span><span class="source-lf meta-embedded-block-py">{=</span>
+<span class="source-lf meta-embedded-block-py">        y.set(2*x.value)</span>
+<span class="source-lf meta-embedded-block-py">        # The following uses physical time, incorrectly.</span>
+<span class="source-lf meta-embedded-block-py">        a.schedule(MSEC(500))</span>
+<span class="source-lf meta-embedded-block-py">    </span><span class="source-lf meta-embedded-block-py">=}</span>
+<span class="source-lf"></span>
+<span class="source-lf">    </span><span class="source-lf keyword-control-lflang">reaction</span><span class="source-lf">(a) </span><span class="source-lf keyword-operator-lflang">-></span><span class="source-lf"> y </span><span class="source-lf meta-embedded-block-py">{=</span><span class="source-lf meta-embedded-block-py"> y.set(-42) </span><span class="source-lf meta-embedded-block-py">=}</span>
+<span class="source-lf">}</span>
+<span class="source-lf"></span>
+<span class="source-lf storage-modifier-lflang">reactor</span><span class="source-lf"> </span><span class="source-lf entity-name-type-lflang">print</span><span class="source-lf"> {</span>
+<span class="source-lf">    </span><span class="source-lf storage-modifier-lflang">state</span><span class="source-lf"> expected_time(</span><span class="source-lf constant-numeric-int-lflang">0</span><span class="source-lf">)</span>
+<span class="source-lf">    </span><span class="source-lf storage-modifier-lflang">input</span><span class="source-lf"> x</span>
+<span class="source-lf"></span>
+<span class="source-lf">    </span><span class="source-lf keyword-control-lflang">reaction</span><span class="source-lf">(x) </span><span class="source-lf meta-embedded-block-py">{=</span>
+<span class="source-lf meta-embedded-block-py">        elapsed_time = lf.time.logical_elapsed()</span>
+<span class="source-lf meta-embedded-block-py">        print("Result is ", x.value)</span>
+<span class="source-lf meta-embedded-block-py">        print("Current logical time is: ", elapsed_time)</span>
+<span class="source-lf meta-embedded-block-py">        print("Current physical time is: ", lf.time.physical_elapsed())</span>
+<span class="source-lf meta-embedded-block-py">        if elapsed_time != self.expected_time:</span>
+<span class="source-lf meta-embedded-block-py">            sys.stderr.write("ERROR: Expected logical time to be {:d}.\n".format(self.expected_time))</span>
+<span class="source-lf meta-embedded-block-py">            exit(1);</span>
+<span class="source-lf meta-embedded-block-py">        self.expected_time += MSEC(500)</span>
+<span class="source-lf meta-embedded-block-py">    </span><span class="source-lf meta-embedded-block-py">=}</span>
+<span class="source-lf">}</span>
+<span class="source-lf"></span>
+<span class="source-lf storage-modifier-lflang">main</span><span class="source-lf"> </span><span class="source-lf storage-modifier-lflang">reactor</span><span class="source-lf"> {</span>
+<span class="source-lf">    </span><span class="source-lf variable-other-constant-reactorinstance-lflang">f</span><span class="source-lf"> </span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf"> </span><span class="source-lf keyword-operator-new-lflang">new</span><span class="source-lf"> </span><span class="source-lf entity-name-type-lflang">foo</span><span class="source-lf">()</span>
+<span class="source-lf">    </span><span class="source-lf variable-other-constant-reactorinstance-lflang">p</span><span class="source-lf"> </span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf"> </span><span class="source-lf keyword-operator-new-lflang">new</span><span class="source-lf"> </span><span class="source-lf entity-name-type-lflang">print</span><span class="source-lf">()</span>
+<span class="source-lf">    </span><span class="source-lf storage-modifier-lflang">timer</span><span class="source-lf"> t(</span><span class="source-lf constant-numeric-int-lflang">0</span><span class="source-lf">, </span><span class="source-lf constant-numeric-int-lflang">1</span><span class="source-lf"> </span><span class="source-lf constant-numeric-lflang">sec</span><span class="source-lf">)</span>
+<span class="source-lf">    </span><span class="source-lf variable-other-constant-reactorinstance-lflang">f</span><span class="source-lf keyword-operator-lflang">.</span><span class="source-lf variable-other-lflang">y</span><span class="source-lf"> </span><span class="source-lf keyword-operator-lflang">-></span><span class="source-lf"> </span><span class="source-lf variable-other-constant-reactorinstance-lflang">p</span><span class="source-lf keyword-operator-lflang">.</span><span class="source-lf variable-other-lflang">x</span>
+<span class="source-lf"></span>
+<span class="source-lf">    </span><span class="source-lf keyword-control-lflang">reaction</span><span class="source-lf">(t) </span><span class="source-lf keyword-operator-lflang">-></span><span class="source-lf"> </span><span class="source-lf variable-other-constant-reactorinstance-lflang">f</span><span class="source-lf keyword-operator-lflang">.</span><span class="source-lf variable-other-lflang">x</span><span class="source-lf"> </span><span class="source-lf meta-embedded-block-py">{=</span><span class="source-lf meta-embedded-block-py"> f.x.set(42) </span><span class="source-lf meta-embedded-block-py">=}</span>
+<span class="source-lf">}</span>
+<span class="source-lf"></span>

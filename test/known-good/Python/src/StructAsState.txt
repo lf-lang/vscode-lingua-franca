@@ -1,0 +1,21 @@
+<span class="source-lf comment-line-double-dash-lflang"># Check that a state variable can have a statically initialized struct as a</span>
+<span class="source-lf comment-line-double-dash-lflang"># value.</span>
+<span class="source-lf meta-targetspec-lflang keyword-control-lflang">target</span><span class="source-lf meta-targetspec-lflang"> </span><span class="source-lf meta-targetspec-lflang constant-language-lflang">Python</span>
+<span class="source-lf"></span>
+<span class="source-lf storage-modifier-lflang">main</span><span class="source-lf"> </span><span class="source-lf storage-modifier-lflang">reactor</span><span class="source-lf"> </span><span class="source-lf entity-name-type-lflang">StructAsState</span><span class="source-lf"> {</span>
+<span class="source-lf">    </span><span class="source-lf keyword-control-lflang">preamble</span><span class="source-lf"> </span><span class="source-lf meta-embedded-block-py">{=</span>
+<span class="source-lf meta-embedded-block-py">        class hello:</span>
+<span class="source-lf meta-embedded-block-py">            def __init__(self, name, value):</span>
+<span class="source-lf meta-embedded-block-py">                self.name = name</span>
+<span class="source-lf meta-embedded-block-py">                self.value = value</span>
+<span class="source-lf meta-embedded-block-py">    </span><span class="source-lf meta-embedded-block-py">=}</span>
+<span class="source-lf">    </span><span class="source-lf storage-modifier-lflang">state</span><span class="source-lf"> s(</span><span class="source-lf meta-embedded-block-py">{=</span><span class="source-lf meta-embedded-block-py"> self.hello("Earth", 42) </span><span class="source-lf meta-embedded-block-py">=}</span><span class="source-lf">)</span>
+<span class="source-lf"></span>
+<span class="source-lf">    </span><span class="source-lf keyword-control-lflang">reaction</span><span class="source-lf">(</span><span class="source-lf support-variable-lflang">startup</span><span class="source-lf">) </span><span class="source-lf meta-embedded-block-py">{=</span>
+<span class="source-lf meta-embedded-block-py">        print("State s.name=\"{:s}\", value={:d}.".format(self.s.name, self.s.value))</span>
+<span class="source-lf meta-embedded-block-py">        if self.s.value != 42:</span>
+<span class="source-lf meta-embedded-block-py">            sys.stderr.write("FAILED: Expected 42.\n")</span>
+<span class="source-lf meta-embedded-block-py">            exit(1)</span>
+<span class="source-lf meta-embedded-block-py">    </span><span class="source-lf meta-embedded-block-py">=}</span>
+<span class="source-lf">}</span>
+<span class="source-lf"></span>

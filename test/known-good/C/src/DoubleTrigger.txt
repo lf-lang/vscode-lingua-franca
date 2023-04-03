@@ -1,0 +1,30 @@
+<span class="source-lf comment-line-double-dash-lflang">// Test that two simultaneous triggers don't cause a reaction to execute twice</span>
+<span class="source-lf comment-line-double-dash-lflang">// at the same tag.</span>
+<span class="source-lf meta-targetspec-lflang keyword-control-lflang">target</span><span class="source-lf meta-targetspec-lflang"> </span><span class="source-lf meta-targetspec-lflang constant-language-lflang">C</span><span class="source-lf meta-targetspec-lflang"> {</span>
+<span class="source-lf meta-targetspec-lflang">    </span><span class="source-lf meta-targetspec-lflang variable-parameter-lflang">timeout</span><span class="source-lf meta-targetspec-lflang">: </span><span class="source-lf meta-targetspec-lflang constant-numeric-int-lflang">1</span><span class="source-lf meta-targetspec-lflang"> </span><span class="source-lf meta-targetspec-lflang constant-numeric-lflang">sec</span><span class="source-lf meta-targetspec-lflang">,</span>
+<span class="source-lf meta-targetspec-lflang">    </span><span class="source-lf meta-targetspec-lflang variable-parameter-lflang">fast</span><span class="source-lf meta-targetspec-lflang">: </span><span class="source-lf meta-targetspec-lflang constant-language-lflang">true</span>
+<span class="source-lf meta-targetspec-lflang">}</span>
+<span class="source-lf"></span>
+<span class="source-lf storage-modifier-lflang">main</span><span class="source-lf"> </span><span class="source-lf storage-modifier-lflang">reactor</span><span class="source-lf"> </span><span class="source-lf entity-name-type-lflang">DoubleTrigger</span><span class="source-lf"> {</span>
+<span class="source-lf">    </span><span class="source-lf storage-modifier-lflang">timer</span><span class="source-lf"> t1</span>
+<span class="source-lf">    </span><span class="source-lf storage-modifier-lflang">timer</span><span class="source-lf"> t2</span>
+<span class="source-lf">    </span><span class="source-lf storage-modifier-lflang">state</span><span class="source-lf"> s:</span><span class="source-lf"> </span><span class="source-lf storage-type-lflang">int</span><span class="source-lf">(</span><span class="source-lf constant-numeric-int-lflang">0</span><span class="source-lf">)</span>
+<span class="source-lf"></span>
+<span class="source-lf">    </span><span class="source-lf keyword-control-lflang">reaction</span><span class="source-lf">(t1, t2) {</span><span class="source-lf keyword-operator-lflang">=</span>
+<span class="source-lf">        self</span><span class="source-lf keyword-operator-lflang">-></span><span class="source-lf">s</span><span class="source-lf keyword-operator-lflang">+</span><span class="source-lf keyword-operator-lflang">+</span><span class="source-lf">;</span>
+<span class="source-lf">        if (self</span><span class="source-lf keyword-operator-lflang">-></span><span class="source-lf">s > </span><span class="source-lf constant-numeric-int-lflang">1</span><span class="source-lf">) {</span>
+<span class="source-lf">            printf(</span><span class="source-lf string-quoted-double-lflang">"</span><span class="source-lf string-quoted-double-lflang">FAILURE: Reaction got triggered twice.</span><span class="source-lf string-quoted-double-lflang constant-character-escape">\n</span><span class="source-lf string-quoted-double-lflang">"</span><span class="source-lf">);</span>
+<span class="source-lf">            exit(</span><span class="source-lf constant-numeric-int-lflang">1</span><span class="source-lf">);</span>
+<span class="source-lf">        }</span>
+<span class="source-lf">    </span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf">}</span>
+<span class="source-lf"></span>
+<span class="source-lf">    </span><span class="source-lf keyword-control-lflang">reaction</span><span class="source-lf">(</span><span class="source-lf support-variable-lflang">shutdown</span><span class="source-lf">) {</span><span class="source-lf keyword-operator-lflang">=</span>
+<span class="source-lf">        if (self</span><span class="source-lf keyword-operator-lflang">-></span><span class="source-lf">s </span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf"> </span><span class="source-lf constant-numeric-int-lflang">1</span><span class="source-lf">) {</span>
+<span class="source-lf">            printf(</span><span class="source-lf string-quoted-double-lflang">"</span><span class="source-lf string-quoted-double-lflang">SUCCESS.</span><span class="source-lf string-quoted-double-lflang constant-character-escape">\n</span><span class="source-lf string-quoted-double-lflang">"</span><span class="source-lf">);</span>
+<span class="source-lf">        } else {</span>
+<span class="source-lf">            printf(</span><span class="source-lf string-quoted-double-lflang">"</span><span class="source-lf string-quoted-double-lflang">FAILURE: Reaction was never triggered.</span><span class="source-lf string-quoted-double-lflang constant-character-escape">\n</span><span class="source-lf string-quoted-double-lflang">"</span><span class="source-lf">);</span>
+<span class="source-lf">            exit(</span><span class="source-lf constant-numeric-int-lflang">1</span><span class="source-lf">);</span>
+<span class="source-lf">        }</span>
+<span class="source-lf">    </span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf">}</span>
+<span class="source-lf">}</span>
+<span class="source-lf"></span>

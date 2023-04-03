@@ -1,0 +1,54 @@
+<span class="source-lf comment-block-lflang">/**</span>
+<span class="source-lf comment-block-lflang"> * Test reading of sparse inputs on a multiport where the density of writes to</span>
+<span class="source-lf comment-block-lflang"> * the multiport is high enough to force the fallback policy to kick in.</span>
+<span class="source-lf comment-block-lflang"> </span><span class="source-lf comment-block-lflang">*/</span>
+<span class="source-lf meta-targetspec-lflang keyword-control-lflang">target</span><span class="source-lf meta-targetspec-lflang"> </span><span class="source-lf meta-targetspec-lflang constant-language-lflang">C</span><span class="source-lf meta-targetspec-lflang"> {</span>
+<span class="source-lf meta-targetspec-lflang">    </span><span class="source-lf meta-targetspec-lflang variable-parameter-lflang">timeout</span><span class="source-lf meta-targetspec-lflang">: </span><span class="source-lf meta-targetspec-lflang constant-numeric-int-lflang">20</span><span class="source-lf meta-targetspec-lflang"> ms</span>
+<span class="source-lf meta-targetspec-lflang">}</span>
+<span class="source-lf"></span>
+<span class="source-lf storage-modifier-lflang">reactor</span><span class="source-lf"> </span><span class="source-lf entity-name-type-lflang">SparseSource</span><span class="source-lf">(width: int(</span><span class="source-lf constant-numeric-int-lflang">20</span><span class="source-lf">)) {</span>
+<span class="source-lf">    </span><span class="source-lf storage-modifier-lflang">output</span><span class="source-lf">[width] out:</span><span class="source-lf"> </span><span class="source-lf storage-type-lflang">int</span>
+<span class="source-lf">    </span><span class="source-lf storage-modifier-lflang">state</span><span class="source-lf"> count:</span><span class="source-lf"> </span><span class="source-lf storage-type-lflang">int</span><span class="source-lf">(</span><span class="source-lf constant-numeric-int-lflang">0</span><span class="source-lf">)</span>
+<span class="source-lf">    </span><span class="source-lf storage-modifier-lflang">timer</span><span class="source-lf"> t(</span><span class="source-lf constant-numeric-int-lflang">0</span><span class="source-lf">, </span><span class="source-lf constant-numeric-int-lflang">1</span><span class="source-lf"> </span><span class="source-lf constant-numeric-lflang">msec</span><span class="source-lf">)</span>
+<span class="source-lf"></span>
+<span class="source-lf">    </span><span class="source-lf keyword-control-lflang">reaction</span><span class="source-lf">(t) </span><span class="source-lf keyword-operator-lflang">-></span><span class="source-lf"> out {</span><span class="source-lf keyword-operator-lflang">=</span>
+<span class="source-lf">        int next_count </span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf"> self</span><span class="source-lf keyword-operator-lflang">-></span><span class="source-lf">count </span><span class="source-lf keyword-operator-lflang">+</span><span class="source-lf"> </span><span class="source-lf constant-numeric-int-lflang">1</span><span class="source-lf">;</span>
+<span class="source-lf">        if (next_count ></span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf"> self</span><span class="source-lf keyword-operator-lflang">-></span><span class="source-lf">width) {</span>
+<span class="source-lf">            next_count </span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf"> </span><span class="source-lf constant-numeric-int-lflang">0</span><span class="source-lf">;</span>
+<span class="source-lf">        }</span>
+<span class="source-lf">        lf_set(out[self</span><span class="source-lf keyword-operator-lflang">-></span><span class="source-lf">count], self</span><span class="source-lf keyword-operator-lflang">-></span><span class="source-lf">count);</span>
+<span class="source-lf">        lf_set(out[next_count], next_count);</span>
+<span class="source-lf">        self</span><span class="source-lf keyword-operator-lflang">-></span><span class="source-lf">count </span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf"> next_count;</span>
+<span class="source-lf">    </span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf">}</span>
+<span class="source-lf">}</span>
+<span class="source-lf"></span>
+<span class="source-lf storage-modifier-lflang">reactor</span><span class="source-lf"> </span><span class="source-lf entity-name-type-lflang">SparseSink</span><span class="source-lf">(width: int(</span><span class="source-lf constant-numeric-int-lflang">20</span><span class="source-lf">)) {</span>
+<span class="source-lf">    </span><span class="source-lf storage-modifier-lflang">input</span><span class="source-lf">[width] in:</span><span class="source-lf"> </span><span class="source-lf storage-type-lflang">int</span>
+<span class="source-lf"></span>
+<span class="source-lf">    </span><span class="source-lf keyword-control-lflang">reaction</span><span class="source-lf">(in) {</span><span class="source-lf keyword-operator-lflang">=</span>
+<span class="source-lf">        struct lf_multiport_iterator_t i </span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf"> lf_multiport_iterator(in);</span>
+<span class="source-lf">        lf_print(</span><span class="source-lf string-quoted-double-lflang">"</span><span class="source-lf string-quoted-double-lflang">--------</span><span class="source-lf string-quoted-double-lflang">"</span><span class="source-lf">);</span>
+<span class="source-lf comment-line-double-dash-lflang">        </span><span class="source-lf comment-line-double-dash-lflang">// Ensure inputs are seen in order.</span>
+<span class="source-lf">        int previous </span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf"> </span><span class="source-lf keyword-operator-lflang">-</span><span class="source-lf constant-numeric-int-lflang">1</span><span class="source-lf">;</span>
+<span class="source-lf">        int channel </span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf"> lf_multiport_next(&i);</span>
+<span class="source-lf">        while(channel ></span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf"> </span><span class="source-lf constant-numeric-int-lflang">0</span><span class="source-lf">) {</span>
+<span class="source-lf">            lf_print(</span><span class="source-lf string-quoted-double-lflang">"</span><span class="source-lf string-quoted-double-lflang">Received %d on channel %d</span><span class="source-lf string-quoted-double-lflang">"</span><span class="source-lf">, in[channel]</span><span class="source-lf keyword-operator-lflang">-></span><span class="source-lf">value, channel);</span>
+<span class="source-lf comment-line-double-dash-lflang">            </span><span class="source-lf comment-line-double-dash-lflang">// The value of the input should equal the channel number.</span>
+<span class="source-lf">            if (in[channel]</span><span class="source-lf keyword-operator-lflang">-></span><span class="source-lf">value !</span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf"> channel) {</span>
+<span class="source-lf">                lf_print_error_and_exit(</span><span class="source-lf string-quoted-double-lflang">"</span><span class="source-lf string-quoted-double-lflang">Expected %d</span><span class="source-lf string-quoted-double-lflang">"</span><span class="source-lf">, channel);</span>
+<span class="source-lf">            }</span>
+<span class="source-lf">            if (channel <</span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf"> previous) {</span>
+<span class="source-lf">                lf_print_error_and_exit(</span><span class="source-lf string-quoted-double-lflang">"</span><span class="source-lf string-quoted-double-lflang">Input channels not read in order.</span><span class="source-lf string-quoted-double-lflang">"</span><span class="source-lf">);</span>
+<span class="source-lf">            }</span>
+<span class="source-lf">            previous </span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf"> channel;</span>
+<span class="source-lf">            channel </span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf"> lf_multiport_next(&i);</span>
+<span class="source-lf">        }</span>
+<span class="source-lf">    </span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf">}</span>
+<span class="source-lf">}</span>
+<span class="source-lf"></span>
+<span class="source-lf storage-modifier-lflang">main</span><span class="source-lf"> </span><span class="source-lf storage-modifier-lflang">reactor</span><span class="source-lf">(width: int(</span><span class="source-lf constant-numeric-int-lflang">10</span><span class="source-lf">)) {</span>
+<span class="source-lf">    </span><span class="source-lf variable-other-constant-reactorinstance-lflang">s</span><span class="source-lf"> </span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf"> </span><span class="source-lf keyword-operator-new-lflang">new</span><span class="source-lf"> </span><span class="source-lf entity-name-type-lflang">SparseSource</span><span class="source-lf">(width </span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf"> width)</span>
+<span class="source-lf">    </span><span class="source-lf variable-other-constant-reactorinstance-lflang">d</span><span class="source-lf"> </span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf"> </span><span class="source-lf keyword-operator-new-lflang">new</span><span class="source-lf"> </span><span class="source-lf entity-name-type-lflang">SparseSink</span><span class="source-lf">(width </span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf"> width)</span>
+<span class="source-lf">    </span><span class="source-lf variable-other-constant-reactorinstance-lflang">s</span><span class="source-lf keyword-operator-lflang">.</span><span class="source-lf variable-other-lflang">out</span><span class="source-lf"> </span><span class="source-lf keyword-operator-lflang">-></span><span class="source-lf"> </span><span class="source-lf variable-other-constant-reactorinstance-lflang">d</span><span class="source-lf keyword-operator-lflang">.</span><span class="source-lf variable-other-lflang">in</span>
+<span class="source-lf">}</span>
+<span class="source-lf"></span>

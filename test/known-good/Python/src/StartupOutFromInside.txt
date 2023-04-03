@@ -1,0 +1,19 @@
+<span class="source-lf meta-targetspec-lflang keyword-control-lflang">target</span><span class="source-lf meta-targetspec-lflang"> </span><span class="source-lf meta-targetspec-lflang constant-language-lflang">Python</span>
+<span class="source-lf"></span>
+<span class="source-lf storage-modifier-lflang">reactor</span><span class="source-lf"> </span><span class="source-lf entity-name-type-lflang">Bar</span><span class="source-lf"> {</span>
+<span class="source-lf">    </span><span class="source-lf storage-modifier-lflang">output</span><span class="source-lf"> out</span>
+<span class="source-lf"></span>
+<span class="source-lf">    </span><span class="source-lf keyword-control-lflang">reaction</span><span class="source-lf">(</span><span class="source-lf support-variable-lflang">startup</span><span class="source-lf">) </span><span class="source-lf keyword-operator-lflang">-></span><span class="source-lf"> out </span><span class="source-lf meta-embedded-block-py">{=</span><span class="source-lf meta-embedded-block-py"> out.set(42) </span><span class="source-lf meta-embedded-block-py">=}</span>
+<span class="source-lf">}</span>
+<span class="source-lf"></span>
+<span class="source-lf storage-modifier-lflang">main</span><span class="source-lf"> </span><span class="source-lf storage-modifier-lflang">reactor</span><span class="source-lf"> </span><span class="source-lf entity-name-type-lflang">StartupOutFromInside</span><span class="source-lf"> {</span>
+<span class="source-lf">    </span><span class="source-lf variable-other-constant-reactorinstance-lflang">bar</span><span class="source-lf"> </span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf"> </span><span class="source-lf keyword-operator-new-lflang">new</span><span class="source-lf"> </span><span class="source-lf entity-name-type-lflang">Bar</span><span class="source-lf">()</span>
+<span class="source-lf"></span>
+<span class="source-lf">    </span><span class="source-lf keyword-control-lflang">reaction</span><span class="source-lf">(</span><span class="source-lf support-variable-lflang">startup</span><span class="source-lf">) </span><span class="source-lf variable-other-constant-reactorinstance-lflang">bar</span><span class="source-lf keyword-operator-lflang">.</span><span class="source-lf variable-other-lflang">out</span><span class="source-lf"> </span><span class="source-lf meta-embedded-block-py">{=</span>
+<span class="source-lf meta-embedded-block-py">        print("Output from bar: ", bar.out.value)</span>
+<span class="source-lf meta-embedded-block-py">        if bar.out.value != 42:</span>
+<span class="source-lf meta-embedded-block-py">            sys.stderr.write("Expected 42!\n")</span>
+<span class="source-lf meta-embedded-block-py">            exit(1)</span>
+<span class="source-lf meta-embedded-block-py">    </span><span class="source-lf meta-embedded-block-py">=}</span>
+<span class="source-lf">}</span>
+<span class="source-lf"></span>

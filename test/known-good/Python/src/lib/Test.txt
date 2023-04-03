@@ -1,0 +1,15 @@
+<span class="source-lf meta-targetspec-lflang keyword-control-lflang">target</span><span class="source-lf meta-targetspec-lflang"> </span><span class="source-lf meta-targetspec-lflang constant-language-lflang">Python</span>
+<span class="source-lf"></span>
+<span class="source-lf storage-modifier-lflang">reactor</span><span class="source-lf"> </span><span class="source-lf entity-name-type-lflang">TestDouble</span><span class="source-lf">(expected(</span><span class="source-lf constant-numeric-float-lflang">1.0</span><span class="source-lf">, </span><span class="source-lf constant-numeric-float-lflang">1.0</span><span class="source-lf">, </span><span class="source-lf constant-numeric-float-lflang">1.0</span><span class="source-lf">, </span><span class="source-lf constant-numeric-float-lflang">1.0</span><span class="source-lf">)) {</span>
+<span class="source-lf">    </span><span class="source-lf storage-modifier-lflang">input</span><span class="source-lf"> t_in</span>
+<span class="source-lf">    </span><span class="source-lf storage-modifier-lflang">state</span><span class="source-lf"> count(</span><span class="source-lf constant-numeric-int-lflang">0</span><span class="source-lf">)</span>
+<span class="source-lf"></span>
+<span class="source-lf">    </span><span class="source-lf keyword-control-lflang">reaction</span><span class="source-lf">(t_in) </span><span class="source-lf meta-embedded-block-py">{=</span>
+<span class="source-lf meta-embedded-block-py">        print("Received: ", t_in.value)</span>
+<span class="source-lf meta-embedded-block-py">        if t_in.value != self.expected[self.count]:</span>
+<span class="source-lf meta-embedded-block-py">            sys.stderr.write("ERROR: Expected {:f}.\n".format(self.expected[self.count]))</span>
+<span class="source-lf meta-embedded-block-py">            exit(1)</span>
+<span class="source-lf meta-embedded-block-py">        self.count += 1</span>
+<span class="source-lf meta-embedded-block-py">    </span><span class="source-lf meta-embedded-block-py">=}</span>
+<span class="source-lf">}</span>
+<span class="source-lf"></span>

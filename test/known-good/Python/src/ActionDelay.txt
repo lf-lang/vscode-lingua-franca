@@ -1,0 +1,48 @@
+<span class="source-lf comment-line-double-dash-lflang"># Test logical action with delay.</span>
+<span class="source-lf meta-targetspec-lflang keyword-control-lflang">target</span><span class="source-lf meta-targetspec-lflang"> </span><span class="source-lf meta-targetspec-lflang constant-language-lflang">Python</span>
+<span class="source-lf"></span>
+<span class="source-lf storage-modifier-lflang">reactor</span><span class="source-lf"> </span><span class="source-lf entity-name-type-lflang">GeneratedDelay</span><span class="source-lf"> {</span>
+<span class="source-lf">    </span><span class="source-lf storage-modifier-lflang">input</span><span class="source-lf"> y_in</span>
+<span class="source-lf">    </span><span class="source-lf storage-modifier-lflang">output</span><span class="source-lf"> y_out</span>
+<span class="source-lf">    </span><span class="source-lf storage-modifier-lflang">state</span><span class="source-lf"> y_state(</span><span class="source-lf constant-numeric-int-lflang">0</span><span class="source-lf">)</span>
+<span class="source-lf">    </span><span class="source-lf storage-modifier-lflang">logical</span><span class="source-lf"> </span><span class="source-lf storage-modifier-lflang">action</span><span class="source-lf"> act(</span><span class="source-lf constant-numeric-int-lflang">100</span><span class="source-lf"> </span><span class="source-lf constant-numeric-lflang">msec</span><span class="source-lf">)</span>
+<span class="source-lf"></span>
+<span class="source-lf">    </span><span class="source-lf keyword-control-lflang">reaction</span><span class="source-lf">(y_in) </span><span class="source-lf keyword-operator-lflang">-></span><span class="source-lf"> act </span><span class="source-lf meta-embedded-block-py">{=</span>
+<span class="source-lf meta-embedded-block-py">        self.y_state = y_in.value</span>
+<span class="source-lf meta-embedded-block-py">        act.schedule(MSEC(0))</span>
+<span class="source-lf meta-embedded-block-py">    </span><span class="source-lf meta-embedded-block-py">=}</span>
+<span class="source-lf"></span>
+<span class="source-lf">    </span><span class="source-lf keyword-control-lflang">reaction</span><span class="source-lf">(act) </span><span class="source-lf keyword-operator-lflang">-></span><span class="source-lf"> y_out </span><span class="source-lf meta-embedded-block-py">{=</span><span class="source-lf meta-embedded-block-py"> y_out.set(self.y_state) </span><span class="source-lf meta-embedded-block-py">=}</span>
+<span class="source-lf">}</span>
+<span class="source-lf"></span>
+<span class="source-lf storage-modifier-lflang">reactor</span><span class="source-lf"> </span><span class="source-lf entity-name-type-lflang">Source</span><span class="source-lf"> {</span>
+<span class="source-lf">    </span><span class="source-lf storage-modifier-lflang">output</span><span class="source-lf"> out</span>
+<span class="source-lf"></span>
+<span class="source-lf">    </span><span class="source-lf keyword-control-lflang">reaction</span><span class="source-lf">(</span><span class="source-lf support-variable-lflang">startup</span><span class="source-lf">) </span><span class="source-lf keyword-operator-lflang">-></span><span class="source-lf"> out </span><span class="source-lf meta-embedded-block-py">{=</span><span class="source-lf meta-embedded-block-py"> out.set(1) </span><span class="source-lf meta-embedded-block-py">=}</span>
+<span class="source-lf">}</span>
+<span class="source-lf"></span>
+<span class="source-lf storage-modifier-lflang">reactor</span><span class="source-lf"> </span><span class="source-lf entity-name-type-lflang">Sink</span><span class="source-lf"> {</span>
+<span class="source-lf">    </span><span class="source-lf storage-modifier-lflang">input</span><span class="source-lf"> _in</span>
+<span class="source-lf"></span>
+<span class="source-lf">    </span><span class="source-lf keyword-control-lflang">reaction</span><span class="source-lf">(_in) </span><span class="source-lf meta-embedded-block-py">{=</span>
+<span class="source-lf meta-embedded-block-py">        elapsed_logical = lf.time.logical_elapsed()</span>
+<span class="source-lf meta-embedded-block-py">        logical = lf.time.logical()</span>
+<span class="source-lf meta-embedded-block-py">        physical = lf.time.physical()</span>
+<span class="source-lf meta-embedded-block-py">        print("Logical, physical, and elapsed logical: ", logical, physical, elapsed_logical)</span>
+<span class="source-lf meta-embedded-block-py">        if elapsed_logical != MSEC(100):</span>
+<span class="source-lf meta-embedded-block-py">            sys.stderr.write("FAILURE: Expected " + str(MSEC(100)) + " but got " + str(elapsed_logical) + ".\n")</span>
+<span class="source-lf meta-embedded-block-py">            exit(1)</span>
+<span class="source-lf meta-embedded-block-py">        else:</span>
+<span class="source-lf meta-embedded-block-py">            print("SUCCESS. Elapsed logical time is 100 msec.\n")</span>
+<span class="source-lf meta-embedded-block-py">    </span><span class="source-lf meta-embedded-block-py">=}</span>
+<span class="source-lf">}</span>
+<span class="source-lf"></span>
+<span class="source-lf storage-modifier-lflang">main</span><span class="source-lf"> </span><span class="source-lf storage-modifier-lflang">reactor</span><span class="source-lf"> </span><span class="source-lf entity-name-type-lflang">ActionDelay</span><span class="source-lf"> {</span>
+<span class="source-lf">    </span><span class="source-lf variable-other-constant-reactorinstance-lflang">source</span><span class="source-lf"> </span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf"> </span><span class="source-lf keyword-operator-new-lflang">new</span><span class="source-lf"> </span><span class="source-lf entity-name-type-lflang">Source</span><span class="source-lf">()</span>
+<span class="source-lf">    </span><span class="source-lf variable-other-constant-reactorinstance-lflang">sink</span><span class="source-lf"> </span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf"> </span><span class="source-lf keyword-operator-new-lflang">new</span><span class="source-lf"> </span><span class="source-lf entity-name-type-lflang">Sink</span><span class="source-lf">()</span>
+<span class="source-lf">    </span><span class="source-lf variable-other-constant-reactorinstance-lflang">g</span><span class="source-lf"> </span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf"> </span><span class="source-lf keyword-operator-new-lflang">new</span><span class="source-lf"> </span><span class="source-lf entity-name-type-lflang">GeneratedDelay</span><span class="source-lf">()</span>
+<span class="source-lf"></span>
+<span class="source-lf">    </span><span class="source-lf variable-other-constant-reactorinstance-lflang">source</span><span class="source-lf keyword-operator-lflang">.</span><span class="source-lf variable-other-lflang">out</span><span class="source-lf"> </span><span class="source-lf keyword-operator-lflang">-></span><span class="source-lf"> </span><span class="source-lf variable-other-constant-reactorinstance-lflang">g</span><span class="source-lf keyword-operator-lflang">.</span><span class="source-lf variable-other-lflang">y_in</span>
+<span class="source-lf">    </span><span class="source-lf variable-other-constant-reactorinstance-lflang">g</span><span class="source-lf keyword-operator-lflang">.</span><span class="source-lf variable-other-lflang">y_out</span><span class="source-lf"> </span><span class="source-lf keyword-operator-lflang">-></span><span class="source-lf"> </span><span class="source-lf variable-other-constant-reactorinstance-lflang">sink</span><span class="source-lf keyword-operator-lflang">.</span><span class="source-lf variable-other-lflang">_in</span>
+<span class="source-lf">}</span>
+<span class="source-lf"></span>

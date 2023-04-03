@@ -1,0 +1,32 @@
+<span class="source-lf comment-block-lflang">/**</span>
+<span class="source-lf comment-block-lflang"> * Basic benchmark from the Savina benchmark suite that is intended to measure</span>
+<span class="source-lf comment-block-lflang"> * message-passing overhead.</span>
+<span class="source-lf comment-block-lflang"> *</span>
+<span class="source-lf comment-block-lflang"> * This version is distributed, communicating using logical connections over</span>
+<span class="source-lf comment-block-lflang"> * sockets.</span>
+<span class="source-lf comment-block-lflang"> *</span>
+<span class="source-lf comment-block-lflang"> * See [Benchmarks wiki</span>
+<span class="source-lf comment-block-lflang"> * page](https://github.com/icyphy/lingua-franca/wiki/Benchmarks).</span>
+<span class="source-lf comment-block-lflang"> *</span>
+<span class="source-lf comment-block-lflang"> * This is based on https://www.scala-lang.org/old/node/54 See</span>
+<span class="source-lf comment-block-lflang"> * https://shamsimam.github.io/papers/2014-agere-savina.pdf.</span>
+<span class="source-lf comment-block-lflang"> *</span>
+<span class="source-lf comment-block-lflang"> * This is a distributed version, where Ping and Pong run in separate programs</span>
+<span class="source-lf comment-block-lflang"> * and can be run on different machines.</span>
+<span class="source-lf comment-block-lflang"> *</span>
+<span class="source-lf comment-block-lflang"> * There is no parallelism in this application, so it does not benefit from</span>
+<span class="source-lf comment-block-lflang"> * being being distributed.</span>
+<span class="source-lf comment-block-lflang"> *</span>
+<span class="source-lf comment-block-lflang"> * @author Edward A. Lee</span>
+<span class="source-lf comment-block-lflang"> </span><span class="source-lf comment-block-lflang">*/</span>
+<span class="source-lf meta-targetspec-lflang keyword-control-lflang">target</span><span class="source-lf meta-targetspec-lflang"> </span><span class="source-lf meta-targetspec-lflang constant-language-lflang">C</span>
+<span class="source-lf"></span>
+<span class="source-lf keyword-control-import-lflang">import</span><span class="source-lf"> </span><span class="source-lf entity-name-type-lflang">Ping</span><span class="source-lf">, </span><span class="source-lf entity-name-type-lflang">Pong</span><span class="source-lf"> </span><span class="source-lf keyword-control-import-lflang">from</span><span class="source-lf"> </span><span class="source-lf string-quoted-double-lflang">"</span><span class="source-lf string-quoted-double-lflang">PingPongDistributedPhysical.lf</span><span class="source-lf string-quoted-double-lflang">"</span>
+<span class="source-lf"></span>
+<span class="source-lf storage-modifier-lflang">federated</span><span class="source-lf"> </span><span class="source-lf storage-modifier-lflang">reactor</span><span class="source-lf">(count: int(</span><span class="source-lf constant-numeric-int-lflang">10</span><span class="source-lf">)) {</span>
+<span class="source-lf">    </span><span class="source-lf variable-other-constant-reactorinstance-lflang">ping</span><span class="source-lf"> </span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf"> </span><span class="source-lf keyword-operator-new-lflang">new</span><span class="source-lf"> </span><span class="source-lf entity-name-type-lflang">Ping</span><span class="source-lf">(count </span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf"> count)</span>
+<span class="source-lf">    </span><span class="source-lf variable-other-constant-reactorinstance-lflang">pong</span><span class="source-lf"> </span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf"> </span><span class="source-lf keyword-operator-new-lflang">new</span><span class="source-lf"> </span><span class="source-lf entity-name-type-lflang">Pong</span><span class="source-lf">(expected </span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf"> count)</span>
+<span class="source-lf">    </span><span class="source-lf variable-other-constant-reactorinstance-lflang">ping</span><span class="source-lf keyword-operator-lflang">.</span><span class="source-lf variable-other-lflang">send</span><span class="source-lf"> </span><span class="source-lf keyword-operator-lflang">-></span><span class="source-lf"> </span><span class="source-lf variable-other-constant-reactorinstance-lflang">pong</span><span class="source-lf keyword-operator-lflang">.</span><span class="source-lf variable-other-lflang">receive</span>
+<span class="source-lf">    </span><span class="source-lf variable-other-constant-reactorinstance-lflang">pong</span><span class="source-lf keyword-operator-lflang">.</span><span class="source-lf variable-other-lflang">send</span><span class="source-lf"> </span><span class="source-lf keyword-operator-lflang">-></span><span class="source-lf"> </span><span class="source-lf variable-other-constant-reactorinstance-lflang">ping</span><span class="source-lf keyword-operator-lflang">.</span><span class="source-lf variable-other-lflang">receive</span>
+<span class="source-lf">}</span>
+<span class="source-lf"></span>

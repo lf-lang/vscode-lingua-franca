@@ -1,0 +1,29 @@
+<span class="source-lf meta-targetspec-lflang keyword-control-lflang">target</span><span class="source-lf meta-targetspec-lflang"> </span><span class="source-lf meta-targetspec-lflang constant-language-lflang">C</span><span class="source-lf meta-targetspec-lflang"> {</span>
+<span class="source-lf meta-targetspec-lflang">    </span><span class="source-lf meta-targetspec-lflang variable-parameter-lflang">tracing</span><span class="source-lf meta-targetspec-lflang">: {  </span><span class="source-lf meta-targetspec-lflang comment-line-double-dash-lflang">// To test generating a custom trace file name.</span>
+<span class="source-lf meta-targetspec-lflang">        </span><span class="source-lf meta-targetspec-lflang variable-parameter-lflang">trace-file-name</span><span class="source-lf meta-targetspec-lflang">: </span><span class="source-lf meta-targetspec-lflang string-quoted-double-lflang">"</span><span class="source-lf meta-targetspec-lflang string-quoted-double-lflang">HelloWorldTrace</span><span class="source-lf meta-targetspec-lflang string-quoted-double-lflang">"</span>
+<span class="source-lf meta-targetspec-lflang">    },</span>
+<span class="source-lf">    logging: error,</span>
+<span class="source-lf">    build</span><span class="source-lf keyword-operator-lflang">-</span><span class="source-lf">type: Debug</span>
+<span class="source-lf">}</span>
+<span class="source-lf"></span>
+<span class="source-lf storage-modifier-lflang">reactor</span><span class="source-lf"> </span><span class="source-lf entity-name-type-lflang">HelloWorld2</span><span class="source-lf"> {</span>
+<span class="source-lf">    </span><span class="source-lf storage-modifier-lflang">state</span><span class="source-lf"> success:</span><span class="source-lf"> </span><span class="source-lf storage-type-lflang">bool</span><span class="source-lf">(</span><span class="source-lf constant-language-lflang">false</span><span class="source-lf">)</span>
+<span class="source-lf"></span>
+<span class="source-lf">    </span><span class="source-lf keyword-control-lflang">reaction</span><span class="source-lf">(</span><span class="source-lf support-variable-lflang">startup</span><span class="source-lf">) {</span><span class="source-lf keyword-operator-lflang">=</span>
+<span class="source-lf">        printf(</span><span class="source-lf string-quoted-double-lflang">"</span><span class="source-lf string-quoted-double-lflang">Hello World.</span><span class="source-lf string-quoted-double-lflang constant-character-escape">\n</span><span class="source-lf string-quoted-double-lflang">"</span><span class="source-lf">);</span>
+<span class="source-lf">        self</span><span class="source-lf keyword-operator-lflang">-></span><span class="source-lf">success </span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf"> </span><span class="source-lf constant-language-lflang">true</span><span class="source-lf">;</span>
+<span class="source-lf">    </span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf">}</span>
+<span class="source-lf"></span>
+<span class="source-lf">    </span><span class="source-lf keyword-control-lflang">reaction</span><span class="source-lf">(</span><span class="source-lf support-variable-lflang">shutdown</span><span class="source-lf">) {</span><span class="source-lf keyword-operator-lflang">=</span>
+<span class="source-lf">        printf(</span><span class="source-lf string-quoted-double-lflang">"</span><span class="source-lf string-quoted-double-lflang">Shutdown invoked.</span><span class="source-lf string-quoted-double-lflang constant-character-escape">\n</span><span class="source-lf string-quoted-double-lflang">"</span><span class="source-lf">);</span>
+<span class="source-lf">        if (!self</span><span class="source-lf keyword-operator-lflang">-></span><span class="source-lf">success) {</span>
+<span class="source-lf">            fprintf(stderr, </span><span class="source-lf string-quoted-double-lflang">"</span><span class="source-lf string-quoted-double-lflang">ERROR: startup reaction not executed.</span><span class="source-lf string-quoted-double-lflang constant-character-escape">\n</span><span class="source-lf string-quoted-double-lflang">"</span><span class="source-lf">);</span>
+<span class="source-lf">            exit(</span><span class="source-lf constant-numeric-int-lflang">1</span><span class="source-lf">);</span>
+<span class="source-lf">        }</span>
+<span class="source-lf">    </span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf">}</span>
+<span class="source-lf">}</span>
+<span class="source-lf"></span>
+<span class="source-lf storage-modifier-lflang">main</span><span class="source-lf"> </span><span class="source-lf storage-modifier-lflang">reactor</span><span class="source-lf"> </span><span class="source-lf entity-name-type-lflang">HelloWorld</span><span class="source-lf"> {</span>
+<span class="source-lf">    </span><span class="source-lf variable-other-constant-reactorinstance-lflang">a</span><span class="source-lf"> </span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf"> </span><span class="source-lf keyword-operator-new-lflang">new</span><span class="source-lf"> </span><span class="source-lf entity-name-type-lflang">HelloWorld2</span><span class="source-lf">()</span>
+<span class="source-lf">}</span>
+<span class="source-lf"></span>

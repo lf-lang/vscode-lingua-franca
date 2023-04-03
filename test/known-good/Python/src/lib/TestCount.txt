@@ -1,0 +1,34 @@
+<span class="source-lf comment-block-lflang">/**</span>
+<span class="source-lf comment-block-lflang"> * Test that a counting sequence of inputs starts with the specified start</span>
+<span class="source-lf comment-block-lflang"> * parameter value, increments by the specified stride, and receives the</span>
+<span class="source-lf comment-block-lflang"> * specified number of inputs.</span>
+<span class="source-lf comment-block-lflang"> *</span>
+<span class="source-lf comment-block-lflang"> * @param start The starting value for the expected inputs. Default is 1.</span>
+<span class="source-lf comment-block-lflang"> * @param stride The increment for the inputs. Default is 1.</span>
+<span class="source-lf comment-block-lflang"> * @param num_inputs The number of inputs expected. Default is 1.</span>
+<span class="source-lf comment-block-lflang"> </span><span class="source-lf comment-block-lflang">*/</span>
+<span class="source-lf meta-targetspec-lflang keyword-control-lflang">target</span><span class="source-lf meta-targetspec-lflang"> </span><span class="source-lf meta-targetspec-lflang constant-language-lflang">Python</span>
+<span class="source-lf"></span>
+<span class="source-lf storage-modifier-lflang">reactor</span><span class="source-lf"> </span><span class="source-lf entity-name-type-lflang">TestCount</span><span class="source-lf">(start(</span><span class="source-lf constant-numeric-int-lflang">1</span><span class="source-lf">), stride(</span><span class="source-lf constant-numeric-int-lflang">1</span><span class="source-lf">), num_inputs(</span><span class="source-lf constant-numeric-int-lflang">1</span><span class="source-lf">)) {</span>
+<span class="source-lf">    </span><span class="source-lf keyword-control-lflang">preamble</span><span class="source-lf"> </span><span class="source-lf meta-embedded-block-py">{=</span><span class="source-lf meta-embedded-block-py"> </span><span class="source-lf meta-embedded-block-py keyword-control-import-python">import</span><span class="source-lf meta-embedded-block-py"> sys </span><span class="source-lf meta-embedded-block-py">=}</span>
+<span class="source-lf">    </span><span class="source-lf storage-modifier-lflang">state</span><span class="source-lf"> count(start)</span>
+<span class="source-lf">    </span><span class="source-lf storage-modifier-lflang">state</span><span class="source-lf"> inputs_received(</span><span class="source-lf constant-numeric-int-lflang">0</span><span class="source-lf">)</span>
+<span class="source-lf">    </span><span class="source-lf storage-modifier-lflang">input</span><span class="source-lf"> in_</span>
+<span class="source-lf"></span>
+<span class="source-lf">    </span><span class="source-lf keyword-control-lflang">reaction</span><span class="source-lf">(in_) </span><span class="source-lf meta-embedded-block-py">{=</span>
+<span class="source-lf meta-embedded-block-py">        print("Received {}.".format(in_.value))</span>
+<span class="source-lf meta-embedded-block-py">        if in_.value != self.count:</span>
+<span class="source-lf meta-embedded-block-py">            print("Expected {}.".format(self.count))</span>
+<span class="source-lf meta-embedded-block-py">            self.sys.exit(1)</span>
+<span class="source-lf meta-embedded-block-py">        self.count += self.stride;</span>
+<span class="source-lf meta-embedded-block-py">        self.inputs_received += 1;</span>
+<span class="source-lf meta-embedded-block-py">    </span><span class="source-lf meta-embedded-block-py">=}</span>
+<span class="source-lf"></span>
+<span class="source-lf">    </span><span class="source-lf keyword-control-lflang">reaction</span><span class="source-lf">(</span><span class="source-lf support-variable-lflang">shutdown</span><span class="source-lf">) </span><span class="source-lf meta-embedded-block-py">{=</span>
+<span class="source-lf meta-embedded-block-py">        print("Shutdown invoked.")</span>
+<span class="source-lf meta-embedded-block-py">        if self.inputs_received != self.num_inputs:</span>
+<span class="source-lf meta-embedded-block-py">            print("Expected to receive {} inputs, but got {}.".format(self.num_inputs, self.inputs_received))</span>
+<span class="source-lf meta-embedded-block-py">            self.sys.exit(1)</span>
+<span class="source-lf meta-embedded-block-py">    </span><span class="source-lf meta-embedded-block-py">=}</span>
+<span class="source-lf">}</span>
+<span class="source-lf"></span>

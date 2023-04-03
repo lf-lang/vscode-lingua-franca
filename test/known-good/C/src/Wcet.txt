@@ -1,0 +1,46 @@
+<span class="source-lf comment-line-double-dash-lflang">// Setup for WCET analysis of Worker</span>
+<span class="source-lf meta-targetspec-lflang keyword-control-lflang">target</span><span class="source-lf meta-targetspec-lflang"> </span><span class="source-lf meta-targetspec-lflang constant-language-lflang">C</span>
+<span class="source-lf"></span>
+<span class="source-lf storage-modifier-lflang">reactor</span><span class="source-lf"> </span><span class="source-lf entity-name-type-lflang">Source</span><span class="source-lf"> {</span>
+<span class="source-lf">    </span><span class="source-lf storage-modifier-lflang">output</span><span class="source-lf"> out1:</span><span class="source-lf"> </span><span class="source-lf storage-type-lflang">int</span>
+<span class="source-lf">    </span><span class="source-lf storage-modifier-lflang">output</span><span class="source-lf"> out2:</span><span class="source-lf"> </span><span class="source-lf storage-type-lflang">int</span>
+<span class="source-lf">    </span><span class="source-lf storage-modifier-lflang">timer</span><span class="source-lf"> t</span>
+<span class="source-lf"></span>
+<span class="source-lf">    </span><span class="source-lf keyword-control-lflang">reaction</span><span class="source-lf">(t) </span><span class="source-lf keyword-operator-lflang">-></span><span class="source-lf"> out1, out2 {</span><span class="source-lf keyword-operator-lflang">=</span>
+<span class="source-lf">        lf_set(out1, </span><span class="source-lf constant-numeric-int-lflang">5</span><span class="source-lf">);</span>
+<span class="source-lf">        lf_set(out2, </span><span class="source-lf constant-numeric-int-lflang">10</span><span class="source-lf">);</span>
+<span class="source-lf">    </span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf">}</span>
+<span class="source-lf">}</span>
+<span class="source-lf"></span>
+<span class="source-lf storage-modifier-lflang">reactor</span><span class="source-lf"> </span><span class="source-lf entity-name-type-lflang">Work</span><span class="source-lf"> {</span>
+<span class="source-lf">    </span><span class="source-lf storage-modifier-lflang">input</span><span class="source-lf"> in1:</span><span class="source-lf"> </span><span class="source-lf storage-type-lflang">int</span>
+<span class="source-lf">    </span><span class="source-lf storage-modifier-lflang">input</span><span class="source-lf"> in2:</span><span class="source-lf"> </span><span class="source-lf storage-type-lflang">int</span>
+<span class="source-lf">    </span><span class="source-lf storage-modifier-lflang">output</span><span class="source-lf"> out:</span><span class="source-lf"> </span><span class="source-lf storage-type-lflang">int</span>
+<span class="source-lf"></span>
+<span class="source-lf">    </span><span class="source-lf keyword-control-lflang">reaction</span><span class="source-lf">(in1, in2) </span><span class="source-lf keyword-operator-lflang">-></span><span class="source-lf"> out {</span><span class="source-lf keyword-operator-lflang">=</span>
+<span class="source-lf">        int ret;</span>
+<span class="source-lf">        if (in1</span><span class="source-lf keyword-operator-lflang">-></span><span class="source-lf">value > </span><span class="source-lf constant-numeric-int-lflang">10</span><span class="source-lf">) {</span>
+<span class="source-lf">            ret </span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf"> in2</span><span class="source-lf keyword-operator-lflang">-></span><span class="source-lf">value </span><span class="source-lf keyword-operator-lflang">*</span><span class="source-lf"> in1</span><span class="source-lf keyword-operator-lflang">-></span><span class="source-lf">value;</span>
+<span class="source-lf">        } else {</span>
+<span class="source-lf">            ret </span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf"> in2</span><span class="source-lf keyword-operator-lflang">-></span><span class="source-lf">value </span><span class="source-lf keyword-operator-lflang">+</span><span class="source-lf"> in1</span><span class="source-lf keyword-operator-lflang">-></span><span class="source-lf">value;</span>
+<span class="source-lf">        }</span>
+<span class="source-lf">        lf_set(out, ret);</span>
+<span class="source-lf">    </span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf">}</span>
+<span class="source-lf">}</span>
+<span class="source-lf"></span>
+<span class="source-lf storage-modifier-lflang">reactor</span><span class="source-lf"> </span><span class="source-lf entity-name-type-lflang">Print</span><span class="source-lf"> {</span>
+<span class="source-lf">    </span><span class="source-lf storage-modifier-lflang">input</span><span class="source-lf"> in:</span><span class="source-lf"> </span><span class="source-lf storage-type-lflang">int</span>
+<span class="source-lf"></span>
+<span class="source-lf">    </span><span class="source-lf keyword-control-lflang">reaction</span><span class="source-lf">(in) {</span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf"> printf(</span><span class="source-lf string-quoted-double-lflang">"</span><span class="source-lf string-quoted-double-lflang">Received: %d</span><span class="source-lf string-quoted-double-lflang constant-character-escape">\n</span><span class="source-lf string-quoted-double-lflang">"</span><span class="source-lf">, in</span><span class="source-lf keyword-operator-lflang">-></span><span class="source-lf">value); </span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf">}</span>
+<span class="source-lf">}</span>
+<span class="source-lf"></span>
+<span class="source-lf storage-modifier-lflang">main</span><span class="source-lf"> </span><span class="source-lf storage-modifier-lflang">reactor</span><span class="source-lf"> </span><span class="source-lf entity-name-type-lflang">Wcet</span><span class="source-lf"> {</span>
+<span class="source-lf">    </span><span class="source-lf variable-other-constant-reactorinstance-lflang">source</span><span class="source-lf"> </span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf"> </span><span class="source-lf keyword-operator-new-lflang">new</span><span class="source-lf"> </span><span class="source-lf entity-name-type-lflang">Source</span><span class="source-lf">()</span>
+<span class="source-lf">    </span><span class="source-lf variable-other-constant-reactorinstance-lflang">work</span><span class="source-lf"> </span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf"> </span><span class="source-lf keyword-operator-new-lflang">new</span><span class="source-lf"> </span><span class="source-lf entity-name-type-lflang">Work</span><span class="source-lf">()</span>
+<span class="source-lf">    </span><span class="source-lf variable-other-constant-reactorinstance-lflang">print</span><span class="source-lf"> </span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf"> </span><span class="source-lf keyword-operator-new-lflang">new</span><span class="source-lf"> </span><span class="source-lf entity-name-type-lflang">Print</span><span class="source-lf">()</span>
+<span class="source-lf"></span>
+<span class="source-lf">    </span><span class="source-lf variable-other-constant-reactorinstance-lflang">source</span><span class="source-lf keyword-operator-lflang">.</span><span class="source-lf variable-other-lflang">out1</span><span class="source-lf"> </span><span class="source-lf keyword-operator-lflang">-></span><span class="source-lf"> </span><span class="source-lf variable-other-constant-reactorinstance-lflang">work</span><span class="source-lf keyword-operator-lflang">.</span><span class="source-lf variable-other-lflang">in1</span>
+<span class="source-lf">    </span><span class="source-lf variable-other-constant-reactorinstance-lflang">source</span><span class="source-lf keyword-operator-lflang">.</span><span class="source-lf variable-other-lflang">out2</span><span class="source-lf"> </span><span class="source-lf keyword-operator-lflang">-></span><span class="source-lf"> </span><span class="source-lf variable-other-constant-reactorinstance-lflang">work</span><span class="source-lf keyword-operator-lflang">.</span><span class="source-lf variable-other-lflang">in2</span>
+<span class="source-lf">    </span><span class="source-lf variable-other-constant-reactorinstance-lflang">work</span><span class="source-lf keyword-operator-lflang">.</span><span class="source-lf variable-other-lflang">out</span><span class="source-lf"> </span><span class="source-lf keyword-operator-lflang">-></span><span class="source-lf"> </span><span class="source-lf variable-other-constant-reactorinstance-lflang">print</span><span class="source-lf keyword-operator-lflang">.</span><span class="source-lf variable-other-lflang">in</span>
+<span class="source-lf">}</span>
+<span class="source-lf"></span>

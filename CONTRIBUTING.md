@@ -33,8 +33,19 @@ Maven may come with an OpenJDK, depending on how it is installed. If this JDK is
 To point `mvn` to the correct JDK, set the `JAVA_HOME` environment variable accordingly. To see which version of Java is used, run `mvn --version`.
 
 ## Running the tests
-```
+To run integration tests with the assumption that the correct dependencies are installed, run:
+```bash
 npm run test
+```
+
+To test the Textmate syntax highlighting only, run
+```bash
+npm run test-syntax
+```
+
+To save the current Textmate syntax highlighting as the correct "known good" behavior, run
+```bash
+npm run update-known-good
 ```
 
 ## Adding tests

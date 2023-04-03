@@ -1,0 +1,22 @@
+<span class="source-lf comment-block-lflang">/**</span><span class="source-lf comment-block-lflang"> Test whether timers with different periods are triggered correctly. </span><span class="source-lf comment-block-lflang">*/</span>
+<span class="source-lf meta-targetspec-lflang keyword-control-lflang">target</span><span class="source-lf meta-targetspec-lflang"> </span><span class="source-lf meta-targetspec-lflang constant-language-lflang">Python</span><span class="source-lf meta-targetspec-lflang"> {</span>
+<span class="source-lf meta-targetspec-lflang">    </span><span class="source-lf meta-targetspec-lflang variable-parameter-lflang">timeout</span><span class="source-lf meta-targetspec-lflang">: </span><span class="source-lf meta-targetspec-lflang constant-numeric-int-lflang">2</span><span class="source-lf meta-targetspec-lflang"> </span><span class="source-lf meta-targetspec-lflang constant-numeric-lflang">sec</span>
+<span class="source-lf meta-targetspec-lflang">}</span>
+<span class="source-lf"></span>
+<span class="source-lf storage-modifier-lflang">main</span><span class="source-lf"> </span><span class="source-lf storage-modifier-lflang">reactor</span><span class="source-lf"> {</span>
+<span class="source-lf">    </span><span class="source-lf storage-modifier-lflang">timer</span><span class="source-lf"> t(</span><span class="source-lf constant-numeric-int-lflang">0</span><span class="source-lf">, </span><span class="source-lf constant-numeric-int-lflang">1</span><span class="source-lf"> </span><span class="source-lf constant-numeric-lflang">sec</span><span class="source-lf">)</span>
+<span class="source-lf">    </span><span class="source-lf storage-modifier-lflang">timer</span><span class="source-lf"> t2(</span><span class="source-lf constant-numeric-int-lflang">0</span><span class="source-lf">, </span><span class="source-lf constant-numeric-int-lflang">2</span><span class="source-lf"> </span><span class="source-lf constant-numeric-lflang">sec</span><span class="source-lf">)</span>
+<span class="source-lf">    </span><span class="source-lf storage-modifier-lflang">state</span><span class="source-lf"> counter(</span><span class="source-lf constant-numeric-int-lflang">0</span><span class="source-lf">)</span>
+<span class="source-lf"></span>
+<span class="source-lf">    </span><span class="source-lf keyword-control-lflang">reaction</span><span class="source-lf">(t2) </span><span class="source-lf meta-embedded-block-py">{=</span><span class="source-lf meta-embedded-block-py"> self.counter += 2 </span><span class="source-lf meta-embedded-block-py">=}</span>
+<span class="source-lf"></span>
+<span class="source-lf">    </span><span class="source-lf keyword-control-lflang">reaction</span><span class="source-lf">(t) </span><span class="source-lf meta-embedded-block-py">{=</span><span class="source-lf meta-embedded-block-py"> self.counter -= 1 </span><span class="source-lf meta-embedded-block-py">=}</span>
+<span class="source-lf"></span>
+<span class="source-lf">    </span><span class="source-lf keyword-control-lflang">reaction</span><span class="source-lf">(</span><span class="source-lf support-variable-lflang">shutdown</span><span class="source-lf">) </span><span class="source-lf meta-embedded-block-py">{=</span>
+<span class="source-lf meta-embedded-block-py">        if self.counter != 1:</span>
+<span class="source-lf meta-embedded-block-py">            sys.stderr.write("Error: Expected {:d} and got {:d}.\n".format(1, self.counter))</span>
+<span class="source-lf meta-embedded-block-py">            exit(1)</span>
+<span class="source-lf meta-embedded-block-py">        print("SUCCESS.")</span>
+<span class="source-lf meta-embedded-block-py">    </span><span class="source-lf meta-embedded-block-py">=}</span>
+<span class="source-lf">}</span>
+<span class="source-lf"></span>

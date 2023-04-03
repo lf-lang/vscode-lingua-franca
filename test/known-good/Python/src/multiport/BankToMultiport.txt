@@ -1,0 +1,36 @@
+<span class="source-lf comment-line-double-dash-lflang"># Test bank of reactors to multiport input with id parameter in the bank.</span>
+<span class="source-lf meta-targetspec-lflang keyword-control-lflang">target</span><span class="source-lf meta-targetspec-lflang"> </span><span class="source-lf meta-targetspec-lflang constant-language-lflang">Python</span>
+<span class="source-lf"></span>
+<span class="source-lf storage-modifier-lflang">reactor</span><span class="source-lf"> </span><span class="source-lf entity-name-type-lflang">Source</span><span class="source-lf">(bank_index(</span><span class="source-lf constant-numeric-int-lflang">0</span><span class="source-lf">)) {</span>
+<span class="source-lf">    </span><span class="source-lf storage-modifier-lflang">output</span><span class="source-lf"> out</span>
+<span class="source-lf"></span>
+<span class="source-lf">    </span><span class="source-lf keyword-control-lflang">reaction</span><span class="source-lf">(</span><span class="source-lf support-variable-lflang">startup</span><span class="source-lf">) </span><span class="source-lf keyword-operator-lflang">-></span><span class="source-lf"> out </span><span class="source-lf meta-embedded-block-py">{=</span><span class="source-lf meta-embedded-block-py"> out.set(self.bank_index) </span><span class="source-lf meta-embedded-block-py">=}</span>
+<span class="source-lf">}</span>
+<span class="source-lf"></span>
+<span class="source-lf storage-modifier-lflang">reactor</span><span class="source-lf"> </span><span class="source-lf entity-name-type-lflang">Sink</span><span class="source-lf">(width(</span><span class="source-lf constant-numeric-int-lflang">4</span><span class="source-lf">)) {</span>
+<span class="source-lf">    </span><span class="source-lf storage-modifier-lflang">input</span><span class="source-lf">[width] _in</span>
+<span class="source-lf">    </span><span class="source-lf storage-modifier-lflang">state</span><span class="source-lf"> received(</span><span class="source-lf constant-language-lflang">false</span><span class="source-lf">)</span>
+<span class="source-lf"></span>
+<span class="source-lf">    </span><span class="source-lf keyword-control-lflang">reaction</span><span class="source-lf">(_in) </span><span class="source-lf meta-embedded-block-py">{=</span>
+<span class="source-lf meta-embedded-block-py">        for (idx, port) in enumerate(_in):</span>
+<span class="source-lf meta-embedded-block-py">            if port.is_present is True:</span>
+<span class="source-lf meta-embedded-block-py">                print("Received on channel {:d}: {:d}".format(idx, port.value))</span>
+<span class="source-lf meta-embedded-block-py">                self.received = True</span>
+<span class="source-lf meta-embedded-block-py">                if port.value != idx:</span>
+<span class="source-lf meta-embedded-block-py">                    sys.stderr.write("ERROR: expected {:d}\n".format(idx))</span>
+<span class="source-lf meta-embedded-block-py">                    exit(1)</span>
+<span class="source-lf meta-embedded-block-py">    </span><span class="source-lf meta-embedded-block-py">=}</span>
+<span class="source-lf"></span>
+<span class="source-lf">    </span><span class="source-lf keyword-control-lflang">reaction</span><span class="source-lf">(</span><span class="source-lf support-variable-lflang">shutdown</span><span class="source-lf">) </span><span class="source-lf meta-embedded-block-py">{=</span>
+<span class="source-lf meta-embedded-block-py">        if self.received is False:</span>
+<span class="source-lf meta-embedded-block-py">            sys.stderr.write("ERROR: Sink received no data\n")</span>
+<span class="source-lf meta-embedded-block-py">            exit(1)</span>
+<span class="source-lf meta-embedded-block-py">    </span><span class="source-lf meta-embedded-block-py">=}</span>
+<span class="source-lf">}</span>
+<span class="source-lf"></span>
+<span class="source-lf storage-modifier-lflang">main</span><span class="source-lf"> </span><span class="source-lf storage-modifier-lflang">reactor</span><span class="source-lf"> </span><span class="source-lf entity-name-type-lflang">BankToMultiport</span><span class="source-lf">(width(</span><span class="source-lf constant-numeric-int-lflang">5</span><span class="source-lf">)) {</span>
+<span class="source-lf">    </span><span class="source-lf variable-other-constant-reactorinstance-lflang">source</span><span class="source-lf"> </span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf"> </span><span class="source-lf keyword-operator-new-lflang">new</span><span class="source-lf">[width] </span><span class="source-lf entity-name-type-lflang">Source</span><span class="source-lf">()</span>
+<span class="source-lf">    </span><span class="source-lf variable-other-constant-reactorinstance-lflang">sink</span><span class="source-lf"> </span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf"> </span><span class="source-lf keyword-operator-new-lflang">new</span><span class="source-lf"> </span><span class="source-lf entity-name-type-lflang">Sink</span><span class="source-lf">(width </span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf"> width)</span>
+<span class="source-lf">    </span><span class="source-lf variable-other-constant-reactorinstance-lflang">source</span><span class="source-lf keyword-operator-lflang">.</span><span class="source-lf variable-other-lflang">out</span><span class="source-lf"> </span><span class="source-lf keyword-operator-lflang">-></span><span class="source-lf"> </span><span class="source-lf variable-other-constant-reactorinstance-lflang">sink</span><span class="source-lf keyword-operator-lflang">.</span><span class="source-lf variable-other-lflang">_in</span>
+<span class="source-lf">}</span>
+<span class="source-lf"></span>

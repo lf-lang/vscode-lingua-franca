@@ -1,0 +1,49 @@
+<span class="source-lf comment-block-lflang">/**</span>
+<span class="source-lf comment-block-lflang"> * This example creates a Protocol Buffer message and passes it to another</span>
+<span class="source-lf comment-block-lflang"> * reactor without packing and unpacking. This demonstrates that local</span>
+<span class="source-lf comment-block-lflang"> * communication, within one shared-memory machine, need not incur the overhead</span>
+<span class="source-lf comment-block-lflang"> * of packing and unpacking.</span>
+<span class="source-lf comment-block-lflang"> *</span>
+<span class="source-lf comment-block-lflang"> * To run this example first install the protocol buffers compiler from</span>
+<span class="source-lf comment-block-lflang"> * https://github.com/protocolbuffers/protobuf. It is also available from</span>
+<span class="source-lf comment-block-lflang"> * homebrew on a Mac via</span>
+<span class="source-lf comment-block-lflang"> *</span>
+<span class="source-lf comment-block-lflang"> * $ brew install protobuf</span>
+<span class="source-lf comment-block-lflang"> *</span>
+<span class="source-lf comment-block-lflang"> * Building protobuf from source is slow, so avoid doing that if possible. Next,</span>
+<span class="source-lf comment-block-lflang"> * install the Google APIs for Python</span>
+<span class="source-lf comment-block-lflang"> *</span>
+<span class="source-lf comment-block-lflang"> * $ pip3 install --upgrade google-api-python-client</span>
+<span class="source-lf comment-block-lflang"> *</span>
+<span class="source-lf comment-block-lflang"> * The code generator assumes that executables are installed within the PATH. On</span>
+<span class="source-lf comment-block-lflang"> * a Mac, this is typically at /usr/local/bin.</span>
+<span class="source-lf comment-block-lflang"> </span><span class="source-lf comment-block-lflang">*/</span>
+<span class="source-lf meta-targetspec-lflang keyword-control-lflang">target</span><span class="source-lf meta-targetspec-lflang"> </span><span class="source-lf meta-targetspec-lflang constant-language-lflang">Python</span><span class="source-lf meta-targetspec-lflang"> {</span>
+<span class="source-lf meta-targetspec-lflang">    </span><span class="source-lf meta-targetspec-lflang variable-parameter-lflang">protobufs</span><span class="source-lf meta-targetspec-lflang">: </span><span class="source-lf meta-targetspec-lflang variable-other-constant-reactorinstance-lflang">ProtoHelloWorld</span><span class="source-lf meta-targetspec-lflang keyword-operator-lflang">.</span><span class="source-lf meta-targetspec-lflang variable-other-lflang">proto</span>
+<span class="source-lf meta-targetspec-lflang">}</span>
+<span class="source-lf"></span>
+<span class="source-lf storage-modifier-lflang">reactor</span><span class="source-lf"> </span><span class="source-lf entity-name-type-lflang">SourceProto</span><span class="source-lf"> {</span>
+<span class="source-lf">    </span><span class="source-lf storage-modifier-lflang">output</span><span class="source-lf"> out</span>
+<span class="source-lf"></span>
+<span class="source-lf">    </span><span class="source-lf keyword-control-lflang">reaction</span><span class="source-lf">(</span><span class="source-lf support-variable-lflang">startup</span><span class="source-lf">) </span><span class="source-lf keyword-operator-lflang">-></span><span class="source-lf"> out </span><span class="source-lf meta-embedded-block-py">{=</span>
+<span class="source-lf meta-embedded-block-py">        message = ProtoHelloWorld.ProtoHelloWorld()</span>
+<span class="source-lf meta-embedded-block-py">        message.name = "Hello World"</span>
+<span class="source-lf meta-embedded-block-py">        message.number = 42</span>
+<span class="source-lf meta-embedded-block-py">        out.set(message)</span>
+<span class="source-lf meta-embedded-block-py">    </span><span class="source-lf meta-embedded-block-py">=}</span>
+<span class="source-lf">}</span>
+<span class="source-lf"></span>
+<span class="source-lf storage-modifier-lflang">reactor</span><span class="source-lf"> </span><span class="source-lf entity-name-type-lflang">SinkProto</span><span class="source-lf"> {</span>
+<span class="source-lf">    </span><span class="source-lf storage-modifier-lflang">input</span><span class="source-lf"> _in</span>
+<span class="source-lf"></span>
+<span class="source-lf">    </span><span class="source-lf keyword-control-lflang">reaction</span><span class="source-lf">(_in) </span><span class="source-lf meta-embedded-block-py">{=</span>
+<span class="source-lf meta-embedded-block-py">        print("Received: name='{:s}', number={:d}.".format(_in.value.name, _in.value.number))</span>
+<span class="source-lf meta-embedded-block-py">    </span><span class="source-lf meta-embedded-block-py">=}</span>
+<span class="source-lf">}</span>
+<span class="source-lf"></span>
+<span class="source-lf storage-modifier-lflang">main</span><span class="source-lf"> </span><span class="source-lf storage-modifier-lflang">reactor</span><span class="source-lf"> </span><span class="source-lf entity-name-type-lflang">ProtoNoPacking</span><span class="source-lf"> {</span>
+<span class="source-lf">    </span><span class="source-lf variable-other-constant-reactorinstance-lflang">s</span><span class="source-lf"> </span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf"> </span><span class="source-lf keyword-operator-new-lflang">new</span><span class="source-lf"> </span><span class="source-lf entity-name-type-lflang">SourceProto</span><span class="source-lf">()</span>
+<span class="source-lf">    </span><span class="source-lf variable-other-constant-reactorinstance-lflang">d</span><span class="source-lf"> </span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf"> </span><span class="source-lf keyword-operator-new-lflang">new</span><span class="source-lf"> </span><span class="source-lf entity-name-type-lflang">SinkProto</span><span class="source-lf">()</span>
+<span class="source-lf">    </span><span class="source-lf variable-other-constant-reactorinstance-lflang">s</span><span class="source-lf keyword-operator-lflang">.</span><span class="source-lf variable-other-lflang">out</span><span class="source-lf"> </span><span class="source-lf keyword-operator-lflang">-></span><span class="source-lf"> </span><span class="source-lf variable-other-constant-reactorinstance-lflang">d</span><span class="source-lf keyword-operator-lflang">.</span><span class="source-lf variable-other-lflang">_in</span>
+<span class="source-lf">}</span>
+<span class="source-lf"></span>

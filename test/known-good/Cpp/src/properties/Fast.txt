@@ -1,0 +1,29 @@
+<span class="source-lf meta-targetspec-lflang keyword-control-lflang">target</span><span class="source-lf meta-targetspec-lflang"> </span><span class="source-lf meta-targetspec-lflang constant-language-lflang">Cpp</span><span class="source-lf meta-targetspec-lflang"> {</span>
+<span class="source-lf meta-targetspec-lflang">    </span><span class="source-lf meta-targetspec-lflang variable-parameter-lflang">fast</span><span class="source-lf meta-targetspec-lflang">: </span><span class="source-lf meta-targetspec-lflang constant-language-lflang">true</span>
+<span class="source-lf meta-targetspec-lflang">}</span>
+<span class="source-lf"></span>
+<span class="source-lf storage-modifier-lflang">main</span><span class="source-lf"> </span><span class="source-lf storage-modifier-lflang">reactor</span><span class="source-lf"> {</span>
+<span class="source-lf">    </span><span class="source-lf storage-modifier-lflang">logical</span><span class="source-lf"> </span><span class="source-lf storage-modifier-lflang">action</span><span class="source-lf"> a</span>
+<span class="source-lf"></span>
+<span class="source-lf">    </span><span class="source-lf storage-modifier-lflang">state</span><span class="source-lf"> triggered:</span><span class="source-lf"> </span><span class="source-lf storage-type-lflang">bool</span><span class="source-lf">{false}</span>
+<span class="source-lf"></span>
+<span class="source-lf">    </span><span class="source-lf keyword-control-lflang">reaction</span><span class="source-lf">(</span><span class="source-lf support-variable-lflang">startup</span><span class="source-lf">) </span><span class="source-lf keyword-operator-lflang">-></span><span class="source-lf"> a {</span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf"> </span><span class="source-lf variable-other-constant-reactorinstance-lflang">a</span><span class="source-lf keyword-operator-lflang">.</span><span class="source-lf variable-other-lflang">schedule</span><span class="source-lf">(2s); </span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf">}</span>
+<span class="source-lf"></span>
+<span class="source-lf">    </span><span class="source-lf keyword-control-lflang">reaction</span><span class="source-lf">(a) {</span><span class="source-lf keyword-operator-lflang">=</span>
+<span class="source-lf">        triggered </span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf"> </span><span class="source-lf constant-language-lflang">true</span><span class="source-lf">;</span>
+<span class="source-lf">        if (get_elapsed_physical_time() ></span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf"> 2s) {</span>
+<span class="source-lf">            </span><span class="source-lf variable-other-constant-reactorinstance-lflang">std</span><span class="source-lf keyword-operator-lflang">::</span><span class="source-lf variable-other-lflang">cout</span><span class="source-lf"> << </span><span class="source-lf string-quoted-double-lflang">"</span><span class="source-lf string-quoted-double-lflang">ERROR: needed more than 2s to process the reaction</span><span class="source-lf string-quoted-double-lflang constant-character-escape">\n</span><span class="source-lf string-quoted-double-lflang">"</span><span class="source-lf">;</span>
+<span class="source-lf">            exit(</span><span class="source-lf constant-numeric-int-lflang">1</span><span class="source-lf">);</span>
+<span class="source-lf">        }</span>
+<span class="source-lf">    </span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf">}</span>
+<span class="source-lf"></span>
+<span class="source-lf">    </span><span class="source-lf keyword-control-lflang">reaction</span><span class="source-lf">(</span><span class="source-lf support-variable-lflang">shutdown</span><span class="source-lf">) {</span><span class="source-lf keyword-operator-lflang">=</span>
+<span class="source-lf">        if (triggered) {</span>
+<span class="source-lf">            </span><span class="source-lf variable-other-constant-reactorinstance-lflang">std</span><span class="source-lf keyword-operator-lflang">::</span><span class="source-lf variable-other-lflang">cout</span><span class="source-lf"> << </span><span class="source-lf string-quoted-double-lflang">"</span><span class="source-lf string-quoted-double-lflang">SUCCESS!</span><span class="source-lf string-quoted-double-lflang constant-character-escape">\n</span><span class="source-lf string-quoted-double-lflang">"</span><span class="source-lf">;</span>
+<span class="source-lf">        } else {</span>
+<span class="source-lf">            </span><span class="source-lf variable-other-constant-reactorinstance-lflang">std</span><span class="source-lf keyword-operator-lflang">::</span><span class="source-lf variable-other-lflang">cout</span><span class="source-lf"> << </span><span class="source-lf string-quoted-double-lflang">"</span><span class="source-lf string-quoted-double-lflang">ERROR: reaction was not invoked!</span><span class="source-lf string-quoted-double-lflang constant-character-escape">\n</span><span class="source-lf string-quoted-double-lflang">"</span><span class="source-lf">;</span>
+<span class="source-lf">            exit(</span><span class="source-lf constant-numeric-int-lflang">2</span><span class="source-lf">);</span>
+<span class="source-lf">        }</span>
+<span class="source-lf">    </span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf">}</span>
+<span class="source-lf">}</span>
+<span class="source-lf"></span>

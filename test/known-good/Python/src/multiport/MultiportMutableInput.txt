@@ -1,0 +1,48 @@
+<span class="source-lf comment-line-double-dash-lflang"># Source produces a ints on a multiport, which it passes to Scale. Scale</span>
+<span class="source-lf comment-line-double-dash-lflang"># requests a writable copy. It modifies it and passes it to Print. It gets freed</span>
+<span class="source-lf comment-line-double-dash-lflang"># after Print is done with it.</span>
+<span class="source-lf meta-targetspec-lflang keyword-control-lflang">target</span><span class="source-lf meta-targetspec-lflang"> </span><span class="source-lf meta-targetspec-lflang constant-language-lflang">Python</span>
+<span class="source-lf"></span>
+<span class="source-lf storage-modifier-lflang">reactor</span><span class="source-lf"> </span><span class="source-lf entity-name-type-lflang">Source</span><span class="source-lf"> {</span>
+<span class="source-lf">    </span><span class="source-lf storage-modifier-lflang">output</span><span class="source-lf">[</span><span class="source-lf constant-numeric-int-lflang">2</span><span class="source-lf">] out</span>
+<span class="source-lf"></span>
+<span class="source-lf">    </span><span class="source-lf keyword-control-lflang">reaction</span><span class="source-lf">(</span><span class="source-lf support-variable-lflang">startup</span><span class="source-lf">) </span><span class="source-lf keyword-operator-lflang">-></span><span class="source-lf"> out </span><span class="source-lf meta-embedded-block-py">{=</span>
+<span class="source-lf meta-embedded-block-py">        out[0].set(21)</span>
+<span class="source-lf meta-embedded-block-py">        out[1].set(42)</span>
+<span class="source-lf meta-embedded-block-py">    </span><span class="source-lf meta-embedded-block-py">=}</span>
+<span class="source-lf">}</span>
+<span class="source-lf"></span>
+<span class="source-lf storage-modifier-lflang">reactor</span><span class="source-lf"> </span><span class="source-lf entity-name-type-lflang">Print</span><span class="source-lf">(scale(</span><span class="source-lf constant-numeric-int-lflang">1</span><span class="source-lf">)) {  </span><span class="source-lf comment-line-double-dash-lflang"># The scale parameter is just for testing.</span>
+<span class="source-lf">    </span><span class="source-lf storage-modifier-lflang">input</span><span class="source-lf">[</span><span class="source-lf constant-numeric-int-lflang">2</span><span class="source-lf">] _in</span>
+<span class="source-lf"></span>
+<span class="source-lf">    </span><span class="source-lf keyword-control-lflang">reaction</span><span class="source-lf">(_in) </span><span class="source-lf meta-embedded-block-py">{=</span>
+<span class="source-lf meta-embedded-block-py">        expected = 42</span>
+<span class="source-lf meta-embedded-block-py">        for (idx, port) in enumerate(_in):</span>
+<span class="source-lf meta-embedded-block-py">            print("Received on channel {:d}: ".format(idx), port.value)</span>
+<span class="source-lf meta-embedded-block-py">            if port.value != expected:</span>
+<span class="source-lf meta-embedded-block-py">                sys.stderr.write("ERROR: Expected {:d}!\n".format(expected))</span>
+<span class="source-lf meta-embedded-block-py">                exit(1)</span>
+<span class="source-lf meta-embedded-block-py">            expected *= 2</span>
+<span class="source-lf meta-embedded-block-py">    </span><span class="source-lf meta-embedded-block-py">=}</span>
+<span class="source-lf">}</span>
+<span class="source-lf"></span>
+<span class="source-lf storage-modifier-lflang">reactor</span><span class="source-lf"> </span><span class="source-lf entity-name-type-lflang">Scale</span><span class="source-lf">(scale(</span><span class="source-lf constant-numeric-int-lflang">2</span><span class="source-lf">)) {</span>
+<span class="source-lf">    </span><span class="source-lf storage-modifier-lflang">mutable</span><span class="source-lf"> </span><span class="source-lf storage-modifier-lflang">input</span><span class="source-lf">[</span><span class="source-lf constant-numeric-int-lflang">2</span><span class="source-lf">] _in</span>
+<span class="source-lf">    </span><span class="source-lf storage-modifier-lflang">output</span><span class="source-lf">[</span><span class="source-lf constant-numeric-int-lflang">2</span><span class="source-lf">] out</span>
+<span class="source-lf"></span>
+<span class="source-lf">    </span><span class="source-lf keyword-control-lflang">reaction</span><span class="source-lf">(_in) </span><span class="source-lf keyword-operator-lflang">-></span><span class="source-lf"> out </span><span class="source-lf meta-embedded-block-py">{=</span>
+<span class="source-lf meta-embedded-block-py">        for (idx, port) in enumerate(_in):</span>
+<span class="source-lf meta-embedded-block-py">            # Modify the input, allowed because mutable.</span>
+<span class="source-lf meta-embedded-block-py">            port.value *= self.scale</span>
+<span class="source-lf meta-embedded-block-py">            out[idx].set(port.value)</span>
+<span class="source-lf meta-embedded-block-py">    </span><span class="source-lf meta-embedded-block-py">=}</span>
+<span class="source-lf">}</span>
+<span class="source-lf"></span>
+<span class="source-lf storage-modifier-lflang">main</span><span class="source-lf"> </span><span class="source-lf storage-modifier-lflang">reactor</span><span class="source-lf"> </span><span class="source-lf entity-name-type-lflang">MultiportMutableInput</span><span class="source-lf"> {</span>
+<span class="source-lf">    </span><span class="source-lf variable-other-constant-reactorinstance-lflang">s</span><span class="source-lf"> </span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf"> </span><span class="source-lf keyword-operator-new-lflang">new</span><span class="source-lf"> </span><span class="source-lf entity-name-type-lflang">Source</span><span class="source-lf">()</span>
+<span class="source-lf">    </span><span class="source-lf variable-other-constant-reactorinstance-lflang">c</span><span class="source-lf"> </span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf"> </span><span class="source-lf keyword-operator-new-lflang">new</span><span class="source-lf"> </span><span class="source-lf entity-name-type-lflang">Scale</span><span class="source-lf">()</span>
+<span class="source-lf">    </span><span class="source-lf variable-other-constant-reactorinstance-lflang">p</span><span class="source-lf"> </span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf"> </span><span class="source-lf keyword-operator-new-lflang">new</span><span class="source-lf"> </span><span class="source-lf entity-name-type-lflang">Print</span><span class="source-lf">(scale </span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf"> </span><span class="source-lf constant-numeric-int-lflang">2</span><span class="source-lf">)</span>
+<span class="source-lf">    </span><span class="source-lf variable-other-constant-reactorinstance-lflang">s</span><span class="source-lf keyword-operator-lflang">.</span><span class="source-lf variable-other-lflang">out</span><span class="source-lf"> </span><span class="source-lf keyword-operator-lflang">-></span><span class="source-lf"> </span><span class="source-lf variable-other-constant-reactorinstance-lflang">c</span><span class="source-lf keyword-operator-lflang">.</span><span class="source-lf variable-other-lflang">_in</span>
+<span class="source-lf">    </span><span class="source-lf variable-other-constant-reactorinstance-lflang">c</span><span class="source-lf keyword-operator-lflang">.</span><span class="source-lf variable-other-lflang">out</span><span class="source-lf"> </span><span class="source-lf keyword-operator-lflang">-></span><span class="source-lf"> </span><span class="source-lf variable-other-constant-reactorinstance-lflang">p</span><span class="source-lf keyword-operator-lflang">.</span><span class="source-lf variable-other-lflang">_in</span>
+<span class="source-lf">}</span>
+<span class="source-lf"></span>

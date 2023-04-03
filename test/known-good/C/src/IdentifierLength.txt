@@ -1,0 +1,43 @@
+<span class="source-lf comment-line-double-dash-lflang">// This test connects a simple counting source to tester that checks against its</span>
+<span class="source-lf comment-line-double-dash-lflang">// own count.</span>
+<span class="source-lf meta-targetspec-lflang keyword-control-lflang">target</span><span class="source-lf meta-targetspec-lflang"> </span><span class="source-lf meta-targetspec-lflang constant-language-lflang">C</span><span class="source-lf meta-targetspec-lflang"> {</span>
+<span class="source-lf meta-targetspec-lflang">    </span><span class="source-lf meta-targetspec-lflang variable-parameter-lflang">timeout</span><span class="source-lf meta-targetspec-lflang">: </span><span class="source-lf meta-targetspec-lflang constant-numeric-int-lflang">10</span><span class="source-lf meta-targetspec-lflang"> </span><span class="source-lf meta-targetspec-lflang constant-numeric-lflang">sec</span><span class="source-lf meta-targetspec-lflang">,</span>
+<span class="source-lf meta-targetspec-lflang">    </span><span class="source-lf meta-targetspec-lflang variable-parameter-lflang">fast</span><span class="source-lf meta-targetspec-lflang">: </span><span class="source-lf meta-targetspec-lflang constant-language-lflang">true</span>
+<span class="source-lf meta-targetspec-lflang">}</span>
+<span class="source-lf"></span>
+<span class="source-lf storage-modifier-lflang">reactor</span><span class="source-lf"> </span><span class="source-lf entity-name-type-lflang">A_Really_Long_Name_For_A_Source</span><span class="source-lf">(period: </span><span class="source-lf storage-type-lflang">time</span><span class="source-lf">(</span><span class="source-lf constant-numeric-int-lflang">2</span><span class="source-lf"> </span><span class="source-lf constant-numeric-lflang">sec</span><span class="source-lf">)) {</span>
+<span class="source-lf">    </span><span class="source-lf storage-modifier-lflang">output</span><span class="source-lf"> y:</span><span class="source-lf"> </span><span class="source-lf storage-type-lflang">int</span>
+<span class="source-lf">    </span><span class="source-lf storage-modifier-lflang">timer</span><span class="source-lf"> t(</span><span class="source-lf constant-numeric-int-lflang">1</span><span class="source-lf"> </span><span class="source-lf constant-numeric-lflang">sec</span><span class="source-lf">, period)</span>
+<span class="source-lf">    </span><span class="source-lf storage-modifier-lflang">state</span><span class="source-lf"> count:</span><span class="source-lf"> </span><span class="source-lf storage-type-lflang">int</span><span class="source-lf">(</span><span class="source-lf constant-numeric-int-lflang">0</span><span class="source-lf">)</span>
+<span class="source-lf"></span>
+<span class="source-lf">    </span><span class="source-lf keyword-control-lflang">reaction</span><span class="source-lf">(t) </span><span class="source-lf keyword-operator-lflang">-></span><span class="source-lf"> y {</span><span class="source-lf keyword-operator-lflang">=</span>
+<span class="source-lf">        (self</span><span class="source-lf keyword-operator-lflang">-></span><span class="source-lf">count)</span><span class="source-lf keyword-operator-lflang">+</span><span class="source-lf keyword-operator-lflang">+</span><span class="source-lf">;</span>
+<span class="source-lf">        lf_set(y, self</span><span class="source-lf keyword-operator-lflang">-></span><span class="source-lf">count);</span>
+<span class="source-lf">    </span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf">}</span>
+<span class="source-lf">}</span>
+<span class="source-lf"></span>
+<span class="source-lf storage-modifier-lflang">reactor</span><span class="source-lf"> </span><span class="source-lf entity-name-type-lflang">Another_Really_Long_Name_For_A_Test_Class</span><span class="source-lf"> {</span>
+<span class="source-lf">    </span><span class="source-lf storage-modifier-lflang">input</span><span class="source-lf"> x:</span><span class="source-lf"> </span><span class="source-lf storage-type-lflang">int</span>
+<span class="source-lf">    </span><span class="source-lf storage-modifier-lflang">state</span><span class="source-lf"> count:</span><span class="source-lf"> </span><span class="source-lf storage-type-lflang">int</span><span class="source-lf">(</span><span class="source-lf constant-numeric-int-lflang">0</span><span class="source-lf">)</span>
+<span class="source-lf"></span>
+<span class="source-lf">    </span><span class="source-lf keyword-control-lflang">reaction</span><span class="source-lf">(x) {</span><span class="source-lf keyword-operator-lflang">=</span>
+<span class="source-lf">        (self</span><span class="source-lf keyword-operator-lflang">-></span><span class="source-lf">count)</span><span class="source-lf keyword-operator-lflang">+</span><span class="source-lf keyword-operator-lflang">+</span><span class="source-lf">;</span>
+<span class="source-lf">        printf(</span><span class="source-lf string-quoted-double-lflang">"</span><span class="source-lf string-quoted-double-lflang">Received %d</span><span class="source-lf string-quoted-double-lflang constant-character-escape">\n</span><span class="source-lf string-quoted-double-lflang">"</span><span class="source-lf">, x</span><span class="source-lf keyword-operator-lflang">-></span><span class="source-lf">value);</span>
+<span class="source-lf">        if (x</span><span class="source-lf keyword-operator-lflang">-></span><span class="source-lf">value !</span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf"> self</span><span class="source-lf keyword-operator-lflang">-></span><span class="source-lf">count) {</span>
+<span class="source-lf">            printf(</span><span class="source-lf string-quoted-double-lflang">"</span><span class="source-lf string-quoted-double-lflang">FAILURE: Expected %d</span><span class="source-lf string-quoted-double-lflang constant-character-escape">\n</span><span class="source-lf string-quoted-double-lflang">"</span><span class="source-lf">, self</span><span class="source-lf keyword-operator-lflang">-></span><span class="source-lf">count);</span>
+<span class="source-lf">            exit(</span><span class="source-lf constant-numeric-int-lflang">1</span><span class="source-lf">);</span>
+<span class="source-lf">        }</span>
+<span class="source-lf">    </span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf">}</span>
+<span class="source-lf">}</span>
+<span class="source-lf"></span>
+<span class="source-lf storage-modifier-lflang">main</span><span class="source-lf"> </span><span class="source-lf storage-modifier-lflang">reactor</span><span class="source-lf"> </span><span class="source-lf entity-name-type-lflang">IdentifierLength</span><span class="source-lf"> {</span>
+<span class="source-lf">    </span><span class="source-lf variable-other-constant-reactorinstance-lflang">a_really_long_name_for_a_source_instance</span><span class="source-lf"> </span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf"> </span><span class="source-lf keyword-operator-new-lflang">new</span><span class="source-lf"> </span><span class="source-lf entity-name-type-lflang">A_Really_Long_Name_For_A_Source</span><span class="source-lf">(</span>
+<span class="source-lf"></span>
+<span class="source-lf">    )</span>
+<span class="source-lf">    </span><span class="source-lf variable-other-constant-reactorinstance-lflang">another_really_long_name_for_a_test_instance</span><span class="source-lf"> </span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf"> </span><span class="source-lf keyword-operator-new-lflang">new</span><span class="source-lf"> </span><span class="source-lf entity-name-type-lflang">Another_Really_Long_Name_For_A_Test_Class</span><span class="source-lf">(</span>
+<span class="source-lf"></span>
+<span class="source-lf">    )</span>
+<span class="source-lf">    </span><span class="source-lf variable-other-constant-reactorinstance-lflang">a_really_long_name_for_a_source_instance</span><span class="source-lf keyword-operator-lflang">.</span><span class="source-lf variable-other-lflang">y</span>
+<span class="source-lf">        </span><span class="source-lf keyword-operator-lflang">-></span><span class="source-lf"> </span><span class="source-lf variable-other-constant-reactorinstance-lflang">another_really_long_name_for_a_test_instance</span><span class="source-lf keyword-operator-lflang">.</span><span class="source-lf variable-other-lflang">x</span>
+<span class="source-lf">}</span>
+<span class="source-lf"></span>

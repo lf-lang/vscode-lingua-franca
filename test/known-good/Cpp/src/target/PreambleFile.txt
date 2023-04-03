@@ -1,0 +1,55 @@
+<span class="source-lf meta-targetspec-lflang keyword-control-lflang">target</span><span class="source-lf meta-targetspec-lflang"> </span><span class="source-lf meta-targetspec-lflang constant-language-lflang">Cpp</span>
+<span class="source-lf"></span>
+<span class="source-lf comment-line-double-dash-lflang">// These declarations are used by multiple reactors within this file and should</span>
+<span class="source-lf comment-line-double-dash-lflang">// be placed in a header. This goes to PreampleFile/preamble.hh.</span>
+<span class="source-lf keyword-control-lflang">public</span><span class="source-lf"> </span><span class="source-lf keyword-control-lflang">preamble</span><span class="source-lf"> {</span><span class="source-lf keyword-operator-lflang">=</span>
+<span class="source-lf">    struct MyStruct {</span>
+<span class="source-lf">        int foo;</span>
+<span class="source-lf">        </span><span class="source-lf variable-other-constant-reactorinstance-lflang">std</span><span class="source-lf keyword-operator-lflang">::</span><span class="source-lf variable-other-lflang">string</span><span class="source-lf"> bar;</span>
+<span class="source-lf">    };</span>
+<span class="source-lf"></span>
+<span class="source-lf">    int add_42(int i);</span>
+<span class="source-lf keyword-operator-lflang">=</span><span class="source-lf">}</span>
+<span class="source-lf"></span>
+<span class="source-lf comment-line-double-dash-lflang">// This definition is used by multiple reactors within this file. Since the same</span>
+<span class="source-lf comment-line-double-dash-lflang">// function can only be defined once, this needs to go to a source file. This</span>
+<span class="source-lf comment-line-double-dash-lflang">// goes to PreampleFile/preamble.cc.</span>
+<span class="source-lf keyword-control-lflang">private</span><span class="source-lf"> </span><span class="source-lf keyword-control-lflang">preamble</span><span class="source-lf"> {</span><span class="source-lf keyword-operator-lflang">=</span>
+<span class="source-lf">    int add_42(int i) {</span>
+<span class="source-lf">        return i </span><span class="source-lf keyword-operator-lflang">+</span><span class="source-lf"> </span><span class="source-lf constant-numeric-int-lflang">42</span><span class="source-lf">;</span>
+<span class="source-lf">    }</span>
+<span class="source-lf keyword-operator-lflang">=</span><span class="source-lf">}</span>
+<span class="source-lf"></span>
+<span class="source-lf storage-modifier-lflang">reactor</span><span class="source-lf"> </span><span class="source-lf entity-name-type-lflang">Source</span><span class="source-lf"> {</span>
+<span class="source-lf">    </span><span class="source-lf storage-modifier-lflang">output</span><span class="source-lf"> x:</span><span class="source-lf"> </span><span class="source-lf entity-name-type-lflang">MyStruct</span>
+<span class="source-lf"></span>
+<span class="source-lf">    </span><span class="source-lf keyword-control-lflang">reaction</span><span class="source-lf">(</span><span class="source-lf support-variable-lflang">startup</span><span class="source-lf">) </span><span class="source-lf keyword-operator-lflang">-></span><span class="source-lf"> x {</span><span class="source-lf keyword-operator-lflang">=</span>
+<span class="source-lf">        int a </span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf"> add_42(</span><span class="source-lf constant-numeric-int-lflang">0</span><span class="source-lf">);</span>
+<span class="source-lf">        </span><span class="source-lf variable-other-constant-reactorinstance-lflang">x</span><span class="source-lf keyword-operator-lflang">.</span><span class="source-lf variable-other-lflang">set</span><span class="source-lf">({a, </span><span class="source-lf string-quoted-double-lflang">"</span><span class="source-lf string-quoted-double-lflang">baz</span><span class="source-lf string-quoted-double-lflang">"</span><span class="source-lf">});</span>
+<span class="source-lf">    </span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf">}</span>
+<span class="source-lf">}</span>
+<span class="source-lf"></span>
+<span class="source-lf storage-modifier-lflang">reactor</span><span class="source-lf"> </span><span class="source-lf entity-name-type-lflang">Print</span><span class="source-lf"> {</span>
+<span class="source-lf comment-line-double-dash-lflang">    </span><span class="source-lf comment-line-double-dash-lflang">// This helper function is only used within the Print reactor and is</span>
+<span class="source-lf comment-line-double-dash-lflang">    </span><span class="source-lf comment-line-double-dash-lflang">// therefore part of its private interface. This goes to</span>
+<span class="source-lf comment-line-double-dash-lflang">    </span><span class="source-lf comment-line-double-dash-lflang">// PreambleFile/Print.cc</span>
+<span class="source-lf">    </span><span class="source-lf keyword-control-lflang">private</span><span class="source-lf"> </span><span class="source-lf keyword-control-lflang">preamble</span><span class="source-lf"> {</span><span class="source-lf keyword-operator-lflang">=</span>
+<span class="source-lf">        void print(</span><span class="source-lf storage-modifier-lflang">const</span><span class="source-lf"> MyStruct& x) {</span>
+<span class="source-lf">            </span><span class="source-lf variable-other-constant-reactorinstance-lflang">std</span><span class="source-lf keyword-operator-lflang">::</span><span class="source-lf variable-other-lflang">cout</span><span class="source-lf"> << </span><span class="source-lf string-quoted-double-lflang">"</span><span class="source-lf string-quoted-double-lflang">Received </span><span class="source-lf string-quoted-double-lflang">"</span><span class="source-lf"> << </span><span class="source-lf variable-other-constant-reactorinstance-lflang">x</span><span class="source-lf keyword-operator-lflang">.</span><span class="source-lf variable-other-lflang">foo</span><span class="source-lf"> << </span><span class="source-lf string-quoted-double-lflang">"</span><span class="source-lf string-quoted-double-lflang"> and '</span><span class="source-lf string-quoted-double-lflang">"</span><span class="source-lf"> << </span><span class="source-lf variable-other-constant-reactorinstance-lflang">x</span><span class="source-lf keyword-operator-lflang">.</span><span class="source-lf variable-other-lflang">bar</span><span class="source-lf"> << </span><span class="source-lf string-quoted-double-lflang">"</span><span class="source-lf string-quoted-double-lflang">'</span><span class="source-lf string-quoted-double-lflang constant-character-escape">\n</span><span class="source-lf string-quoted-double-lflang">"</span><span class="source-lf">;</span>
+<span class="source-lf">        }</span>
+<span class="source-lf">    </span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf">}</span>
+<span class="source-lf">    </span><span class="source-lf storage-modifier-lflang">input</span><span class="source-lf"> x:</span><span class="source-lf"> </span><span class="source-lf entity-name-type-lflang">MyStruct</span>
+<span class="source-lf"></span>
+<span class="source-lf">    </span><span class="source-lf keyword-control-lflang">reaction</span><span class="source-lf">(x) {</span><span class="source-lf keyword-operator-lflang">=</span>
+<span class="source-lf">        MyStruct value </span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf"> </span><span class="source-lf keyword-operator-lflang">*</span><span class="source-lf variable-other-constant-reactorinstance-lflang">x</span><span class="source-lf keyword-operator-lflang">.</span><span class="source-lf variable-other-lflang">get</span><span class="source-lf">(); </span><span class="source-lf comment-line-double-dash-lflang">// implicit copy</span>
+<span class="source-lf">        </span><span class="source-lf variable-other-constant-reactorinstance-lflang">value</span><span class="source-lf keyword-operator-lflang">.</span><span class="source-lf variable-other-lflang">foo</span><span class="source-lf"> </span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf"> add_42(</span><span class="source-lf variable-other-constant-reactorinstance-lflang">value</span><span class="source-lf keyword-operator-lflang">.</span><span class="source-lf variable-other-lflang">foo</span><span class="source-lf">);</span>
+<span class="source-lf">        print(value);</span>
+<span class="source-lf">    </span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf">}</span>
+<span class="source-lf">}</span>
+<span class="source-lf"></span>
+<span class="source-lf storage-modifier-lflang">main</span><span class="source-lf"> </span><span class="source-lf storage-modifier-lflang">reactor</span><span class="source-lf"> </span><span class="source-lf entity-name-type-lflang">PreambleFile</span><span class="source-lf"> {</span>
+<span class="source-lf">    </span><span class="source-lf variable-other-constant-reactorinstance-lflang">s</span><span class="source-lf"> </span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf"> </span><span class="source-lf keyword-operator-new-lflang">new</span><span class="source-lf"> </span><span class="source-lf entity-name-type-lflang">Source</span><span class="source-lf">()</span>
+<span class="source-lf">    </span><span class="source-lf variable-other-constant-reactorinstance-lflang">p</span><span class="source-lf"> </span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf"> </span><span class="source-lf keyword-operator-new-lflang">new</span><span class="source-lf"> </span><span class="source-lf entity-name-type-lflang">Print</span><span class="source-lf">()</span>
+<span class="source-lf">    </span><span class="source-lf variable-other-constant-reactorinstance-lflang">s</span><span class="source-lf keyword-operator-lflang">.</span><span class="source-lf variable-other-lflang">x</span><span class="source-lf"> </span><span class="source-lf keyword-operator-lflang">-></span><span class="source-lf"> </span><span class="source-lf variable-other-constant-reactorinstance-lflang">p</span><span class="source-lf keyword-operator-lflang">.</span><span class="source-lf variable-other-lflang">x</span>
+<span class="source-lf">}</span>
+<span class="source-lf"></span>

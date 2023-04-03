@@ -1,0 +1,22 @@
+<span class="source-lf comment-block-lflang">/**</span>
+<span class="source-lf comment-block-lflang"> * Test that cmake-include is working correctly. The failure for this test is</span>
+<span class="source-lf comment-block-lflang"> * failure to compile.</span>
+<span class="source-lf comment-block-lflang"> </span><span class="source-lf comment-block-lflang">*/</span>
+<span class="source-lf meta-targetspec-lflang keyword-control-lflang">target</span><span class="source-lf meta-targetspec-lflang"> </span><span class="source-lf meta-targetspec-lflang constant-language-lflang">Cpp</span><span class="source-lf meta-targetspec-lflang"> {</span>
+<span class="source-lf meta-targetspec-lflang">    </span><span class="source-lf meta-targetspec-lflang variable-parameter-lflang">cmake-include</span><span class="source-lf meta-targetspec-lflang">: [</span>
+<span class="source-lf meta-targetspec-lflang">        </span><span class="source-lf meta-targetspec-lflang string-quoted-double-lflang">"</span><span class="source-lf meta-targetspec-lflang string-quoted-double-lflang">../include/mlib-cmake-extension.cmake</span><span class="source-lf meta-targetspec-lflang string-quoted-double-lflang">"</span><span class="source-lf meta-targetspec-lflang">,</span>
+<span class="source-lf meta-targetspec-lflang">        </span><span class="source-lf meta-targetspec-lflang string-quoted-double-lflang">"</span><span class="source-lf meta-targetspec-lflang string-quoted-double-lflang">../include/bar-cmake-compile-definition.txt</span><span class="source-lf meta-targetspec-lflang string-quoted-double-lflang">"</span>
+<span class="source-lf meta-targetspec-lflang">    ],</span>
+<span class="source-lf meta-targetspec-lflang">    </span><span class="source-lf meta-targetspec-lflang variable-parameter-lflang">timeout</span><span class="source-lf meta-targetspec-lflang">: </span><span class="source-lf meta-targetspec-lflang constant-numeric-int-lflang">0</span><span class="source-lf meta-targetspec-lflang"> </span><span class="source-lf meta-targetspec-lflang constant-numeric-lflang">sec</span>
+<span class="source-lf meta-targetspec-lflang">}</span>
+<span class="source-lf"></span>
+<span class="source-lf storage-modifier-lflang">main</span><span class="source-lf"> </span><span class="source-lf storage-modifier-lflang">reactor</span><span class="source-lf"> {</span>
+<span class="source-lf">    </span><span class="source-lf keyword-control-lflang">private</span><span class="source-lf"> </span><span class="source-lf keyword-control-lflang">preamble</span><span class="source-lf"> {</span><span class="source-lf keyword-operator-lflang">=</span>
+<span class="source-lf comment-line-double-dash-lflang">        </span><span class="source-lf comment-line-double-dash-lflang">#include <cmath></span>
+<span class="source-lf">    </span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf">}</span>
+<span class="source-lf"></span>
+<span class="source-lf">    </span><span class="source-lf keyword-control-lflang">reaction</span><span class="source-lf">(</span><span class="source-lf support-variable-lflang">startup</span><span class="source-lf">) {</span><span class="source-lf keyword-operator-lflang">=</span>
+<span class="source-lf">        </span><span class="source-lf variable-other-constant-reactorinstance-lflang">std</span><span class="source-lf keyword-operator-lflang">::</span><span class="source-lf variable-other-lflang">cout</span><span class="source-lf"> << </span><span class="source-lf string-quoted-double-lflang">"</span><span class="source-lf string-quoted-double-lflang">Maximum of 4.20 and </span><span class="source-lf string-quoted-double-lflang">"</span><span class="source-lf"> << BAR << </span><span class="source-lf string-quoted-double-lflang">"</span><span class="source-lf string-quoted-double-lflang"> is </span><span class="source-lf string-quoted-double-lflang">"</span><span class="source-lf"> << fmax(</span><span class="source-lf constant-numeric-float-lflang">4.20</span><span class="source-lf">, BAR) << </span><span class="source-lf variable-other-constant-reactorinstance-lflang">std</span><span class="source-lf keyword-operator-lflang">::</span><span class="source-lf variable-other-lflang">endl</span><span class="source-lf">;</span>
+<span class="source-lf">    </span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf">}</span>
+<span class="source-lf">}</span>
+<span class="source-lf"></span>

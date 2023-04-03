@@ -1,0 +1,16 @@
+<span class="source-lf meta-targetspec-lflang keyword-control-lflang">target</span><span class="source-lf meta-targetspec-lflang"> </span><span class="source-lf meta-targetspec-lflang constant-language-lflang">Rust</span>
+<span class="source-lf"></span>
+<span class="source-lf comment-line-double-dash-lflang">// this thing must compile needs to be modified when</span>
+<span class="source-lf comment-line-double-dash-lflang">// https://github.com/lf-lang/lingua-franca/discussions/492 is implemented</span>
+<span class="source-lf storage-modifier-lflang">main</span><span class="source-lf"> </span><span class="source-lf storage-modifier-lflang">reactor</span><span class="source-lf"> </span><span class="source-lf entity-name-type-lflang">TypeVarLengthList</span><span class="source-lf"> {</span>
+<span class="source-lf">    </span><span class="source-lf storage-modifier-lflang">state</span><span class="source-lf"> l0: </span><span class="source-lf entity-name-type-lflang">i32</span><span class="source-lf">[]({</span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf"> </span><span class="source-lf variable-other-constant-reactorinstance-lflang">Vec</span><span class="source-lf keyword-operator-lflang">::</span><span class="source-lf entity-name-type-lflang">new</span><span class="source-lf">() </span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf">})  </span><span class="source-lf comment-line-double-dash-lflang">// generates l0: Vec::new()</span>
+<span class="source-lf comment-line-double-dash-lflang">    </span><span class="source-lf comment-line-double-dash-lflang">// generates l1: vec![1, 2]</span>
+<span class="source-lf">    </span><span class="source-lf comment-block-lflang">/**</span>
+<span class="source-lf comment-block-lflang">     * - state l2: i32[](1); // generates l2: 1 // doesn't compile...</span>
+<span class="source-lf comment-block-lflang">     * - state l3: i32[](); // doesn't parse...</span>
+<span class="source-lf comment-block-lflang">     *</span>
+<span class="source-lf comment-block-lflang">     * - state l1: Vec<i32>(1, 2); // does not compile...</span>
+<span class="source-lf comment-block-lflang">     </span><span class="source-lf comment-block-lflang">*/</span>
+<span class="source-lf">    </span><span class="source-lf storage-modifier-lflang">state</span><span class="source-lf"> l1: </span><span class="source-lf entity-name-type-lflang">i32</span><span class="source-lf">[](</span><span class="source-lf constant-numeric-int-lflang">1</span><span class="source-lf">, </span><span class="source-lf constant-numeric-int-lflang">2</span><span class="source-lf">)</span>
+<span class="source-lf">}</span>
+<span class="source-lf"></span>

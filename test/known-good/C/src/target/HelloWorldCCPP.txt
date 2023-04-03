@@ -1,0 +1,33 @@
+<span class="source-lf comment-block-lflang">/**</span>
+<span class="source-lf comment-block-lflang"> * A variant of HelloWorld.lf that tests the CCpp target in conjunction with the</span>
+<span class="source-lf comment-block-lflang"> * CMake build system. This test should not pass if it does not compile.</span>
+<span class="source-lf comment-block-lflang"> </span><span class="source-lf comment-block-lflang">*/</span>
+<span class="source-lf meta-targetspec-lflang keyword-control-lflang">target</span><span class="source-lf meta-targetspec-lflang"> </span><span class="source-lf meta-targetspec-lflang constant-language-lflang">CCpp</span><span class="source-lf meta-targetspec-lflang"> {</span>
+<span class="source-lf meta-targetspec-lflang">    </span><span class="source-lf meta-targetspec-lflang variable-parameter-lflang">tracing</span><span class="source-lf meta-targetspec-lflang">: </span><span class="source-lf meta-targetspec-lflang constant-language-lflang">true</span><span class="source-lf meta-targetspec-lflang">,</span>
+<span class="source-lf meta-targetspec-lflang">    </span><span class="source-lf meta-targetspec-lflang variable-parameter-lflang">logging</span><span class="source-lf meta-targetspec-lflang">: DEBUG</span>
+<span class="source-lf meta-targetspec-lflang">}</span>
+<span class="source-lf"></span>
+<span class="source-lf storage-modifier-lflang">reactor</span><span class="source-lf"> </span><span class="source-lf entity-name-type-lflang">HelloWorld</span><span class="source-lf"> {</span>
+<span class="source-lf">    </span><span class="source-lf keyword-control-lflang">preamble</span><span class="source-lf"> {</span><span class="source-lf keyword-operator-lflang">=</span>
+<span class="source-lf comment-line-double-dash-lflang">        </span><span class="source-lf comment-line-double-dash-lflang">#include <iostream></span>
+<span class="source-lf">    </span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf">}</span>
+<span class="source-lf">    </span><span class="source-lf storage-modifier-lflang">state</span><span class="source-lf"> success:</span><span class="source-lf"> </span><span class="source-lf storage-type-lflang">bool</span><span class="source-lf">(</span><span class="source-lf constant-language-lflang">false</span><span class="source-lf">)</span>
+<span class="source-lf"></span>
+<span class="source-lf">    </span><span class="source-lf keyword-control-lflang">reaction</span><span class="source-lf">(</span><span class="source-lf support-variable-lflang">startup</span><span class="source-lf">) {</span><span class="source-lf keyword-operator-lflang">=</span>
+<span class="source-lf">        </span><span class="source-lf variable-other-constant-reactorinstance-lflang">std</span><span class="source-lf keyword-operator-lflang">::</span><span class="source-lf variable-other-lflang">cout</span><span class="source-lf"> << </span><span class="source-lf string-quoted-double-lflang">"</span><span class="source-lf string-quoted-double-lflang">Hello World.</span><span class="source-lf string-quoted-double-lflang">"</span><span class="source-lf"> << </span><span class="source-lf variable-other-constant-reactorinstance-lflang">std</span><span class="source-lf keyword-operator-lflang">::</span><span class="source-lf variable-other-lflang">endl</span><span class="source-lf">;</span>
+<span class="source-lf">        self</span><span class="source-lf keyword-operator-lflang">-></span><span class="source-lf">success </span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf"> </span><span class="source-lf constant-language-lflang">true</span><span class="source-lf">;</span>
+<span class="source-lf">    </span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf">}</span>
+<span class="source-lf"></span>
+<span class="source-lf">    </span><span class="source-lf keyword-control-lflang">reaction</span><span class="source-lf">(</span><span class="source-lf support-variable-lflang">shutdown</span><span class="source-lf">) {</span><span class="source-lf keyword-operator-lflang">=</span>
+<span class="source-lf">        printf(</span><span class="source-lf string-quoted-double-lflang">"</span><span class="source-lf string-quoted-double-lflang">Shutdown invoked.</span><span class="source-lf string-quoted-double-lflang constant-character-escape">\n</span><span class="source-lf string-quoted-double-lflang">"</span><span class="source-lf">);</span>
+<span class="source-lf">        if (!self</span><span class="source-lf keyword-operator-lflang">-></span><span class="source-lf">success) {</span>
+<span class="source-lf">            fprintf(stderr, </span><span class="source-lf string-quoted-double-lflang">"</span><span class="source-lf string-quoted-double-lflang">ERROR: startup reaction not executed.</span><span class="source-lf string-quoted-double-lflang constant-character-escape">\n</span><span class="source-lf string-quoted-double-lflang">"</span><span class="source-lf">);</span>
+<span class="source-lf">            exit(</span><span class="source-lf constant-numeric-int-lflang">1</span><span class="source-lf">);</span>
+<span class="source-lf">        }</span>
+<span class="source-lf">    </span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf">}</span>
+<span class="source-lf">}</span>
+<span class="source-lf"></span>
+<span class="source-lf storage-modifier-lflang">main</span><span class="source-lf"> </span><span class="source-lf storage-modifier-lflang">reactor</span><span class="source-lf"> {</span>
+<span class="source-lf">    </span><span class="source-lf variable-other-constant-reactorinstance-lflang">a</span><span class="source-lf"> </span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf"> </span><span class="source-lf keyword-operator-new-lflang">new</span><span class="source-lf"> </span><span class="source-lf entity-name-type-lflang">HelloWorld</span><span class="source-lf">()</span>
+<span class="source-lf">}</span>
+<span class="source-lf"></span>

@@ -1,0 +1,10 @@
+<span class="source-lf comment-line-double-dash-lflang">// There was a bug whereby reaction labels mess up generated code. Labels are</span>
+<span class="source-lf comment-line-double-dash-lflang">// used as debug info by the runtime.</span>
+<span class="source-lf meta-targetspec-lflang keyword-control-lflang">target</span><span class="source-lf meta-targetspec-lflang"> </span><span class="source-lf meta-targetspec-lflang constant-language-lflang">Rust</span>
+<span class="source-lf"></span>
+<span class="source-lf storage-modifier-lflang">main</span><span class="source-lf"> </span><span class="source-lf storage-modifier-lflang">reactor</span><span class="source-lf"> {</span>
+<span class="source-lf">    </span><span class="source-lf storage-modifier-lflang">timer</span><span class="source-lf"> t(</span><span class="source-lf constant-numeric-int-lflang">0</span><span class="source-lf">)</span>
+<span class="source-lf"></span>
+<span class="source-lf">    </span><span class="source-lf keyword-control-lflang">reaction</span><span class="source-lf">(t) {</span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf"> println!(</span><span class="source-lf string-quoted-double-lflang">"</span><span class="source-lf string-quoted-double-lflang">success</span><span class="source-lf string-quoted-double-lflang">"</span><span class="source-lf">); </span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf">}  </span><span class="source-lf comment-line-double-dash-lflang">// @label foo</span>
+<span class="source-lf">}</span>
+<span class="source-lf"></span>

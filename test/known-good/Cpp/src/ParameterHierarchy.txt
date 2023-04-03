@@ -1,0 +1,33 @@
+<span class="source-lf comment-block-lflang">/**</span>
+<span class="source-lf comment-block-lflang"> * @author Maiko Brants TU Dresden</span>
+<span class="source-lf comment-block-lflang"> *</span>
+<span class="source-lf comment-block-lflang"> * Test that parameter values pass down a deep hierarchy.</span>
+<span class="source-lf comment-block-lflang"> *</span>
+<span class="source-lf comment-block-lflang"> * modeled after the C version of this test</span>
+<span class="source-lf comment-block-lflang"> </span><span class="source-lf comment-block-lflang">*/</span>
+<span class="source-lf meta-targetspec-lflang keyword-control-lflang">target</span><span class="source-lf meta-targetspec-lflang"> </span><span class="source-lf meta-targetspec-lflang constant-language-lflang">Cpp</span>
+<span class="source-lf"></span>
+<span class="source-lf storage-modifier-lflang">reactor</span><span class="source-lf"> </span><span class="source-lf entity-name-type-lflang">Deep</span><span class="source-lf">(p: int(</span><span class="source-lf constant-numeric-int-lflang">0</span><span class="source-lf">)) {</span>
+<span class="source-lf">    </span><span class="source-lf keyword-control-lflang">reaction</span><span class="source-lf">(</span><span class="source-lf support-variable-lflang">startup</span><span class="source-lf">) {</span><span class="source-lf keyword-operator-lflang">=</span>
+<span class="source-lf">        if(p !</span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf"> </span><span class="source-lf constant-numeric-int-lflang">42</span><span class="source-lf">) {</span>
+<span class="source-lf">            </span><span class="source-lf storage-modifier-lflang">reactor</span><span class="source-lf keyword-operator-lflang">::</span><span class="source-lf variable-other-constant-reactorinstance-lflang">log</span><span class="source-lf keyword-operator-lflang">::</span><span class="source-lf variable-other-lflang">Error</span><span class="source-lf">() << </span><span class="source-lf string-quoted-double-lflang">"</span><span class="source-lf string-quoted-double-lflang">Parameter value is: </span><span class="source-lf string-quoted-double-lflang">"</span><span class="source-lf"> << p << </span><span class="source-lf string-quoted-double-lflang">"</span><span class="source-lf string-quoted-double-lflang">. Should have been 42.</span><span class="source-lf string-quoted-double-lflang">"</span><span class="source-lf">;</span>
+<span class="source-lf">            exit(</span><span class="source-lf constant-numeric-int-lflang">1</span><span class="source-lf">);</span>
+<span class="source-lf">        } else {</span>
+<span class="source-lf">            </span><span class="source-lf storage-modifier-lflang">reactor</span><span class="source-lf keyword-operator-lflang">::</span><span class="source-lf variable-other-constant-reactorinstance-lflang">log</span><span class="source-lf keyword-operator-lflang">::</span><span class="source-lf variable-other-lflang">Info</span><span class="source-lf">() << </span><span class="source-lf string-quoted-double-lflang">"</span><span class="source-lf string-quoted-double-lflang">Success.</span><span class="source-lf string-quoted-double-lflang">"</span><span class="source-lf">;</span>
+<span class="source-lf">        }</span>
+<span class="source-lf">    </span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf">}</span>
+<span class="source-lf">}</span>
+<span class="source-lf"></span>
+<span class="source-lf storage-modifier-lflang">reactor</span><span class="source-lf"> </span><span class="source-lf entity-name-type-lflang">Intermediate</span><span class="source-lf">(p: int(</span><span class="source-lf constant-numeric-int-lflang">10</span><span class="source-lf">)) {</span>
+<span class="source-lf">    </span><span class="source-lf variable-other-constant-reactorinstance-lflang">a</span><span class="source-lf"> </span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf"> </span><span class="source-lf keyword-operator-new-lflang">new</span><span class="source-lf"> </span><span class="source-lf entity-name-type-lflang">Deep</span><span class="source-lf">(p </span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf"> p)</span>
+<span class="source-lf">}</span>
+<span class="source-lf"></span>
+<span class="source-lf storage-modifier-lflang">reactor</span><span class="source-lf"> </span><span class="source-lf entity-name-type-lflang">Another</span><span class="source-lf">(p: int(</span><span class="source-lf constant-numeric-int-lflang">20</span><span class="source-lf">)) {</span>
+<span class="source-lf comment-line-double-dash-lflang">    </span><span class="source-lf comment-line-double-dash-lflang">// also test forwarding parameters via target code blocks</span>
+<span class="source-lf">    </span><span class="source-lf variable-other-constant-reactorinstance-lflang">a</span><span class="source-lf"> </span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf"> </span><span class="source-lf keyword-operator-new-lflang">new</span><span class="source-lf"> </span><span class="source-lf entity-name-type-lflang">Intermediate</span><span class="source-lf">(p </span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf"> {</span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf"> p </span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf">})</span>
+<span class="source-lf">}</span>
+<span class="source-lf"></span>
+<span class="source-lf storage-modifier-lflang">main</span><span class="source-lf"> </span><span class="source-lf storage-modifier-lflang">reactor</span><span class="source-lf"> </span><span class="source-lf entity-name-type-lflang">ParameterHierarchy</span><span class="source-lf"> {</span>
+<span class="source-lf">    </span><span class="source-lf variable-other-constant-reactorinstance-lflang">a</span><span class="source-lf"> </span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf"> </span><span class="source-lf keyword-operator-new-lflang">new</span><span class="source-lf"> </span><span class="source-lf entity-name-type-lflang">Intermediate</span><span class="source-lf">(p </span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf"> </span><span class="source-lf constant-numeric-int-lflang">42</span><span class="source-lf">)</span>
+<span class="source-lf">}</span>
+<span class="source-lf"></span>

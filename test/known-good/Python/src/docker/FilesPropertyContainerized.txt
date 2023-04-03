@@ -1,0 +1,33 @@
+<span class="source-lf meta-targetspec-lflang keyword-control-lflang">target</span><span class="source-lf meta-targetspec-lflang"> </span><span class="source-lf meta-targetspec-lflang constant-language-lflang">Python</span><span class="source-lf meta-targetspec-lflang"> {</span>
+<span class="source-lf meta-targetspec-lflang">    </span><span class="source-lf meta-targetspec-lflang variable-parameter-lflang">files</span><span class="source-lf meta-targetspec-lflang">: </span><span class="source-lf meta-targetspec-lflang string-quoted-double-lflang">"</span><span class="source-lf meta-targetspec-lflang string-quoted-double-lflang">../include/hello.py</span><span class="source-lf meta-targetspec-lflang string-quoted-double-lflang">"</span><span class="source-lf meta-targetspec-lflang">,</span>
+<span class="source-lf meta-targetspec-lflang">    </span><span class="source-lf meta-targetspec-lflang variable-parameter-lflang">docker</span><span class="source-lf meta-targetspec-lflang">: </span><span class="source-lf meta-targetspec-lflang constant-language-lflang">true</span>
+<span class="source-lf meta-targetspec-lflang">}</span>
+<span class="source-lf"></span>
+<span class="source-lf keyword-control-lflang">preamble</span><span class="source-lf"> </span><span class="source-lf meta-embedded-block-py">{=</span>
+<span class="source-lf meta-embedded-block-py">    try:</span>
+<span class="source-lf meta-embedded-block-py">        </span><span class="source-lf meta-embedded-block-py keyword-control-import-python">import</span><span class="source-lf meta-embedded-block-py"> hello</span>
+<span class="source-lf meta-embedded-block-py">    except:</span>
+<span class="source-lf meta-embedded-block-py">        lf_request_stop()</span>
+<span class="source-lf meta-embedded-block-py">=}</span>
+<span class="source-lf"></span>
+<span class="source-lf storage-modifier-lflang">main</span><span class="source-lf"> </span><span class="source-lf storage-modifier-lflang">reactor</span><span class="source-lf"> {</span>
+<span class="source-lf">    </span><span class="source-lf keyword-control-lflang">preamble</span><span class="source-lf"> </span><span class="source-lf meta-embedded-block-py">{=</span>
+<span class="source-lf meta-embedded-block-py">        try:</span>
+<span class="source-lf meta-embedded-block-py">            </span><span class="source-lf meta-embedded-block-py keyword-control-import-python">import</span><span class="source-lf meta-embedded-block-py"> hello</span>
+<span class="source-lf meta-embedded-block-py">        except:</span>
+<span class="source-lf meta-embedded-block-py">            lf_request_stop()</span>
+<span class="source-lf meta-embedded-block-py">    </span><span class="source-lf meta-embedded-block-py">=}</span>
+<span class="source-lf">    </span><span class="source-lf storage-modifier-lflang">state</span><span class="source-lf"> passed(</span><span class="source-lf constant-language-lflang">false</span><span class="source-lf">)</span>
+<span class="source-lf">    </span><span class="source-lf storage-modifier-lflang">timer</span><span class="source-lf"> t(</span><span class="source-lf constant-numeric-int-lflang">1</span><span class="source-lf"> </span><span class="source-lf constant-numeric-lflang">msec</span><span class="source-lf">)</span>
+<span class="source-lf"></span>
+<span class="source-lf">    </span><span class="source-lf keyword-control-lflang">reaction</span><span class="source-lf">(t) </span><span class="source-lf meta-embedded-block-py">{=</span><span class="source-lf meta-embedded-block-py"> self.passed = True </span><span class="source-lf meta-embedded-block-py">=}</span>
+<span class="source-lf"></span>
+<span class="source-lf">    </span><span class="source-lf keyword-control-lflang">reaction</span><span class="source-lf">(</span><span class="source-lf support-variable-lflang">shutdown</span><span class="source-lf">) </span><span class="source-lf meta-embedded-block-py">{=</span>
+<span class="source-lf meta-embedded-block-py">        if not self.passed:</span>
+<span class="source-lf meta-embedded-block-py">            print("Failed to </span><span class="source-lf meta-embedded-block-py keyword-control-import-python">import</span><span class="source-lf meta-embedded-block-py"> file listed in files target property")</span>
+<span class="source-lf meta-embedded-block-py">            exit(1)</span>
+<span class="source-lf meta-embedded-block-py">        else:</span>
+<span class="source-lf meta-embedded-block-py">            print("PASSED")</span>
+<span class="source-lf meta-embedded-block-py">    </span><span class="source-lf meta-embedded-block-py">=}</span>
+<span class="source-lf">}</span>
+<span class="source-lf"></span>
