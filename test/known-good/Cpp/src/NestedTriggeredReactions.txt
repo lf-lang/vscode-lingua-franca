@@ -1,0 +1,42 @@
+<span class="source-lf meta-targetspec-lflang keyword-control-lflang">target</span><span class="source-lf meta-targetspec-lflang"> </span><span class="source-lf meta-targetspec-lflang constant-language-lflang">Cpp</span>
+<span class="source-lf"></span>
+<span class="source-lf storage-modifier-lflang">reactor</span><span class="source-lf"> </span><span class="source-lf entity-name-type-lflang">Container</span><span class="source-lf"> {</span>
+<span class="source-lf">    </span><span class="source-lf storage-modifier-lflang">input</span><span class="source-lf"> in:</span><span class="source-lf"> </span><span class="source-lf storage-type-lflang">void</span>
+<span class="source-lf"></span>
+<span class="source-lf">    </span><span class="source-lf storage-modifier-lflang">state</span><span class="source-lf"> triggered:</span><span class="source-lf"> </span><span class="source-lf storage-type-lflang">bool</span><span class="source-lf">{false}</span>
+<span class="source-lf"></span>
+<span class="source-lf">    </span><span class="source-lf variable-other-constant-reactorinstance-lflang">contained</span><span class="source-lf"> </span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf"> </span><span class="source-lf keyword-operator-new-lflang">new</span><span class="source-lf"> </span><span class="source-lf entity-name-type-lflang">Contained</span><span class="source-lf">()</span>
+<span class="source-lf"></span>
+<span class="source-lf">    in </span><span class="source-lf keyword-operator-lflang">-></span><span class="source-lf"> </span><span class="source-lf variable-other-constant-reactorinstance-lflang">contained</span><span class="source-lf keyword-operator-lflang">.</span><span class="source-lf variable-other-lflang">in</span>
+<span class="source-lf"></span>
+<span class="source-lf">    </span><span class="source-lf keyword-control-lflang">reaction</span><span class="source-lf">(in) {</span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf"> triggered </span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf"> </span><span class="source-lf constant-language-lflang">true</span><span class="source-lf">; </span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf">}</span>
+<span class="source-lf"></span>
+<span class="source-lf">    </span><span class="source-lf keyword-control-lflang">reaction</span><span class="source-lf">(</span><span class="source-lf support-variable-lflang">shutdown</span><span class="source-lf">) {</span><span class="source-lf keyword-operator-lflang">=</span>
+<span class="source-lf">        if (!triggered) {</span>
+<span class="source-lf">            </span><span class="source-lf storage-modifier-lflang">reactor</span><span class="source-lf keyword-operator-lflang">::</span><span class="source-lf variable-other-constant-reactorinstance-lflang">log</span><span class="source-lf keyword-operator-lflang">::</span><span class="source-lf variable-other-lflang">Error</span><span class="source-lf">() << </span><span class="source-lf string-quoted-double-lflang">"</span><span class="source-lf string-quoted-double-lflang">The Container reaction was not triggered!</span><span class="source-lf string-quoted-double-lflang">"</span><span class="source-lf">;</span>
+<span class="source-lf">            exit(</span><span class="source-lf constant-numeric-int-lflang">1</span><span class="source-lf">);</span>
+<span class="source-lf">        }</span>
+<span class="source-lf">    </span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf">}</span>
+<span class="source-lf">}</span>
+<span class="source-lf"></span>
+<span class="source-lf storage-modifier-lflang">reactor</span><span class="source-lf"> </span><span class="source-lf entity-name-type-lflang">Contained</span><span class="source-lf"> {</span>
+<span class="source-lf">    </span><span class="source-lf storage-modifier-lflang">input</span><span class="source-lf"> in:</span><span class="source-lf"> </span><span class="source-lf storage-type-lflang">void</span>
+<span class="source-lf"></span>
+<span class="source-lf">    </span><span class="source-lf storage-modifier-lflang">state</span><span class="source-lf"> triggered:</span><span class="source-lf"> </span><span class="source-lf storage-type-lflang">bool</span><span class="source-lf">{false}</span>
+<span class="source-lf"></span>
+<span class="source-lf">    </span><span class="source-lf keyword-control-lflang">reaction</span><span class="source-lf">(in) {</span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf"> triggered </span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf"> </span><span class="source-lf constant-language-lflang">true</span><span class="source-lf">; </span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf">}</span>
+<span class="source-lf"></span>
+<span class="source-lf">    </span><span class="source-lf keyword-control-lflang">reaction</span><span class="source-lf">(</span><span class="source-lf support-variable-lflang">shutdown</span><span class="source-lf">) {</span><span class="source-lf keyword-operator-lflang">=</span>
+<span class="source-lf">        if (!triggered) {</span>
+<span class="source-lf">            </span><span class="source-lf storage-modifier-lflang">reactor</span><span class="source-lf keyword-operator-lflang">::</span><span class="source-lf variable-other-constant-reactorinstance-lflang">log</span><span class="source-lf keyword-operator-lflang">::</span><span class="source-lf variable-other-lflang">Error</span><span class="source-lf">() << </span><span class="source-lf string-quoted-double-lflang">"</span><span class="source-lf string-quoted-double-lflang">The Contained reaction was not triggered!</span><span class="source-lf string-quoted-double-lflang">"</span><span class="source-lf">;</span>
+<span class="source-lf">            exit(</span><span class="source-lf constant-numeric-int-lflang">1</span><span class="source-lf">);</span>
+<span class="source-lf">        }</span>
+<span class="source-lf">    </span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf">}</span>
+<span class="source-lf">}</span>
+<span class="source-lf"></span>
+<span class="source-lf storage-modifier-lflang">main</span><span class="source-lf"> </span><span class="source-lf storage-modifier-lflang">reactor</span><span class="source-lf"> {</span>
+<span class="source-lf">    </span><span class="source-lf variable-other-constant-reactorinstance-lflang">container</span><span class="source-lf"> </span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf"> </span><span class="source-lf keyword-operator-new-lflang">new</span><span class="source-lf"> </span><span class="source-lf entity-name-type-lflang">Container</span><span class="source-lf">()</span>
+<span class="source-lf"></span>
+<span class="source-lf">    </span><span class="source-lf keyword-control-lflang">reaction</span><span class="source-lf">(</span><span class="source-lf support-variable-lflang">startup</span><span class="source-lf">) </span><span class="source-lf keyword-operator-lflang">-></span><span class="source-lf"> </span><span class="source-lf variable-other-constant-reactorinstance-lflang">container</span><span class="source-lf keyword-operator-lflang">.</span><span class="source-lf variable-other-lflang">in</span><span class="source-lf"> {</span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf"> </span><span class="source-lf variable-other-constant-reactorinstance-lflang">container</span><span class="source-lf keyword-operator-lflang">.</span><span class="source-lf variable-other-constant-reactorinstance-lflang">in</span><span class="source-lf keyword-operator-lflang">.</span><span class="source-lf variable-other-lflang">set</span><span class="source-lf">(); </span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf">}</span>
+<span class="source-lf">}</span>
+<span class="source-lf"></span>

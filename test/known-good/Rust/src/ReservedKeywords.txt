@@ -1,0 +1,27 @@
+<span class="source-lf comment-line-double-dash-lflang">// Tests that rust keywords may be used as identifiers in LF and are properly</span>
+<span class="source-lf comment-line-double-dash-lflang">// escaped by the emitter</span>
+<span class="source-lf meta-targetspec-lflang keyword-control-lflang">target</span><span class="source-lf meta-targetspec-lflang"> </span><span class="source-lf meta-targetspec-lflang constant-language-lflang">Rust</span>
+<span class="source-lf"></span>
+<span class="source-lf storage-modifier-lflang">reactor</span><span class="source-lf"> </span><span class="source-lf entity-name-type-lflang">box</span><span class="source-lf"> {</span>
+<span class="source-lf">    </span><span class="source-lf storage-modifier-lflang">input</span><span class="source-lf"> in: </span><span class="source-lf entity-name-type-lflang">u32</span>
+<span class="source-lf">    </span><span class="source-lf storage-modifier-lflang">output</span><span class="source-lf"> struct: </span><span class="source-lf entity-name-type-lflang">u32</span>
+<span class="source-lf"></span>
+<span class="source-lf">    in </span><span class="source-lf keyword-operator-lflang">-></span><span class="source-lf"> struct</span>
+<span class="source-lf"></span>
+<span class="source-lf">    </span><span class="source-lf storage-modifier-lflang">state</span><span class="source-lf"> foo: </span><span class="source-lf entity-name-type-lflang">bool</span><span class="source-lf">(</span><span class="source-lf constant-language-lflang">true</span><span class="source-lf">)  </span><span class="source-lf comment-line-double-dash-lflang">// not escaped</span>
+<span class="source-lf"></span>
+<span class="source-lf">    </span><span class="source-lf keyword-control-lflang">reaction</span><span class="source-lf">(in) {</span><span class="source-lf keyword-operator-lflang">=</span>
+<span class="source-lf">        </span><span class="source-lf variable-other-constant-reactorinstance-lflang">ctx</span><span class="source-lf keyword-operator-lflang">.</span><span class="source-lf variable-other-lflang">get</span><span class="source-lf">(r</span><span class="source-lf comment-line-double-dash-lflang">#in);</span>
+<span class="source-lf">    </span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf">}</span>
+<span class="source-lf">}</span>
+<span class="source-lf"></span>
+<span class="source-lf storage-modifier-lflang">main</span><span class="source-lf"> </span><span class="source-lf storage-modifier-lflang">reactor</span><span class="source-lf"> </span><span class="source-lf entity-name-type-lflang">ReservedKeywords</span><span class="source-lf">(struct: u32(</span><span class="source-lf constant-numeric-int-lflang">0</span><span class="source-lf">)) {</span>
+<span class="source-lf">    </span><span class="source-lf variable-other-constant-reactorinstance-lflang">box</span><span class="source-lf"> </span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf"> </span><span class="source-lf keyword-operator-new-lflang">new</span><span class="source-lf"> </span><span class="source-lf entity-name-type-lflang">box</span><span class="source-lf">()</span>
+<span class="source-lf"></span>
+<span class="source-lf">    </span><span class="source-lf storage-modifier-lflang">timer</span><span class="source-lf"> t1(</span><span class="source-lf constant-numeric-int-lflang">0</span><span class="source-lf">)</span>
+<span class="source-lf">    </span><span class="source-lf storage-modifier-lflang">timer</span><span class="source-lf"> t2(</span><span class="source-lf constant-numeric-int-lflang">15</span><span class="source-lf"> </span><span class="source-lf constant-numeric-lflang">msec</span><span class="source-lf">)</span>
+<span class="source-lf"></span>
+<span class="source-lf comment-line-double-dash-lflang">    </span><span class="source-lf comment-line-double-dash-lflang">// not in types, this wouldn't be useful. state reaction_num: struct(0);</span>
+<span class="source-lf">    </span><span class="source-lf keyword-control-lflang">reaction</span><span class="source-lf">(</span><span class="source-lf variable-other-constant-reactorinstance-lflang">box</span><span class="source-lf keyword-operator-lflang">.</span><span class="source-lf variable-other-lflang">struct</span><span class="source-lf">, t2) {</span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf">  </span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf">}</span>
+<span class="source-lf">}</span>
+<span class="source-lf"></span>

@@ -1,0 +1,52 @@
+<span class="source-lf comment-line-double-dash-lflang"># Demonstration of a state variable that is a list. The MovingAverage reactor</span>
+<span class="source-lf comment-line-double-dash-lflang"># computes the moving average of the last four inputs and produces that as</span>
+<span class="source-lf comment-line-double-dash-lflang"># output. The source is a counting sequence.</span>
+<span class="source-lf meta-targetspec-lflang keyword-control-lflang">target</span><span class="source-lf meta-targetspec-lflang"> </span><span class="source-lf meta-targetspec-lflang constant-language-lflang">Python</span><span class="source-lf meta-targetspec-lflang"> {</span>
+<span class="source-lf meta-targetspec-lflang">    </span><span class="source-lf meta-targetspec-lflang variable-parameter-lflang">timeout</span><span class="source-lf meta-targetspec-lflang">: </span><span class="source-lf meta-targetspec-lflang constant-numeric-int-lflang">1</span><span class="source-lf meta-targetspec-lflang"> </span><span class="source-lf meta-targetspec-lflang constant-numeric-lflang">sec</span><span class="source-lf meta-targetspec-lflang">,</span>
+<span class="source-lf meta-targetspec-lflang">    </span><span class="source-lf meta-targetspec-lflang variable-parameter-lflang">fast</span><span class="source-lf meta-targetspec-lflang">: </span><span class="source-lf meta-targetspec-lflang constant-language-lflang">true</span>
+<span class="source-lf meta-targetspec-lflang">}</span>
+<span class="source-lf"></span>
+<span class="source-lf keyword-control-import-lflang">import</span><span class="source-lf"> </span><span class="source-lf entity-name-type-lflang">TestDouble</span><span class="source-lf"> </span><span class="source-lf keyword-control-import-lflang">from</span><span class="source-lf"> </span><span class="source-lf string-quoted-double-lflang">"</span><span class="source-lf string-quoted-double-lflang">lib/Test.lf</span><span class="source-lf string-quoted-double-lflang">"</span>
+<span class="source-lf"></span>
+<span class="source-lf storage-modifier-lflang">reactor</span><span class="source-lf"> </span><span class="source-lf entity-name-type-lflang">MASource</span><span class="source-lf"> {</span>
+<span class="source-lf">    </span><span class="source-lf storage-modifier-lflang">output</span><span class="source-lf"> out</span>
+<span class="source-lf">    </span><span class="source-lf storage-modifier-lflang">state</span><span class="source-lf"> count(</span><span class="source-lf constant-numeric-int-lflang">0</span><span class="source-lf">)</span>
+<span class="source-lf">    </span><span class="source-lf storage-modifier-lflang">timer</span><span class="source-lf"> clock(</span><span class="source-lf constant-numeric-int-lflang">0</span><span class="source-lf">, </span><span class="source-lf constant-numeric-int-lflang">200</span><span class="source-lf"> </span><span class="source-lf constant-numeric-lflang">msec</span><span class="source-lf">)</span>
+<span class="source-lf"></span>
+<span class="source-lf">    </span><span class="source-lf keyword-control-lflang">reaction</span><span class="source-lf">(clock) </span><span class="source-lf keyword-operator-lflang">-></span><span class="source-lf"> out </span><span class="source-lf meta-embedded-block-py">{=</span>
+<span class="source-lf meta-embedded-block-py">        out.set(self.count)</span>
+<span class="source-lf meta-embedded-block-py">        self.count +=1</span>
+<span class="source-lf meta-embedded-block-py">    </span><span class="source-lf meta-embedded-block-py">=}</span>
+<span class="source-lf">}</span>
+<span class="source-lf"></span>
+<span class="source-lf storage-modifier-lflang">reactor</span><span class="source-lf"> </span><span class="source-lf entity-name-type-lflang">MovingAverageImpl</span><span class="source-lf"> {</span>
+<span class="source-lf">    </span><span class="source-lf storage-modifier-lflang">state</span><span class="source-lf"> delay_line(</span><span class="source-lf constant-numeric-float-lflang">0.0</span><span class="source-lf">, </span><span class="source-lf constant-numeric-float-lflang">0.0</span><span class="source-lf">, </span><span class="source-lf constant-numeric-float-lflang">0.0</span><span class="source-lf">)</span>
+<span class="source-lf">    </span><span class="source-lf storage-modifier-lflang">state</span><span class="source-lf"> index(</span><span class="source-lf constant-numeric-int-lflang">0</span><span class="source-lf">)</span>
+<span class="source-lf">    </span><span class="source-lf storage-modifier-lflang">input</span><span class="source-lf"> m_in</span>
+<span class="source-lf">    </span><span class="source-lf storage-modifier-lflang">output</span><span class="source-lf"> out</span>
+<span class="source-lf"></span>
+<span class="source-lf">    </span><span class="source-lf keyword-control-lflang">reaction</span><span class="source-lf">(m_in) </span><span class="source-lf keyword-operator-lflang">-></span><span class="source-lf"> out </span><span class="source-lf meta-embedded-block-py">{=</span>
+<span class="source-lf meta-embedded-block-py">        # Calculate the output.</span>
+<span class="source-lf meta-embedded-block-py">        sm = m_in.value</span>
+<span class="source-lf meta-embedded-block-py">        sm += sum(self.delay_line)</span>
+<span class="source-lf meta-embedded-block-py"></span>
+<span class="source-lf meta-embedded-block-py">        out.set(sm/4.0)</span>
+<span class="source-lf meta-embedded-block-py"></span>
+<span class="source-lf meta-embedded-block-py">        # Insert the input in the delay line.</span>
+<span class="source-lf meta-embedded-block-py">        self.delay_line[self.index] = m_in.value</span>
+<span class="source-lf meta-embedded-block-py"></span>
+<span class="source-lf meta-embedded-block-py">        # Update the index for the next input.</span>
+<span class="source-lf meta-embedded-block-py">        self.index +=1</span>
+<span class="source-lf meta-embedded-block-py">        if self.index >= 3:</span>
+<span class="source-lf meta-embedded-block-py">            self.index = 0</span>
+<span class="source-lf meta-embedded-block-py">    </span><span class="source-lf meta-embedded-block-py">=}</span>
+<span class="source-lf">}</span>
+<span class="source-lf"></span>
+<span class="source-lf storage-modifier-lflang">main</span><span class="source-lf"> </span><span class="source-lf storage-modifier-lflang">reactor</span><span class="source-lf"> </span><span class="source-lf entity-name-type-lflang">MovingAverage</span><span class="source-lf"> {</span>
+<span class="source-lf">    </span><span class="source-lf variable-other-constant-reactorinstance-lflang">s</span><span class="source-lf"> </span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf"> </span><span class="source-lf keyword-operator-new-lflang">new</span><span class="source-lf"> </span><span class="source-lf entity-name-type-lflang">MASource</span><span class="source-lf">()</span>
+<span class="source-lf">    </span><span class="source-lf variable-other-constant-reactorinstance-lflang">m</span><span class="source-lf"> </span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf"> </span><span class="source-lf keyword-operator-new-lflang">new</span><span class="source-lf"> </span><span class="source-lf entity-name-type-lflang">MovingAverageImpl</span><span class="source-lf">()</span>
+<span class="source-lf">    </span><span class="source-lf variable-other-constant-reactorinstance-lflang">p</span><span class="source-lf"> </span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf"> </span><span class="source-lf keyword-operator-new-lflang">new</span><span class="source-lf"> </span><span class="source-lf entity-name-type-lflang">TestDouble</span><span class="source-lf">(expected </span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf"> (</span><span class="source-lf constant-numeric-float-lflang">0.0</span><span class="source-lf">, </span><span class="source-lf constant-numeric-float-lflang">0.25</span><span class="source-lf">, </span><span class="source-lf constant-numeric-float-lflang">0.75</span><span class="source-lf">, </span><span class="source-lf constant-numeric-float-lflang">1.5</span><span class="source-lf">, </span><span class="source-lf constant-numeric-float-lflang">2.5</span><span class="source-lf">, </span><span class="source-lf constant-numeric-float-lflang">3.5</span><span class="source-lf">))</span>
+<span class="source-lf">    </span><span class="source-lf variable-other-constant-reactorinstance-lflang">s</span><span class="source-lf keyword-operator-lflang">.</span><span class="source-lf variable-other-lflang">out</span><span class="source-lf"> </span><span class="source-lf keyword-operator-lflang">-></span><span class="source-lf"> </span><span class="source-lf variable-other-constant-reactorinstance-lflang">m</span><span class="source-lf keyword-operator-lflang">.</span><span class="source-lf variable-other-lflang">m_in</span>
+<span class="source-lf">    </span><span class="source-lf variable-other-constant-reactorinstance-lflang">m</span><span class="source-lf keyword-operator-lflang">.</span><span class="source-lf variable-other-lflang">out</span><span class="source-lf"> </span><span class="source-lf keyword-operator-lflang">-></span><span class="source-lf"> </span><span class="source-lf variable-other-constant-reactorinstance-lflang">p</span><span class="source-lf keyword-operator-lflang">.</span><span class="source-lf variable-other-lflang">t_in</span>
+<span class="source-lf">}</span>
+<span class="source-lf"></span>

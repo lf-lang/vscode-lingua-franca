@@ -1,0 +1,25 @@
+<span class="source-lf comment-line-double-dash-lflang">// Tests that the scheduler ends up shutting down if there are no live Sender</span>
+<span class="source-lf comment-line-double-dash-lflang">// that can send messages back to the scheduler.</span>
+<span class="source-lf meta-targetspec-lflang keyword-control-lflang">target</span><span class="source-lf meta-targetspec-lflang"> </span><span class="source-lf meta-targetspec-lflang constant-language-lflang">Rust</span><span class="source-lf meta-targetspec-lflang"> {</span>
+<span class="source-lf meta-targetspec-lflang">    </span><span class="source-lf meta-targetspec-lflang variable-parameter-lflang">keepalive</span><span class="source-lf meta-targetspec-lflang">: </span><span class="source-lf meta-targetspec-lflang constant-language-lflang">true</span>
+<span class="source-lf meta-targetspec-lflang">}</span>
+<span class="source-lf"></span>
+<span class="source-lf storage-modifier-lflang">main</span><span class="source-lf"> </span><span class="source-lf storage-modifier-lflang">reactor</span><span class="source-lf"> {</span>
+<span class="source-lf">    </span><span class="source-lf storage-modifier-lflang">physical</span><span class="source-lf"> </span><span class="source-lf storage-modifier-lflang">action</span><span class="source-lf"> act: </span><span class="source-lf entity-name-type-lflang">u32</span>
+<span class="source-lf"></span>
+<span class="source-lf">    </span><span class="source-lf keyword-control-lflang">reaction</span><span class="source-lf">(</span><span class="source-lf support-variable-lflang">startup</span><span class="source-lf">) </span><span class="source-lf keyword-operator-lflang">-></span><span class="source-lf"> act {</span><span class="source-lf keyword-operator-lflang">=</span>
+<span class="source-lf">        </span><span class="source-lf variable-other-constant-reactorinstance-lflang">std</span><span class="source-lf keyword-operator-lflang">::</span><span class="source-lf variable-other-constant-reactorinstance-lflang">thread</span><span class="source-lf keyword-operator-lflang">::</span><span class="source-lf variable-other-lflang">spawn</span><span class="source-lf">(|| {</span>
+<span class="source-lf">            </span><span class="source-lf variable-other-constant-reactorinstance-lflang">std</span><span class="source-lf keyword-operator-lflang">::</span><span class="source-lf variable-other-constant-reactorinstance-lflang">thread</span><span class="source-lf keyword-operator-lflang">::</span><span class="source-lf variable-other-lflang">sleep</span><span class="source-lf">(delay!(</span><span class="source-lf constant-numeric-int-lflang">1</span><span class="source-lf"> </span><span class="source-lf constant-numeric-lflang">sec</span><span class="source-lf">));</span>
+<span class="source-lf comment-line-double-dash-lflang">            </span><span class="source-lf comment-line-double-dash-lflang">// this is a regular thread which doesn't have a reference to the scheduler</span>
+<span class="source-lf">        });</span>
+<span class="source-lf">    </span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf">}</span>
+<span class="source-lf"></span>
+<span class="source-lf">    </span><span class="source-lf keyword-control-lflang">reaction</span><span class="source-lf">(</span><span class="source-lf support-variable-lflang">shutdown</span><span class="source-lf">) {</span><span class="source-lf keyword-operator-lflang">=</span>
+<span class="source-lf">        assert!(</span>
+<span class="source-lf">          </span><span class="source-lf variable-other-constant-reactorinstance-lflang">ctx</span><span class="source-lf keyword-operator-lflang">.</span><span class="source-lf variable-other-lflang">get_elapsed_logical_time</span><span class="source-lf">() < </span><span class="source-lf variable-other-constant-reactorinstance-lflang">Duration</span><span class="source-lf keyword-operator-lflang">::</span><span class="source-lf variable-other-lflang">from_millis</span><span class="source-lf">(</span><span class="source-lf constant-numeric-int-lflang">500</span><span class="source-lf">),</span>
+<span class="source-lf">          </span><span class="source-lf string-quoted-double-lflang">"</span><span class="source-lf string-quoted-double-lflang">Should shutdown before the other thread catches up</span><span class="source-lf string-quoted-double-lflang">"</span>
+<span class="source-lf">        );</span>
+<span class="source-lf">        println!(</span><span class="source-lf string-quoted-double-lflang">"</span><span class="source-lf string-quoted-double-lflang">success</span><span class="source-lf string-quoted-double-lflang">"</span><span class="source-lf">);</span>
+<span class="source-lf">    </span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf">}</span>
+<span class="source-lf">}</span>
+<span class="source-lf"></span>

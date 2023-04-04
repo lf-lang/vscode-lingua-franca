@@ -1,0 +1,22 @@
+<span class="source-lf comment-line-double-dash-lflang">// Tests the lf_tag().microstep function in the C target.</span>
+<span class="source-lf meta-targetspec-lflang keyword-control-lflang">target</span><span class="source-lf meta-targetspec-lflang"> </span><span class="source-lf meta-targetspec-lflang constant-language-lflang">C</span>
+<span class="source-lf"></span>
+<span class="source-lf storage-modifier-lflang">main</span><span class="source-lf"> </span><span class="source-lf storage-modifier-lflang">reactor</span><span class="source-lf"> </span><span class="source-lf entity-name-type-lflang">GetMicroStep</span><span class="source-lf"> {</span>
+<span class="source-lf">    </span><span class="source-lf storage-modifier-lflang">state</span><span class="source-lf"> s:</span><span class="source-lf"> </span><span class="source-lf storage-type-lflang">int</span><span class="source-lf">(</span><span class="source-lf constant-numeric-int-lflang">1</span><span class="source-lf">)</span>
+<span class="source-lf"></span>
+<span class="source-lf">    </span><span class="source-lf storage-modifier-lflang">logical</span><span class="source-lf"> </span><span class="source-lf storage-modifier-lflang">action</span><span class="source-lf"> l</span>
+<span class="source-lf"></span>
+<span class="source-lf">    </span><span class="source-lf keyword-control-lflang">reaction</span><span class="source-lf">(</span><span class="source-lf support-variable-lflang">startup</span><span class="source-lf">) </span><span class="source-lf keyword-operator-lflang">-></span><span class="source-lf"> l {</span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf"> lf_schedule(l, </span><span class="source-lf constant-numeric-int-lflang">0</span><span class="source-lf">); </span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf">}</span>
+<span class="source-lf"></span>
+<span class="source-lf">    </span><span class="source-lf keyword-control-lflang">reaction</span><span class="source-lf">(l) </span><span class="source-lf keyword-operator-lflang">-></span><span class="source-lf"> l {</span><span class="source-lf keyword-operator-lflang">=</span>
+<span class="source-lf">        microstep_t microstep </span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf"> lf_tag()</span><span class="source-lf keyword-operator-lflang">.</span><span class="source-lf">microstep;</span>
+<span class="source-lf">        if (microstep !</span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf"> self</span><span class="source-lf keyword-operator-lflang">-></span><span class="source-lf">s) {</span>
+<span class="source-lf">            lf_print_error_and_exit(</span><span class="source-lf string-quoted-double-lflang">"</span><span class="source-lf string-quoted-double-lflang">expected microstep %d, got %d instead.</span><span class="source-lf string-quoted-double-lflang">"</span><span class="source-lf">, self</span><span class="source-lf keyword-operator-lflang">-></span><span class="source-lf">s, microstep);</span>
+<span class="source-lf">        }</span>
+<span class="source-lf">        self</span><span class="source-lf keyword-operator-lflang">-></span><span class="source-lf">s </span><span class="source-lf keyword-operator-lflang">+</span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf"> </span><span class="source-lf constant-numeric-int-lflang">1</span><span class="source-lf">;</span>
+<span class="source-lf">        if (self</span><span class="source-lf keyword-operator-lflang">-></span><span class="source-lf">s < </span><span class="source-lf constant-numeric-int-lflang">10</span><span class="source-lf">) {</span>
+<span class="source-lf">            lf_schedule(l, </span><span class="source-lf constant-numeric-int-lflang">0</span><span class="source-lf">);</span>
+<span class="source-lf">        }</span>
+<span class="source-lf">    </span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf">}</span>
+<span class="source-lf">}</span>
+<span class="source-lf"></span>

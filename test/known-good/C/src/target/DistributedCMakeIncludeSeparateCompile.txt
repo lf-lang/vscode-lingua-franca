@@ -1,0 +1,17 @@
+<span class="source-lf comment-block-lflang">/**</span>
+<span class="source-lf comment-block-lflang"> * Test that cmake-include in an included file is being imported correctly, and</span>
+<span class="source-lf comment-block-lflang"> * that the imported cmake-includes are applied separately for each federate.</span>
+<span class="source-lf comment-block-lflang"> * The failure for this test is failure to compile.</span>
+<span class="source-lf comment-block-lflang"> </span><span class="source-lf comment-block-lflang">*/</span>
+<span class="source-lf meta-targetspec-lflang keyword-control-lflang">target</span><span class="source-lf meta-targetspec-lflang"> </span><span class="source-lf meta-targetspec-lflang constant-language-lflang">C</span><span class="source-lf meta-targetspec-lflang"> {</span>
+<span class="source-lf meta-targetspec-lflang">    </span><span class="source-lf meta-targetspec-lflang variable-parameter-lflang">timeout</span><span class="source-lf meta-targetspec-lflang">: </span><span class="source-lf meta-targetspec-lflang constant-numeric-int-lflang">0</span><span class="source-lf meta-targetspec-lflang"> </span><span class="source-lf meta-targetspec-lflang constant-numeric-lflang">sec</span>
+<span class="source-lf meta-targetspec-lflang">}</span>
+<span class="source-lf"></span>
+<span class="source-lf keyword-control-import-lflang">import</span><span class="source-lf"> </span><span class="source-lf entity-name-type-lflang">Foo</span><span class="source-lf"> </span><span class="source-lf keyword-control-import-lflang">from</span><span class="source-lf"> </span><span class="source-lf string-quoted-double-lflang">"</span><span class="source-lf string-quoted-double-lflang">CMakeInclude.lf</span><span class="source-lf string-quoted-double-lflang">"</span>
+<span class="source-lf keyword-control-import-lflang">import</span><span class="source-lf"> </span><span class="source-lf entity-name-type-lflang">Bar</span><span class="source-lf"> </span><span class="source-lf keyword-control-import-lflang">from</span><span class="source-lf"> </span><span class="source-lf string-quoted-double-lflang">"</span><span class="source-lf string-quoted-double-lflang">DistributedCMakeInclude.lf</span><span class="source-lf string-quoted-double-lflang">"</span>
+<span class="source-lf"></span>
+<span class="source-lf storage-modifier-lflang">federated</span><span class="source-lf"> </span><span class="source-lf storage-modifier-lflang">reactor</span><span class="source-lf"> {</span>
+<span class="source-lf">    </span><span class="source-lf variable-other-constant-reactorinstance-lflang">f1</span><span class="source-lf"> </span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf"> </span><span class="source-lf keyword-operator-new-lflang">new</span><span class="source-lf"> </span><span class="source-lf entity-name-type-lflang">Foo</span><span class="source-lf">()</span>
+<span class="source-lf">    </span><span class="source-lf variable-other-constant-reactorinstance-lflang">b1</span><span class="source-lf"> </span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf"> </span><span class="source-lf keyword-operator-new-lflang">new</span><span class="source-lf"> </span><span class="source-lf entity-name-type-lflang">Bar</span><span class="source-lf">()</span>
+<span class="source-lf">}</span>
+<span class="source-lf"></span>

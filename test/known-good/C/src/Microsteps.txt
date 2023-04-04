@@ -1,0 +1,42 @@
+<span class="source-lf meta-targetspec-lflang keyword-control-lflang">target</span><span class="source-lf meta-targetspec-lflang"> </span><span class="source-lf meta-targetspec-lflang constant-language-lflang">C</span>
+<span class="source-lf"></span>
+<span class="source-lf storage-modifier-lflang">reactor</span><span class="source-lf"> </span><span class="source-lf entity-name-type-lflang">Destination</span><span class="source-lf"> {</span>
+<span class="source-lf">    </span><span class="source-lf storage-modifier-lflang">input</span><span class="source-lf"> x:</span><span class="source-lf"> </span><span class="source-lf storage-type-lflang">int</span>
+<span class="source-lf">    </span><span class="source-lf storage-modifier-lflang">input</span><span class="source-lf"> y:</span><span class="source-lf"> </span><span class="source-lf storage-type-lflang">int</span>
+<span class="source-lf"></span>
+<span class="source-lf">    </span><span class="source-lf keyword-control-lflang">reaction</span><span class="source-lf">(x, y) {</span><span class="source-lf keyword-operator-lflang">=</span>
+<span class="source-lf">        interval_t elapsed </span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf"> lf_time_logical_elapsed();</span>
+<span class="source-lf">        printf(</span><span class="source-lf string-quoted-double-lflang">"</span><span class="source-lf string-quoted-double-lflang">Time since start: %lld.</span><span class="source-lf string-quoted-double-lflang constant-character-escape">\n</span><span class="source-lf string-quoted-double-lflang">"</span><span class="source-lf">, elapsed);</span>
+<span class="source-lf">        if (elapsed !</span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf"> 0LL) {</span>
+<span class="source-lf">            printf(</span><span class="source-lf string-quoted-double-lflang">"</span><span class="source-lf string-quoted-double-lflang">Expected elapsed time to be 0, but it was %lld.</span><span class="source-lf string-quoted-double-lflang constant-character-escape">\n</span><span class="source-lf string-quoted-double-lflang">"</span><span class="source-lf">, elapsed);</span>
+<span class="source-lf">            exit(</span><span class="source-lf constant-numeric-int-lflang">1</span><span class="source-lf">);</span>
+<span class="source-lf">        }</span>
+<span class="source-lf">        int count </span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf"> </span><span class="source-lf constant-numeric-int-lflang">0</span><span class="source-lf">;</span>
+<span class="source-lf">        if (x</span><span class="source-lf keyword-operator-lflang">-></span><span class="source-lf">is_present) {</span>
+<span class="source-lf">            printf(</span><span class="source-lf string-quoted-double-lflang">"</span><span class="source-lf string-quoted-double-lflang">  x is present.</span><span class="source-lf string-quoted-double-lflang constant-character-escape">\n</span><span class="source-lf string-quoted-double-lflang">"</span><span class="source-lf">);</span>
+<span class="source-lf">            count</span><span class="source-lf keyword-operator-lflang">+</span><span class="source-lf keyword-operator-lflang">+</span><span class="source-lf">;</span>
+<span class="source-lf">        }</span>
+<span class="source-lf">        if (y</span><span class="source-lf keyword-operator-lflang">-></span><span class="source-lf">is_present) {</span>
+<span class="source-lf">            printf(</span><span class="source-lf string-quoted-double-lflang">"</span><span class="source-lf string-quoted-double-lflang">  y is present.</span><span class="source-lf string-quoted-double-lflang constant-character-escape">\n</span><span class="source-lf string-quoted-double-lflang">"</span><span class="source-lf">);</span>
+<span class="source-lf">            count</span><span class="source-lf keyword-operator-lflang">+</span><span class="source-lf keyword-operator-lflang">+</span><span class="source-lf">;</span>
+<span class="source-lf">        }</span>
+<span class="source-lf">        if (count !</span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf"> </span><span class="source-lf constant-numeric-int-lflang">1</span><span class="source-lf">) {</span>
+<span class="source-lf">            printf(</span><span class="source-lf string-quoted-double-lflang">"</span><span class="source-lf string-quoted-double-lflang">Expected exactly one input to be present but got %d.</span><span class="source-lf string-quoted-double-lflang constant-character-escape">\n</span><span class="source-lf string-quoted-double-lflang">"</span><span class="source-lf">, count);</span>
+<span class="source-lf">            exit(</span><span class="source-lf constant-numeric-int-lflang">1</span><span class="source-lf">);</span>
+<span class="source-lf">        }</span>
+<span class="source-lf">    </span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf">}</span>
+<span class="source-lf">}</span>
+<span class="source-lf"></span>
+<span class="source-lf storage-modifier-lflang">main</span><span class="source-lf"> </span><span class="source-lf storage-modifier-lflang">reactor</span><span class="source-lf"> </span><span class="source-lf entity-name-type-lflang">Microsteps</span><span class="source-lf"> {</span>
+<span class="source-lf">    </span><span class="source-lf storage-modifier-lflang">timer</span><span class="source-lf"> start</span>
+<span class="source-lf">    </span><span class="source-lf storage-modifier-lflang">logical</span><span class="source-lf"> </span><span class="source-lf storage-modifier-lflang">action</span><span class="source-lf"> repeat</span>
+<span class="source-lf">    </span><span class="source-lf variable-other-constant-reactorinstance-lflang">d</span><span class="source-lf"> </span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf"> </span><span class="source-lf keyword-operator-new-lflang">new</span><span class="source-lf"> </span><span class="source-lf entity-name-type-lflang">Destination</span><span class="source-lf">()</span>
+<span class="source-lf"></span>
+<span class="source-lf">    </span><span class="source-lf keyword-control-lflang">reaction</span><span class="source-lf">(start) </span><span class="source-lf keyword-operator-lflang">-></span><span class="source-lf"> </span><span class="source-lf variable-other-constant-reactorinstance-lflang">d</span><span class="source-lf keyword-operator-lflang">.</span><span class="source-lf variable-other-lflang">x</span><span class="source-lf">, repeat {</span><span class="source-lf keyword-operator-lflang">=</span>
+<span class="source-lf">        lf_set(</span><span class="source-lf variable-other-constant-reactorinstance-lflang">d</span><span class="source-lf keyword-operator-lflang">.</span><span class="source-lf variable-other-lflang">x</span><span class="source-lf">, </span><span class="source-lf constant-numeric-int-lflang">1</span><span class="source-lf">);</span>
+<span class="source-lf">        lf_schedule(repeat, </span><span class="source-lf constant-numeric-int-lflang">0</span><span class="source-lf">);</span>
+<span class="source-lf">    </span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf">}</span>
+<span class="source-lf"></span>
+<span class="source-lf">    </span><span class="source-lf keyword-control-lflang">reaction</span><span class="source-lf">(repeat) </span><span class="source-lf keyword-operator-lflang">-></span><span class="source-lf"> </span><span class="source-lf variable-other-constant-reactorinstance-lflang">d</span><span class="source-lf keyword-operator-lflang">.</span><span class="source-lf variable-other-lflang">y</span><span class="source-lf"> {</span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf"> lf_set(</span><span class="source-lf variable-other-constant-reactorinstance-lflang">d</span><span class="source-lf keyword-operator-lflang">.</span><span class="source-lf variable-other-lflang">y</span><span class="source-lf">, </span><span class="source-lf constant-numeric-int-lflang">1</span><span class="source-lf">); </span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf">}</span>
+<span class="source-lf">}</span>
+<span class="source-lf"></span>

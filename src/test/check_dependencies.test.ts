@@ -15,6 +15,7 @@ import { MessageDisplayHelper } from '../utils';
 import * as http from 'http';
 import * as url from 'url';
 import * as config from '../config';
+import dependency_status from './dependency_status';
 
 chai.use(spies);
 
@@ -35,16 +36,7 @@ const linkCheckingTimeoutMilliseconds = 60 * 1000;
 suite('test dependency checking',  () => {
     after(() => { vscode.window.showInformationMessage('dependency checking tests complete!') });
 
-    const dependencies: DependencyStatus = (() => {
-        const dependenciesString = process.env.dependencies.toLowerCase();
-        for (const v in DependencyStatus) {
-            if (v.toLowerCase() === dependenciesString) return DependencyStatus[v];
-        }
-        throw new Error(
-            `"${dependenciesString}" is not a valid dependency state.
-            Acceptable values are "${Object.keys(DependencyStatus).join('", "')}"`
-        );
-    })();
+    const dependencies: DependencyStatus = dependency_status();
 
     type Spy = ChaiSpies.SpyFunc1Proxy<string, Thenable<string>>;
 

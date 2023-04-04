@@ -1,0 +1,91 @@
+<span class="source-lf comment-block-lflang">/**</span>
+<span class="source-lf comment-block-lflang"> * Test for lf_request_stop() in federated execution with centralized</span>
+<span class="source-lf comment-block-lflang"> * coordination at tag (0,0).</span>
+<span class="source-lf comment-block-lflang"> *</span>
+<span class="source-lf comment-block-lflang"> * @author Soroush Bateni</span>
+<span class="source-lf comment-block-lflang"> </span><span class="source-lf comment-block-lflang">*/</span>
+<span class="source-lf comment-line-double-dash-lflang"># reason for failing: lf_tag().microstep and lf.tag_compare() are not not</span>
+<span class="source-lf comment-line-double-dash-lflang"># supported in python target</span>
+<span class="source-lf meta-targetspec-lflang keyword-control-lflang">target</span><span class="source-lf meta-targetspec-lflang"> </span><span class="source-lf meta-targetspec-lflang constant-language-lflang">Python</span>
+<span class="source-lf"></span>
+<span class="source-lf keyword-control-lflang">preamble</span><span class="source-lf"> </span><span class="source-lf meta-embedded-block-py">{=</span><span class="source-lf meta-embedded-block-py"> </span><span class="source-lf meta-embedded-block-py keyword-control-import-python">import</span><span class="source-lf meta-embedded-block-py"> sys </span><span class="source-lf meta-embedded-block-py">=}</span>
+<span class="source-lf"></span>
+<span class="source-lf storage-modifier-lflang">reactor</span><span class="source-lf"> </span><span class="source-lf entity-name-type-lflang">Sender</span><span class="source-lf"> {</span>
+<span class="source-lf">    </span><span class="source-lf storage-modifier-lflang">output</span><span class="source-lf"> out</span>
+<span class="source-lf">    </span><span class="source-lf storage-modifier-lflang">timer</span><span class="source-lf"> t(</span><span class="source-lf constant-numeric-int-lflang">0</span><span class="source-lf">, </span><span class="source-lf constant-numeric-int-lflang">1</span><span class="source-lf"> </span><span class="source-lf constant-numeric-lflang">usec</span><span class="source-lf">)</span>
+<span class="source-lf">    </span><span class="source-lf storage-modifier-lflang">state</span><span class="source-lf"> startup_logical_time</span>
+<span class="source-lf"></span>
+<span class="source-lf">    </span><span class="source-lf keyword-control-lflang">reaction</span><span class="source-lf">(</span><span class="source-lf support-variable-lflang">startup</span><span class="source-lf">) </span><span class="source-lf meta-embedded-block-py">{=</span><span class="source-lf meta-embedded-block-py"> self.startup_logical_time = lf.time.logical() </span><span class="source-lf meta-embedded-block-py">=}</span>
+<span class="source-lf"></span>
+<span class="source-lf">    </span><span class="source-lf keyword-control-lflang">reaction</span><span class="source-lf">(t) </span><span class="source-lf keyword-operator-lflang">-></span><span class="source-lf"> out </span><span class="source-lf meta-embedded-block-py">{=</span>
+<span class="source-lf meta-embedded-block-py">        tag = lf.tag()</span>
+<span class="source-lf meta-embedded-block-py">        print("Sending 42 at ({}, {}).".format(</span>
+<span class="source-lf meta-embedded-block-py">                     tag.time,</span>
+<span class="source-lf meta-embedded-block-py">                     tag.microstep))</span>
+<span class="source-lf meta-embedded-block-py">        out.set(42)</span>
+<span class="source-lf meta-embedded-block-py">        zero = Tag(time=self.startup_logical_time, microstep=0)</span>
+<span class="source-lf meta-embedded-block-py">        if lf.tag_compare(lf.tag(), zero) == 0:</span>
+<span class="source-lf meta-embedded-block-py">            # Request stop at (0,0)</span>
+<span class="source-lf meta-embedded-block-py">            print("Requesting stop at ({}, {}).".format(</span>
+<span class="source-lf meta-embedded-block-py">                     lf.time.logical_elapsed(),</span>
+<span class="source-lf meta-embedded-block-py">                     lf.tag().microstep))</span>
+<span class="source-lf meta-embedded-block-py">            lf_request_stop()</span>
+<span class="source-lf meta-embedded-block-py">    </span><span class="source-lf meta-embedded-block-py">=}</span>
+<span class="source-lf"></span>
+<span class="source-lf">    </span><span class="source-lf keyword-control-lflang">reaction</span><span class="source-lf">(</span><span class="source-lf support-variable-lflang">shutdown</span><span class="source-lf">) </span><span class="source-lf meta-embedded-block-py">{=</span>
+<span class="source-lf meta-embedded-block-py">        tag = lf.tag()</span>
+<span class="source-lf meta-embedded-block-py">        if tag.time != USEC(0) or tag.microstep != 1:</span>
+<span class="source-lf meta-embedded-block-py">            sys.stderr.write("ERROR: Sender failed to stop the federation in time. Stopping at ({}, {}).\n".format(</span>
+<span class="source-lf meta-embedded-block-py">                     tag.time,</span>
+<span class="source-lf meta-embedded-block-py">                     tag.microstep))</span>
+<span class="source-lf meta-embedded-block-py">            sys.exit(1)</span>
+<span class="source-lf meta-embedded-block-py">        print("SUCCESS: Successfully stopped the federation at ({}, {}).".format(</span>
+<span class="source-lf meta-embedded-block-py">                     tag.time,</span>
+<span class="source-lf meta-embedded-block-py">                     tag.microstep))</span>
+<span class="source-lf meta-embedded-block-py">    </span><span class="source-lf meta-embedded-block-py">=}</span>
+<span class="source-lf">}</span>
+<span class="source-lf"></span>
+<span class="source-lf storage-modifier-lflang">reactor</span><span class="source-lf"> </span><span class="source-lf entity-name-type-lflang">Receiver</span><span class="source-lf"> {</span>
+<span class="source-lf">    </span><span class="source-lf storage-modifier-lflang">input</span><span class="source-lf"> in_</span>
+<span class="source-lf">    </span><span class="source-lf storage-modifier-lflang">state</span><span class="source-lf"> startup_logical_time</span>
+<span class="source-lf"></span>
+<span class="source-lf">    </span><span class="source-lf keyword-control-lflang">reaction</span><span class="source-lf">(</span><span class="source-lf support-variable-lflang">startup</span><span class="source-lf">) </span><span class="source-lf meta-embedded-block-py">{=</span><span class="source-lf meta-embedded-block-py"> self.startup_logical_time = lf.time.logical() </span><span class="source-lf meta-embedded-block-py">=}</span>
+<span class="source-lf"></span>
+<span class="source-lf">    </span><span class="source-lf keyword-control-lflang">reaction</span><span class="source-lf">(in_) </span><span class="source-lf meta-embedded-block-py">{=</span>
+<span class="source-lf meta-embedded-block-py">        tag = lf.tag()</span>
+<span class="source-lf meta-embedded-block-py">        print("Received {} at ({}, {}).\n".format(</span>
+<span class="source-lf meta-embedded-block-py">                     in_.value,</span>
+<span class="source-lf meta-embedded-block-py">                     tag.time,</span>
+<span class="source-lf meta-embedded-block-py">                     tag.microstep))</span>
+<span class="source-lf meta-embedded-block-py">        zero = Tag(time=self.startup_logical_time, microstep=0)</span>
+<span class="source-lf meta-embedded-block-py">        if lf.tag_compare(lf.tag(), zero) == 0:</span>
+<span class="source-lf meta-embedded-block-py">            # Request stop at (0,0)</span>
+<span class="source-lf meta-embedded-block-py">            print("Requesting stop at ({}, {}).".format(</span>
+<span class="source-lf meta-embedded-block-py">                     tag.time,</span>
+<span class="source-lf meta-embedded-block-py">                     tag.microstep))</span>
+<span class="source-lf meta-embedded-block-py">            lf_request_stop()</span>
+<span class="source-lf meta-embedded-block-py">    </span><span class="source-lf meta-embedded-block-py">=}</span>
+<span class="source-lf"></span>
+<span class="source-lf">    </span><span class="source-lf keyword-control-lflang">reaction</span><span class="source-lf">(</span><span class="source-lf support-variable-lflang">shutdown</span><span class="source-lf">) </span><span class="source-lf meta-embedded-block-py">{=</span>
+<span class="source-lf meta-embedded-block-py">        # Sender should have requested stop earlier than the receiver.</span>
+<span class="source-lf meta-embedded-block-py">        # Therefore, the shutdown events must occur at (1000, 0) on the</span>
+<span class="source-lf meta-embedded-block-py">        # receiver.</span>
+<span class="source-lf meta-embedded-block-py">        tag = lf.tag()</span>
+<span class="source-lf meta-embedded-block-py">        if tag.time != USEC(0) or tag.microstep != 1:</span>
+<span class="source-lf meta-embedded-block-py">            sys.stderr.write("ERROR: Receiver failed to stop the federation in time. Stopping at ({}, {}).\n".format(</span>
+<span class="source-lf meta-embedded-block-py">                     tag.time,</span>
+<span class="source-lf meta-embedded-block-py">                     tag.microstep))</span>
+<span class="source-lf meta-embedded-block-py">            sys.exit(1)</span>
+<span class="source-lf meta-embedded-block-py">        print("SUCCESS: Successfully stopped the federation at ({}, {}).\n".format(</span>
+<span class="source-lf meta-embedded-block-py">                     tag.time,</span>
+<span class="source-lf meta-embedded-block-py">                     tag.microstep))</span>
+<span class="source-lf meta-embedded-block-py">    </span><span class="source-lf meta-embedded-block-py">=}</span>
+<span class="source-lf">}</span>
+<span class="source-lf"></span>
+<span class="source-lf storage-modifier-lflang">federated</span><span class="source-lf"> </span><span class="source-lf storage-modifier-lflang">reactor</span><span class="source-lf"> {</span>
+<span class="source-lf">    </span><span class="source-lf variable-other-constant-reactorinstance-lflang">sender</span><span class="source-lf"> </span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf"> </span><span class="source-lf keyword-operator-new-lflang">new</span><span class="source-lf"> </span><span class="source-lf entity-name-type-lflang">Sender</span><span class="source-lf">()</span>
+<span class="source-lf">    </span><span class="source-lf variable-other-constant-reactorinstance-lflang">receiver</span><span class="source-lf"> </span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf"> </span><span class="source-lf keyword-operator-new-lflang">new</span><span class="source-lf"> </span><span class="source-lf entity-name-type-lflang">Receiver</span><span class="source-lf">()</span>
+<span class="source-lf"></span>
+<span class="source-lf">    </span><span class="source-lf variable-other-constant-reactorinstance-lflang">sender</span><span class="source-lf keyword-operator-lflang">.</span><span class="source-lf variable-other-lflang">out</span><span class="source-lf"> </span><span class="source-lf keyword-operator-lflang">-></span><span class="source-lf"> </span><span class="source-lf variable-other-constant-reactorinstance-lflang">receiver</span><span class="source-lf keyword-operator-lflang">.</span><span class="source-lf variable-other-lflang">in_</span>
+<span class="source-lf">}</span>
+<span class="source-lf"></span>

@@ -1,0 +1,97 @@
+<span class="source-lf comment-block-lflang">/**</span>
+<span class="source-lf comment-block-lflang"> * Test _lf_schedule_at_tag which is an internal API function not meant to be</span>
+<span class="source-lf comment-block-lflang"> * used in user code.</span>
+<span class="source-lf comment-block-lflang"> *</span>
+<span class="source-lf comment-block-lflang"> * @author Soroush Bateni</span>
+<span class="source-lf comment-block-lflang"> </span><span class="source-lf comment-block-lflang">*/</span>
+<span class="source-lf meta-targetspec-lflang keyword-control-lflang">target</span><span class="source-lf meta-targetspec-lflang"> </span><span class="source-lf meta-targetspec-lflang constant-language-lflang">C</span><span class="source-lf meta-targetspec-lflang"> {</span>
+<span class="source-lf meta-targetspec-lflang">    </span><span class="source-lf meta-targetspec-lflang variable-parameter-lflang">timeout</span><span class="source-lf meta-targetspec-lflang">: </span><span class="source-lf meta-targetspec-lflang constant-numeric-int-lflang">1</span><span class="source-lf meta-targetspec-lflang"> </span><span class="source-lf meta-targetspec-lflang constant-numeric-lflang">sec</span><span class="source-lf meta-targetspec-lflang">,</span>
+<span class="source-lf meta-targetspec-lflang">    </span><span class="source-lf meta-targetspec-lflang variable-parameter-lflang">keepalive</span><span class="source-lf meta-targetspec-lflang">: </span><span class="source-lf meta-targetspec-lflang constant-language-lflang">true</span>
+<span class="source-lf meta-targetspec-lflang">}</span>
+<span class="source-lf"></span>
+<span class="source-lf storage-modifier-lflang">reactor</span><span class="source-lf"> </span><span class="source-lf entity-name-type-lflang">Scheduler</span><span class="source-lf"> {</span>
+<span class="source-lf">    </span><span class="source-lf storage-modifier-lflang">logical</span><span class="source-lf"> </span><span class="source-lf storage-modifier-lflang">action</span><span class="source-lf"> act</span>
+<span class="source-lf comment-line-double-dash-lflang">    </span><span class="source-lf comment-line-double-dash-lflang">// List of microsteps. Size = 16</span>
+<span class="source-lf">    </span><span class="source-lf storage-modifier-lflang">state</span><span class="source-lf"> microstep_delay_list:</span><span class="source-lf"> </span><span class="source-lf storage-type-lflang">uint32_t</span><span class="source-lf">[]</span><span class="source-lf">(</span>
+<span class="source-lf">        </span><span class="source-lf constant-numeric-int-lflang">0</span><span class="source-lf">,</span>
+<span class="source-lf">        </span><span class="source-lf constant-numeric-int-lflang">1</span><span class="source-lf">,</span>
+<span class="source-lf">        </span><span class="source-lf constant-numeric-int-lflang">1</span><span class="source-lf">,</span>
+<span class="source-lf">        </span><span class="source-lf constant-numeric-int-lflang">2</span><span class="source-lf">,</span>
+<span class="source-lf">        </span><span class="source-lf constant-numeric-int-lflang">2</span><span class="source-lf">,</span>
+<span class="source-lf">        </span><span class="source-lf constant-numeric-int-lflang">0</span><span class="source-lf">,</span>
+<span class="source-lf">        </span><span class="source-lf constant-numeric-int-lflang">0</span><span class="source-lf">,</span>
+<span class="source-lf">        </span><span class="source-lf constant-numeric-int-lflang">1</span><span class="source-lf">,</span>
+<span class="source-lf">        </span><span class="source-lf constant-numeric-int-lflang">1</span><span class="source-lf">,</span>
+<span class="source-lf">        </span><span class="source-lf constant-numeric-int-lflang">0</span><span class="source-lf">,</span>
+<span class="source-lf">        </span><span class="source-lf constant-numeric-int-lflang">2</span><span class="source-lf">,</span>
+<span class="source-lf">        </span><span class="source-lf constant-numeric-int-lflang">3</span><span class="source-lf">,</span>
+<span class="source-lf">        </span><span class="source-lf constant-numeric-int-lflang">3</span><span class="source-lf">,</span>
+<span class="source-lf">        </span><span class="source-lf constant-numeric-int-lflang">4</span><span class="source-lf">,</span>
+<span class="source-lf">        </span><span class="source-lf constant-numeric-int-lflang">4</span><span class="source-lf">,</span>
+<span class="source-lf">        </span><span class="source-lf constant-numeric-int-lflang">5</span>
+<span class="source-lf">    )</span>
+<span class="source-lf">    </span><span class="source-lf storage-modifier-lflang">state</span><span class="source-lf"> times:</span><span class="source-lf"> </span><span class="source-lf storage-type-lflang">int</span><span class="source-lf">[]</span><span class="source-lf">(</span>
+<span class="source-lf">        </span><span class="source-lf constant-numeric-int-lflang">0</span><span class="source-lf">,</span>
+<span class="source-lf">        </span><span class="source-lf constant-numeric-int-lflang">0</span><span class="source-lf">,</span>
+<span class="source-lf">        </span><span class="source-lf constant-numeric-int-lflang">0</span><span class="source-lf">,</span>
+<span class="source-lf">        </span><span class="source-lf constant-numeric-int-lflang">0</span><span class="source-lf">,</span>
+<span class="source-lf">        </span><span class="source-lf constant-numeric-int-lflang">0</span><span class="source-lf">,</span>
+<span class="source-lf">        </span><span class="source-lf constant-numeric-int-lflang">400</span><span class="source-lf"> </span><span class="source-lf constant-numeric-lflang">msec</span><span class="source-lf">,</span>
+<span class="source-lf">        </span><span class="source-lf constant-numeric-int-lflang">400</span><span class="source-lf"> </span><span class="source-lf constant-numeric-lflang">msec</span><span class="source-lf">,</span>
+<span class="source-lf">        </span><span class="source-lf constant-numeric-int-lflang">400</span><span class="source-lf"> </span><span class="source-lf constant-numeric-lflang">msec</span><span class="source-lf">,</span>
+<span class="source-lf">        </span><span class="source-lf constant-numeric-int-lflang">400</span><span class="source-lf"> </span><span class="source-lf constant-numeric-lflang">msec</span><span class="source-lf">,  </span><span class="source-lf comment-line-double-dash-lflang">// List of the corresponding times. Size = 16</span>
+<span class="source-lf">        </span><span class="source-lf constant-numeric-int-lflang">800</span><span class="source-lf"> </span><span class="source-lf constant-numeric-lflang">msec</span><span class="source-lf">,</span>
+<span class="source-lf">        </span><span class="source-lf constant-numeric-int-lflang">800</span><span class="source-lf"> </span><span class="source-lf constant-numeric-lflang">msec</span><span class="source-lf">,</span>
+<span class="source-lf">        </span><span class="source-lf constant-numeric-int-lflang">800</span><span class="source-lf"> </span><span class="source-lf constant-numeric-lflang">msec</span><span class="source-lf">,</span>
+<span class="source-lf">        </span><span class="source-lf constant-numeric-int-lflang">800</span><span class="source-lf"> </span><span class="source-lf constant-numeric-lflang">msec</span><span class="source-lf">,</span>
+<span class="source-lf">        </span><span class="source-lf constant-numeric-int-lflang">900</span><span class="source-lf"> </span><span class="source-lf constant-numeric-lflang">msec</span><span class="source-lf">,</span>
+<span class="source-lf">        </span><span class="source-lf constant-numeric-int-lflang">900</span><span class="source-lf"> </span><span class="source-lf constant-numeric-lflang">msec</span><span class="source-lf">,</span>
+<span class="source-lf">        </span><span class="source-lf constant-numeric-int-lflang">900</span><span class="source-lf"> </span><span class="source-lf constant-numeric-lflang">msec</span>
+<span class="source-lf">    )</span>
+<span class="source-lf comment-line-double-dash-lflang">    </span><span class="source-lf comment-line-double-dash-lflang">// Size = 9</span>
+<span class="source-lf">    </span><span class="source-lf storage-modifier-lflang">state</span><span class="source-lf"> action_hit_list_microstep:</span><span class="source-lf"> </span><span class="source-lf storage-type-lflang">int</span><span class="source-lf">[]</span><span class="source-lf">(</span><span class="source-lf constant-numeric-int-lflang">1</span><span class="source-lf">, </span><span class="source-lf constant-numeric-int-lflang">2</span><span class="source-lf">, </span><span class="source-lf constant-numeric-int-lflang">0</span><span class="source-lf">, </span><span class="source-lf constant-numeric-int-lflang">1</span><span class="source-lf">, </span><span class="source-lf constant-numeric-int-lflang">0</span><span class="source-lf">, </span><span class="source-lf constant-numeric-int-lflang">2</span><span class="source-lf">, </span><span class="source-lf constant-numeric-int-lflang">3</span><span class="source-lf">, </span><span class="source-lf constant-numeric-int-lflang">4</span><span class="source-lf">, </span><span class="source-lf constant-numeric-int-lflang">5</span><span class="source-lf">)</span>
+<span class="source-lf">    </span><span class="source-lf storage-modifier-lflang">state</span><span class="source-lf"> action_hit_list_times:</span><span class="source-lf"> </span><span class="source-lf storage-type-lflang">int</span><span class="source-lf">[]</span><span class="source-lf">(</span>
+<span class="source-lf">        </span><span class="source-lf constant-numeric-int-lflang">0</span><span class="source-lf">,</span>
+<span class="source-lf">        </span><span class="source-lf constant-numeric-int-lflang">0</span><span class="source-lf">,</span>
+<span class="source-lf">        </span><span class="source-lf constant-numeric-int-lflang">400</span><span class="source-lf"> </span><span class="source-lf constant-numeric-lflang">msec</span><span class="source-lf">,</span>
+<span class="source-lf">        </span><span class="source-lf constant-numeric-int-lflang">400</span><span class="source-lf"> </span><span class="source-lf constant-numeric-lflang">msec</span><span class="source-lf">,</span>
+<span class="source-lf">        </span><span class="source-lf constant-numeric-int-lflang">800</span><span class="source-lf"> </span><span class="source-lf constant-numeric-lflang">msec</span><span class="source-lf">,</span>
+<span class="source-lf">        </span><span class="source-lf constant-numeric-int-lflang">800</span><span class="source-lf"> </span><span class="source-lf constant-numeric-lflang">msec</span><span class="source-lf">,</span>
+<span class="source-lf">        </span><span class="source-lf constant-numeric-int-lflang">800</span><span class="source-lf"> </span><span class="source-lf constant-numeric-lflang">msec</span><span class="source-lf">,</span>
+<span class="source-lf">        </span><span class="source-lf constant-numeric-int-lflang">900</span><span class="source-lf"> </span><span class="source-lf constant-numeric-lflang">msec</span><span class="source-lf">,</span>
+<span class="source-lf">        </span><span class="source-lf constant-numeric-int-lflang">900</span><span class="source-lf"> </span><span class="source-lf constant-numeric-lflang">msec</span>
+<span class="source-lf">    )</span>
+<span class="source-lf comment-line-double-dash-lflang">    </span><span class="source-lf comment-line-double-dash-lflang">// Size = 9</span>
+<span class="source-lf">    </span><span class="source-lf storage-modifier-lflang">state</span><span class="source-lf"> action_hit_list_index:</span><span class="source-lf"> </span><span class="source-lf storage-type-lflang">int</span><span class="source-lf">(</span><span class="source-lf constant-numeric-int-lflang">0</span><span class="source-lf">)</span>
+<span class="source-lf"></span>
+<span class="source-lf">    </span><span class="source-lf keyword-control-lflang">reaction</span><span class="source-lf">(</span><span class="source-lf support-variable-lflang">startup</span><span class="source-lf">) </span><span class="source-lf keyword-operator-lflang">-></span><span class="source-lf"> act {</span><span class="source-lf keyword-operator-lflang">=</span>
+<span class="source-lf">        for (int i</span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf constant-numeric-int-lflang">0</span><span class="source-lf">; i < </span><span class="source-lf constant-numeric-int-lflang">16</span><span class="source-lf">; i</span><span class="source-lf keyword-operator-lflang">+</span><span class="source-lf keyword-operator-lflang">+</span><span class="source-lf">) {</span>
+<span class="source-lf">            _lf_schedule_at_tag(act</span><span class="source-lf keyword-operator-lflang">-></span><span class="source-lf">trigger,</span>
+<span class="source-lf">                (tag_t) { </span><span class="source-lf keyword-operator-lflang">.</span><span class="source-lf storage-type-lflang">time</span><span class="source-lf"> </span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf"> self</span><span class="source-lf keyword-operator-lflang">-></span><span class="source-lf">times[i] </span><span class="source-lf keyword-operator-lflang">+</span><span class="source-lf"> lf_time_logical(), </span><span class="source-lf keyword-operator-lflang">.</span><span class="source-lf">microstep </span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf"> self</span><span class="source-lf keyword-operator-lflang">-></span><span class="source-lf">microstep_delay_list[i]},</span>
+<span class="source-lf">                NULL);</span>
+<span class="source-lf">        }</span>
+<span class="source-lf">    </span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf">}</span>
+<span class="source-lf"></span>
+<span class="source-lf">    </span><span class="source-lf keyword-control-lflang">reaction</span><span class="source-lf">(act) {</span><span class="source-lf keyword-operator-lflang">=</span>
+<span class="source-lf">        microstep_t microstep </span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf"> lf_tag()</span><span class="source-lf keyword-operator-lflang">.</span><span class="source-lf">microstep;</span>
+<span class="source-lf">        instant_t elapsed_time </span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf"> lf_time_logical_elapsed();</span>
+<span class="source-lf">        if (elapsed_time </span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf"> self</span><span class="source-lf keyword-operator-lflang">-></span><span class="source-lf">action_hit_list_times[self</span><span class="source-lf keyword-operator-lflang">-></span><span class="source-lf">action_hit_list_index] &&</span>
+<span class="source-lf">            microstep </span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf"> self</span><span class="source-lf keyword-operator-lflang">-></span><span class="source-lf">action_hit_list_microstep[self</span><span class="source-lf keyword-operator-lflang">-></span><span class="source-lf">action_hit_list_index]) {</span>
+<span class="source-lf">            self</span><span class="source-lf keyword-operator-lflang">-></span><span class="source-lf">action_hit_list_index</span><span class="source-lf keyword-operator-lflang">+</span><span class="source-lf keyword-operator-lflang">+</span><span class="source-lf">;</span>
+<span class="source-lf">        }</span>
+<span class="source-lf">        printf(</span><span class="source-lf string-quoted-double-lflang">"</span><span class="source-lf string-quoted-double-lflang">Triggered at tag (%lld, %u).</span><span class="source-lf string-quoted-double-lflang constant-character-escape">\n</span><span class="source-lf string-quoted-double-lflang">"</span><span class="source-lf">, elapsed_time, microstep);</span>
+<span class="source-lf">    </span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf">}</span>
+<span class="source-lf"></span>
+<span class="source-lf">    </span><span class="source-lf keyword-control-lflang">reaction</span><span class="source-lf">(</span><span class="source-lf support-variable-lflang">shutdown</span><span class="source-lf">) {</span><span class="source-lf keyword-operator-lflang">=</span>
+<span class="source-lf">        if (self</span><span class="source-lf keyword-operator-lflang">-></span><span class="source-lf">action_hit_list_index !</span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf"> </span><span class="source-lf constant-numeric-int-lflang">9</span><span class="source-lf">) {</span>
+<span class="source-lf">            fprintf(stderr, </span><span class="source-lf string-quoted-double-lflang">"</span><span class="source-lf string-quoted-double-lflang">ERROR: incorrect number of actions were correctly scheduled: %d.</span><span class="source-lf string-quoted-double-lflang">"</span><span class="source-lf">, self</span><span class="source-lf keyword-operator-lflang">-></span><span class="source-lf">action_hit_list_index);</span>
+<span class="source-lf">            exit(</span><span class="source-lf constant-numeric-int-lflang">1</span><span class="source-lf">);</span>
+<span class="source-lf">        }</span>
+<span class="source-lf">        printf(</span><span class="source-lf string-quoted-double-lflang">"</span><span class="source-lf string-quoted-double-lflang">SUCCESS: successfully scheduled all the events.</span><span class="source-lf string-quoted-double-lflang constant-character-escape">\n</span><span class="source-lf string-quoted-double-lflang">"</span><span class="source-lf">);</span>
+<span class="source-lf">    </span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf">}</span>
+<span class="source-lf">}</span>
+<span class="source-lf"></span>
+<span class="source-lf storage-modifier-lflang">main</span><span class="source-lf"> </span><span class="source-lf storage-modifier-lflang">reactor</span><span class="source-lf"> </span><span class="source-lf entity-name-type-lflang">ScheduleAt</span><span class="source-lf"> {</span>
+<span class="source-lf">    </span><span class="source-lf variable-other-constant-reactorinstance-lflang">sender</span><span class="source-lf"> </span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf"> </span><span class="source-lf keyword-operator-new-lflang">new</span><span class="source-lf"> </span><span class="source-lf entity-name-type-lflang">Scheduler</span><span class="source-lf">()</span>
+<span class="source-lf">}</span>
+<span class="source-lf"></span>

@@ -1,0 +1,14 @@
+<span class="source-lf meta-targetspec-lflang keyword-control-lflang">target</span><span class="source-lf meta-targetspec-lflang"> </span><span class="source-lf meta-targetspec-lflang constant-language-lflang">Rust</span><span class="source-lf meta-targetspec-lflang"> {</span>
+<span class="source-lf meta-targetspec-lflang">    </span><span class="source-lf meta-targetspec-lflang variable-parameter-lflang">build-type</span><span class="source-lf meta-targetspec-lflang">: Release,</span>
+<span class="source-lf meta-targetspec-lflang">    </span><span class="source-lf meta-targetspec-lflang variable-parameter-lflang">cargo-features</span><span class="source-lf meta-targetspec-lflang">: [</span><span class="source-lf meta-targetspec-lflang string-quoted-double-lflang">"</span><span class="source-lf meta-targetspec-lflang string-quoted-double-lflang">cli</span><span class="source-lf meta-targetspec-lflang string-quoted-double-lflang">"</span><span class="source-lf meta-targetspec-lflang">]</span>
+<span class="source-lf meta-targetspec-lflang">}</span>
+<span class="source-lf"></span>
+<span class="source-lf storage-modifier-lflang">main</span><span class="source-lf"> </span><span class="source-lf storage-modifier-lflang">reactor</span><span class="source-lf">(size: u32({</span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf"> 1u32 << </span><span class="source-lf constant-numeric-int-lflang">23</span><span class="source-lf"> </span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf">})) {</span>
+<span class="source-lf">    </span><span class="source-lf storage-modifier-lflang">state</span><span class="source-lf"> s(size)</span>
+<span class="source-lf"></span>
+<span class="source-lf">    </span><span class="source-lf keyword-control-lflang">reaction</span><span class="source-lf">(</span><span class="source-lf support-variable-lflang">startup</span><span class="source-lf">) {</span><span class="source-lf keyword-operator-lflang">=</span>
+<span class="source-lf">        assert_eq!(1u32 << </span><span class="source-lf constant-numeric-int-lflang">23</span><span class="source-lf">, </span><span class="source-lf variable-other-constant-reactorinstance-lflang">self</span><span class="source-lf keyword-operator-lflang">.</span><span class="source-lf variable-other-lflang">s</span><span class="source-lf">);</span>
+<span class="source-lf">        println!(</span><span class="source-lf string-quoted-double-lflang">"</span><span class="source-lf string-quoted-double-lflang">success</span><span class="source-lf string-quoted-double-lflang">"</span><span class="source-lf">);</span>
+<span class="source-lf">    </span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf">}</span>
+<span class="source-lf">}</span>
+<span class="source-lf"></span>

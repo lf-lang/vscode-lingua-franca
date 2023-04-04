@@ -1,0 +1,63 @@
+<span class="source-lf comment-block-lflang">/**</span>
+<span class="source-lf comment-block-lflang"> * This tests a wide range of possible Arguments for the command line parser</span>
+<span class="source-lf comment-block-lflang"> *</span>
+<span class="source-lf comment-block-lflang"> * @author Maiko Brants</span>
+<span class="source-lf comment-block-lflang"> </span><span class="source-lf comment-block-lflang">*/</span>
+<span class="source-lf meta-targetspec-lflang keyword-control-lflang">target</span><span class="source-lf meta-targetspec-lflang"> </span><span class="source-lf meta-targetspec-lflang constant-language-lflang">Cpp</span>
+<span class="source-lf"></span>
+<span class="source-lf keyword-control-lflang">public</span><span class="source-lf"> </span><span class="source-lf keyword-control-lflang">preamble</span><span class="source-lf"> {</span><span class="source-lf keyword-operator-lflang">=</span>
+<span class="source-lf">    using unsigned_long </span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf"> unsigned long;</span>
+<span class="source-lf">    using long_long     </span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf"> long long;</span>
+<span class="source-lf">    using uns_long_long </span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf"> unsigned long long;</span>
+<span class="source-lf">    using long_double   </span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf"> long double;</span>
+<span class="source-lf"></span>
+<span class="source-lf comment-line-double-dash-lflang">    </span><span class="source-lf comment-line-double-dash-lflang">#include <iostream></span>
+<span class="source-lf comment-line-double-dash-lflang">    </span><span class="source-lf comment-line-double-dash-lflang">#include <sstream></span>
+<span class="source-lf">    using namespace std;</span>
+<span class="source-lf">    class CustomClass {</span>
+<span class="source-lf">        </span><span class="source-lf keyword-control-lflang">public</span><span class="source-lf">:</span>
+<span class="source-lf">            </span><span class="source-lf variable-other-constant-reactorinstance-lflang">std</span><span class="source-lf keyword-operator-lflang">::</span><span class="source-lf variable-other-lflang">string</span><span class="source-lf"> name;</span>
+<span class="source-lf">            CustomClass(</span><span class="source-lf variable-other-constant-reactorinstance-lflang">std</span><span class="source-lf keyword-operator-lflang">::</span><span class="source-lf variable-other-lflang">string</span><span class="source-lf"> new_name</span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf string-quoted-double-lflang">"</span><span class="source-lf string-quoted-double-lflang">John</span><span class="source-lf string-quoted-double-lflang">"</span><span class="source-lf">) : name{new_name}</span>
+<span class="source-lf">            {}</span>
+<span class="source-lf">            </span><span class="source-lf variable-other-constant-reactorinstance-lflang">std</span><span class="source-lf keyword-operator-lflang">::</span><span class="source-lf variable-other-lflang">string</span><span class="source-lf"> get_name() </span><span class="source-lf storage-modifier-lflang">const</span><span class="source-lf"> {return this</span><span class="source-lf keyword-operator-lflang">-></span><span class="source-lf">name;}</span>
+<span class="source-lf">            void set_name(</span><span class="source-lf variable-other-constant-reactorinstance-lflang">std</span><span class="source-lf keyword-operator-lflang">::</span><span class="source-lf variable-other-lflang">string</span><span class="source-lf"> updated_name){this</span><span class="source-lf keyword-operator-lflang">-></span><span class="source-lf">name </span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf"> updated_name;}</span>
+<span class="source-lf">    };</span>
+<span class="source-lf"></span>
+<span class="source-lf">    ostream& operator<<(ostream& os, </span><span class="source-lf storage-modifier-lflang">const</span><span class="source-lf"> CustomClass& cc);</span>
+<span class="source-lf"></span>
+<span class="source-lf">    stringstream& operator>>(stringstream& in, CustomClass& cc);</span>
+<span class="source-lf keyword-operator-lflang">=</span><span class="source-lf">}</span>
+<span class="source-lf"></span>
+<span class="source-lf keyword-control-lflang">private</span><span class="source-lf"> </span><span class="source-lf keyword-control-lflang">preamble</span><span class="source-lf"> {</span><span class="source-lf keyword-operator-lflang">=</span>
+<span class="source-lf">    stringstream& operator>>(stringstream& in, CustomClass& cc)</span>
+<span class="source-lf">    {</span>
+<span class="source-lf">        </span><span class="source-lf variable-other-constant-reactorinstance-lflang">cc</span><span class="source-lf keyword-operator-lflang">.</span><span class="source-lf variable-other-lflang">set_name</span><span class="source-lf">(</span><span class="source-lf variable-other-constant-reactorinstance-lflang">in</span><span class="source-lf keyword-operator-lflang">.</span><span class="source-lf variable-other-lflang">str</span><span class="source-lf">());</span>
+<span class="source-lf">        return in;</span>
+<span class="source-lf">    }</span>
+<span class="source-lf"></span>
+<span class="source-lf">    ostream& operator<<(ostream& os, </span><span class="source-lf storage-modifier-lflang">const</span><span class="source-lf"> CustomClass& cc)</span>
+<span class="source-lf">    {</span>
+<span class="source-lf">        os << </span><span class="source-lf variable-other-constant-reactorinstance-lflang">cc</span><span class="source-lf keyword-operator-lflang">.</span><span class="source-lf variable-other-lflang">get_name</span><span class="source-lf">();</span>
+<span class="source-lf">        return os;</span>
+<span class="source-lf">    }</span>
+<span class="source-lf keyword-operator-lflang">=</span><span class="source-lf">}</span>
+<span class="source-lf"></span>
+<span class="source-lf storage-modifier-lflang">main</span><span class="source-lf"> </span><span class="source-lf storage-modifier-lflang">reactor</span><span class="source-lf"> </span><span class="source-lf entity-name-type-lflang">CliParserGenericArguments</span><span class="source-lf">(</span>
+<span class="source-lf">    int_value: int(</span><span class="source-lf constant-numeric-int-lflang">10</span><span class="source-lf">),</span>
+<span class="source-lf">    signed_value: signed(</span><span class="source-lf keyword-operator-lflang">-</span><span class="source-lf constant-numeric-int-lflang">10</span><span class="source-lf">),</span>
+<span class="source-lf">    unsigned_value: unsigned(</span><span class="source-lf constant-numeric-int-lflang">11</span><span class="source-lf">),</span>
+<span class="source-lf">    long_value: long(</span><span class="source-lf keyword-operator-lflang">-</span><span class="source-lf constant-numeric-int-lflang">100</span><span class="source-lf">),</span>
+<span class="source-lf">    unsigned_long_value: {</span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf"> unsigned_long </span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf">}(</span><span class="source-lf constant-numeric-int-lflang">42</span><span class="source-lf">),</span>
+<span class="source-lf">    long_long_value: {</span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf"> long_long </span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf">}(</span><span class="source-lf keyword-operator-lflang">-</span><span class="source-lf constant-numeric-int-lflang">42</span><span class="source-lf">),</span>
+<span class="source-lf">    ull_value: {</span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf"> uns_long_long </span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf">}(</span><span class="source-lf constant-numeric-int-lflang">42</span><span class="source-lf">),</span>
+<span class="source-lf">    bool_value: bool(</span><span class="source-lf constant-language-lflang">false</span><span class="source-lf">),</span>
+<span class="source-lf">    char_value: char(</span><span class="source-lf string-quoted-single-lflang">'</span><span class="source-lf string-quoted-single-lflang">T</span><span class="source-lf string-quoted-single-lflang">'</span><span class="source-lf">),</span>
+<span class="source-lf">    double_value: double(</span><span class="source-lf constant-numeric-float-lflang">4.2</span><span class="source-lf">),</span>
+<span class="source-lf">    long_double_value: {</span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf"> long_double </span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf">}(</span><span class="source-lf constant-numeric-float-lflang">4.2</span><span class="source-lf">),</span>
+<span class="source-lf">    float_value: float(</span><span class="source-lf constant-numeric-float-lflang">10.5</span><span class="source-lf">),</span>
+<span class="source-lf">    string_value: string(</span><span class="source-lf string-quoted-double-lflang">"</span><span class="source-lf string-quoted-double-lflang">This is a testvalue</span><span class="source-lf string-quoted-double-lflang">"</span><span class="source-lf">),</span>
+<span class="source-lf">    custom_class_value: {</span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf"> CustomClass </span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf">}(</span><span class="source-lf string-quoted-double-lflang">"</span><span class="source-lf string-quoted-double-lflang">Peter</span><span class="source-lf string-quoted-double-lflang">"</span><span class="source-lf">)</span>
+<span class="source-lf">) {</span>
+<span class="source-lf">    </span><span class="source-lf keyword-control-lflang">reaction</span><span class="source-lf">(</span><span class="source-lf support-variable-lflang">startup</span><span class="source-lf">) {</span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf"> </span><span class="source-lf variable-other-constant-reactorinstance-lflang">std</span><span class="source-lf keyword-operator-lflang">::</span><span class="source-lf storage-type-lflang">cout</span><span class="source-lf"> << "Hello World!\n"</span><span class="source-lf">;</span><span class="source-lf"> </span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf">}</span>
+<span class="source-lf">}</span>
+<span class="source-lf"></span>

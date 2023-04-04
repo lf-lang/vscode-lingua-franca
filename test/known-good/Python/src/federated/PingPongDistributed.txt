@@ -1,0 +1,73 @@
+<span class="source-lf comment-block-lflang">/**</span>
+<span class="source-lf comment-block-lflang"> * Basic benchmark from the Savina benchmark suite that is intended to measure</span>
+<span class="source-lf comment-block-lflang"> * message-passing overhead. This is based on</span>
+<span class="source-lf comment-block-lflang"> * https://www.scala-lang.org/old/node/54 See</span>
+<span class="source-lf comment-block-lflang"> * https://shamsimam.github.io/papers/2014-agere-savina.pdf.</span>
+<span class="source-lf comment-block-lflang"> *</span>
+<span class="source-lf comment-block-lflang"> * This is a distributed version, where Ping and Pong run in separate programs</span>
+<span class="source-lf comment-block-lflang"> * and can be run on different machines.</span>
+<span class="source-lf comment-block-lflang"> *</span>
+<span class="source-lf comment-block-lflang"> * To get a sense, some (informal) results for 1,000,000 ping-pongs on my Mac:</span>
+<span class="source-lf comment-block-lflang"> *</span>
+<span class="source-lf comment-block-lflang"> * Unthreaded: 97 msec Threaded: 265 msec Distributed: 53 seconds</span>
+<span class="source-lf comment-block-lflang"> *</span>
+<span class="source-lf comment-block-lflang"> * There is no parallelism in this application, so it does not benefit from</span>
+<span class="source-lf comment-block-lflang"> * being being distributed.</span>
+<span class="source-lf comment-block-lflang"> *</span>
+<span class="source-lf comment-block-lflang"> * These measurements are total execution time, including startup and shutdown,</span>
+<span class="source-lf comment-block-lflang"> * of all three programs.</span>
+<span class="source-lf comment-block-lflang"> *</span>
+<span class="source-lf comment-block-lflang"> * @author Edward A. Lee</span>
+<span class="source-lf comment-block-lflang"> </span><span class="source-lf comment-block-lflang">*/</span>
+<span class="source-lf meta-targetspec-lflang keyword-control-lflang">target</span><span class="source-lf meta-targetspec-lflang"> </span><span class="source-lf meta-targetspec-lflang constant-language-lflang">Python</span>
+<span class="source-lf"></span>
+<span class="source-lf storage-modifier-lflang">reactor</span><span class="source-lf"> </span><span class="source-lf entity-name-type-lflang">Ping</span><span class="source-lf">(count(</span><span class="source-lf constant-numeric-int-lflang">10</span><span class="source-lf">)) {</span>
+<span class="source-lf">    </span><span class="source-lf storage-modifier-lflang">input</span><span class="source-lf"> receive</span>
+<span class="source-lf">    </span><span class="source-lf storage-modifier-lflang">output</span><span class="source-lf"> send</span>
+<span class="source-lf">    </span><span class="source-lf storage-modifier-lflang">state</span><span class="source-lf"> pingsLeft(count)</span>
+<span class="source-lf">    </span><span class="source-lf storage-modifier-lflang">logical</span><span class="source-lf"> </span><span class="source-lf storage-modifier-lflang">action</span><span class="source-lf"> serve</span>
+<span class="source-lf"></span>
+<span class="source-lf">    </span><span class="source-lf keyword-control-lflang">reaction</span><span class="source-lf">(</span><span class="source-lf support-variable-lflang">startup</span><span class="source-lf">, serve) </span><span class="source-lf keyword-operator-lflang">-></span><span class="source-lf"> send </span><span class="source-lf meta-embedded-block-py">{=</span>
+<span class="source-lf meta-embedded-block-py">        print("At logical time {}, Ping sending {}.\n".format(lf.time.logical_elapsed(), self.pingsLeft))</span>
+<span class="source-lf meta-embedded-block-py">        send.set(self.pingsLeft)</span>
+<span class="source-lf meta-embedded-block-py">        self.pingsLeft -= 1</span>
+<span class="source-lf meta-embedded-block-py">    </span><span class="source-lf meta-embedded-block-py">=}</span>
+<span class="source-lf"></span>
+<span class="source-lf">    </span><span class="source-lf keyword-control-lflang">reaction</span><span class="source-lf">(receive) </span><span class="source-lf keyword-operator-lflang">-></span><span class="source-lf"> serve </span><span class="source-lf meta-embedded-block-py">{=</span>
+<span class="source-lf meta-embedded-block-py">        if self.pingsLeft > 0:</span>
+<span class="source-lf meta-embedded-block-py">            serve.schedule(0)</span>
+<span class="source-lf meta-embedded-block-py">        else:</span>
+<span class="source-lf meta-embedded-block-py">            lf_request_stop()</span>
+<span class="source-lf meta-embedded-block-py">    </span><span class="source-lf meta-embedded-block-py">=}</span>
+<span class="source-lf">}</span>
+<span class="source-lf"></span>
+<span class="source-lf storage-modifier-lflang">reactor</span><span class="source-lf"> </span><span class="source-lf entity-name-type-lflang">Pong</span><span class="source-lf">(expected(</span><span class="source-lf constant-numeric-int-lflang">10</span><span class="source-lf">)) {</span>
+<span class="source-lf">    </span><span class="source-lf keyword-control-lflang">preamble</span><span class="source-lf"> </span><span class="source-lf meta-embedded-block-py">{=</span><span class="source-lf meta-embedded-block-py"> </span><span class="source-lf meta-embedded-block-py keyword-control-import-python">import</span><span class="source-lf meta-embedded-block-py"> sys </span><span class="source-lf meta-embedded-block-py">=}</span>
+<span class="source-lf"></span>
+<span class="source-lf">    </span><span class="source-lf storage-modifier-lflang">input</span><span class="source-lf"> receive</span>
+<span class="source-lf">    </span><span class="source-lf storage-modifier-lflang">output</span><span class="source-lf"> send</span>
+<span class="source-lf">    </span><span class="source-lf storage-modifier-lflang">state</span><span class="source-lf"> count(</span><span class="source-lf constant-numeric-int-lflang">0</span><span class="source-lf">)</span>
+<span class="source-lf"></span>
+<span class="source-lf">    </span><span class="source-lf keyword-control-lflang">reaction</span><span class="source-lf">(receive) </span><span class="source-lf keyword-operator-lflang">-></span><span class="source-lf"> send </span><span class="source-lf meta-embedded-block-py">{=</span>
+<span class="source-lf meta-embedded-block-py">        self.count += 1</span>
+<span class="source-lf meta-embedded-block-py">        print("At logical time {}, Pong received {}.\n".format(lf.time.logical_elapsed(), receive.value))</span>
+<span class="source-lf meta-embedded-block-py">        send.set(receive.value)</span>
+<span class="source-lf meta-embedded-block-py">        if self.count == self.expected:</span>
+<span class="source-lf meta-embedded-block-py">            lf_request_stop()</span>
+<span class="source-lf meta-embedded-block-py">    </span><span class="source-lf meta-embedded-block-py">=}</span>
+<span class="source-lf"></span>
+<span class="source-lf">    </span><span class="source-lf keyword-control-lflang">reaction</span><span class="source-lf">(</span><span class="source-lf support-variable-lflang">shutdown</span><span class="source-lf">) </span><span class="source-lf meta-embedded-block-py">{=</span>
+<span class="source-lf meta-embedded-block-py">        if self.count != self.expected:</span>
+<span class="source-lf meta-embedded-block-py">            print("Pong expected to receive {} inputs, but it received {}.\n".format(self.expected, self.count), file=self.sys.stderr)</span>
+<span class="source-lf meta-embedded-block-py">            self.sys.exit(1)</span>
+<span class="source-lf meta-embedded-block-py">        print("Pong received {} pings.\n".format(self.count))</span>
+<span class="source-lf meta-embedded-block-py">    </span><span class="source-lf meta-embedded-block-py">=}</span>
+<span class="source-lf">}</span>
+<span class="source-lf"></span>
+<span class="source-lf storage-modifier-lflang">federated</span><span class="source-lf"> </span><span class="source-lf storage-modifier-lflang">reactor</span><span class="source-lf">(count(</span><span class="source-lf constant-numeric-int-lflang">10</span><span class="source-lf">)) {</span>
+<span class="source-lf">    </span><span class="source-lf variable-other-constant-reactorinstance-lflang">ping</span><span class="source-lf"> </span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf"> </span><span class="source-lf keyword-operator-new-lflang">new</span><span class="source-lf"> </span><span class="source-lf entity-name-type-lflang">Ping</span><span class="source-lf">(count </span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf"> count)</span>
+<span class="source-lf">    </span><span class="source-lf variable-other-constant-reactorinstance-lflang">pong</span><span class="source-lf"> </span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf"> </span><span class="source-lf keyword-operator-new-lflang">new</span><span class="source-lf"> </span><span class="source-lf entity-name-type-lflang">Pong</span><span class="source-lf">(expected </span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf"> count)</span>
+<span class="source-lf">    </span><span class="source-lf variable-other-constant-reactorinstance-lflang">ping</span><span class="source-lf keyword-operator-lflang">.</span><span class="source-lf variable-other-lflang">send</span><span class="source-lf"> </span><span class="source-lf keyword-operator-lflang">~></span><span class="source-lf"> </span><span class="source-lf variable-other-constant-reactorinstance-lflang">pong</span><span class="source-lf keyword-operator-lflang">.</span><span class="source-lf variable-other-lflang">receive</span>
+<span class="source-lf">    </span><span class="source-lf variable-other-constant-reactorinstance-lflang">pong</span><span class="source-lf keyword-operator-lflang">.</span><span class="source-lf variable-other-lflang">send</span><span class="source-lf"> </span><span class="source-lf keyword-operator-lflang">~></span><span class="source-lf"> </span><span class="source-lf variable-other-constant-reactorinstance-lflang">ping</span><span class="source-lf keyword-operator-lflang">.</span><span class="source-lf variable-other-lflang">receive</span>
+<span class="source-lf">}</span>
+<span class="source-lf"></span>

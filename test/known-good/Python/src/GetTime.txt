@@ -1,0 +1,27 @@
+<span class="source-lf comment-line-double-dash-lflang"># This file includes code documented on the Wiki. For this test, success is just</span>
+<span class="source-lf comment-line-double-dash-lflang"># compiling and running.</span>
+<span class="source-lf meta-targetspec-lflang keyword-control-lflang">target</span><span class="source-lf meta-targetspec-lflang"> </span><span class="source-lf meta-targetspec-lflang constant-language-lflang">Python</span><span class="source-lf meta-targetspec-lflang"> {</span>
+<span class="source-lf meta-targetspec-lflang">    </span><span class="source-lf meta-targetspec-lflang variable-parameter-lflang">timeout</span><span class="source-lf meta-targetspec-lflang">: </span><span class="source-lf meta-targetspec-lflang constant-numeric-int-lflang">2</span><span class="source-lf meta-targetspec-lflang"> </span><span class="source-lf meta-targetspec-lflang constant-numeric-lflang">sec</span><span class="source-lf meta-targetspec-lflang">,</span>
+<span class="source-lf meta-targetspec-lflang">    </span><span class="source-lf meta-targetspec-lflang variable-parameter-lflang">fast</span><span class="source-lf meta-targetspec-lflang">: </span><span class="source-lf meta-targetspec-lflang constant-language-lflang">false</span>
+<span class="source-lf meta-targetspec-lflang">}</span>
+<span class="source-lf"></span>
+<span class="source-lf storage-modifier-lflang">main</span><span class="source-lf"> </span><span class="source-lf storage-modifier-lflang">reactor</span><span class="source-lf"> </span><span class="source-lf entity-name-type-lflang">GetTime</span><span class="source-lf"> {</span>
+<span class="source-lf">    </span><span class="source-lf storage-modifier-lflang">timer</span><span class="source-lf"> t(</span><span class="source-lf constant-numeric-int-lflang">0</span><span class="source-lf">, </span><span class="source-lf constant-numeric-int-lflang">1</span><span class="source-lf"> </span><span class="source-lf constant-numeric-lflang">sec</span><span class="source-lf">)</span>
+<span class="source-lf"></span>
+<span class="source-lf">    </span><span class="source-lf keyword-control-lflang">reaction</span><span class="source-lf">(t) </span><span class="source-lf meta-embedded-block-py">{=</span>
+<span class="source-lf meta-embedded-block-py">        logical = lf.time.logical()</span>
+<span class="source-lf meta-embedded-block-py">        print("Logical time is ", logical)</span>
+<span class="source-lf meta-embedded-block-py"></span>
+<span class="source-lf meta-embedded-block-py">        elapsed = lf.time.logical_elapsed()</span>
+<span class="source-lf meta-embedded-block-py">        print("Elapsed logical time is ", elapsed)</span>
+<span class="source-lf meta-embedded-block-py"></span>
+<span class="source-lf meta-embedded-block-py">        physical = lf.time.physical()</span>
+<span class="source-lf meta-embedded-block-py">        print("Physical time is ", physical)</span>
+<span class="source-lf meta-embedded-block-py"></span>
+<span class="source-lf meta-embedded-block-py">        elapsed_physical = lf.time.physical_elapsed()</span>
+<span class="source-lf meta-embedded-block-py">        print("Elapsed physical time is ", elapsed_physical)</span>
+<span class="source-lf meta-embedded-block-py"></span>
+<span class="source-lf meta-embedded-block-py">        print("Time lag is ", physical - logical)</span>
+<span class="source-lf meta-embedded-block-py">    </span><span class="source-lf meta-embedded-block-py">=}</span>
+<span class="source-lf">}</span>
+<span class="source-lf"></span>

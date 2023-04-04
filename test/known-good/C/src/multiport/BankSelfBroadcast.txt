@@ -1,0 +1,49 @@
+<span class="source-lf comment-block-lflang">/**</span>
+<span class="source-lf comment-block-lflang"> * Test a bank of reactors that broadcast a single output back to a multiport</span>
+<span class="source-lf comment-block-lflang"> * input of the same reactors in the bank so that each reactor in the bank</span>
+<span class="source-lf comment-block-lflang"> * receives the output produced by itself and each other reactor.</span>
+<span class="source-lf comment-block-lflang"> *</span>
+<span class="source-lf comment-block-lflang"> * @author Edward A. Lee</span>
+<span class="source-lf comment-block-lflang"> </span><span class="source-lf comment-block-lflang">*/</span>
+<span class="source-lf meta-targetspec-lflang keyword-control-lflang">target</span><span class="source-lf meta-targetspec-lflang"> </span><span class="source-lf meta-targetspec-lflang constant-language-lflang">C</span>
+<span class="source-lf"></span>
+<span class="source-lf storage-modifier-lflang">reactor</span><span class="source-lf"> </span><span class="source-lf entity-name-type-lflang">A</span><span class="source-lf">(bank_index: int(</span><span class="source-lf constant-numeric-int-lflang">0</span><span class="source-lf">)) {</span>
+<span class="source-lf">    </span><span class="source-lf storage-modifier-lflang">input</span><span class="source-lf">[</span><span class="source-lf constant-numeric-int-lflang">4</span><span class="source-lf">] in:</span><span class="source-lf"> </span><span class="source-lf storage-type-lflang">int</span>
+<span class="source-lf">    </span><span class="source-lf storage-modifier-lflang">output</span><span class="source-lf"> out:</span><span class="source-lf"> </span><span class="source-lf storage-type-lflang">int</span>
+<span class="source-lf">    </span><span class="source-lf storage-modifier-lflang">state</span><span class="source-lf"> received:</span><span class="source-lf"> </span><span class="source-lf storage-type-lflang">bool</span><span class="source-lf">(</span><span class="source-lf constant-language-lflang">false</span><span class="source-lf">)</span>
+<span class="source-lf"></span>
+<span class="source-lf">    </span><span class="source-lf keyword-control-lflang">reaction</span><span class="source-lf">(</span><span class="source-lf support-variable-lflang">startup</span><span class="source-lf">) </span><span class="source-lf keyword-operator-lflang">-></span><span class="source-lf"> out {</span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf"> lf_set(out, self</span><span class="source-lf keyword-operator-lflang">-></span><span class="source-lf">bank_index); </span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf">}</span>
+<span class="source-lf"></span>
+<span class="source-lf">    </span><span class="source-lf keyword-control-lflang">reaction</span><span class="source-lf">(in) {</span><span class="source-lf keyword-operator-lflang">=</span>
+<span class="source-lf">        for (int i </span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf"> </span><span class="source-lf constant-numeric-int-lflang">0</span><span class="source-lf">; i < in_width; i</span><span class="source-lf keyword-operator-lflang">+</span><span class="source-lf keyword-operator-lflang">+</span><span class="source-lf">) {</span>
+<span class="source-lf">            if (in[i]</span><span class="source-lf keyword-operator-lflang">-></span><span class="source-lf">is_present) {</span>
+<span class="source-lf">                lf_print(</span>
+<span class="source-lf">                    </span><span class="source-lf string-quoted-double-lflang">"</span><span class="source-lf string-quoted-double-lflang">Reactor %d received %d on channel %d.</span><span class="source-lf string-quoted-double-lflang">"</span><span class="source-lf">,</span>
+<span class="source-lf">                    self</span><span class="source-lf keyword-operator-lflang">-></span><span class="source-lf">bank_index, in[i]</span><span class="source-lf keyword-operator-lflang">-></span><span class="source-lf">value, i</span>
+<span class="source-lf">                );</span>
+<span class="source-lf">                if (in[i]</span><span class="source-lf keyword-operator-lflang">-></span><span class="source-lf">value !</span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf"> i) {</span>
+<span class="source-lf">                    lf_print_error_and_exit(</span><span class="source-lf string-quoted-double-lflang">"</span><span class="source-lf string-quoted-double-lflang">Expected %d.</span><span class="source-lf string-quoted-double-lflang">"</span><span class="source-lf">, i);</span>
+<span class="source-lf">                }</span>
+<span class="source-lf">                self</span><span class="source-lf keyword-operator-lflang">-></span><span class="source-lf">received </span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf"> </span><span class="source-lf constant-language-lflang">true</span><span class="source-lf">;</span>
+<span class="source-lf">            } else {</span>
+<span class="source-lf">                lf_print(</span>
+<span class="source-lf">                    </span><span class="source-lf string-quoted-double-lflang">"</span><span class="source-lf string-quoted-double-lflang">Reactor %d channel %d is absent.</span><span class="source-lf string-quoted-double-lflang">"</span><span class="source-lf">,</span>
+<span class="source-lf">                    self</span><span class="source-lf keyword-operator-lflang">-></span><span class="source-lf">bank_index, i</span>
+<span class="source-lf">                );</span>
+<span class="source-lf">                lf_print_error_and_exit(</span><span class="source-lf string-quoted-double-lflang">"</span><span class="source-lf string-quoted-double-lflang">Expected %d.</span><span class="source-lf string-quoted-double-lflang">"</span><span class="source-lf">, i);</span>
+<span class="source-lf">            }</span>
+<span class="source-lf">        }</span>
+<span class="source-lf">    </span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf">}</span>
+<span class="source-lf"></span>
+<span class="source-lf">    </span><span class="source-lf keyword-control-lflang">reaction</span><span class="source-lf">(</span><span class="source-lf support-variable-lflang">shutdown</span><span class="source-lf">) {</span><span class="source-lf keyword-operator-lflang">=</span>
+<span class="source-lf">        if (!self</span><span class="source-lf keyword-operator-lflang">-></span><span class="source-lf">received) {</span>
+<span class="source-lf">            lf_print_error_and_exit(</span><span class="source-lf string-quoted-double-lflang">"</span><span class="source-lf string-quoted-double-lflang">No inputs received.</span><span class="source-lf string-quoted-double-lflang">"</span><span class="source-lf">);</span>
+<span class="source-lf">        }</span>
+<span class="source-lf">    </span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf">}</span>
+<span class="source-lf">}</span>
+<span class="source-lf"></span>
+<span class="source-lf storage-modifier-lflang">main</span><span class="source-lf"> </span><span class="source-lf storage-modifier-lflang">reactor</span><span class="source-lf"> {</span>
+<span class="source-lf">    </span><span class="source-lf variable-other-constant-reactorinstance-lflang">a</span><span class="source-lf"> </span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf"> </span><span class="source-lf keyword-operator-new-lflang">new</span><span class="source-lf">[</span><span class="source-lf constant-numeric-int-lflang">4</span><span class="source-lf">] </span><span class="source-lf entity-name-type-lflang">A</span><span class="source-lf">()</span>
+<span class="source-lf">    (</span><span class="source-lf variable-other-constant-reactorinstance-lflang">a</span><span class="source-lf keyword-operator-lflang">.</span><span class="source-lf variable-other-lflang">out</span><span class="source-lf">)</span><span class="source-lf keyword-operator-lflang">+</span><span class="source-lf"> </span><span class="source-lf keyword-operator-lflang">-></span><span class="source-lf"> </span><span class="source-lf variable-other-constant-reactorinstance-lflang">a</span><span class="source-lf keyword-operator-lflang">.</span><span class="source-lf variable-other-lflang">in</span>
+<span class="source-lf">}</span>
+<span class="source-lf"></span>

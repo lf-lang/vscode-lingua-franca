@@ -1,0 +1,53 @@
+<span class="source-lf meta-targetspec-lflang keyword-control-lflang">target</span><span class="source-lf meta-targetspec-lflang"> </span><span class="source-lf meta-targetspec-lflang constant-language-lflang">Python</span><span class="source-lf meta-targetspec-lflang"> {</span>
+<span class="source-lf meta-targetspec-lflang comment-line-double-dash-lflang">    </span><span class="source-lf meta-targetspec-lflang comment-line-double-dash-lflang"># Set keepalive to false since this is a test and schedule is called on a</span>
+<span class="source-lf meta-targetspec-lflang comment-line-double-dash-lflang">    </span><span class="source-lf meta-targetspec-lflang comment-line-double-dash-lflang"># physical action from within a reaction. This is one of the special rare</span>
+<span class="source-lf meta-targetspec-lflang comment-line-double-dash-lflang">    </span><span class="source-lf meta-targetspec-lflang comment-line-double-dash-lflang"># cases where the user might want to manually override keepalive.</span>
+<span class="source-lf meta-targetspec-lflang">    </span><span class="source-lf meta-targetspec-lflang variable-parameter-lflang">keepalive</span><span class="source-lf meta-targetspec-lflang">: </span><span class="source-lf meta-targetspec-lflang constant-language-lflang">false</span>
+<span class="source-lf meta-targetspec-lflang">}</span>
+<span class="source-lf"></span>
+<span class="source-lf comment-line-double-dash-lflang"># That's the stuff that shall be generated for the after</span>
+<span class="source-lf storage-modifier-lflang">reactor</span><span class="source-lf"> </span><span class="source-lf entity-name-type-lflang">GeneratedDelay</span><span class="source-lf"> {</span>
+<span class="source-lf">    </span><span class="source-lf storage-modifier-lflang">input</span><span class="source-lf"> y_in</span>
+<span class="source-lf">    </span><span class="source-lf storage-modifier-lflang">output</span><span class="source-lf"> y_out</span>
+<span class="source-lf">    </span><span class="source-lf storage-modifier-lflang">state</span><span class="source-lf"> y_state(</span><span class="source-lf constant-numeric-int-lflang">0</span><span class="source-lf">)</span>
+<span class="source-lf"></span>
+<span class="source-lf">    </span><span class="source-lf storage-modifier-lflang">physical</span><span class="source-lf"> </span><span class="source-lf storage-modifier-lflang">action</span><span class="source-lf"> act(</span><span class="source-lf constant-numeric-int-lflang">0</span><span class="source-lf"> </span><span class="source-lf constant-numeric-lflang">msec</span><span class="source-lf">)  </span><span class="source-lf comment-line-double-dash-lflang"># TODO: delay in act or the schedule call?</span>
+<span class="source-lf"></span>
+<span class="source-lf">    </span><span class="source-lf keyword-control-lflang">reaction</span><span class="source-lf">(y_in) </span><span class="source-lf keyword-operator-lflang">-></span><span class="source-lf"> act </span><span class="source-lf meta-embedded-block-py">{=</span>
+<span class="source-lf meta-embedded-block-py">        self.y_state = y_in.value</span>
+<span class="source-lf meta-embedded-block-py">        act.schedule(MSEC(100))</span>
+<span class="source-lf meta-embedded-block-py">    </span><span class="source-lf meta-embedded-block-py">=}</span>
+<span class="source-lf"></span>
+<span class="source-lf">    </span><span class="source-lf keyword-control-lflang">reaction</span><span class="source-lf">(act) </span><span class="source-lf keyword-operator-lflang">-></span><span class="source-lf"> y_out </span><span class="source-lf meta-embedded-block-py">{=</span><span class="source-lf meta-embedded-block-py"> y_out.set(self.y_state) </span><span class="source-lf meta-embedded-block-py">=}</span>
+<span class="source-lf">}</span>
+<span class="source-lf"></span>
+<span class="source-lf storage-modifier-lflang">reactor</span><span class="source-lf"> </span><span class="source-lf entity-name-type-lflang">Source</span><span class="source-lf"> {</span>
+<span class="source-lf">    </span><span class="source-lf storage-modifier-lflang">output</span><span class="source-lf"> out</span>
+<span class="source-lf">    </span><span class="source-lf storage-modifier-lflang">timer</span><span class="source-lf"> t</span>
+<span class="source-lf"></span>
+<span class="source-lf">    </span><span class="source-lf keyword-control-lflang">reaction</span><span class="source-lf">(t) </span><span class="source-lf keyword-operator-lflang">-></span><span class="source-lf"> out </span><span class="source-lf meta-embedded-block-py">{=</span><span class="source-lf meta-embedded-block-py"> out.set(1) </span><span class="source-lf meta-embedded-block-py">=}</span><span class="source-lf">  </span><span class="source-lf comment-line-double-dash-lflang"># reaction(t) -> out after 100 msec</span>
+<span class="source-lf">}</span>
+<span class="source-lf"></span>
+<span class="source-lf storage-modifier-lflang">reactor</span><span class="source-lf"> </span><span class="source-lf entity-name-type-lflang">Sink</span><span class="source-lf"> {</span>
+<span class="source-lf">    </span><span class="source-lf storage-modifier-lflang">input</span><span class="source-lf"> s_in</span>
+<span class="source-lf"></span>
+<span class="source-lf">    </span><span class="source-lf keyword-control-lflang">reaction</span><span class="source-lf">(s_in) </span><span class="source-lf meta-embedded-block-py">{=</span>
+<span class="source-lf meta-embedded-block-py">        elapsed_logical = lf.time.logical_elapsed()</span>
+<span class="source-lf meta-embedded-block-py">        logical = lf.time.logical()</span>
+<span class="source-lf meta-embedded-block-py">        physical = lf.time.physical()</span>
+<span class="source-lf meta-embedded-block-py">        print("Nanoseconds since start: {:d} {:d} {:d}.\n".format(logical, physical, elapsed_logical))</span>
+<span class="source-lf meta-embedded-block-py">        if elapsed_logical < MSEC(100):</span>
+<span class="source-lf meta-embedded-block-py">            sys.stderr.write("Expected {:d} but got {:d}.\n".format(MSEC(100), elapsed_logical))</span>
+<span class="source-lf meta-embedded-block-py">            exit(1)</span>
+<span class="source-lf meta-embedded-block-py">    </span><span class="source-lf meta-embedded-block-py">=}</span><span class="source-lf"> </span><span class="source-lf keyword-control-lflang">deadline</span><span class="source-lf">(</span><span class="source-lf constant-numeric-int-lflang">200</span><span class="source-lf"> </span><span class="source-lf constant-numeric-lflang">msec</span><span class="source-lf">) </span><span class="source-lf meta-embedded-block-py">{=</span><span class="source-lf meta-embedded-block-py">  </span><span class="source-lf meta-embedded-block-py">=}</span>
+<span class="source-lf">}</span>
+<span class="source-lf"></span>
+<span class="source-lf storage-modifier-lflang">main</span><span class="source-lf"> </span><span class="source-lf storage-modifier-lflang">reactor</span><span class="source-lf"> </span><span class="source-lf entity-name-type-lflang">ManualDelayedReaction</span><span class="source-lf"> {</span>
+<span class="source-lf">    </span><span class="source-lf variable-other-constant-reactorinstance-lflang">source</span><span class="source-lf"> </span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf"> </span><span class="source-lf keyword-operator-new-lflang">new</span><span class="source-lf"> </span><span class="source-lf entity-name-type-lflang">Source</span><span class="source-lf">()</span>
+<span class="source-lf">    </span><span class="source-lf variable-other-constant-reactorinstance-lflang">sink</span><span class="source-lf"> </span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf"> </span><span class="source-lf keyword-operator-new-lflang">new</span><span class="source-lf"> </span><span class="source-lf entity-name-type-lflang">Sink</span><span class="source-lf">()</span>
+<span class="source-lf">    </span><span class="source-lf variable-other-constant-reactorinstance-lflang">g</span><span class="source-lf"> </span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf"> </span><span class="source-lf keyword-operator-new-lflang">new</span><span class="source-lf"> </span><span class="source-lf entity-name-type-lflang">GeneratedDelay</span><span class="source-lf">()</span>
+<span class="source-lf"></span>
+<span class="source-lf">    </span><span class="source-lf variable-other-constant-reactorinstance-lflang">source</span><span class="source-lf keyword-operator-lflang">.</span><span class="source-lf variable-other-lflang">out</span><span class="source-lf"> </span><span class="source-lf keyword-operator-lflang">-></span><span class="source-lf"> </span><span class="source-lf variable-other-constant-reactorinstance-lflang">g</span><span class="source-lf keyword-operator-lflang">.</span><span class="source-lf variable-other-lflang">y_in</span><span class="source-lf">  </span><span class="source-lf comment-line-double-dash-lflang"># source.out -> sink.s_in; rewritten above</span>
+<span class="source-lf">    </span><span class="source-lf variable-other-constant-reactorinstance-lflang">g</span><span class="source-lf keyword-operator-lflang">.</span><span class="source-lf variable-other-lflang">y_out</span><span class="source-lf"> </span><span class="source-lf keyword-operator-lflang">-></span><span class="source-lf"> </span><span class="source-lf variable-other-constant-reactorinstance-lflang">sink</span><span class="source-lf keyword-operator-lflang">.</span><span class="source-lf variable-other-lflang">s_in</span>
+<span class="source-lf">}</span>
+<span class="source-lf"></span>

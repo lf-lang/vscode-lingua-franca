@@ -1,0 +1,47 @@
+<span class="source-lf comment-block-lflang">/**</span>
+<span class="source-lf comment-block-lflang"> * Test a particularly simple form of a distributed deterministic system where a</span>
+<span class="source-lf comment-block-lflang"> * federation that receives timestamped messages has only those messages as</span>
+<span class="source-lf comment-block-lflang"> * triggers. Therefore, no additional coordination of the advancement of time</span>
+<span class="source-lf comment-block-lflang"> * (HLA or Ptides) is needed.</span>
+<span class="source-lf comment-block-lflang"> * @author Edward A. Lee</span>
+<span class="source-lf comment-block-lflang"> </span><span class="source-lf comment-block-lflang">*/</span>
+<span class="source-lf comment-line-double-dash-lflang"># reason for failing: in_.intended_tag are not supported in python target</span>
+<span class="source-lf meta-targetspec-lflang keyword-control-lflang">target</span><span class="source-lf meta-targetspec-lflang"> </span><span class="source-lf meta-targetspec-lflang constant-language-lflang">Python</span><span class="source-lf meta-targetspec-lflang"> {</span>
+<span class="source-lf meta-targetspec-lflang">    </span><span class="source-lf meta-targetspec-lflang variable-parameter-lflang">timeout</span><span class="source-lf meta-targetspec-lflang">: </span><span class="source-lf meta-targetspec-lflang constant-numeric-int-lflang">5</span><span class="source-lf meta-targetspec-lflang"> </span><span class="source-lf meta-targetspec-lflang constant-numeric-lflang">sec</span><span class="source-lf meta-targetspec-lflang">,</span>
+<span class="source-lf meta-targetspec-lflang">    </span><span class="source-lf meta-targetspec-lflang variable-parameter-lflang">coordination</span><span class="source-lf meta-targetspec-lflang">: decentralized</span>
+<span class="source-lf meta-targetspec-lflang">}</span>
+<span class="source-lf"></span>
+<span class="source-lf keyword-control-import-lflang">import</span><span class="source-lf"> </span><span class="source-lf entity-name-type-lflang">Count</span><span class="source-lf"> </span><span class="source-lf keyword-control-import-lflang">from</span><span class="source-lf"> </span><span class="source-lf string-quoted-double-lflang">"</span><span class="source-lf string-quoted-double-lflang">../lib/Count.lf</span><span class="source-lf string-quoted-double-lflang">"</span>
+<span class="source-lf"></span>
+<span class="source-lf storage-modifier-lflang">reactor</span><span class="source-lf"> </span><span class="source-lf entity-name-type-lflang">Print</span><span class="source-lf"> {</span>
+<span class="source-lf">    </span><span class="source-lf keyword-control-lflang">preamble</span><span class="source-lf"> </span><span class="source-lf meta-embedded-block-py">{=</span><span class="source-lf meta-embedded-block-py"> </span><span class="source-lf meta-embedded-block-py keyword-control-import-python">import</span><span class="source-lf meta-embedded-block-py"> sys </span><span class="source-lf meta-embedded-block-py">=}</span>
+<span class="source-lf">    </span><span class="source-lf storage-modifier-lflang">input</span><span class="source-lf"> in_</span>
+<span class="source-lf">    </span><span class="source-lf storage-modifier-lflang">state</span><span class="source-lf"> c(</span><span class="source-lf constant-numeric-int-lflang">1</span><span class="source-lf">)</span>
+<span class="source-lf"></span>
+<span class="source-lf">    </span><span class="source-lf keyword-control-lflang">reaction</span><span class="source-lf">(in_) </span><span class="source-lf meta-embedded-block-py">{=</span>
+<span class="source-lf meta-embedded-block-py">        print(f"At tag ({lf.time.logical_elapsed()}, {lf.tag().microstep}), received {in_.value}. "</span>
+<span class="source-lf meta-embedded-block-py">              f"The original intended tag of the message was ({in_.intended_tag.time-lf.time.start()}, {in_.intended_tag.microstep}).")</span>
+<span class="source-lf meta-embedded-block-py">        if in_.value != self.c:</span>
+<span class="source-lf meta-embedded-block-py">            print("Expected to receive {}.".format(self.c))</span>
+<span class="source-lf meta-embedded-block-py">            self.sys.exit(1)</span>
+<span class="source-lf meta-embedded-block-py">        if lf.time.logical_elapsed() != MSEC(200) + SEC(1) * (self.c - 1):</span>
+<span class="source-lf meta-embedded-block-py">            print("Expected received time to be {}.".format(MSEC(200) * self.c))</span>
+<span class="source-lf meta-embedded-block-py">            self.sys.exit(3)</span>
+<span class="source-lf meta-embedded-block-py">        self.c += 1</span>
+<span class="source-lf meta-embedded-block-py">    </span><span class="source-lf meta-embedded-block-py">=}</span>
+<span class="source-lf"></span>
+<span class="source-lf">    </span><span class="source-lf keyword-control-lflang">reaction</span><span class="source-lf">(</span><span class="source-lf support-variable-lflang">shutdown</span><span class="source-lf">) </span><span class="source-lf meta-embedded-block-py">{=</span>
+<span class="source-lf meta-embedded-block-py">        if self.c != 6:</span>
+<span class="source-lf meta-embedded-block-py">            self.sys.stderr.write("Expected to receive 5 items.\n")</span>
+<span class="source-lf meta-embedded-block-py">            self.sys.exit(2)</span>
+<span class="source-lf meta-embedded-block-py">        print("SUCCESS: Successfully received 5 items.")</span>
+<span class="source-lf meta-embedded-block-py">    </span><span class="source-lf meta-embedded-block-py">=}</span>
+<span class="source-lf">}</span>
+<span class="source-lf"></span>
+<span class="source-lf storage-modifier-lflang">federated</span><span class="source-lf"> </span><span class="source-lf storage-modifier-lflang">reactor</span><span class="source-lf"> </span><span class="source-lf entity-name-type-lflang">DistributedCountDecentralized</span><span class="source-lf"> {</span>
+<span class="source-lf">    </span><span class="source-lf variable-other-constant-reactorinstance-lflang">c</span><span class="source-lf"> </span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf"> </span><span class="source-lf keyword-operator-new-lflang">new</span><span class="source-lf"> </span><span class="source-lf entity-name-type-lflang">Count</span><span class="source-lf">()</span>
+<span class="source-lf">    </span><span class="source-lf variable-other-constant-reactorinstance-lflang">p</span><span class="source-lf"> </span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf"> </span><span class="source-lf keyword-operator-new-lflang">new</span><span class="source-lf"> </span><span class="source-lf entity-name-type-lflang">Print</span><span class="source-lf">()</span>
+<span class="source-lf comment-line-double-dash-lflang">    </span><span class="source-lf comment-line-double-dash-lflang"># Indicating a 'logical' connection with a large enough delay.</span>
+<span class="source-lf">    </span><span class="source-lf variable-other-constant-reactorinstance-lflang">c</span><span class="source-lf keyword-operator-lflang">.</span><span class="source-lf variable-other-lflang">out</span><span class="source-lf"> </span><span class="source-lf keyword-operator-lflang">-></span><span class="source-lf"> </span><span class="source-lf variable-other-constant-reactorinstance-lflang">p</span><span class="source-lf keyword-operator-lflang">.</span><span class="source-lf variable-other-lflang">in_</span><span class="source-lf"> </span><span class="source-lf keyword-control-lflang">after</span><span class="source-lf"> </span><span class="source-lf constant-numeric-int-lflang">200</span><span class="source-lf"> </span><span class="source-lf constant-numeric-lflang">msec</span>
+<span class="source-lf">}</span>
+<span class="source-lf"></span>
