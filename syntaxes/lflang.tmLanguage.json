@@ -43,6 +43,9 @@
                 },
                 {
                     "include": "#context-insensitive"
+                },
+                {
+                    "include": "#type"
                 }
             ]
         },
@@ -74,9 +77,6 @@
                 },
                 {
                     "include": "#timer"
-                },
-                {
-                    "include": "#type"
                 },
                 {
                     "include": "#number"
@@ -125,9 +125,6 @@
                     "patterns": [
                         {
                             "include": "source.cpp"
-                        },
-                        {
-                            "include": "#type"
                         }
                     ]
                 },
@@ -137,9 +134,6 @@
                     "patterns": [
                         {
                             "include": "source.cpp"
-                        },
-                        {
-                            "include": "#type"
                         }
                     ]
                 },
@@ -165,9 +159,6 @@
                     "patterns": [
                         {
                             "include": "source.cpp"
-                        },
-                        {
-                            "include": "#type"
                         }
                     ]
                 },
@@ -177,9 +168,6 @@
                     "patterns": [
                         {
                             "include": "source.cpp"
-                        },
-                        {
-                            "include": "#type"
                         }
                     ]
                 },
@@ -242,14 +230,6 @@
             "begin": "(?=\\btarget\\s+Rust\\b)",
             "patterns": [
                 {
-                    "name": "entity.name.type.lflang",
-                    "match": "(?<=(input|state)).*:\\s*(\\b(\\w+)\\b)"
-                },
-                {
-                    "name": "entity.name.type.lflang",
-                    "match": "(?<=(output|action)).*:\\s*(\\b(\\w+)\\b)"
-                },
-                {
                     "include": "#post-targetspec"
                 },
                 {
@@ -292,6 +272,9 @@
                     "include": "#context-insensitive"
                 },
                 {
+                    "include": "#type"
+                },
+                {
                     "name": "keyword.control.import.lflang",
                     "match": "\\b(import)\\b|\\b(as)\\b|\\b(from)\\b"
                 },
@@ -329,7 +312,7 @@
                 },
                 {
                     "name": "entity.name.type.lflang",
-                    "match": "(?<=\\breactor\\b)\\s*(?!at)(?!extends)(\\w+)\\b"
+                    "match": "(?<=\\breactor\\b\\s)\\s*(?!at)(?!extends)(\\w+)\\b"
                 }
             ]
         },
@@ -409,19 +392,11 @@
             "patterns": [
                 {
                     "name": "entity.name.type.lflang",
-                    "match": "(?<=(input|state)).*:\\s*(\\b([A-Z]\\w*)\\b)"
-                },
-                {
-                    "name": "entity.name.type.lflang",
-                    "match": "(?<=(output|action)).*:\\s*(\\b([A-Z]\\w*)\\b)"
+                    "match": "(?<=:)\\s*(\\b([A-Z]\\w*)\\b)"
                 },
                 {
                     "name": "storage.type.lflang",
-                    "match": "(?<=(input|state)).*:\\s*(\\b(\\w+)\\b)"
-                },
-                {
-                    "name": "storage.type.lflang",
-                    "match": "(?<=(output|action)).*:\\s*(\\b(\\w+)\\b)"
+                    "match": "(?<=:)\\s*(\\b(\\w+)\\b)"
                 }
             ]
         },
@@ -513,7 +488,7 @@
                 },
                 {
                     "name": "entity.name.type.lflang",
-                    "match": "(?<=new)\\s*(\\[[^\\]]*\\])?\\s+(\\w+)\\b"
+                    "match": "(?<=new\\s)\\s*(\\[[^\\]]*\\])?\\s*(\\w+)\\b"
                 }
             ]
         },
