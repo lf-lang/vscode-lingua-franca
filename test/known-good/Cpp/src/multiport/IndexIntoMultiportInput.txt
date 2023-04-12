@@ -9,7 +9,7 @@
 <span class="source-lf meta-targetspec-lflang keyword-control-lflang">target</span><span class="source-lf meta-targetspec-lflang"> </span><span class="source-lf meta-targetspec-lflang constant-language-lflang">Cpp</span>
 <span class="source-lf"></span>
 <span class="source-lf storage-modifier-lflang">reactor</span><span class="source-lf"> </span><span class="source-lf entity-name-type-lflang">ReactorWithMultiport</span><span class="source-lf"> {</span>
-<span class="source-lf">    </span><span class="source-lf storage-modifier-lflang">input</span><span class="source-lf">[</span><span class="source-lf constant-numeric-int-lflang">3</span><span class="source-lf">] in:</span><span class="source-lf"> </span><span class="source-lf storage-type-lflang">int</span>
+<span class="source-lf">    </span><span class="source-lf storage-modifier-lflang">input</span><span class="source-lf">[</span><span class="source-lf constant-numeric-int-lflang">3</span><span class="source-lf">] in:</span><span class="source-lf storage-type-lflang"> int</span>
 <span class="source-lf"></span>
 <span class="source-lf">    </span><span class="source-lf keyword-control-lflang">reaction</span><span class="source-lf">(</span><span class="source-lf support-variable-lflang">startup</span><span class="source-lf">, in) {</span><span class="source-lf keyword-operator-lflang">=</span>
 <span class="source-lf">        bool error{</span><span class="source-lf constant-language-lflang">false</span><span class="source-lf">};</span>
@@ -31,11 +31,11 @@
 <span class="source-lf">}</span>
 <span class="source-lf"></span>
 <span class="source-lf storage-modifier-lflang">reactor</span><span class="source-lf"> </span><span class="source-lf entity-name-type-lflang">MultiportSplitter</span><span class="source-lf"> {</span>
-<span class="source-lf">    </span><span class="source-lf storage-modifier-lflang">output</span><span class="source-lf">[</span><span class="source-lf constant-numeric-int-lflang">3</span><span class="source-lf">] out:</span><span class="source-lf"> </span><span class="source-lf storage-type-lflang">int</span>
+<span class="source-lf">    </span><span class="source-lf storage-modifier-lflang">output</span><span class="source-lf">[</span><span class="source-lf constant-numeric-int-lflang">3</span><span class="source-lf">] out:</span><span class="source-lf storage-type-lflang"> int</span>
 <span class="source-lf"></span>
-<span class="source-lf">    </span><span class="source-lf storage-modifier-lflang">input</span><span class="source-lf"> in0:</span><span class="source-lf"> </span><span class="source-lf storage-type-lflang">int</span>
-<span class="source-lf">    </span><span class="source-lf storage-modifier-lflang">input</span><span class="source-lf"> in1:</span><span class="source-lf"> </span><span class="source-lf storage-type-lflang">int</span>
-<span class="source-lf">    </span><span class="source-lf storage-modifier-lflang">input</span><span class="source-lf"> in2:</span><span class="source-lf"> </span><span class="source-lf storage-type-lflang">int</span>
+<span class="source-lf">    </span><span class="source-lf storage-modifier-lflang">input</span><span class="source-lf"> in0:</span><span class="source-lf storage-type-lflang"> int</span>
+<span class="source-lf">    </span><span class="source-lf storage-modifier-lflang">input</span><span class="source-lf"> in1:</span><span class="source-lf storage-type-lflang"> int</span>
+<span class="source-lf">    </span><span class="source-lf storage-modifier-lflang">input</span><span class="source-lf"> in2:</span><span class="source-lf storage-type-lflang"> int</span>
 <span class="source-lf"></span>
 <span class="source-lf">    in0, in1, in2 </span><span class="source-lf keyword-operator-lflang">-></span><span class="source-lf"> out</span>
 <span class="source-lf">}</span>

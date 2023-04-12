@@ -1,6 +1,6 @@
 <span class="source-lf comment-line-double-dash-lflang">// The same as CompositionWithPorts.lf, but as a single file project</span>
 <span class="source-lf meta-targetspec-lflang keyword-control-lflang">target</span><span class="source-lf meta-targetspec-lflang"> </span><span class="source-lf meta-targetspec-lflang constant-language-lflang">Rust</span><span class="source-lf meta-targetspec-lflang"> {</span>
-<span class="source-lf meta-targetspec-lflang">    </span><span class="source-lf meta-targetspec-lflang variable-parameter-lflang">rust-include</span><span class="source-lf meta-targetspec-lflang">: </span><span class="source-lf meta-targetspec-lflang string-quoted-double-lflang">"</span><span class="source-lf meta-targetspec-lflang string-quoted-double-lflang">testmod</span><span class="source-lf meta-targetspec-lflang string-quoted-double-lflang">"</span>
+<span class="source-lf meta-targetspec-lflang variable-parameter-lflang">    rust-include</span><span class="source-lf meta-targetspec-lflang">: </span><span class="source-lf meta-targetspec-lflang string-quoted-double-lflang">"</span><span class="source-lf meta-targetspec-lflang string-quoted-double-lflang">testmod</span><span class="source-lf meta-targetspec-lflang string-quoted-double-lflang">"</span>
 <span class="source-lf meta-targetspec-lflang">}</span>
 <span class="source-lf"></span>
 <span class="source-lf storage-modifier-lflang">main</span><span class="source-lf"> </span><span class="source-lf storage-modifier-lflang">reactor</span><span class="source-lf"> {</span>

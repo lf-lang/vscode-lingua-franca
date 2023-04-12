@@ -4,7 +4,7 @@
 <span class="source-lf storage-modifier-lflang">reactor</span><span class="source-lf"> </span><span class="source-lf entity-name-type-lflang">Foo</span><span class="source-lf"> {</span>
 <span class="source-lf">    </span><span class="source-lf storage-modifier-lflang">state</span><span class="source-lf"> foo(</span><span class="source-lf constant-numeric-int-lflang">2</span><span class="source-lf">)</span>
 <span class="source-lf"></span>
-<span class="source-lf">    </span><span class="source-lf keyword-control-lflang">method</span><span class="source-lf"> </span><span class="source-lf entity-name-function-member-lflang">add</span><span class="source-lf">(x) </span><span class="source-lf meta-embedded-block-py">{=</span><span class="source-lf meta-embedded-block-py"> self.foo += x </span><span class="source-lf meta-embedded-block-py">=}</span>
+<span class="source-lf">    </span><span class="source-lf keyword-control-lflang">method</span><span class="source-lf entity-name-function-member-lflang"> add</span><span class="source-lf">(x) </span><span class="source-lf meta-embedded-block-py">{=</span><span class="source-lf meta-embedded-block-py"> self.foo += x </span><span class="source-lf meta-embedded-block-py">=}</span>
 <span class="source-lf"></span>
 <span class="source-lf">    </span><span class="source-lf keyword-control-lflang">reaction</span><span class="source-lf">(</span><span class="source-lf support-variable-lflang">startup</span><span class="source-lf">) </span><span class="source-lf meta-embedded-block-py">{=</span>
 <span class="source-lf meta-embedded-block-py">        self.add(40)</span>
@@ -20,7 +20,7 @@
 <span class="source-lf"></span>
 <span class="source-lf">    </span><span class="source-lf variable-other-constant-reactorinstance-lflang">a</span><span class="source-lf"> </span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf"> </span><span class="source-lf keyword-operator-new-lflang">new</span><span class="source-lf"> </span><span class="source-lf entity-name-type-lflang">Foo</span><span class="source-lf">()</span>
 <span class="source-lf"></span>
-<span class="source-lf">    </span><span class="source-lf keyword-control-lflang">method</span><span class="source-lf"> </span><span class="source-lf entity-name-function-member-lflang">add</span><span class="source-lf">(x) </span><span class="source-lf meta-embedded-block-py">{=</span><span class="source-lf meta-embedded-block-py"> self.foo += x </span><span class="source-lf meta-embedded-block-py">=}</span>
+<span class="source-lf">    </span><span class="source-lf keyword-control-lflang">method</span><span class="source-lf entity-name-function-member-lflang"> add</span><span class="source-lf">(x) </span><span class="source-lf meta-embedded-block-py">{=</span><span class="source-lf meta-embedded-block-py"> self.foo += x </span><span class="source-lf meta-embedded-block-py">=}</span>
 <span class="source-lf"></span>
 <span class="source-lf">    </span><span class="source-lf keyword-control-lflang">reaction</span><span class="source-lf">(</span><span class="source-lf support-variable-lflang">startup</span><span class="source-lf">) </span><span class="source-lf meta-embedded-block-py">{=</span>
 <span class="source-lf meta-embedded-block-py">        self.add(40)</span>

@@ -2,8 +2,8 @@
 <span class="source-lf meta-targetspec-lflang keyword-control-lflang">target</span><span class="source-lf meta-targetspec-lflang"> </span><span class="source-lf meta-targetspec-lflang constant-language-lflang">Rust</span>
 <span class="source-lf"></span>
 <span class="source-lf storage-modifier-lflang">reactor</span><span class="source-lf"> </span><span class="source-lf entity-name-type-lflang">R</span><span class="source-lf"> {</span>
-<span class="source-lf">    </span><span class="source-lf storage-modifier-lflang">input</span><span class="source-lf"> in: </span><span class="source-lf entity-name-type-lflang">Vec</span><span class="source-lf"><</span><span class="source-lf storage-type-lflang">time</span><span class="source-lf">></span>
-<span class="source-lf">    </span><span class="source-lf storage-modifier-lflang">output</span><span class="source-lf"> out: </span><span class="source-lf entity-name-type-lflang">Vec</span><span class="source-lf"><</span><span class="source-lf storage-type-lflang">time</span><span class="source-lf">></span>
+<span class="source-lf">    </span><span class="source-lf storage-modifier-lflang">input</span><span class="source-lf"> in:</span><span class="source-lf entity-name-type-lflang"> Vec</span><span class="source-lf"><</span><span class="source-lf storage-type-lflang">time</span><span class="source-lf">></span>
+<span class="source-lf">    </span><span class="source-lf storage-modifier-lflang">output</span><span class="source-lf"> out:</span><span class="source-lf entity-name-type-lflang"> Vec</span><span class="source-lf"><</span><span class="source-lf storage-type-lflang">time</span><span class="source-lf">></span>
 <span class="source-lf"></span>
 <span class="source-lf">    in </span><span class="source-lf keyword-operator-lflang">-></span><span class="source-lf"> out</span>
 <span class="source-lf"></span>

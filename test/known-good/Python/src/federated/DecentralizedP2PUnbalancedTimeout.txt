@@ -7,8 +7,8 @@
 <span class="source-lf comment-block-lflang"> * The test fails if the federation does not exit.</span>
 <span class="source-lf comment-block-lflang"> </span><span class="source-lf comment-block-lflang">*/</span>
 <span class="source-lf meta-targetspec-lflang keyword-control-lflang">target</span><span class="source-lf meta-targetspec-lflang"> </span><span class="source-lf meta-targetspec-lflang constant-language-lflang">Python</span><span class="source-lf meta-targetspec-lflang"> {</span>
-<span class="source-lf meta-targetspec-lflang">    </span><span class="source-lf meta-targetspec-lflang variable-parameter-lflang">timeout</span><span class="source-lf meta-targetspec-lflang">: </span><span class="source-lf meta-targetspec-lflang constant-numeric-int-lflang">1</span><span class="source-lf meta-targetspec-lflang"> </span><span class="source-lf meta-targetspec-lflang constant-numeric-lflang">msec</span><span class="source-lf meta-targetspec-lflang">,</span>
-<span class="source-lf meta-targetspec-lflang">    </span><span class="source-lf meta-targetspec-lflang variable-parameter-lflang">coordination</span><span class="source-lf meta-targetspec-lflang">: decentralized</span>
+<span class="source-lf meta-targetspec-lflang variable-parameter-lflang">    timeout</span><span class="source-lf meta-targetspec-lflang">: </span><span class="source-lf meta-targetspec-lflang constant-numeric-int-lflang">1</span><span class="source-lf meta-targetspec-lflang"> </span><span class="source-lf meta-targetspec-lflang constant-numeric-lflang">msec</span><span class="source-lf meta-targetspec-lflang">,</span>
+<span class="source-lf meta-targetspec-lflang variable-parameter-lflang">    coordination</span><span class="source-lf meta-targetspec-lflang">: decentralized</span>
 <span class="source-lf meta-targetspec-lflang">}</span>
 <span class="source-lf"></span>
 <span class="source-lf comment-line-double-dash-lflang"># reason for failing: lf_tag() not supported by the python target</span>

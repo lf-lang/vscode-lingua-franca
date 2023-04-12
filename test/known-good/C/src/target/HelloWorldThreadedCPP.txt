@@ -3,8 +3,8 @@
 <span class="source-lf comment-block-lflang"> * should not pass if it does not compile.</span>
 <span class="source-lf comment-block-lflang"> </span><span class="source-lf comment-block-lflang">*/</span>
 <span class="source-lf meta-targetspec-lflang keyword-control-lflang">target</span><span class="source-lf meta-targetspec-lflang"> </span><span class="source-lf meta-targetspec-lflang constant-language-lflang">CCpp</span><span class="source-lf meta-targetspec-lflang"> {</span>
-<span class="source-lf meta-targetspec-lflang">    </span><span class="source-lf meta-targetspec-lflang variable-parameter-lflang">tracing</span><span class="source-lf meta-targetspec-lflang">: </span><span class="source-lf meta-targetspec-lflang constant-language-lflang">true</span><span class="source-lf meta-targetspec-lflang">,</span>
-<span class="source-lf meta-targetspec-lflang">    </span><span class="source-lf meta-targetspec-lflang variable-parameter-lflang">logging</span><span class="source-lf meta-targetspec-lflang">: DEBUG</span>
+<span class="source-lf meta-targetspec-lflang variable-parameter-lflang">    tracing</span><span class="source-lf meta-targetspec-lflang">: </span><span class="source-lf meta-targetspec-lflang constant-language-lflang">true</span><span class="source-lf meta-targetspec-lflang">,</span>
+<span class="source-lf meta-targetspec-lflang variable-parameter-lflang">    logging</span><span class="source-lf meta-targetspec-lflang">: DEBUG</span>
 <span class="source-lf meta-targetspec-lflang">}</span>
 <span class="source-lf"></span>
 <span class="source-lf keyword-control-import-lflang">import</span><span class="source-lf"> </span><span class="source-lf entity-name-type-lflang">HelloWorld</span><span class="source-lf"> </span><span class="source-lf keyword-control-import-lflang">from</span><span class="source-lf"> </span><span class="source-lf string-quoted-double-lflang">"</span><span class="source-lf string-quoted-double-lflang">HelloWorldCCPP.lf</span><span class="source-lf string-quoted-double-lflang">"</span>

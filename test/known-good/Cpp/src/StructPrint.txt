@@ -6,7 +6,7 @@
 <span class="source-lf keyword-operator-lflang">=</span><span class="source-lf">}</span>
 <span class="source-lf"></span>
 <span class="source-lf storage-modifier-lflang">reactor</span><span class="source-lf"> </span><span class="source-lf entity-name-type-lflang">Source</span><span class="source-lf"> {</span>
-<span class="source-lf">    </span><span class="source-lf storage-modifier-lflang">output</span><span class="source-lf"> out:</span><span class="source-lf"> </span><span class="source-lf entity-name-type-lflang">Hello</span>
+<span class="source-lf">    </span><span class="source-lf storage-modifier-lflang">output</span><span class="source-lf"> out:</span><span class="source-lf entity-name-type-lflang"> Hello</span>
 <span class="source-lf"></span>
 <span class="source-lf">    </span><span class="source-lf keyword-control-lflang">reaction</span><span class="source-lf">(</span><span class="source-lf support-variable-lflang">startup</span><span class="source-lf">) </span><span class="source-lf keyword-operator-lflang">-></span><span class="source-lf"> out {</span><span class="source-lf keyword-operator-lflang">=</span>
 <span class="source-lf comment-line-double-dash-lflang">        </span><span class="source-lf comment-line-double-dash-lflang">// create an dynamically allocated mutable Hello object</span>
@@ -19,10 +19,10 @@
 <span class="source-lf">}</span>
 <span class="source-lf"></span>
 <span class="source-lf storage-modifier-lflang">reactor</span><span class="source-lf"> </span><span class="source-lf entity-name-type-lflang">Print</span><span class="source-lf">(</span>
-<span class="source-lf">    expected_value: int(</span><span class="source-lf constant-numeric-int-lflang">42</span><span class="source-lf">),</span>
+<span class="source-lf">    expected_value:</span><span class="source-lf storage-type-lflang"> int</span><span class="source-lf">(</span><span class="source-lf constant-numeric-int-lflang">42</span><span class="source-lf">),</span>
 <span class="source-lf">    expected_name: {</span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf"> </span><span class="source-lf variable-other-constant-reactorinstance-lflang">std</span><span class="source-lf keyword-operator-lflang">::</span><span class="source-lf variable-other-lflang">string</span><span class="source-lf"> </span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf">}(</span><span class="source-lf string-quoted-double-lflang">"</span><span class="source-lf string-quoted-double-lflang">Earth</span><span class="source-lf string-quoted-double-lflang">"</span><span class="source-lf">)</span>
 <span class="source-lf">) {</span>
-<span class="source-lf">    </span><span class="source-lf storage-modifier-lflang">input</span><span class="source-lf"> in:</span><span class="source-lf"> </span><span class="source-lf entity-name-type-lflang">Hello</span>
+<span class="source-lf">    </span><span class="source-lf storage-modifier-lflang">input</span><span class="source-lf"> in:</span><span class="source-lf entity-name-type-lflang"> Hello</span>
 <span class="source-lf"></span>
 <span class="source-lf">    </span><span class="source-lf keyword-control-lflang">reaction</span><span class="source-lf">(in) {</span><span class="source-lf keyword-operator-lflang">=</span>
 <span class="source-lf comment-line-double-dash-lflang">        </span><span class="source-lf comment-line-double-dash-lflang">// get a reference to the received struct for convenience</span>

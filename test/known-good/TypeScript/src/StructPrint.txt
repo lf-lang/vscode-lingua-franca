@@ -5,20 +5,20 @@
 <span class="source-lf storage-modifier-lflang">reactor</span><span class="source-lf"> </span><span class="source-lf entity-name-type-lflang">Source</span><span class="source-lf"> {</span>
 <span class="source-lf">    </span><span class="source-lf keyword-control-lflang">preamble</span><span class="source-lf"> {</span><span class="source-lf keyword-operator-lflang">=</span>
 <span class="source-lf">        type hello_t </span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf">  {</span>
-<span class="source-lf">            name: string ;</span>
-<span class="source-lf">            value: number;</span>
+<span class="source-lf">            name:</span><span class="source-lf storage-type-lflang"> string</span><span class="source-lf"> ;</span>
+<span class="source-lf">            value:</span><span class="source-lf storage-type-lflang"> number</span><span class="source-lf">;</span>
 <span class="source-lf">        }</span>
 <span class="source-lf">    </span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf">}</span>
-<span class="source-lf">    </span><span class="source-lf storage-modifier-lflang">output</span><span class="source-lf"> out: </span><span class="source-lf storage-type-lflang">hello_t</span>
+<span class="source-lf">    </span><span class="source-lf storage-modifier-lflang">output</span><span class="source-lf"> out:</span><span class="source-lf storage-type-lflang"> hello_t</span>
 <span class="source-lf"></span>
 <span class="source-lf">    </span><span class="source-lf keyword-control-lflang">reaction</span><span class="source-lf">(</span><span class="source-lf support-variable-lflang">startup</span><span class="source-lf">) </span><span class="source-lf keyword-operator-lflang">-></span><span class="source-lf"> out {</span><span class="source-lf keyword-operator-lflang">=</span>
-<span class="source-lf">        let temp: hello_t </span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf"> {name: </span><span class="source-lf string-quoted-double-lflang">"</span><span class="source-lf string-quoted-double-lflang">Earth</span><span class="source-lf string-quoted-double-lflang">"</span><span class="source-lf">, value: </span><span class="source-lf constant-numeric-int-lflang">42</span><span class="source-lf">}</span>
+<span class="source-lf">        let temp:</span><span class="source-lf storage-type-lflang"> hello_t</span><span class="source-lf"> </span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf"> {name: </span><span class="source-lf string-quoted-double-lflang">"</span><span class="source-lf string-quoted-double-lflang">Earth</span><span class="source-lf string-quoted-double-lflang">"</span><span class="source-lf">, value:</span><span class="source-lf storage-type-lflang"> 42</span><span class="source-lf">}</span>
 <span class="source-lf">        out </span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf"> temp;</span>
 <span class="source-lf">    </span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf">}</span>
 <span class="source-lf">}</span>
 <span class="source-lf"></span>
-<span class="source-lf storage-modifier-lflang">reactor</span><span class="source-lf"> </span><span class="source-lf entity-name-type-lflang">Print</span><span class="source-lf">(expected: number(</span><span class="source-lf constant-numeric-int-lflang">42</span><span class="source-lf">)) {  </span><span class="source-lf comment-line-double-dash-lflang">// expected parameter is for testing.</span>
-<span class="source-lf">    </span><span class="source-lf storage-modifier-lflang">input</span><span class="source-lf"> x: </span><span class="source-lf storage-type-lflang">hello_t</span>
+<span class="source-lf storage-modifier-lflang">reactor</span><span class="source-lf"> </span><span class="source-lf entity-name-type-lflang">Print</span><span class="source-lf">(expected:</span><span class="source-lf storage-type-lflang"> number</span><span class="source-lf">(</span><span class="source-lf constant-numeric-int-lflang">42</span><span class="source-lf">)) {  </span><span class="source-lf comment-line-double-dash-lflang">// expected parameter is for testing.</span>
+<span class="source-lf">    </span><span class="source-lf storage-modifier-lflang">input</span><span class="source-lf"> x:</span><span class="source-lf storage-type-lflang"> hello_t</span>
 <span class="source-lf"></span>
 <span class="source-lf">    </span><span class="source-lf keyword-control-lflang">reaction</span><span class="source-lf">(x) {</span><span class="source-lf keyword-operator-lflang">=</span>
 <span class="source-lf">        x </span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf"> x as hello_t;</span>

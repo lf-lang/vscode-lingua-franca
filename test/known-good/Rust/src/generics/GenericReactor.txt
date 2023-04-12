@@ -1,15 +1,15 @@
 <span class="source-lf comment-line-double-dash-lflang">// Tests a port connection between (input of self -> input of child)</span>
 <span class="source-lf meta-targetspec-lflang keyword-control-lflang">target</span><span class="source-lf meta-targetspec-lflang"> </span><span class="source-lf meta-targetspec-lflang constant-language-lflang">Rust</span>
 <span class="source-lf"></span>
-<span class="source-lf storage-modifier-lflang">reactor</span><span class="source-lf"> </span><span class="source-lf entity-name-type-lflang">Box</span><span class="source-lf"><{</span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf"> T: Sync </span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf">}> {</span>
-<span class="source-lf">    </span><span class="source-lf storage-modifier-lflang">input</span><span class="source-lf"> inp: </span><span class="source-lf entity-name-type-lflang">T</span>
-<span class="source-lf">    </span><span class="source-lf storage-modifier-lflang">output</span><span class="source-lf"> out: </span><span class="source-lf entity-name-type-lflang">T</span>
+<span class="source-lf storage-modifier-lflang">reactor</span><span class="source-lf"> </span><span class="source-lf entity-name-type-lflang">Box</span><span class="source-lf"><{</span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf"> T:</span><span class="source-lf entity-name-type-lflang"> Sync</span><span class="source-lf"> </span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf">}> {</span>
+<span class="source-lf">    </span><span class="source-lf storage-modifier-lflang">input</span><span class="source-lf"> inp:</span><span class="source-lf entity-name-type-lflang"> T</span>
+<span class="source-lf">    </span><span class="source-lf storage-modifier-lflang">output</span><span class="source-lf"> out:</span><span class="source-lf entity-name-type-lflang"> T</span>
 <span class="source-lf"></span>
 <span class="source-lf">    inp </span><span class="source-lf keyword-operator-lflang">-></span><span class="source-lf"> out</span>
 <span class="source-lf">}</span>
 <span class="source-lf"></span>
 <span class="source-lf storage-modifier-lflang">main</span><span class="source-lf"> </span><span class="source-lf storage-modifier-lflang">reactor</span><span class="source-lf"> {</span>
-<span class="source-lf">    </span><span class="source-lf storage-modifier-lflang">state</span><span class="source-lf"> done: </span><span class="source-lf entity-name-type-lflang">bool</span><span class="source-lf">(</span><span class="source-lf constant-language-lflang">false</span><span class="source-lf">)</span>
+<span class="source-lf">    </span><span class="source-lf storage-modifier-lflang">state</span><span class="source-lf"> done:</span><span class="source-lf storage-type-lflang"> bool</span><span class="source-lf">(</span><span class="source-lf constant-language-lflang">false</span><span class="source-lf">)</span>
 <span class="source-lf"></span>
 <span class="source-lf">    </span><span class="source-lf variable-other-constant-reactorinstance-lflang">box0</span><span class="source-lf"> </span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf"> </span><span class="source-lf keyword-operator-new-lflang">new</span><span class="source-lf"> </span><span class="source-lf entity-name-type-lflang">Box</span><span class="source-lf"><u32>()</span>
 <span class="source-lf">    </span><span class="source-lf variable-other-constant-reactorinstance-lflang">box1</span><span class="source-lf"> </span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf"> </span><span class="source-lf keyword-operator-new-lflang">new</span><span class="source-lf"> </span><span class="source-lf entity-name-type-lflang">Box</span><span class="source-lf"><u32>()</span>

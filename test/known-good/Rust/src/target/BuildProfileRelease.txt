@@ -1,7 +1,7 @@
 <span class="source-lf comment-line-double-dash-lflang">// Tests that the we can enable the release profile A proxy for checking this is</span>
 <span class="source-lf comment-line-double-dash-lflang">// to check that debug assertions are disabled.</span>
 <span class="source-lf meta-targetspec-lflang keyword-control-lflang">target</span><span class="source-lf meta-targetspec-lflang"> </span><span class="source-lf meta-targetspec-lflang constant-language-lflang">Rust</span><span class="source-lf meta-targetspec-lflang"> {</span>
-<span class="source-lf meta-targetspec-lflang">    </span><span class="source-lf meta-targetspec-lflang variable-parameter-lflang">build-type</span><span class="source-lf meta-targetspec-lflang">: </span><span class="source-lf meta-targetspec-lflang string-quoted-double-lflang">"</span><span class="source-lf meta-targetspec-lflang string-quoted-double-lflang">Release</span><span class="source-lf meta-targetspec-lflang string-quoted-double-lflang">"</span>
+<span class="source-lf meta-targetspec-lflang variable-parameter-lflang">    build-type</span><span class="source-lf meta-targetspec-lflang">: </span><span class="source-lf meta-targetspec-lflang string-quoted-double-lflang">"</span><span class="source-lf meta-targetspec-lflang string-quoted-double-lflang">Release</span><span class="source-lf meta-targetspec-lflang string-quoted-double-lflang">"</span>
 <span class="source-lf meta-targetspec-lflang">}</span>
 <span class="source-lf"></span>
 <span class="source-lf storage-modifier-lflang">main</span><span class="source-lf"> </span><span class="source-lf storage-modifier-lflang">reactor</span><span class="source-lf"> {</span>

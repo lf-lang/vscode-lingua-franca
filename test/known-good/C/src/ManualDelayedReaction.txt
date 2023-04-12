@@ -2,14 +2,14 @@
 <span class="source-lf meta-targetspec-lflang comment-line-double-dash-lflang">    </span><span class="source-lf meta-targetspec-lflang comment-line-double-dash-lflang">// Set keepalive to false since this is a test and schedule is called on a</span>
 <span class="source-lf meta-targetspec-lflang comment-line-double-dash-lflang">    </span><span class="source-lf meta-targetspec-lflang comment-line-double-dash-lflang">// physical action from within a reaction. This is one of the special rare</span>
 <span class="source-lf meta-targetspec-lflang comment-line-double-dash-lflang">    </span><span class="source-lf meta-targetspec-lflang comment-line-double-dash-lflang">// cases where the user might want to manually override keepalive.</span>
-<span class="source-lf meta-targetspec-lflang">    </span><span class="source-lf meta-targetspec-lflang variable-parameter-lflang">keepalive</span><span class="source-lf meta-targetspec-lflang">: </span><span class="source-lf meta-targetspec-lflang constant-language-lflang">false</span>
+<span class="source-lf meta-targetspec-lflang variable-parameter-lflang">    keepalive</span><span class="source-lf meta-targetspec-lflang">: </span><span class="source-lf meta-targetspec-lflang constant-language-lflang">false</span>
 <span class="source-lf meta-targetspec-lflang">}</span>
 <span class="source-lf"></span>
 <span class="source-lf comment-line-double-dash-lflang">// That's the stuff that shall be generated for the after</span>
 <span class="source-lf storage-modifier-lflang">reactor</span><span class="source-lf"> </span><span class="source-lf entity-name-type-lflang">GeneratedDelay</span><span class="source-lf"> {</span>
-<span class="source-lf">    </span><span class="source-lf storage-modifier-lflang">input</span><span class="source-lf"> y_in:</span><span class="source-lf"> </span><span class="source-lf storage-type-lflang">int</span>
-<span class="source-lf">    </span><span class="source-lf storage-modifier-lflang">output</span><span class="source-lf"> y_out:</span><span class="source-lf"> </span><span class="source-lf storage-type-lflang">int</span>
-<span class="source-lf">    </span><span class="source-lf storage-modifier-lflang">state</span><span class="source-lf"> y_state:</span><span class="source-lf"> </span><span class="source-lf storage-type-lflang">int</span><span class="source-lf">(</span><span class="source-lf constant-numeric-int-lflang">0</span><span class="source-lf">)</span>
+<span class="source-lf">    </span><span class="source-lf storage-modifier-lflang">input</span><span class="source-lf"> y_in:</span><span class="source-lf storage-type-lflang"> int</span>
+<span class="source-lf">    </span><span class="source-lf storage-modifier-lflang">output</span><span class="source-lf"> y_out:</span><span class="source-lf storage-type-lflang"> int</span>
+<span class="source-lf">    </span><span class="source-lf storage-modifier-lflang">state</span><span class="source-lf"> y_state:</span><span class="source-lf storage-type-lflang"> int</span><span class="source-lf">(</span><span class="source-lf constant-numeric-int-lflang">0</span><span class="source-lf">)</span>
 <span class="source-lf"></span>
 <span class="source-lf">    </span><span class="source-lf storage-modifier-lflang">physical</span><span class="source-lf"> </span><span class="source-lf storage-modifier-lflang">action</span><span class="source-lf"> act(</span><span class="source-lf constant-numeric-int-lflang">0</span><span class="source-lf"> </span><span class="source-lf constant-numeric-lflang">msec</span><span class="source-lf">)  </span><span class="source-lf comment-line-double-dash-lflang">// TODO: delay in act or the schedule call?</span>
 <span class="source-lf"></span>
@@ -22,7 +22,7 @@
 <span class="source-lf">}</span>
 <span class="source-lf"></span>
 <span class="source-lf storage-modifier-lflang">reactor</span><span class="source-lf"> </span><span class="source-lf entity-name-type-lflang">Source</span><span class="source-lf"> {</span>
-<span class="source-lf">    </span><span class="source-lf storage-modifier-lflang">output</span><span class="source-lf"> out:</span><span class="source-lf"> </span><span class="source-lf storage-type-lflang">int</span>
+<span class="source-lf">    </span><span class="source-lf storage-modifier-lflang">output</span><span class="source-lf"> out:</span><span class="source-lf storage-type-lflang"> int</span>
 <span class="source-lf">    </span><span class="source-lf storage-modifier-lflang">timer</span><span class="source-lf"> t</span>
 <span class="source-lf"></span>
 <span class="source-lf comment-line-double-dash-lflang">    </span><span class="source-lf comment-line-double-dash-lflang">// reaction(t) -> out after 100 msec</span>
@@ -30,7 +30,7 @@
 <span class="source-lf">}</span>
 <span class="source-lf"></span>
 <span class="source-lf storage-modifier-lflang">reactor</span><span class="source-lf"> </span><span class="source-lf entity-name-type-lflang">Sink</span><span class="source-lf"> {</span>
-<span class="source-lf">    </span><span class="source-lf storage-modifier-lflang">input</span><span class="source-lf"> in:</span><span class="source-lf"> </span><span class="source-lf storage-type-lflang">int</span>
+<span class="source-lf">    </span><span class="source-lf storage-modifier-lflang">input</span><span class="source-lf"> in:</span><span class="source-lf storage-type-lflang"> int</span>
 <span class="source-lf"></span>
 <span class="source-lf">    </span><span class="source-lf keyword-control-lflang">reaction</span><span class="source-lf">(in) {</span><span class="source-lf keyword-operator-lflang">=</span>
 <span class="source-lf">        interval_t elapsed_logical </span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf"> lf_time_logical_elapsed();</span>
