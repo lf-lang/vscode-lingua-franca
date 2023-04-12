@@ -245,7 +245,7 @@
         "target-specification": {
             "name": "meta.targetspec.lflang",
             "begin": "(?=\\btarget\\b)",
-            "end": ";|(?<=})$|(?<=target)[^\\{]*$",
+            "end": "(?<=;)\\s*$|(?<=})\\s*$|(?<=Python)\\s*$|(?<=(CCpp|Rust))\\s*$|(?<=C)\\s*$|(?<=Cpp)\\s*$|(?<=TypeScript)\\s*$",
             "patterns": [
                 {
                     "include": "#context-insensitive"
@@ -266,7 +266,7 @@
         },
         "import-statement": {
             "begin": "(?=^\\s*import\\b)",
-            "end": ";|(?<=})$|(?<=import)[^\\{]*$",
+            "end": ";|(?<=\")\\s*$",
             "patterns": [
                 {
                     "include": "#context-insensitive"
