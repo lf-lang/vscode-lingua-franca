@@ -120,7 +120,7 @@
             "begin": "(?=\\btarget\\s+C\\b)",
             "patterns": [
                 {
-                    "begin": "(?<=(input|state)).*:(.*);\n",
+                    "begin": "(?<=(input|state)).*:",
                     "end": "[\\(;\\n]",
                     "patterns": [
                         {
@@ -129,7 +129,7 @@
                     ]
                 },
                 {
-                    "begin": "(?<=(output|action)).*:(.*);\n",
+                    "begin": "(?<=(output|action)).*:",
                     "end": "[\\(;\\n]",
                     "patterns": [
                         {
@@ -154,7 +154,7 @@
             "begin": "(?=\\btarget\\s+C?Cpp\\b)",
             "patterns": [
                 {
-                    "begin": "(?<=(input|state)).*:(.*);\n",
+                    "begin": "(?<=(input|state)).*:",
                     "end": "[\\(;\\n]",
                     "patterns": [
                         {
@@ -163,7 +163,7 @@
                     ]
                 },
                 {
-                    "begin": "(?<=(output|action)).*:(.*);\n",
+                    "begin": "(?<=(output|action)).*:",
                     "end": "[\\(;\\n]",
                     "patterns": [
                         {
@@ -260,7 +260,7 @@
                 },
                 {
                     "name": "variable.parameter.lflang",
-                    "match": "(^|(?<=(,|\\{)))(\\s)*\\b([\\w\\-]+)\\b(?=(\\s)*:)"
+                    "match": "(^|(?<=(,|\\{)))\\s*\\b([\\w\\-]+)\\b(?=\\s*:)"
                 }
             ]
         },
