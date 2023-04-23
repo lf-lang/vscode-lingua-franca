@@ -7,7 +7,7 @@ import * as fs from 'fs';
 import { Trace } from 'vscode-jsonrpc';
 import * as vscode from 'vscode';
 import { connect, NetConnectOpts, Socket } from 'net';
-import { LanguageClient, LanguageClientOptions, ServerOptions, StreamInfo } from 'vscode-languageclient';
+import { LanguageClient, LanguageClientOptions, ServerOptions, StreamInfo } from 'vscode-languageclient/node';
 import { legend, semanticTokensProvider } from './highlight';
 import * as config from './config';
 import { registerBuildCommands } from './build_commands';
@@ -44,7 +44,7 @@ export async function activate(context: vscode.ExtensionContext) {
 
     client = new LanguageClient('LF Language Server', serverOptions, clientOptions);
     // enable tracing (.Off, .Messages, Verbose)
-    client.trace = Trace.Verbose;
+    client.setTrace(Trace.Verbose);
 
     // Register with Klighd Diagram extension
     const refId = await vscode.commands.executeCommand(
