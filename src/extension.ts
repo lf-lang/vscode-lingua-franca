@@ -10,7 +10,7 @@ import { connect, NetConnectOpts, Socket } from 'net';
 import { LanguageClient, LanguageClientOptions, ServerOptions, StreamInfo } from 'vscode-languageclient/node';
 import { legend, semanticTokensProvider } from './highlight';
 import * as config from './config';
-import { registerBuildCommands } from './build_commands';
+import { registerBuildCommands, registerNewFileCommand } from './build_commands';
 import * as checkDependencies from './check_dependencies';
 
 let client: LanguageClient;
@@ -56,6 +56,7 @@ export async function activate(context: vscode.ExtensionContext) {
     client.start();
 
     registerBuildCommands(context, client);
+    registerNewFileCommand(context);
 }
 
 /**

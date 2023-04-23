@@ -104,3 +104,15 @@ export function registerBuildCommands(context: vscode.ExtensionContext, client: 
         enabled = buildOnSaveEnabled();
     });
 }
+
+const createNewFile = () => async (textEditor: vscode.TextEditor) => {
+    let newFile = await vscode.workspace.openTextDocument({language: "lflang"});
+    vscode.window.showTextDocument(newFile);
+    return vscode.window.activeTextEditor;
+}
+
+export async function registerNewFileCommand(context: vscode.ExtensionContext) {
+    context.subscriptions.push(vscode.commands.registerCommand(
+        'linguafranca.createNewFile', await createNewFile()
+    ));
+}
