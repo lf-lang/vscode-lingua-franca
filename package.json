@@ -79,7 +79,8 @@
             },
             {
                 "command": "linguafranca.createNewFile",
-                "title": "New Lingua Franca File"
+                "title": "New Lingua Franca File",
+                "shortTitle": "Lingua Franca File"
             }
         ],
         "configuration": {
