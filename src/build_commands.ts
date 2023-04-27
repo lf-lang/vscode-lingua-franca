@@ -1,5 +1,5 @@
 import * as vscode from 'vscode';
-import { LanguageClient } from 'vscode-languageclient';
+import { LanguageClient } from 'vscode-languageclient/node';
 import { getTerminal, MessageDisplayHelper } from './utils';
 
 /**
@@ -103,4 +103,25 @@ export function registerBuildCommands(context: vscode.ExtensionContext, client: 
     vscode.workspace.onDidChangeConfiguration(() => {
         enabled = buildOnSaveEnabled();
     });
+}
+
+/**
+ * Open a new untitled Lingua Franca file.
+ * @returns The current active textEditor window containing the new file.
+ */
+const createNewFile = () => async (textEditor: vscode.TextEditor) => {
+    let newFile = await vscode.workspace.openTextDocument({language: "lflang"});
+    vscode.window.showTextDocument(newFile);
+    return vscode.window.activeTextEditor;
+}
+
+/**
+ * Register the "New File" command in the environment to add LF
+ * as an option in the file menu.
+ * @param context The context of this VSCode extension.
+ */
+export async function registerNewFileCommand(context: vscode.ExtensionContext) {
+    context.subscriptions.push(vscode.commands.registerCommand(
+        'linguafranca.createNewFile', await createNewFile()
+    ));
 }
