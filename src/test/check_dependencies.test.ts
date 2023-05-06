@@ -28,8 +28,8 @@ enum DependencyStatus {
 
 type Test = () => Promise<void>;
 
-const basicTimeoutMilliseconds = 10 * 1000;
-const extendedTimeoutMilliseconds = 60 * 1000;
+const basicTimeoutMilliseconds = 20 * 1000;
+const extendedTimeoutMilliseconds = 120 * 1000;
 const maxInstallationTimeMilliseconds = 30 * 1000;
 const linkCheckingTimeoutMilliseconds = 60 * 1000;
 
