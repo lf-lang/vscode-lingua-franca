@@ -6,7 +6,7 @@ lingua-franca/
 __pycache__/*
 src/**
 out/test/**
-
+test/**
 *.vsix
 .gitignore
 .vscodeignore
