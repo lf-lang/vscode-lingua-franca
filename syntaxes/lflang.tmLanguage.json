@@ -118,52 +118,21 @@
         },
         "c-target": {
             "begin": "(?=\\btarget\\s+C\\b)",
-            "patterns": [
-                {
-                    "begin": "(?<=(input|state))\\s+\\w+\\s*:",
-                    "end": "[\\(;\\n]",
-                    "name": "meta.embedded.block.c",
-                    "patterns": [
-                        {
-                            "include": "source.cpp"
-                        },
-                        {
-                            "include": "#type"
-                        }
-                    ]
-                },
-                {
-                    "begin": "(?<=(output|action))\\s+\\w+\\s*:",
-                    "end": "[\\(;\\n]",
-                    "name": "meta.embedded.block.c",
-                    "patterns": [
-                        {
-                            "include": "source.cpp"
-                        },
-                        {
-                            "include": "#type"
-                        }
-                    ]
-                },
-                {
-                    "include": "#post-targetspec"
-                },
-                {
-                    "begin": "\\{=(?!=\\})",
-                    "end": "([<>]?[<>+\\-*/%&\\^|]?=\\})",
-                    "name": "meta.embedded.block.c",
-                    "patterns": [{
-                        "include": "source.cpp"
-                    }]
-                }
-            ]
+            "patterns": [{
+                "include": "#c-or-cpp-target"
+            }]
         },
         "cpp-target": {
             "begin": "(?=\\btarget\\s+C?Cpp\\b)",
+            "patterns": [{
+                "include": "#c-or-cpp-target"
+            }]
+        },
+        "c-or-cpp-target": {
             "patterns": [
                 {
                     "begin": "(?<=(input|state))\\s+\\w+\\s*:",
-                    "end": "[\\(;\\n]|(\\{=)",
+                    "end": "[\\(;\\n]|(?=\\{=)",
                     "name": "meta.embedded.block.cpp",
                     "patterns": [
                         {
@@ -176,7 +145,7 @@
                 },
                 {
                     "begin": "(?<=(output|action))\\s+\\w+\\s*:",
-                    "end": "[\\(;\\n]|(\\{=)",
+                    "end": "[\\(;\\n]|(?=\\{=)",
                     "name": "meta.embedded.block.cpp",
                     "patterns": [
                         {
