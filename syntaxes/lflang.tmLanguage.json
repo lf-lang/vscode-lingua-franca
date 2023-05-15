@@ -120,8 +120,9 @@
             "begin": "(?=\\btarget\\s+C\\b)",
             "patterns": [
                 {
-                    "begin": "(?<=(input|state)).*:",
+                    "begin": "(?<=(input|state))\\s+\\w+\\s*:",
                     "end": "[\\(;\\n]",
+                    "name": "meta.embedded.block.c",
                     "patterns": [
                         {
                             "include": "source.cpp"
@@ -132,8 +133,9 @@
                     ]
                 },
                 {
-                    "begin": "(?<=(output|action)).*:",
+                    "begin": "(?<=(output|action))\\s+\\w+\\s*:",
                     "end": "[\\(;\\n]",
+                    "name": "meta.embedded.block.c",
                     "patterns": [
                         {
                             "include": "source.cpp"
@@ -160,8 +162,9 @@
             "begin": "(?=\\btarget\\s+C?Cpp\\b)",
             "patterns": [
                 {
-                    "begin": "(?<=(input|state)).*:",
-                    "end": "[\\(;\\n]",
+                    "begin": "(?<=(input|state))\\s+\\w+\\s*:",
+                    "end": "[\\(;\\n]|(\\{=)",
+                    "name": "meta.embedded.block.cpp",
                     "patterns": [
                         {
                             "include": "source.cpp"
@@ -172,8 +175,9 @@
                     ]
                 },
                 {
-                    "begin": "(?<=(output|action)).*:",
-                    "end": "[\\(;\\n]",
+                    "begin": "(?<=(output|action))\\s+\\w+\\s*:",
+                    "end": "[\\(;\\n]|(\\{=)",
+                    "name": "meta.embedded.block.cpp",
                     "patterns": [
                         {
                             "include": "source.cpp"
@@ -188,7 +192,7 @@
                 },
                 {
                     "begin": "\\{=",
-                    "end": "([<>]?[<>+\\-*/%&\\^|]?=\\})",
+                    "end": "(([<>]?[<>+\\-*/%&\\^|]?=\\}))",
                     "name": "meta.embedded.block.cpp",
                     "patterns": [{
                         "include": "source.cpp"
