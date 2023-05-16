@@ -30,7 +30,7 @@
 <span class="source-lf"></span>
 <span class="source-lf comment-block-lflang">/**</span><span class="source-lf comment-block-lflang"> Reactor that outputs periodically. </span><span class="source-lf comment-block-lflang">*/</span>
 <span class="source-lf storage-modifier-lflang">reactor</span><span class="source-lf"> </span><span class="source-lf entity-name-type-lflang">Ticker</span><span class="source-lf">(period:</span><span class="source-lf storage-type-lflang"> time</span><span class="source-lf">(</span><span class="source-lf constant-numeric-int-lflang">1600</span><span class="source-lf"> </span><span class="source-lf constant-numeric-lflang">msec</span><span class="source-lf">)) {</span>
-<span class="source-lf">    </span><span class="source-lf storage-modifier-lflang">output</span><span class="source-lf"> out:</span><span class="source-lf storage-type-lflang"> int</span>
+<span class="source-lf">    </span><span class="source-lf storage-modifier-lflang">output</span><span class="source-lf meta-embedded-block-cpp"> out:</span><span class="source-lf meta-embedded-block-cpp storage-type-lflang"> int</span>
 <span class="source-lf"></span>
 <span class="source-lf">    </span><span class="source-lf storage-modifier-lflang">timer</span><span class="source-lf"> tick(</span><span class="source-lf constant-numeric-int-lflang">0</span><span class="source-lf">, period)</span>
 <span class="source-lf"></span>
@@ -39,7 +39,7 @@
 <span class="source-lf"></span>
 <span class="source-lf comment-block-lflang">/**</span><span class="source-lf comment-block-lflang"> Print a message when an input arrives. </span><span class="source-lf comment-block-lflang">*/</span>
 <span class="source-lf storage-modifier-lflang">reactor</span><span class="source-lf"> </span><span class="source-lf entity-name-type-lflang">Printer</span><span class="source-lf"> {</span>
-<span class="source-lf">    </span><span class="source-lf storage-modifier-lflang">input</span><span class="source-lf"> in:</span><span class="source-lf storage-type-lflang"> int</span>
+<span class="source-lf">    </span><span class="source-lf storage-modifier-lflang">input</span><span class="source-lf meta-embedded-block-cpp"> in:</span><span class="source-lf meta-embedded-block-cpp storage-type-lflang"> int</span>
 <span class="source-lf"></span>
 <span class="source-lf">    </span><span class="source-lf keyword-control-lflang">reaction</span><span class="source-lf">(</span><span class="source-lf support-variable-lflang">startup</span><span class="source-lf">) {</span><span class="source-lf keyword-operator-lflang">=</span>
 <span class="source-lf">        interval_t offset </span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf"> _lf_time_physical_clock_offset </span><span class="source-lf keyword-operator-lflang">+</span><span class="source-lf"> _lf_time_test_physical_clock_offset;</span>

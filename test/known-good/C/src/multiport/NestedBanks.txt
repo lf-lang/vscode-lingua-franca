@@ -60,7 +60,7 @@
 <span class="source-lf">}</span>
 <span class="source-lf"></span>
 <span class="source-lf storage-modifier-lflang">reactor</span><span class="source-lf"> </span><span class="source-lf entity-name-type-lflang">F</span><span class="source-lf">(c_bank_index:</span><span class="source-lf storage-type-lflang"> int</span><span class="source-lf">(</span><span class="source-lf constant-numeric-int-lflang">0</span><span class="source-lf">)) {</span>
-<span class="source-lf">    </span><span class="source-lf storage-modifier-lflang">input</span><span class="source-lf"> w:</span><span class="source-lf storage-type-lflang"> int</span>
+<span class="source-lf">    </span><span class="source-lf storage-modifier-lflang">input</span><span class="source-lf meta-embedded-block-cpp"> w:</span><span class="source-lf meta-embedded-block-cpp storage-type-lflang"> int</span>
 <span class="source-lf"></span>
 <span class="source-lf">    </span><span class="source-lf keyword-control-lflang">reaction</span><span class="source-lf">(w) {</span><span class="source-lf keyword-operator-lflang">=</span>
 <span class="source-lf">        lf_print(</span><span class="source-lf string-quoted-double-lflang">"</span><span class="source-lf string-quoted-double-lflang">c[%d].f.w received %d.</span><span class="source-lf string-quoted-double-lflang">"</span><span class="source-lf">, self</span><span class="source-lf keyword-operator-lflang">-></span><span class="source-lf">c_bank_index, w</span><span class="source-lf keyword-operator-lflang">-></span><span class="source-lf">value);</span>
@@ -71,7 +71,7 @@
 <span class="source-lf">}</span>
 <span class="source-lf"></span>
 <span class="source-lf storage-modifier-lflang">reactor</span><span class="source-lf"> </span><span class="source-lf entity-name-type-lflang">G</span><span class="source-lf">(c_bank_index:</span><span class="source-lf storage-type-lflang"> int</span><span class="source-lf">(</span><span class="source-lf constant-numeric-int-lflang">0</span><span class="source-lf">)) {</span>
-<span class="source-lf">    </span><span class="source-lf storage-modifier-lflang">input</span><span class="source-lf"> s:</span><span class="source-lf storage-type-lflang"> int</span>
+<span class="source-lf">    </span><span class="source-lf storage-modifier-lflang">input</span><span class="source-lf meta-embedded-block-cpp"> s:</span><span class="source-lf meta-embedded-block-cpp storage-type-lflang"> int</span>
 <span class="source-lf"></span>
 <span class="source-lf">    </span><span class="source-lf keyword-control-lflang">reaction</span><span class="source-lf">(s) {</span><span class="source-lf keyword-operator-lflang">=</span>
 <span class="source-lf">        lf_print(</span><span class="source-lf string-quoted-double-lflang">"</span><span class="source-lf string-quoted-double-lflang">c[%d].g.s received %d.</span><span class="source-lf string-quoted-double-lflang">"</span><span class="source-lf">, self</span><span class="source-lf keyword-operator-lflang">-></span><span class="source-lf">c_bank_index, s</span><span class="source-lf keyword-operator-lflang">-></span><span class="source-lf">value);</span>
