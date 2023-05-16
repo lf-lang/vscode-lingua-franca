@@ -1,8 +1,8 @@
 <span class="source-lf meta-targetspec-lflang keyword-control-lflang">target</span><span class="source-lf meta-targetspec-lflang"> </span><span class="source-lf meta-targetspec-lflang constant-language-lflang">C</span><span class="source-lf meta-targetspec-lflang"> {</span>
-<span class="source-lf meta-targetspec-lflang">    </span><span class="source-lf meta-targetspec-lflang variable-parameter-lflang">threading</span><span class="source-lf meta-targetspec-lflang">: </span><span class="source-lf meta-targetspec-lflang constant-language-lflang">false</span><span class="source-lf meta-targetspec-lflang">,</span>
-<span class="source-lf meta-targetspec-lflang">    </span><span class="source-lf meta-targetspec-lflang variable-parameter-lflang">platform</span><span class="source-lf meta-targetspec-lflang">: {</span>
-<span class="source-lf meta-targetspec-lflang">        </span><span class="source-lf meta-targetspec-lflang variable-parameter-lflang">name</span><span class="source-lf meta-targetspec-lflang">: Zephyr,</span>
-<span class="source-lf meta-targetspec-lflang">        </span><span class="source-lf meta-targetspec-lflang variable-parameter-lflang">board</span><span class="source-lf meta-targetspec-lflang">: qemu_cortex_m3</span>
+<span class="source-lf meta-targetspec-lflang variable-parameter-lflang">    threading</span><span class="source-lf meta-targetspec-lflang">: </span><span class="source-lf meta-targetspec-lflang constant-language-lflang">false</span><span class="source-lf meta-targetspec-lflang">,</span>
+<span class="source-lf meta-targetspec-lflang variable-parameter-lflang">    platform</span><span class="source-lf meta-targetspec-lflang">: {</span>
+<span class="source-lf meta-targetspec-lflang variable-parameter-lflang">        name</span><span class="source-lf meta-targetspec-lflang">: Zephyr,</span>
+<span class="source-lf meta-targetspec-lflang variable-parameter-lflang">        board</span><span class="source-lf meta-targetspec-lflang">: qemu_cortex_m3</span>
 <span class="source-lf meta-targetspec-lflang">    }</span>
 <span class="source-lf">}</span>
 <span class="source-lf"></span>

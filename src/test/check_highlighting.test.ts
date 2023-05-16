@@ -24,7 +24,7 @@ const registry = new vsctm.Registry({
     onigLib: vscodeOnigurumaLib,
     loadGrammar: async (_: string) => {
         const grammarFile = path.join(
-          root, "syntax", "lflang.tmLanguage.json"
+          root, "syntaxes", "lflang.tmLanguage.json"
         )
         const data: any = fs.readFileSync(grammarFile)
         return vsctm.parseRawGrammar(data.toString(), grammarFile)

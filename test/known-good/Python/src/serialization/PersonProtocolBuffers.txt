@@ -20,7 +20,7 @@
 <span class="source-lf comment-block-lflang"> * a Mac, this is typically at /usr/local/bin.</span>
 <span class="source-lf comment-block-lflang"> </span><span class="source-lf comment-block-lflang">*/</span>
 <span class="source-lf meta-targetspec-lflang keyword-control-lflang">target</span><span class="source-lf meta-targetspec-lflang"> </span><span class="source-lf meta-targetspec-lflang constant-language-lflang">Python</span><span class="source-lf meta-targetspec-lflang"> {</span>
-<span class="source-lf meta-targetspec-lflang">    </span><span class="source-lf meta-targetspec-lflang variable-parameter-lflang">protobufs</span><span class="source-lf meta-targetspec-lflang">: </span><span class="source-lf meta-targetspec-lflang variable-other-constant-reactorinstance-lflang">Person</span><span class="source-lf meta-targetspec-lflang keyword-operator-lflang">.</span><span class="source-lf meta-targetspec-lflang variable-other-lflang">proto</span>
+<span class="source-lf meta-targetspec-lflang variable-parameter-lflang">    protobufs</span><span class="source-lf meta-targetspec-lflang">: </span><span class="source-lf meta-targetspec-lflang variable-other-constant-reactorinstance-lflang">Person</span><span class="source-lf meta-targetspec-lflang keyword-operator-lflang">.</span><span class="source-lf meta-targetspec-lflang variable-other-lflang">proto</span>
 <span class="source-lf meta-targetspec-lflang">}</span>
 <span class="source-lf"></span>
 <span class="source-lf storage-modifier-lflang">main</span><span class="source-lf"> </span><span class="source-lf storage-modifier-lflang">reactor</span><span class="source-lf"> {</span>
