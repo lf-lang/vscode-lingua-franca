@@ -14,7 +14,7 @@
 <span class="source-lf"></span>
 <span class="source-lf storage-modifier-lflang">reactor</span><span class="source-lf"> </span><span class="source-lf entity-name-type-lflang">Print</span><span class="source-lf"> {</span>
 <span class="source-lf">    </span><span class="source-lf storage-modifier-lflang">input</span><span class="source-lf meta-embedded-block-cpp"> in:</span><span class="source-lf meta-embedded-block-cpp storage-type-lflang"> int</span>
-<span class="source-lf">    </span><span class="source-lf storage-modifier-lflang">state</span><span class="source-lf meta-embedded-block-cpp"> c:</span><span class="source-lf meta-embedded-block-cpp storage-type-lflang"> int</span><span class="source-lf meta-embedded-block-cpp">(</span><span class="source-lf constant-numeric-int-lflang">1</span><span class="source-lf">)</span>
+<span class="source-lf">    </span><span class="source-lf storage-modifier-lflang">state</span><span class="source-lf meta-embedded-block-cpp"> c:</span><span class="source-lf meta-embedded-block-cpp storage-type-lflang"> int</span><span class="source-lf meta-embedded-block-cpp"> = 1</span>
 <span class="source-lf"></span>
 <span class="source-lf">    </span><span class="source-lf keyword-control-lflang">reaction</span><span class="source-lf">(in) {</span><span class="source-lf keyword-operator-lflang">=</span>
 <span class="source-lf">        interval_t elapsed_time </span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf"> lf_time_logical_elapsed();</span>

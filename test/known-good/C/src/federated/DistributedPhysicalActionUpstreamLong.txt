@@ -13,24 +13,29 @@
 <span class="source-lf keyword-control-import-lflang">import</span><span class="source-lf"> </span><span class="source-lf entity-name-type-lflang">TestCount</span><span class="source-lf"> </span><span class="source-lf keyword-control-import-lflang">from</span><span class="source-lf"> </span><span class="source-lf string-quoted-double-lflang">"</span><span class="source-lf string-quoted-double-lflang">../lib/TestCount.lf</span><span class="source-lf string-quoted-double-lflang">"</span>
 <span class="source-lf"></span>
 <span class="source-lf keyword-control-lflang">preamble</span><span class="source-lf"> {</span><span class="source-lf keyword-operator-lflang">=</span>
-<span class="source-lf">    int _counter </span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf"> </span><span class="source-lf constant-numeric-int-lflang">1</span><span class="source-lf">;</span>
-<span class="source-lf">    void callback(void </span><span class="source-lf keyword-operator-lflang">*</span><span class="source-lf">a) {</span>
-<span class="source-lf">        lf_schedule_int(a, </span><span class="source-lf constant-numeric-int-lflang">0</span><span class="source-lf">, _counter</span><span class="source-lf keyword-operator-lflang">+</span><span class="source-lf keyword-operator-lflang">+</span><span class="source-lf">);</span>
-<span class="source-lf">    }</span>
-<span class="source-lf comment-line-double-dash-lflang">    </span><span class="source-lf comment-line-double-dash-lflang">// Simulate time passing before a callback occurs.</span>
-<span class="source-lf">    void</span><span class="source-lf keyword-operator-lflang">*</span><span class="source-lf"> take_time(void</span><span class="source-lf keyword-operator-lflang">*</span><span class="source-lf"> a) {</span>
-<span class="source-lf">        while (_counter < </span><span class="source-lf constant-numeric-int-lflang">20</span><span class="source-lf">) {</span>
-<span class="source-lf">            instant_t sleep_time </span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf"> USEC(</span><span class="source-lf constant-numeric-int-lflang">50</span><span class="source-lf">);</span>
-<span class="source-lf">            lf_sleep(sleep_time);</span>
-<span class="source-lf">            callback(a);</span>
-<span class="source-lf">        }</span>
-<span class="source-lf">        return NULL;</span>
-<span class="source-lf">    }</span>
+<span class="source-lf">    extern int _counter;</span>
+<span class="source-lf">    void callback(void </span><span class="source-lf keyword-operator-lflang">*</span><span class="source-lf">a);</span>
+<span class="source-lf">    void</span><span class="source-lf keyword-operator-lflang">*</span><span class="source-lf"> take_time(void</span><span class="source-lf keyword-operator-lflang">*</span><span class="source-lf"> a);</span>
 <span class="source-lf keyword-operator-lflang">=</span><span class="source-lf">}</span>
 <span class="source-lf"></span>
 <span class="source-lf storage-modifier-lflang">reactor</span><span class="source-lf"> </span><span class="source-lf entity-name-type-lflang">WithPhysicalAction</span><span class="source-lf"> {</span>
+<span class="source-lf">    </span><span class="source-lf keyword-control-lflang">preamble</span><span class="source-lf"> {</span><span class="source-lf keyword-operator-lflang">=</span>
+<span class="source-lf">        int _counter </span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf"> </span><span class="source-lf constant-numeric-int-lflang">1</span><span class="source-lf">;</span>
+<span class="source-lf">        void callback(void </span><span class="source-lf keyword-operator-lflang">*</span><span class="source-lf">a) {</span>
+<span class="source-lf">            lf_schedule_int(a, </span><span class="source-lf constant-numeric-int-lflang">0</span><span class="source-lf">, _counter</span><span class="source-lf keyword-operator-lflang">+</span><span class="source-lf keyword-operator-lflang">+</span><span class="source-lf">);</span>
+<span class="source-lf">        }</span>
+<span class="source-lf comment-line-double-dash-lflang">        </span><span class="source-lf comment-line-double-dash-lflang">// Simulate time passing before a callback occurs.</span>
+<span class="source-lf">        void</span><span class="source-lf keyword-operator-lflang">*</span><span class="source-lf"> take_time(void</span><span class="source-lf keyword-operator-lflang">*</span><span class="source-lf"> a) {</span>
+<span class="source-lf">            while (_counter < </span><span class="source-lf constant-numeric-int-lflang">20</span><span class="source-lf">) {</span>
+<span class="source-lf">                instant_t sleep_time </span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf"> USEC(</span><span class="source-lf constant-numeric-int-lflang">50</span><span class="source-lf">);</span>
+<span class="source-lf">                lf_sleep(sleep_time);</span>
+<span class="source-lf">                callback(a);</span>
+<span class="source-lf">            }</span>
+<span class="source-lf">            return NULL;</span>
+<span class="source-lf">        }</span>
+<span class="source-lf">    </span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf">}</span>
 <span class="source-lf">    </span><span class="source-lf storage-modifier-lflang">output</span><span class="source-lf meta-embedded-block-cpp"> out:</span><span class="source-lf meta-embedded-block-cpp storage-type-lflang"> int</span>
-<span class="source-lf">    </span><span class="source-lf storage-modifier-lflang">state</span><span class="source-lf meta-embedded-block-cpp"> thread_id:</span><span class="source-lf meta-embedded-block-cpp storage-type-lflang"> lf_thread_t</span><span class="source-lf meta-embedded-block-cpp">(</span><span class="source-lf constant-numeric-int-lflang">0</span><span class="source-lf">)</span>
+<span class="source-lf">    </span><span class="source-lf storage-modifier-lflang">state</span><span class="source-lf meta-embedded-block-cpp"> thread_id:</span><span class="source-lf meta-embedded-block-cpp storage-type-lflang"> lf_thread_t</span><span class="source-lf meta-embedded-block-cpp"> = 0</span>
 <span class="source-lf">    </span><span class="source-lf storage-modifier-lflang">physical</span><span class="source-lf"> </span><span class="source-lf storage-modifier-lflang">action</span><span class="source-lf"> act(</span><span class="source-lf constant-numeric-int-lflang">0</span><span class="source-lf">):</span><span class="source-lf storage-type-lflang"> int</span>
 <span class="source-lf"></span>
 <span class="source-lf">    </span><span class="source-lf keyword-control-lflang">reaction</span><span class="source-lf">(</span><span class="source-lf support-variable-lflang">startup</span><span class="source-lf">) </span><span class="source-lf keyword-operator-lflang">-></span><span class="source-lf"> act {</span><span class="source-lf keyword-operator-lflang">=</span>

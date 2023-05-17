@@ -17,7 +17,7 @@
 <span class="source-lf meta-embedded-block-py">        except:</span>
 <span class="source-lf meta-embedded-block-py">            lf_request_stop()</span>
 <span class="source-lf meta-embedded-block-py">    </span><span class="source-lf meta-embedded-block-py">=}</span>
-<span class="source-lf">    </span><span class="source-lf storage-modifier-lflang">state</span><span class="source-lf"> passed(</span><span class="source-lf constant-language-lflang">false</span><span class="source-lf">)</span>
+<span class="source-lf">    </span><span class="source-lf storage-modifier-lflang">state</span><span class="source-lf"> passed </span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf"> </span><span class="source-lf constant-language-lflang">False</span>
 <span class="source-lf">    </span><span class="source-lf storage-modifier-lflang">timer</span><span class="source-lf"> t(</span><span class="source-lf constant-numeric-int-lflang">1</span><span class="source-lf"> </span><span class="source-lf constant-numeric-lflang">msec</span><span class="source-lf">)</span>
 <span class="source-lf"></span>
 <span class="source-lf">    </span><span class="source-lf keyword-control-lflang">reaction</span><span class="source-lf">(t) </span><span class="source-lf meta-embedded-block-py">{=</span><span class="source-lf meta-embedded-block-py"> self.passed = True </span><span class="source-lf meta-embedded-block-py">=}</span>

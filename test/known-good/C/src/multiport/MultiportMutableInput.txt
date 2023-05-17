@@ -12,7 +12,7 @@
 <span class="source-lf">    </span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf">}</span>
 <span class="source-lf">}</span>
 <span class="source-lf"></span>
-<span class="source-lf storage-modifier-lflang">reactor</span><span class="source-lf"> </span><span class="source-lf entity-name-type-lflang">Print</span><span class="source-lf">(scale:</span><span class="source-lf storage-type-lflang"> int</span><span class="source-lf">(</span><span class="source-lf constant-numeric-int-lflang">1</span><span class="source-lf">)) {  </span><span class="source-lf comment-line-double-dash-lflang">// The scale parameter is just for testing.</span>
+<span class="source-lf storage-modifier-lflang">reactor</span><span class="source-lf"> </span><span class="source-lf entity-name-type-lflang">Print</span><span class="source-lf">(scale:</span><span class="source-lf storage-type-lflang"> int</span><span class="source-lf"> </span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf"> </span><span class="source-lf constant-numeric-int-lflang">1</span><span class="source-lf">) {  </span><span class="source-lf comment-line-double-dash-lflang">// The scale parameter is just for testing.</span>
 <span class="source-lf">    </span><span class="source-lf storage-modifier-lflang">input</span><span class="source-lf">[</span><span class="source-lf constant-numeric-int-lflang">2</span><span class="source-lf">] in:</span><span class="source-lf storage-type-lflang"> int</span>
 <span class="source-lf"></span>
 <span class="source-lf">    </span><span class="source-lf keyword-control-lflang">reaction</span><span class="source-lf">(in) {</span><span class="source-lf keyword-operator-lflang">=</span>
@@ -27,7 +27,7 @@
 <span class="source-lf">    </span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf">}</span>
 <span class="source-lf">}</span>
 <span class="source-lf"></span>
-<span class="source-lf storage-modifier-lflang">reactor</span><span class="source-lf"> </span><span class="source-lf entity-name-type-lflang">Scale</span><span class="source-lf">(scale:</span><span class="source-lf storage-type-lflang"> int</span><span class="source-lf">(</span><span class="source-lf constant-numeric-int-lflang">2</span><span class="source-lf">)) {</span>
+<span class="source-lf storage-modifier-lflang">reactor</span><span class="source-lf"> </span><span class="source-lf entity-name-type-lflang">Scale</span><span class="source-lf">(scale:</span><span class="source-lf storage-type-lflang"> int</span><span class="source-lf"> </span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf"> </span><span class="source-lf constant-numeric-int-lflang">2</span><span class="source-lf">) {</span>
 <span class="source-lf">    </span><span class="source-lf storage-modifier-lflang">mutable</span><span class="source-lf"> </span><span class="source-lf storage-modifier-lflang">input</span><span class="source-lf">[</span><span class="source-lf constant-numeric-int-lflang">2</span><span class="source-lf">] in:</span><span class="source-lf storage-type-lflang"> int</span>
 <span class="source-lf">    </span><span class="source-lf storage-modifier-lflang">output</span><span class="source-lf">[</span><span class="source-lf constant-numeric-int-lflang">2</span><span class="source-lf">] out:</span><span class="source-lf storage-type-lflang"> int</span>
 <span class="source-lf"></span>

@@ -10,7 +10,7 @@
 <span class="source-lf">    </span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf">}</span>
 <span class="source-lf">}</span>
 <span class="source-lf"></span>
-<span class="source-lf storage-modifier-lflang">reactor</span><span class="source-lf"> </span><span class="source-lf entity-name-type-lflang">Sink</span><span class="source-lf">(bank_index:</span><span class="source-lf storage-type-lflang"> size_t</span><span class="source-lf">(</span><span class="source-lf constant-numeric-int-lflang">0</span><span class="source-lf">)) {</span>
+<span class="source-lf storage-modifier-lflang">reactor</span><span class="source-lf"> </span><span class="source-lf entity-name-type-lflang">Sink</span><span class="source-lf">(bank_index:</span><span class="source-lf storage-type-lflang"> size_t</span><span class="source-lf"> </span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf"> </span><span class="source-lf constant-numeric-int-lflang">0</span><span class="source-lf">) {</span>
 <span class="source-lf">    </span><span class="source-lf storage-modifier-lflang">input</span><span class="source-lf meta-embedded-block-cpp"> in:</span><span class="source-lf meta-embedded-block-cpp storage-type-lflang"> unsigned</span>
 <span class="source-lf"></span>
 <span class="source-lf">    </span><span class="source-lf keyword-control-lflang">reaction</span><span class="source-lf">(in) {</span><span class="source-lf keyword-operator-lflang">=</span>

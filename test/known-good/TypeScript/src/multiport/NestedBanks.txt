@@ -20,7 +20,7 @@
 <span class="source-lf">    </span><span class="source-lf variable-other-constant-reactorinstance-lflang">b</span><span class="source-lf keyword-operator-lflang">.</span><span class="source-lf variable-other-lflang">y</span><span class="source-lf"> </span><span class="source-lf keyword-operator-lflang">-></span><span class="source-lf"> x</span>
 <span class="source-lf">}</span>
 <span class="source-lf"></span>
-<span class="source-lf storage-modifier-lflang">reactor</span><span class="source-lf"> </span><span class="source-lf entity-name-type-lflang">B</span><span class="source-lf">(aBankIndex:</span><span class="source-lf storage-type-lflang"> number</span><span class="source-lf">(</span><span class="source-lf constant-numeric-int-lflang">0</span><span class="source-lf">)) {</span>
+<span class="source-lf storage-modifier-lflang">reactor</span><span class="source-lf"> </span><span class="source-lf entity-name-type-lflang">B</span><span class="source-lf">(aBankIndex:</span><span class="source-lf storage-type-lflang"> number</span><span class="source-lf"> </span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf"> </span><span class="source-lf constant-numeric-int-lflang">0</span><span class="source-lf">) {</span>
 <span class="source-lf">    </span><span class="source-lf storage-modifier-lflang">output</span><span class="source-lf">[</span><span class="source-lf constant-numeric-int-lflang">2</span><span class="source-lf">] y:</span><span class="source-lf storage-type-lflang"> number</span>
 <span class="source-lf"></span>
 <span class="source-lf">    </span><span class="source-lf keyword-control-lflang">reaction</span><span class="source-lf">(</span><span class="source-lf support-variable-lflang">startup</span><span class="source-lf">) </span><span class="source-lf keyword-operator-lflang">-></span><span class="source-lf"> y {</span><span class="source-lf keyword-operator-lflang">=</span>
@@ -60,7 +60,7 @@
 <span class="source-lf">    </span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf">}</span>
 <span class="source-lf">}</span>
 <span class="source-lf"></span>
-<span class="source-lf storage-modifier-lflang">reactor</span><span class="source-lf"> </span><span class="source-lf entity-name-type-lflang">F</span><span class="source-lf">(cBankIndex:</span><span class="source-lf storage-type-lflang"> number</span><span class="source-lf">(</span><span class="source-lf constant-numeric-int-lflang">0</span><span class="source-lf">)) {</span>
+<span class="source-lf storage-modifier-lflang">reactor</span><span class="source-lf"> </span><span class="source-lf entity-name-type-lflang">F</span><span class="source-lf">(cBankIndex:</span><span class="source-lf storage-type-lflang"> number</span><span class="source-lf"> </span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf"> </span><span class="source-lf constant-numeric-int-lflang">0</span><span class="source-lf">) {</span>
 <span class="source-lf">    </span><span class="source-lf storage-modifier-lflang">input</span><span class="source-lf"> w:</span><span class="source-lf storage-type-lflang"> number</span>
 <span class="source-lf"></span>
 <span class="source-lf">    </span><span class="source-lf keyword-control-lflang">reaction</span><span class="source-lf">(w) {</span><span class="source-lf keyword-operator-lflang">=</span>
@@ -71,7 +71,7 @@
 <span class="source-lf">    </span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf">}</span>
 <span class="source-lf">}</span>
 <span class="source-lf"></span>
-<span class="source-lf storage-modifier-lflang">reactor</span><span class="source-lf"> </span><span class="source-lf entity-name-type-lflang">G</span><span class="source-lf">(cBankIndex:</span><span class="source-lf storage-type-lflang"> number</span><span class="source-lf">(</span><span class="source-lf constant-numeric-int-lflang">0</span><span class="source-lf">)) {</span>
+<span class="source-lf storage-modifier-lflang">reactor</span><span class="source-lf"> </span><span class="source-lf entity-name-type-lflang">G</span><span class="source-lf">(cBankIndex:</span><span class="source-lf storage-type-lflang"> number</span><span class="source-lf"> </span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf"> </span><span class="source-lf constant-numeric-int-lflang">0</span><span class="source-lf">) {</span>
 <span class="source-lf">    </span><span class="source-lf storage-modifier-lflang">input</span><span class="source-lf"> s:</span><span class="source-lf storage-type-lflang"> number</span>
 <span class="source-lf"></span>
 <span class="source-lf">    </span><span class="source-lf keyword-control-lflang">reaction</span><span class="source-lf">(s) {</span><span class="source-lf keyword-operator-lflang">=</span>

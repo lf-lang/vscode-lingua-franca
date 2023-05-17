@@ -13,7 +13,7 @@
 <span class="source-lf">}</span>
 <span class="source-lf"></span>
 <span class="source-lf storage-modifier-lflang">reactor</span><span class="source-lf"> </span><span class="source-lf entity-name-type-lflang">Print</span><span class="source-lf"> {</span>
-<span class="source-lf">    </span><span class="source-lf storage-modifier-lflang">state</span><span class="source-lf"> expected_time:</span><span class="source-lf storage-type-lflang"> time</span><span class="source-lf">(</span><span class="source-lf constant-numeric-int-lflang">10</span><span class="source-lf"> </span><span class="source-lf constant-numeric-lflang">msec</span><span class="source-lf">)</span>
+<span class="source-lf">    </span><span class="source-lf storage-modifier-lflang">state</span><span class="source-lf"> expected_time:</span><span class="source-lf storage-type-lflang"> time</span><span class="source-lf"> </span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf"> </span><span class="source-lf constant-numeric-int-lflang">10</span><span class="source-lf"> </span><span class="source-lf constant-numeric-lflang">msec</span>
 <span class="source-lf">    </span><span class="source-lf storage-modifier-lflang">input</span><span class="source-lf"> x:</span><span class="source-lf storage-type-lflang"> number</span>
 <span class="source-lf"></span>
 <span class="source-lf">    </span><span class="source-lf keyword-control-lflang">reaction</span><span class="source-lf">(x) {</span><span class="source-lf keyword-operator-lflang">=</span>

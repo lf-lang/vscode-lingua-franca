@@ -1,7 +1,7 @@
 <span class="source-lf comment-line-double-dash-lflang"># Example in the Wiki.</span>
 <span class="source-lf meta-targetspec-lflang keyword-control-lflang">target</span><span class="source-lf meta-targetspec-lflang"> </span><span class="source-lf meta-targetspec-lflang constant-language-lflang">Python</span>
 <span class="source-lf"></span>
-<span class="source-lf storage-modifier-lflang">reactor</span><span class="source-lf"> </span><span class="source-lf entity-name-type-lflang">Scale</span><span class="source-lf">(scale(</span><span class="source-lf constant-numeric-int-lflang">2</span><span class="source-lf">)) {</span>
+<span class="source-lf storage-modifier-lflang">reactor</span><span class="source-lf"> </span><span class="source-lf entity-name-type-lflang">Scale</span><span class="source-lf">(scale </span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf"> </span><span class="source-lf constant-numeric-int-lflang">2</span><span class="source-lf">) {</span>
 <span class="source-lf">    </span><span class="source-lf storage-modifier-lflang">input</span><span class="source-lf"> x</span>
 <span class="source-lf">    </span><span class="source-lf storage-modifier-lflang">output</span><span class="source-lf"> y</span>
 <span class="source-lf"></span>
@@ -10,7 +10,7 @@
 <span class="source-lf"></span>
 <span class="source-lf storage-modifier-lflang">reactor</span><span class="source-lf"> </span><span class="source-lf entity-name-type-lflang">Test</span><span class="source-lf"> {</span>
 <span class="source-lf">    </span><span class="source-lf storage-modifier-lflang">input</span><span class="source-lf"> x</span>
-<span class="source-lf">    </span><span class="source-lf storage-modifier-lflang">state</span><span class="source-lf"> received_value(</span><span class="source-lf constant-numeric-int-lflang">0</span><span class="source-lf">)</span>
+<span class="source-lf">    </span><span class="source-lf storage-modifier-lflang">state</span><span class="source-lf"> received_value </span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf"> </span><span class="source-lf constant-numeric-int-lflang">0</span>
 <span class="source-lf"></span>
 <span class="source-lf">    </span><span class="source-lf keyword-control-lflang">reaction</span><span class="source-lf">(x) </span><span class="source-lf meta-embedded-block-py">{=</span>
 <span class="source-lf meta-embedded-block-py">        print("Received " + str(x.value))</span>

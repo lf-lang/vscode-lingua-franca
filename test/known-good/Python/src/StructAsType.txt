@@ -13,7 +13,7 @@
 <span class="source-lf meta-embedded-block-py">    </span><span class="source-lf meta-embedded-block-py">=}</span>
 <span class="source-lf">}</span>
 <span class="source-lf"></span>
-<span class="source-lf storage-modifier-lflang">reactor</span><span class="source-lf"> </span><span class="source-lf entity-name-type-lflang">Print</span><span class="source-lf">(expected(</span><span class="source-lf constant-numeric-int-lflang">42</span><span class="source-lf">)) {  </span><span class="source-lf comment-line-double-dash-lflang"># expected parameter is for testing.</span>
+<span class="source-lf storage-modifier-lflang">reactor</span><span class="source-lf"> </span><span class="source-lf entity-name-type-lflang">Print</span><span class="source-lf">(expected </span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf"> </span><span class="source-lf constant-numeric-int-lflang">42</span><span class="source-lf">) {  </span><span class="source-lf comment-line-double-dash-lflang"># expected parameter is for testing.</span>
 <span class="source-lf">    </span><span class="source-lf storage-modifier-lflang">input</span><span class="source-lf"> _in</span>
 <span class="source-lf"></span>
 <span class="source-lf">    </span><span class="source-lf keyword-control-lflang">reaction</span><span class="source-lf">(_in) </span><span class="source-lf meta-embedded-block-py">{=</span>

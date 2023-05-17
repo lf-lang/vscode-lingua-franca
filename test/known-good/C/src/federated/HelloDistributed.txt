@@ -7,6 +7,10 @@
 <span class="source-lf comment-block-lflang"> </span><span class="source-lf comment-block-lflang">*/</span>
 <span class="source-lf meta-targetspec-lflang keyword-control-lflang">target</span><span class="source-lf meta-targetspec-lflang"> </span><span class="source-lf meta-targetspec-lflang constant-language-lflang">C</span>
 <span class="source-lf"></span>
+<span class="source-lf keyword-control-lflang">preamble</span><span class="source-lf"> {</span><span class="source-lf keyword-operator-lflang">=</span>
+<span class="source-lf comment-line-double-dash-lflang">    </span><span class="source-lf comment-line-double-dash-lflang">#include <string.h></span>
+<span class="source-lf keyword-operator-lflang">=</span><span class="source-lf">}</span>
+<span class="source-lf"></span>
 <span class="source-lf storage-modifier-lflang">reactor</span><span class="source-lf"> </span><span class="source-lf entity-name-type-lflang">Source</span><span class="source-lf"> {</span>
 <span class="source-lf">    </span><span class="source-lf storage-modifier-lflang">output</span><span class="source-lf meta-embedded-block-cpp"> out:</span><span class="source-lf meta-embedded-block-cpp storage-type-lflang"> string</span>
 <span class="source-lf"></span>
@@ -19,7 +23,7 @@
 <span class="source-lf"></span>
 <span class="source-lf storage-modifier-lflang">reactor</span><span class="source-lf"> </span><span class="source-lf entity-name-type-lflang">Destination</span><span class="source-lf"> {</span>
 <span class="source-lf">    </span><span class="source-lf storage-modifier-lflang">input</span><span class="source-lf meta-embedded-block-cpp"> in:</span><span class="source-lf meta-embedded-block-cpp storage-type-lflang"> string</span>
-<span class="source-lf">    </span><span class="source-lf storage-modifier-lflang">state</span><span class="source-lf meta-embedded-block-cpp"> received:</span><span class="source-lf meta-embedded-block-cpp storage-type-lflang"> bool</span><span class="source-lf meta-embedded-block-cpp">(</span><span class="source-lf constant-language-lflang">false</span><span class="source-lf">)</span>
+<span class="source-lf">    </span><span class="source-lf storage-modifier-lflang">state</span><span class="source-lf meta-embedded-block-cpp"> received:</span><span class="source-lf meta-embedded-block-cpp storage-type-lflang"> bool</span><span class="source-lf meta-embedded-block-cpp"> = false</span>
 <span class="source-lf"></span>
 <span class="source-lf">    </span><span class="source-lf keyword-control-lflang">reaction</span><span class="source-lf">(</span><span class="source-lf support-variable-lflang">startup</span><span class="source-lf">) {</span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf"> lf_print(</span><span class="source-lf string-quoted-double-lflang">"</span><span class="source-lf string-quoted-double-lflang">Destination started.</span><span class="source-lf string-quoted-double-lflang">"</span><span class="source-lf">); </span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf">}</span>
 <span class="source-lf"></span>
