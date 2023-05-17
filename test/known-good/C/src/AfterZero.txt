@@ -13,8 +13,8 @@
 <span class="source-lf">}</span>
 <span class="source-lf"></span>
 <span class="source-lf storage-modifier-lflang">reactor</span><span class="source-lf"> </span><span class="source-lf entity-name-type-lflang">print</span><span class="source-lf"> {</span>
-<span class="source-lf">    </span><span class="source-lf storage-modifier-lflang">state</span><span class="source-lf meta-embedded-block-cpp"> expected_time:</span><span class="source-lf meta-embedded-block-cpp storage-type-lflang"> time</span><span class="source-lf meta-embedded-block-cpp">(</span><span class="source-lf constant-numeric-int-lflang">0</span><span class="source-lf">)</span>
-<span class="source-lf">    </span><span class="source-lf storage-modifier-lflang">state</span><span class="source-lf meta-embedded-block-cpp"> received:</span><span class="source-lf meta-embedded-block-cpp storage-type-lflang"> int</span><span class="source-lf meta-embedded-block-cpp">(</span><span class="source-lf constant-numeric-int-lflang">0</span><span class="source-lf">)</span>
+<span class="source-lf">    </span><span class="source-lf storage-modifier-lflang">state</span><span class="source-lf meta-embedded-block-cpp"> expected_time:</span><span class="source-lf meta-embedded-block-cpp storage-type-lflang"> time</span><span class="source-lf meta-embedded-block-cpp"> = 0</span>
+<span class="source-lf">    </span><span class="source-lf storage-modifier-lflang">state</span><span class="source-lf meta-embedded-block-cpp"> received:</span><span class="source-lf meta-embedded-block-cpp storage-type-lflang"> int</span><span class="source-lf meta-embedded-block-cpp"> = 0</span>
 <span class="source-lf">    </span><span class="source-lf storage-modifier-lflang">input</span><span class="source-lf meta-embedded-block-cpp"> x:</span><span class="source-lf meta-embedded-block-cpp storage-type-lflang"> int</span>
 <span class="source-lf"></span>
 <span class="source-lf">    </span><span class="source-lf keyword-control-lflang">reaction</span><span class="source-lf">(x) {</span><span class="source-lf keyword-operator-lflang">=</span>

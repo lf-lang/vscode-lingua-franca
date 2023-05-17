@@ -14,7 +14,7 @@
 <span class="source-lf">    </span><span class="source-lf storage-modifier-lflang">output</span><span class="source-lf"> count1</span>
 <span class="source-lf">    </span><span class="source-lf storage-modifier-lflang">output</span><span class="source-lf"> count2</span>
 <span class="source-lf"></span>
-<span class="source-lf">    </span><span class="source-lf storage-modifier-lflang">state</span><span class="source-lf"> counter0(</span><span class="source-lf constant-numeric-int-lflang">0</span><span class="source-lf">)</span>
+<span class="source-lf">    </span><span class="source-lf storage-modifier-lflang">state</span><span class="source-lf"> counter0 </span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf"> </span><span class="source-lf constant-numeric-int-lflang">0</span>
 <span class="source-lf"></span>
 <span class="source-lf">    </span><span class="source-lf keyword-control-lflang">reaction</span><span class="source-lf">(next) </span><span class="source-lf keyword-operator-lflang">-></span><span class="source-lf"> count0 </span><span class="source-lf meta-embedded-block-py">{=</span>
 <span class="source-lf meta-embedded-block-py">        print(f"Counter0: {self.counter0}")</span>
@@ -23,7 +23,7 @@
 <span class="source-lf meta-embedded-block-py">    </span><span class="source-lf meta-embedded-block-py">=}</span>
 <span class="source-lf"></span>
 <span class="source-lf">    </span><span class="source-lf keyword-control-lflang">initial</span><span class="source-lf"> </span><span class="source-lf keyword-control-lflang">mode</span><span class="source-lf"> One {</span>
-<span class="source-lf">        </span><span class="source-lf storage-modifier-lflang">state</span><span class="source-lf"> counter1(</span><span class="source-lf constant-numeric-int-lflang">0</span><span class="source-lf">)</span>
+<span class="source-lf">        </span><span class="source-lf storage-modifier-lflang">state</span><span class="source-lf"> counter1 </span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf"> </span><span class="source-lf constant-numeric-int-lflang">0</span>
 <span class="source-lf">        </span><span class="source-lf storage-modifier-lflang">timer</span><span class="source-lf"> T1(</span><span class="source-lf constant-numeric-int-lflang">0</span><span class="source-lf"> </span><span class="source-lf constant-numeric-lflang">msec</span><span class="source-lf">, </span><span class="source-lf constant-numeric-int-lflang">250</span><span class="source-lf"> </span><span class="source-lf constant-numeric-lflang">msec</span><span class="source-lf">)</span>
 <span class="source-lf">        </span><span class="source-lf keyword-control-lflang">reaction</span><span class="source-lf">(</span><span class="source-lf support-variable-lflang">reset</span><span class="source-lf">) </span><span class="source-lf meta-embedded-block-py">{=</span><span class="source-lf meta-embedded-block-py"> self.counter1 = 0 </span><span class="source-lf meta-embedded-block-py">=}</span>
 <span class="source-lf"></span>
@@ -41,7 +41,7 @@
 <span class="source-lf">    }</span>
 <span class="source-lf"></span>
 <span class="source-lf">    </span><span class="source-lf keyword-control-lflang">mode</span><span class="source-lf"> Two {</span>
-<span class="source-lf">        </span><span class="source-lf storage-modifier-lflang">state</span><span class="source-lf"> counter2(</span><span class="source-lf keyword-operator-lflang">-</span><span class="source-lf constant-numeric-int-lflang">2</span><span class="source-lf">)</span>
+<span class="source-lf">        </span><span class="source-lf storage-modifier-lflang">state</span><span class="source-lf"> counter2 </span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf"> </span><span class="source-lf keyword-operator-lflang">-</span><span class="source-lf constant-numeric-int-lflang">2</span>
 <span class="source-lf">        </span><span class="source-lf storage-modifier-lflang">timer</span><span class="source-lf"> T2(</span><span class="source-lf constant-numeric-int-lflang">0</span><span class="source-lf"> </span><span class="source-lf constant-numeric-lflang">msec</span><span class="source-lf">, </span><span class="source-lf constant-numeric-int-lflang">250</span><span class="source-lf"> </span><span class="source-lf constant-numeric-lflang">msec</span><span class="source-lf">)</span>
 <span class="source-lf">        </span><span class="source-lf keyword-control-lflang">reaction</span><span class="source-lf">(</span><span class="source-lf support-variable-lflang">reset</span><span class="source-lf">) </span><span class="source-lf meta-embedded-block-py">{=</span><span class="source-lf meta-embedded-block-py"> self.counter2 = -2 </span><span class="source-lf meta-embedded-block-py">=}</span>
 <span class="source-lf"></span>
