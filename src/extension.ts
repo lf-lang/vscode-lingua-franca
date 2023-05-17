@@ -1,7 +1,6 @@
 'use strict';
 
 import * as path from 'path';
-import * as os from 'os';
 import * as fs from 'fs';
 
 import { Trace } from 'vscode-jsonrpc';
@@ -86,13 +85,13 @@ export async function activate(context: vscode.ExtensionContext) {
 
         console.log('Spawning the language server as a process.');
         console.assert(fs.existsSync(ldsJar));
-    
+
         return {
-            run: { 
-                command: 'java', 
+            run: {
+                command: 'java',
                 args: ['-Djava.awt.headless=true', '-jar', ldsJar]
             },
-            debug: { 
+            debug: {
                 command: 'java',
                 args: ['-Djava.awt.headless=true', '-jar', ldsJar],
                 options: { env: createDebugEnv() }
