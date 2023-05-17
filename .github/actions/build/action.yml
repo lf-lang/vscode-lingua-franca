@@ -24,3 +24,21 @@ runs:
     - name: Build the VS Code extension
       run: npm install --ignore-scripts
       shell: bash
+    - name: Install pylint
+      run: python3 -m pip install pylint
+      shell: bash
+    - name: Install pnpm
+      run: npm i -g pnpm
+      shell: bash
+    - name: Setup Rust
+      uses: ATiltedTree/setup-rust@v1
+      with:
+        rust-version: ${{ matrix.rust }}
+        components: clippy
+    - name: Install RTI
+      run: |
+        cd lingua-franca
+        .github/actions/install-rti/install.sh
+        cd ..
+      shell: bash
+      if: ${{ runner.os == 'macOS' || runner.os == 'Linux' }}

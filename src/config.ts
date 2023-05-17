@@ -6,10 +6,6 @@
 import * as path from 'path'
 import { Version } from './version';
 
-const defaultDict = (defaultValue: any) => (dict: Object) => new Proxy(dict, {
-    get: (target: Object, name: string) => name in target ? target[name] : defaultValue
-});
-
 /** Executables that have to be on the PATH in order to build. */
 export const buildDeps = ['code', 'jar', 'javac', 'mvn', 'python3'];
 
