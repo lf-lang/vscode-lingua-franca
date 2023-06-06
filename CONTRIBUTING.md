@@ -82,3 +82,7 @@ We suggest the following workflow for debugging the language server (implemented
   * the canonical name of the class that you would like to update. An example would be: ```./uf.py org.lflang.FileConfig```. This will also update any nested classes, and it should work as you would expect even for Kotlin files that do not include exactly one top-level class.
 4. Open `./src/extension.ts` in Visual Studio Code.
 5. Press <kbd>F5</kbd> to run the extension in a new Extension Development Host window.
+
+## Debugging interactions between the language server and VS Code
+
+To debug interactions between the language server and VS code, start the language server using the VM option `-Dport=7670`. This can be done in IntelliJ by opening `Modify run configuration` > `Add VM options` and typing `-Dport=7670` into the VM options field. Then start the extension using the "Launch VS Code Extension (Socket) LF" launch configuration. This allows to set breakpoints in the language server as it interacts with VS Code.
