@@ -126,7 +126,7 @@ async function build() {
     }
     console.log("> starting Gradle build...")
     try {
-        execSync("./gradlew generateLanguageDiagramServer", { cwd: repo, stdio: 'inherit' });
+        execSync("./gradlew lsp:assemble", { cwd: repo, stdio: 'inherit' });
         copyJar();
     } catch(e) {
         console.error(e);
