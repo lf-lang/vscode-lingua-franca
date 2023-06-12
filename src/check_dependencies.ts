@@ -277,10 +277,11 @@ const checkDependency: UserFacingVersionCheckerMaker = (dependency: DependencyIn
         (MessageDisplayHelper: MessageDisplayHelper) => async () => {
     const checkerResult: versionChecker.VersionCheckResult = await dependency.checker();
     if (checkerResult.isCorrect) return true;
-    const message: string = await (checkerResult.isCorrect === false ? (
+    const caveat = "If this dependency is already on your system, start VS Code from a terminal emulator so that VS Code sees the same value of your PATH that you see in your terminal."
+    const message: string = (await (checkerResult.isCorrect === false ? (
         dependency.wrongVersionMessage?.(checkerResult)
         ?? dependency.message(checkerResult)
-    ) : dependency.message(checkerResult));
+    ) : dependency.message(checkerResult))) + "\n" + caveat;
     const installCommand: InstallCommand = await dependency.installCommand?.(checkerResult);
     if (!installCommand && !dependency.installLink) {
         MessageDisplayHelper(message);
