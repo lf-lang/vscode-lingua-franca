@@ -121,10 +121,10 @@ reactor
 Ping
 </span>
 <span class="source-lf">
-(count:
+(count: 
 </span>
 <span class="source-lf storage-type-lflang">
- int
+int
 </span>
 <span class="source-lf">
  
@@ -148,11 +148,20 @@ Ping
 <span class="source-lf storage-modifier-lflang">
 input
 </span>
+<span class="source-lf">
+ 
+</span>
+<span class="source-lf variable-other-lflang">
+receive
+</span>
+<span class="source-lf">
+:
+</span>
 <span class="source-lf meta-embedded-block-cpp">
- receive:
+ 
 </span>
 <span class="source-lf meta-embedded-block-cpp storage-type-lflang">
- int
+int
 </span>
 
 <span class="source-lf">
@@ -161,11 +170,20 @@ input
 <span class="source-lf storage-modifier-lflang">
 output
 </span>
+<span class="source-lf">
+ 
+</span>
+<span class="source-lf variable-other-lflang">
+send
+</span>
+<span class="source-lf">
+:
+</span>
 <span class="source-lf meta-embedded-block-cpp">
- send:
+ 
 </span>
 <span class="source-lf meta-embedded-block-cpp storage-type-lflang">
- int
+int
 </span>
 
 <span class="source-lf">
@@ -174,14 +192,29 @@ output
 <span class="source-lf storage-modifier-lflang">
 state
 </span>
+<span class="source-lf">
+ 
+</span>
+<span class="source-lf variable-other-lflang">
+pingsLeft
+</span>
+<span class="source-lf">
+:
+</span>
 <span class="source-lf meta-embedded-block-cpp">
- pingsLeft:
+ 
 </span>
 <span class="source-lf meta-embedded-block-cpp storage-type-lflang">
- int
+int
 </span>
 <span class="source-lf meta-embedded-block-cpp">
- = count
+ 
+</span>
+<span class="source-lf">
+=
+</span>
+<span class="source-lf">
+ count
 </span>
 
 <span class="source-lf">
@@ -197,7 +230,10 @@ logical
 action
 </span>
 <span class="source-lf">
- serve
+ 
+</span>
+<span class="source-lf variable-other-lflang">
+serve
 </span>
 
 <span class="source-lf">
@@ -294,7 +330,10 @@ pingsLeft
 reaction
 </span>
 <span class="source-lf">
-(receive) 
+(
+</span>
+<span class="source-lf">
+receive) 
 </span>
 <span class="source-lf keyword-operator-lflang">
 ->
@@ -372,10 +411,10 @@ reactor
 Pong
 </span>
 <span class="source-lf">
-(expected:
+(expected: 
 </span>
 <span class="source-lf storage-type-lflang">
- int
+int
 </span>
 <span class="source-lf">
  
@@ -399,11 +438,20 @@ Pong
 <span class="source-lf storage-modifier-lflang">
 input
 </span>
+<span class="source-lf">
+ 
+</span>
+<span class="source-lf variable-other-lflang">
+receive
+</span>
+<span class="source-lf">
+:
+</span>
 <span class="source-lf meta-embedded-block-cpp">
- receive:
+ 
 </span>
 <span class="source-lf meta-embedded-block-cpp storage-type-lflang">
- int
+int
 </span>
 
 <span class="source-lf">
@@ -412,11 +460,20 @@ input
 <span class="source-lf storage-modifier-lflang">
 output
 </span>
+<span class="source-lf">
+ 
+</span>
+<span class="source-lf variable-other-lflang">
+send
+</span>
+<span class="source-lf">
+:
+</span>
 <span class="source-lf meta-embedded-block-cpp">
- send:
+ 
 </span>
 <span class="source-lf meta-embedded-block-cpp storage-type-lflang">
- int
+int
 </span>
 
 <span class="source-lf">
@@ -425,14 +482,32 @@ output
 <span class="source-lf storage-modifier-lflang">
 state
 </span>
+<span class="source-lf">
+ 
+</span>
+<span class="source-lf variable-other-lflang">
+count
+</span>
+<span class="source-lf">
+:
+</span>
 <span class="source-lf meta-embedded-block-cpp">
- count:
+ 
 </span>
 <span class="source-lf meta-embedded-block-cpp storage-type-lflang">
- int
+int
 </span>
 <span class="source-lf meta-embedded-block-cpp">
- = 0
+ 
+</span>
+<span class="source-lf">
+=
+</span>
+<span class="source-lf">
+ 
+</span>
+<span class="source-lf constant-numeric-int-lflang">
+0
 </span>
 
 <span class="source-lf">
@@ -446,7 +521,10 @@ state
 reaction
 </span>
 <span class="source-lf">
-(receive) 
+(
+</span>
+<span class="source-lf">
+receive) 
 </span>
 <span class="source-lf keyword-operator-lflang">
 ->
@@ -706,10 +784,10 @@ federated
 reactor
 </span>
 <span class="source-lf">
-(count:
+(count: 
 </span>
 <span class="source-lf storage-type-lflang">
- int
+int
 </span>
 <span class="source-lf">
  
@@ -742,7 +820,7 @@ ping
 <span class="source-lf">
  
 </span>
-<span class="source-lf keyword-operator-new-lflang">
+<span class="source-lf keyword-control-new-lflang">
 new
 </span>
 <span class="source-lf">
@@ -776,7 +854,7 @@ pong
 <span class="source-lf">
  
 </span>
-<span class="source-lf keyword-operator-new-lflang">
+<span class="source-lf keyword-control-new-lflang">
 new
 </span>
 <span class="source-lf">

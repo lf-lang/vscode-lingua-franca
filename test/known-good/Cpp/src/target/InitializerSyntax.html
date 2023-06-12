@@ -55,10 +55,10 @@ preamble
 </span>
 
 <span class="source-lf">
-      TestType() :
+      TestType() : 
 </span>
 <span class="source-lf storage-type-lflang">
- x
+x
 </span>
 <span class="source-lf">
 (
@@ -78,10 +78,10 @@ preamble
 </span>
 
 <span class="source-lf">
-      TestType(int x) :
+      TestType(int x) : 
 </span>
 <span class="source-lf storage-type-lflang">
- x
+x
 </span>
 <span class="source-lf">
 (x) {}
@@ -107,10 +107,10 @@ std
 initializer_list
 </span>
 <span class="source-lf">
-<int> l) :
+<int> l) : 
 </span>
 <span class="source-lf storage-type-lflang">
- x
+x
 </span>
 <span class="source-lf">
 (
@@ -142,10 +142,10 @@ size
 const
 </span>
 <span class="source-lf">
- TestType& t) :
+ TestType& t) : 
 </span>
 <span class="source-lf storage-type-lflang">
- x
+x
 </span>
 <span class="source-lf">
 (
@@ -183,10 +183,10 @@ x
 </span>
 
 <span class="source-lf">
-      TestType(TestType&& t) :
+      TestType(TestType&& t) : 
 </span>
 <span class="source-lf storage-type-lflang">
- x
+x
 </span>
 <span class="source-lf">
 (
@@ -457,20 +457,20 @@ TestReactor
 </span>
 
 <span class="source-lf">
-  p_default:
+  p_default: 
 </span>
-<span class="source-lf entity-name-type-lflang">
- TestType
+<span class="source-lf storage-type-lflang">
+TestType
 </span>
 <span class="source-lf">
 (),
 </span>
 
 <span class="source-lf">
-  p_empty:
+  p_empty: 
 </span>
-<span class="source-lf entity-name-type-lflang">
- TestType
+<span class="source-lf storage-type-lflang">
+TestType
 </span>
 <span class="source-lf">
 (),  
@@ -480,10 +480,10 @@ TestReactor
 </span>
 
 <span class="source-lf">
-  p_value:
+  p_value: 
 </span>
-<span class="source-lf entity-name-type-lflang">
- TestType
+<span class="source-lf storage-type-lflang">
+TestType
 </span>
 <span class="source-lf">
 (
@@ -499,10 +499,10 @@ TestReactor
 </span>
 
 <span class="source-lf">
-  p_init_empty:
+  p_init_empty: 
 </span>
-<span class="source-lf entity-name-type-lflang">
- TestType
+<span class="source-lf storage-type-lflang">
+TestType
 </span>
 <span class="source-lf">
 {},  
@@ -512,10 +512,10 @@ TestReactor
 </span>
 
 <span class="source-lf">
-  p_init_empty2:
+  p_init_empty2: 
 </span>
-<span class="source-lf entity-name-type-lflang">
- TestType
+<span class="source-lf storage-type-lflang">
+TestType
 </span>
 <span class="source-lf">
 ({}),  
@@ -525,10 +525,10 @@ TestReactor
 </span>
 
 <span class="source-lf">
-  p_init_some:
+  p_init_some: 
 </span>
-<span class="source-lf entity-name-type-lflang">
- TestType
+<span class="source-lf storage-type-lflang">
+TestType
 </span>
 <span class="source-lf">
 {
@@ -568,10 +568,10 @@ TestReactor
 </span>
 
 <span class="source-lf">
-  p_assign_init_empty:
+  p_assign_init_empty: 
 </span>
-<span class="source-lf entity-name-type-lflang">
- TestType
+<span class="source-lf storage-type-lflang">
+TestType
 </span>
 <span class="source-lf">
  
@@ -587,10 +587,10 @@ TestReactor
 </span>
 
 <span class="source-lf">
-  p_assign_init_some:
+  p_assign_init_some: 
 </span>
-<span class="source-lf entity-name-type-lflang">
- TestType
+<span class="source-lf storage-type-lflang">
+TestType
 </span>
 <span class="source-lf">
  
@@ -633,14 +633,32 @@ TestReactor
 <span class="source-lf storage-modifier-lflang">
 state
 </span>
+<span class="source-lf">
+ 
+</span>
+<span class="source-lf variable-other-lflang">
+s_default
+</span>
+<span class="source-lf">
+:
+</span>
 <span class="source-lf meta-embedded-block-cpp">
- s_default:
+ 
 </span>
 <span class="source-lf meta-embedded-block-cpp entity-name-type-lflang">
- TestType
+TestType
 </span>
 <span class="source-lf meta-embedded-block-cpp">
-                 // constructor #1
+                 // 
+</span>
+<span class="source-lf meta-embedded-block-cpp storage-type-lflang">
+constructor
+</span>
+<span class="source-lf meta-embedded-block-cpp">
+ #
+</span>
+<span class="source-lf meta-embedded-block-cpp storage-type-lflang">
+1
 </span>
 
 <span class="source-lf">
@@ -649,13 +667,22 @@ state
 <span class="source-lf storage-modifier-lflang">
 state
 </span>
+<span class="source-lf">
+ 
+</span>
+<span class="source-lf variable-other-lflang">
+s_empty
+</span>
+<span class="source-lf">
+:
+</span>
 <span class="source-lf meta-embedded-block-cpp">
- s_empty:
+ 
 </span>
 <span class="source-lf meta-embedded-block-cpp entity-name-type-lflang">
- TestType
+TestType
 </span>
-<span class="source-lf meta-embedded-block-cpp">
+<span class="source-lf">
 (
 </span>
 <span class="source-lf">
@@ -671,13 +698,22 @@ state
 <span class="source-lf storage-modifier-lflang">
 state
 </span>
+<span class="source-lf">
+ 
+</span>
+<span class="source-lf variable-other-lflang">
+s_value
+</span>
+<span class="source-lf">
+:
+</span>
 <span class="source-lf meta-embedded-block-cpp">
- s_value:
+ 
 </span>
 <span class="source-lf meta-embedded-block-cpp entity-name-type-lflang">
- TestType
+TestType
 </span>
-<span class="source-lf meta-embedded-block-cpp">
+<span class="source-lf">
 (
 </span>
 <span class="source-lf constant-numeric-int-lflang">
@@ -696,14 +732,29 @@ state
 <span class="source-lf storage-modifier-lflang">
 state
 </span>
+<span class="source-lf">
+ 
+</span>
+<span class="source-lf variable-other-lflang">
+s_init_empty
+</span>
+<span class="source-lf">
+:
+</span>
 <span class="source-lf meta-embedded-block-cpp">
- s_init_empty:
+ 
 </span>
 <span class="source-lf meta-embedded-block-cpp entity-name-type-lflang">
- TestType
+TestType
 </span>
-<span class="source-lf meta-embedded-block-cpp">
-{}            // constructor #1
+<span class="source-lf">
+{
+</span>
+<span class="source-lf">
+}            
+</span>
+<span class="source-lf comment-line-double-dash-lflang">
+// constructor #1
 </span>
 
 <span class="source-lf">
@@ -712,13 +763,22 @@ state
 <span class="source-lf storage-modifier-lflang">
 state
 </span>
+<span class="source-lf">
+ 
+</span>
+<span class="source-lf variable-other-lflang">
+s_init_empty2
+</span>
+<span class="source-lf">
+:
+</span>
 <span class="source-lf meta-embedded-block-cpp">
- s_init_empty2:
+ 
 </span>
 <span class="source-lf meta-embedded-block-cpp entity-name-type-lflang">
- TestType
+TestType
 </span>
-<span class="source-lf meta-embedded-block-cpp">
+<span class="source-lf">
 (
 </span>
 <span class="source-lf">
@@ -734,14 +794,44 @@ state
 <span class="source-lf storage-modifier-lflang">
 state
 </span>
+<span class="source-lf">
+ 
+</span>
+<span class="source-lf variable-other-lflang">
+s_init_some
+</span>
+<span class="source-lf">
+:
+</span>
 <span class="source-lf meta-embedded-block-cpp">
- s_init_some:
+ 
 </span>
 <span class="source-lf meta-embedded-block-cpp entity-name-type-lflang">
- TestType
+TestType
 </span>
-<span class="source-lf meta-embedded-block-cpp">
-{3, 12, 40}    // constructor #3
+<span class="source-lf">
+{
+</span>
+<span class="source-lf constant-numeric-int-lflang">
+3
+</span>
+<span class="source-lf">
+, 
+</span>
+<span class="source-lf constant-numeric-int-lflang">
+12
+</span>
+<span class="source-lf">
+, 
+</span>
+<span class="source-lf constant-numeric-int-lflang">
+40
+</span>
+<span class="source-lf">
+}    
+</span>
+<span class="source-lf comment-line-double-dash-lflang">
+// constructor #3
 </span>
 
 <span class="source-lf">
@@ -750,14 +840,32 @@ state
 <span class="source-lf storage-modifier-lflang">
 state
 </span>
+<span class="source-lf">
+ 
+</span>
+<span class="source-lf variable-other-lflang">
+s_assign_init_empty
+</span>
+<span class="source-lf">
+:
+</span>
 <span class="source-lf meta-embedded-block-cpp">
- s_assign_init_empty:
+ 
 </span>
 <span class="source-lf meta-embedded-block-cpp entity-name-type-lflang">
- TestType
+TestType
 </span>
 <span class="source-lf meta-embedded-block-cpp">
- = {}  // constructor #3
+ 
+</span>
+<span class="source-lf">
+=
+</span>
+<span class="source-lf">
+ {}  
+</span>
+<span class="source-lf comment-line-double-dash-lflang">
+// constructor #3
 </span>
 
 <span class="source-lf">
@@ -766,14 +874,56 @@ state
 <span class="source-lf storage-modifier-lflang">
 state
 </span>
+<span class="source-lf">
+ 
+</span>
+<span class="source-lf variable-other-lflang">
+s_assign_init_some
+</span>
+<span class="source-lf">
+:
+</span>
 <span class="source-lf meta-embedded-block-cpp">
- s_assign_init_some:
+ 
 </span>
 <span class="source-lf meta-embedded-block-cpp entity-name-type-lflang">
- TestType
+TestType
 </span>
 <span class="source-lf meta-embedded-block-cpp">
- = {4, 3, 2, 1}  // constructor #3
+ 
+</span>
+<span class="source-lf">
+=
+</span>
+<span class="source-lf">
+ {
+</span>
+<span class="source-lf constant-numeric-int-lflang">
+4
+</span>
+<span class="source-lf">
+, 
+</span>
+<span class="source-lf constant-numeric-int-lflang">
+3
+</span>
+<span class="source-lf">
+, 
+</span>
+<span class="source-lf constant-numeric-int-lflang">
+2
+</span>
+<span class="source-lf">
+, 
+</span>
+<span class="source-lf constant-numeric-int-lflang">
+1
+</span>
+<span class="source-lf">
+}  
+</span>
+<span class="source-lf comment-line-double-dash-lflang">
+// constructor #3
 </span>
 
 <span class="source-lf">
@@ -782,13 +932,22 @@ state
 <span class="source-lf storage-modifier-lflang">
 state
 </span>
+<span class="source-lf">
+ 
+</span>
+<span class="source-lf variable-other-lflang">
+s_copy1
+</span>
+<span class="source-lf">
+:
+</span>
 <span class="source-lf meta-embedded-block-cpp">
- s_copy1:
+ 
 </span>
 <span class="source-lf meta-embedded-block-cpp entity-name-type-lflang">
- TestType
+TestType
 </span>
-<span class="source-lf meta-embedded-block-cpp">
+<span class="source-lf">
 (
 </span>
 <span class="source-lf">
@@ -804,14 +963,29 @@ p_default)
 <span class="source-lf storage-modifier-lflang">
 state
 </span>
+<span class="source-lf">
+ 
+</span>
+<span class="source-lf variable-other-lflang">
+s_copy2
+</span>
+<span class="source-lf">
+:
+</span>
 <span class="source-lf meta-embedded-block-cpp">
- s_copy2:
+ 
 </span>
 <span class="source-lf meta-embedded-block-cpp entity-name-type-lflang">
- TestType
+TestType
 </span>
-<span class="source-lf meta-embedded-block-cpp">
-{p_default}        // constructor #4
+<span class="source-lf">
+{
+</span>
+<span class="source-lf">
+p_default}        
+</span>
+<span class="source-lf comment-line-double-dash-lflang">
+// constructor #4
 </span>
 
 <span class="source-lf">
@@ -820,14 +994,32 @@ state
 <span class="source-lf storage-modifier-lflang">
 state
 </span>
+<span class="source-lf">
+ 
+</span>
+<span class="source-lf variable-other-lflang">
+s_copy3
+</span>
+<span class="source-lf">
+:
+</span>
 <span class="source-lf meta-embedded-block-cpp">
- s_copy3:
+ 
 </span>
 <span class="source-lf meta-embedded-block-cpp entity-name-type-lflang">
- TestType
+TestType
 </span>
 <span class="source-lf meta-embedded-block-cpp">
- = p_default       // constructor #4
+ 
+</span>
+<span class="source-lf">
+=
+</span>
+<span class="source-lf">
+ p_default       
+</span>
+<span class="source-lf comment-line-double-dash-lflang">
+// constructor #4
 </span>
 
 <span class="source-lf">
@@ -1969,7 +2161,7 @@ test
 <span class="source-lf">
  
 </span>
-<span class="source-lf keyword-operator-new-lflang">
+<span class="source-lf keyword-control-new-lflang">
 new
 </span>
 <span class="source-lf">

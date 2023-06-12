@@ -36,10 +36,10 @@ TraceTesting
 </span>
 
 <span class="source-lf">
-  events_size:
+  events_size: 
 </span>
 <span class="source-lf storage-type-lflang">
- int
+int
 </span>
 <span class="source-lf">
  
@@ -58,10 +58,10 @@ TraceTesting
 </span>
 
 <span class="source-lf">
-  trace_size:
+  trace_size: 
 </span>
 <span class="source-lf storage-type-lflang">
- int
+int
 </span>
 <span class="source-lf">
  
@@ -80,10 +80,10 @@ TraceTesting
 </span>
 
 <span class="source-lf">
-  trace:
+  trace: 
 </span>
 <span class="source-lf storage-type-lflang">
- int
+int
 </span>
 <span class="source-lf">
 [] 
@@ -102,10 +102,10 @@ TraceTesting
 </span>
 
 <span class="source-lf">
-  training:
+  training: 
 </span>
 <span class="source-lf storage-type-lflang">
- bool
+bool
 </span>
 <span class="source-lf">
  
@@ -133,8 +133,11 @@ input
 <span class="source-lf">
 [events_size] events:
 </span>
-<span class="source-lf storage-type-lflang">
- int
+<span class="source-lf meta-embedded-block-cpp">
+ 
+</span>
+<span class="source-lf meta-embedded-block-cpp storage-type-lflang">
+int
 </span>
 
 <span class="source-lf">
@@ -147,14 +150,32 @@ input
 <span class="source-lf storage-modifier-lflang">
 state
 </span>
+<span class="source-lf">
+ 
+</span>
+<span class="source-lf variable-other-lflang">
+last_reaction_time
+</span>
+<span class="source-lf">
+:
+</span>
 <span class="source-lf meta-embedded-block-cpp">
- last_reaction_time:
+ 
 </span>
 <span class="source-lf meta-embedded-block-cpp storage-type-lflang">
- int
+int
 </span>
 <span class="source-lf meta-embedded-block-cpp">
- = 0
+ 
+</span>
+<span class="source-lf">
+=
+</span>
+<span class="source-lf">
+ 
+</span>
+<span class="source-lf constant-numeric-int-lflang">
+0
 </span>
 
 <span class="source-lf">
@@ -163,14 +184,32 @@ state
 <span class="source-lf storage-modifier-lflang">
 state
 </span>
+<span class="source-lf">
+ 
+</span>
+<span class="source-lf variable-other-lflang">
+trace_idx
+</span>
+<span class="source-lf">
+:
+</span>
 <span class="source-lf meta-embedded-block-cpp">
- trace_idx:
+ 
 </span>
 <span class="source-lf meta-embedded-block-cpp storage-type-lflang">
- int
+int
 </span>
 <span class="source-lf meta-embedded-block-cpp">
- = 0
+ 
+</span>
+<span class="source-lf">
+=
+</span>
+<span class="source-lf">
+ 
+</span>
+<span class="source-lf constant-numeric-int-lflang">
+0
 </span>
 
 <span class="source-lf">
@@ -179,14 +218,32 @@ state
 <span class="source-lf storage-modifier-lflang">
 state
 </span>
+<span class="source-lf">
+ 
+</span>
+<span class="source-lf variable-other-lflang">
+recorded_events
+</span>
+<span class="source-lf">
+:
+</span>
 <span class="source-lf meta-embedded-block-cpp">
- recorded_events:
+ 
 </span>
 <span class="source-lf meta-embedded-block-cpp storage-type-lflang">
- int
+int
 </span>
 <span class="source-lf meta-embedded-block-cpp">
-* = 0
+* 
+</span>
+<span class="source-lf">
+=
+</span>
+<span class="source-lf">
+ 
+</span>
+<span class="source-lf constant-numeric-int-lflang">
+0
 </span>
 
 <span class="source-lf">
@@ -195,14 +252,32 @@ state
 <span class="source-lf storage-modifier-lflang">
 state
 </span>
+<span class="source-lf">
+ 
+</span>
+<span class="source-lf variable-other-lflang">
+recorded_events_next
+</span>
+<span class="source-lf">
+:
+</span>
 <span class="source-lf meta-embedded-block-cpp">
- recorded_events_next:
+ 
 </span>
 <span class="source-lf meta-embedded-block-cpp storage-type-lflang">
- int
+int
 </span>
 <span class="source-lf meta-embedded-block-cpp">
- = 0
+ 
+</span>
+<span class="source-lf">
+=
+</span>
+<span class="source-lf">
+ 
+</span>
+<span class="source-lf constant-numeric-int-lflang">
+0
 </span>
 
 <span class="source-lf">
@@ -234,13 +309,16 @@ startup
 ->
 </span>
 <span class="source-lf">
-last_reaction_time 
-</span>
-<span class="source-lf keyword-operator-lflang">
-=
+last_reaction
 </span>
 <span class="source-lf">
- lf_time_logical(); 
+_time = lf_time_logical
+</span>
+<span class="source-lf">
+(
+</span>
+<span class="source-lf">
+); 
 </span>
 <span class="source-lf keyword-operator-lflang">
 =
@@ -260,7 +338,10 @@ last_reaction_time
 reaction
 </span>
 <span class="source-lf">
-(events) {
+(
+</span>
+<span class="source-lf">
+events) {
 </span>
 <span class="source-lf keyword-operator-lflang">
 =
@@ -274,13 +355,16 @@ reaction
 </span>
 
 <span class="source-lf">
-    int curr_reaction_delay 
-</span>
-<span class="source-lf keyword-operator-lflang">
-=
+    int curr_reaction
 </span>
 <span class="source-lf">
- lf_time_logical() 
+_delay = lf_time_logical
+</span>
+<span class="source-lf">
+(
+</span>
+<span class="source-lf">
+) 
 </span>
 <span class="source-lf keyword-operator-lflang">
 -
@@ -292,7 +376,13 @@ reaction
 ->
 </span>
 <span class="source-lf">
-last_reaction_time;
+last_reaction
+</span>
+<span class="source-lf">
+_time
+</span>
+<span class="source-lf">
+;
 </span>
 
 <span class="source-lf">
@@ -420,7 +510,13 @@ recorded_events_next
 =
 </span>
 <span class="source-lf">
- curr_reaction_delay;
+ curr_reaction
+</span>
+<span class="source-lf">
+_delay
+</span>
+<span class="source-lf">
+;
 </span>
 
 <span class="source-lf">
@@ -487,34 +583,13 @@ ERROR: Trace Error: Current execution exceeds given trace.
 </span>
 
 <span class="source-lf">
-        int trace_reaction_delay 
-</span>
-<span class="source-lf keyword-operator-lflang">
-=
+        int trace_reaction
 </span>
 <span class="source-lf">
- self
-</span>
-<span class="source-lf keyword-operator-lflang">
-->
+_delay = self->trace[self->trace_idx++]
 </span>
 <span class="source-lf">
-trace[self
-</span>
-<span class="source-lf keyword-operator-lflang">
-->
-</span>
-<span class="source-lf">
-trace_idx
-</span>
-<span class="source-lf keyword-operator-lflang">
-+
-</span>
-<span class="source-lf keyword-operator-lflang">
-+
-</span>
-<span class="source-lf">
-];
+;
 </span>
 
 <span class="source-lf">
@@ -522,13 +597,10 @@ trace_idx
 </span>
 
 <span class="source-lf">
-        if (curr_reaction_delay !
-</span>
-<span class="source-lf keyword-operator-lflang">
-=
+        if (curr_reaction
 </span>
 <span class="source-lf">
- trace_reaction_delay) {
+_delay != trace_reaction_delay) {
 </span>
 
 <span class="source-lf">
@@ -547,7 +619,13 @@ ERROR: Trace Mismatch: Unexpected reaction timing. (delay: %d, expected: %d)
 "
 </span>
 <span class="source-lf">
-, curr_reaction_delay, trace_reaction_delay);
+, curr_reaction
+</span>
+<span class="source-lf">
+_delay, trace_reaction_delay)
+</span>
+<span class="source-lf">
+;
 </span>
 
 <span class="source-lf">
@@ -889,13 +967,16 @@ ERROR: Trace Mismatch: Unexpected event value. (event: %d, presence: %d, expecte
 ->
 </span>
 <span class="source-lf">
-last_reaction_time 
-</span>
-<span class="source-lf keyword-operator-lflang">
-=
+last_reaction
 </span>
 <span class="source-lf">
- lf_time_logical();
+_time = lf_time_logical
+</span>
+<span class="source-lf">
+(
+</span>
+<span class="source-lf">
+);
 </span>
 
 <span class="source-lf">

@@ -26,10 +26,10 @@ Foo
 </span>
 
 <span class="source-lf">
-  param_list_1:
+  param_list_1: 
 </span>
 <span class="source-lf storage-type-lflang">
- std
+std
 </span>
 <span class="source-lf keyword-operator-lflang">
 ::
@@ -57,10 +57,10 @@ vector
 </span>
 
 <span class="source-lf">
-  param_list_2:
+  param_list_2: 
 </span>
 <span class="source-lf storage-type-lflang">
- std
+std
 </span>
 <span class="source-lf keyword-operator-lflang">
 ::
@@ -88,10 +88,10 @@ vector
 </span>
 
 <span class="source-lf">
-  param_list_3:
+  param_list_3: 
 </span>
 <span class="source-lf storage-type-lflang">
- std
+std
 </span>
 <span class="source-lf keyword-operator-lflang">
 ::
@@ -119,10 +119,10 @@ vector
 </span>
 
 <span class="source-lf">
-  param_list_4:
+  param_list_4: 
 </span>
 <span class="source-lf storage-type-lflang">
- std
+std
 </span>
 <span class="source-lf keyword-operator-lflang">
 ::
@@ -159,11 +159,20 @@ vector
 <span class="source-lf storage-modifier-lflang">
 state
 </span>
+<span class="source-lf">
+ 
+</span>
+<span class="source-lf variable-other-lflang">
+state_list_1
+</span>
+<span class="source-lf">
+:
+</span>
 <span class="source-lf meta-embedded-block-cpp">
- state_list_1:
+ 
 </span>
 <span class="source-lf meta-embedded-block-cpp storage-type-lflang">
- std
+std
 </span>
 <span class="source-lf meta-embedded-block-cpp">
 ::
@@ -172,9 +181,15 @@ state
 vector
 </span>
 <span class="source-lf meta-embedded-block-cpp">
-<int>
+<
+</span>
+<span class="source-lf meta-embedded-block-cpp storage-type-lflang">
+int
 </span>
 <span class="source-lf meta-embedded-block-cpp">
+>
+</span>
+<span class="source-lf">
 (
 </span>
 <span class="source-lf constant-numeric-int-lflang">
@@ -199,11 +214,20 @@ vector
 <span class="source-lf storage-modifier-lflang">
 state
 </span>
+<span class="source-lf">
+ 
+</span>
+<span class="source-lf variable-other-lflang">
+state_list_2
+</span>
+<span class="source-lf">
+:
+</span>
 <span class="source-lf meta-embedded-block-cpp">
- state_list_2:
+ 
 </span>
 <span class="source-lf meta-embedded-block-cpp storage-type-lflang">
- std
+std
 </span>
 <span class="source-lf meta-embedded-block-cpp">
 ::
@@ -212,7 +236,31 @@ state
 vector
 </span>
 <span class="source-lf meta-embedded-block-cpp">
-<int>{6, 42}  // list containing [6,42]
+<
+</span>
+<span class="source-lf meta-embedded-block-cpp storage-type-lflang">
+int
+</span>
+<span class="source-lf meta-embedded-block-cpp">
+>
+</span>
+<span class="source-lf">
+{
+</span>
+<span class="source-lf constant-numeric-int-lflang">
+6
+</span>
+<span class="source-lf">
+, 
+</span>
+<span class="source-lf constant-numeric-int-lflang">
+42
+</span>
+<span class="source-lf">
+}  
+</span>
+<span class="source-lf comment-line-double-dash-lflang">
+// list containing [6,42]
 </span>
 
 <span class="source-lf">
@@ -478,15 +526,12 @@ size
 6
 </span>
 <span class="source-lf">
- || state_list_1[
-</span>
-<span class="source-lf constant-numeric-int-lflang">
-0
+ || state
 </span>
 <span class="source-lf">
-] !
+_list_1[0] !
 </span>
-<span class="source-lf keyword-operator-lflang">
+<span class="source-lf">
 =
 </span>
 <span class="source-lf">
@@ -524,15 +569,12 @@ size
 2
 </span>
 <span class="source-lf">
- || state_list_2[
-</span>
-<span class="source-lf constant-numeric-int-lflang">
-0
+ || state
 </span>
 <span class="source-lf">
-] !
+_list_2[0] !
 </span>
-<span class="source-lf keyword-operator-lflang">
+<span class="source-lf">
 =
 </span>
 <span class="source-lf">
@@ -636,7 +678,7 @@ foo
 <span class="source-lf">
  
 </span>
-<span class="source-lf keyword-operator-new-lflang">
+<span class="source-lf keyword-control-new-lflang">
 new
 </span>
 <span class="source-lf">

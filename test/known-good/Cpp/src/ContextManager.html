@@ -65,11 +65,20 @@ ContextManager
 <span class="source-lf storage-modifier-lflang">
 input
 </span>
+<span class="source-lf">
+ 
+</span>
+<span class="source-lf variable-other-lflang">
+request_in
+</span>
+<span class="source-lf">
+:
+</span>
 <span class="source-lf meta-embedded-block-cpp">
- request_in:
+ 
 </span>
 <span class="source-lf meta-embedded-block-cpp storage-type-lflang">
- std
+std
 </span>
 <span class="source-lf meta-embedded-block-cpp">
 ::
@@ -78,7 +87,19 @@ input
 pair
 </span>
 <span class="source-lf meta-embedded-block-cpp">
-<Req, Ctx>
+<
+</span>
+<span class="source-lf meta-embedded-block-cpp entity-name-type-lflang">
+Req
+</span>
+<span class="source-lf meta-embedded-block-cpp">
+, 
+</span>
+<span class="source-lf meta-embedded-block-cpp entity-name-type-lflang">
+Ctx
+</span>
+<span class="source-lf meta-embedded-block-cpp">
+>
 </span>
 
 <span class="source-lf">
@@ -87,11 +108,20 @@ pair
 <span class="source-lf storage-modifier-lflang">
 output
 </span>
+<span class="source-lf">
+ 
+</span>
+<span class="source-lf variable-other-lflang">
+request_out
+</span>
+<span class="source-lf">
+:
+</span>
 <span class="source-lf meta-embedded-block-cpp">
- request_out:
+ 
 </span>
 <span class="source-lf meta-embedded-block-cpp entity-name-type-lflang">
- Req
+Req
 </span>
 
 <span class="source-lf">
@@ -104,11 +134,20 @@ output
 <span class="source-lf storage-modifier-lflang">
 input
 </span>
+<span class="source-lf">
+ 
+</span>
+<span class="source-lf variable-other-lflang">
+response_in
+</span>
+<span class="source-lf">
+:
+</span>
 <span class="source-lf meta-embedded-block-cpp">
- response_in:
+ 
 </span>
 <span class="source-lf meta-embedded-block-cpp entity-name-type-lflang">
- Resp
+Resp
 </span>
 
 <span class="source-lf">
@@ -117,11 +156,20 @@ input
 <span class="source-lf storage-modifier-lflang">
 output
 </span>
+<span class="source-lf">
+ 
+</span>
+<span class="source-lf variable-other-lflang">
+response_out
+</span>
+<span class="source-lf">
+:
+</span>
 <span class="source-lf meta-embedded-block-cpp">
- response_out:
+ 
 </span>
 <span class="source-lf meta-embedded-block-cpp storage-type-lflang">
- std
+std
 </span>
 <span class="source-lf meta-embedded-block-cpp">
 ::
@@ -130,7 +178,19 @@ output
 pair
 </span>
 <span class="source-lf meta-embedded-block-cpp">
-<Resp, Ctx>
+<
+</span>
+<span class="source-lf meta-embedded-block-cpp entity-name-type-lflang">
+Resp
+</span>
+<span class="source-lf meta-embedded-block-cpp">
+, 
+</span>
+<span class="source-lf meta-embedded-block-cpp entity-name-type-lflang">
+Ctx
+</span>
+<span class="source-lf meta-embedded-block-cpp">
+>
 </span>
 
 <span class="source-lf">
@@ -143,8 +203,14 @@ pair
 <span class="source-lf storage-modifier-lflang">
 state
 </span>
-<span class="source-lf meta-embedded-block-cpp">
- context_buffer:
+<span class="source-lf">
+ 
+</span>
+<span class="source-lf variable-other-lflang">
+context_buffer
+</span>
+<span class="source-lf">
+:
 </span>
 <span class="source-lf meta-embedded-block-cpp">
  
@@ -188,7 +254,13 @@ map
 reaction
 </span>
 <span class="source-lf">
- (request_in) 
+ 
+</span>
+<span class="source-lf">
+(
+</span>
+<span class="source-lf">
+request_in) 
 </span>
 <span class="source-lf keyword-operator-lflang">
 ->
@@ -330,7 +402,13 @@ set
 reaction
 </span>
 <span class="source-lf">
- (response_in) 
+ 
+</span>
+<span class="source-lf">
+(
+</span>
+<span class="source-lf">
+response_in) 
 </span>
 <span class="source-lf keyword-operator-lflang">
 ->

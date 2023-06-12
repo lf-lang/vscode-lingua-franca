@@ -26,10 +26,10 @@ reactor
 Node
 </span>
 <span class="source-lf">
-(bank_index:
+(bank_index: 
 </span>
 <span class="source-lf storage-type-lflang">
- size_t
+size_t
 </span>
 <span class="source-lf">
  
@@ -44,10 +44,10 @@ Node
 0
 </span>
 <span class="source-lf">
-, num_nodes:
+, num_nodes: 
 </span>
 <span class="source-lf storage-type-lflang">
- size_t
+size_t
 </span>
 <span class="source-lf">
  
@@ -74,8 +74,11 @@ input
 <span class="source-lf">
 [num_nodes] in:
 </span>
-<span class="source-lf storage-type-lflang">
- size_t
+<span class="source-lf meta-embedded-block-cpp">
+ 
+</span>
+<span class="source-lf meta-embedded-block-cpp storage-type-lflang">
+size_t
 </span>
 
 <span class="source-lf">
@@ -85,10 +88,25 @@ input
 output
 </span>
 <span class="source-lf">
-[num_nodes] out:
+[
 </span>
-<span class="source-lf storage-type-lflang">
- size_t
+<span class="source-lf variable-other-lflang">
+num_nodes
+</span>
+<span class="source-lf">
+] 
+</span>
+<span class="source-lf variable-other-lflang">
+out
+</span>
+<span class="source-lf">
+:
+</span>
+<span class="source-lf meta-embedded-block-cpp">
+ 
+</span>
+<span class="source-lf meta-embedded-block-cpp storage-type-lflang">
+size_t
 </span>
 
 <span class="source-lf">
@@ -101,14 +119,32 @@ output
 <span class="source-lf storage-modifier-lflang">
 state
 </span>
+<span class="source-lf">
+ 
+</span>
+<span class="source-lf variable-other-lflang">
+received
+</span>
+<span class="source-lf">
+:
+</span>
 <span class="source-lf meta-embedded-block-cpp">
- received:
+ 
 </span>
 <span class="source-lf meta-embedded-block-cpp storage-type-lflang">
- bool
+bool
 </span>
 <span class="source-lf meta-embedded-block-cpp">
- = false
+ 
+</span>
+<span class="source-lf">
+=
+</span>
+<span class="source-lf">
+ 
+</span>
+<span class="source-lf constant-language-lflang">
+false
 </span>
 
 <span class="source-lf">
@@ -239,7 +275,10 @@ set(bank_index);
 reaction
 </span>
 <span class="source-lf">
-(in) {
+(
+</span>
+<span class="source-lf">
+in) {
 </span>
 <span class="source-lf keyword-operator-lflang">
 =
@@ -322,10 +361,10 @@ true
 </span>
 
 <span class="source-lf">
-    for (auto i :
+    for (auto i : 
 </span>
 <span class="source-lf storage-type-lflang">
- in
+in
 </span>
 <span class="source-lf keyword-operator-lflang">
 .
@@ -474,10 +513,10 @@ cout
 1
 </span>
 <span class="source-lf">
- :
+ : 
 </span>
 <span class="source-lf storage-type-lflang">
- bank_index
+bank_index
 </span>
 <span class="source-lf">
  
@@ -672,10 +711,10 @@ main
 reactor
 </span>
 <span class="source-lf">
-(num_nodes:
+(num_nodes: 
 </span>
 <span class="source-lf storage-type-lflang">
- size_t
+size_t
 </span>
 <span class="source-lf">
  
@@ -708,7 +747,7 @@ nodes1
 <span class="source-lf">
  
 </span>
-<span class="source-lf keyword-operator-new-lflang">
+<span class="source-lf keyword-control-new-lflang">
 new
 </span>
 <span class="source-lf">
@@ -780,7 +819,7 @@ nodes2
 <span class="source-lf">
  
 </span>
-<span class="source-lf keyword-operator-new-lflang">
+<span class="source-lf keyword-control-new-lflang">
 new
 </span>
 <span class="source-lf">

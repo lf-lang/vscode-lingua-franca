@@ -47,14 +47,23 @@ true
   clock-sync
 </span>
 <span class="source-lf meta-targetspec-lflang">
-: off,
+: 
+</span>
+<span class="source-lf meta-targetspec-lflang storage-type-lflang">
+off
+</span>
+<span class="source-lf meta-targetspec-lflang">
+,
 </span>
 
 <span class="source-lf meta-targetspec-lflang variable-parameter-lflang">
   coordination
 </span>
 <span class="source-lf meta-targetspec-lflang">
-: decentralized
+: 
+</span>
+<span class="source-lf meta-targetspec-lflang storage-type-lflang">
+decentralized
 </span>
 
 <span class="source-lf meta-targetspec-lflang">
@@ -75,10 +84,10 @@ reactor
 Platform
 </span>
 <span class="source-lf">
-(start:
+(start: 
 </span>
 <span class="source-lf storage-type-lflang">
- int
+int
 </span>
 <span class="source-lf">
  
@@ -93,10 +102,10 @@ Platform
 0
 </span>
 <span class="source-lf">
-, expected_start:
+, expected_start: 
 </span>
 <span class="source-lf storage-type-lflang">
- int
+int
 </span>
 <span class="source-lf">
  
@@ -111,10 +120,10 @@ Platform
 0
 </span>
 <span class="source-lf">
-, stp_offset_param:
+, stp_offset_param: 
 </span>
 <span class="source-lf storage-type-lflang">
- time
+time
 </span>
 <span class="source-lf">
  
@@ -138,11 +147,20 @@ Platform
 <span class="source-lf storage-modifier-lflang">
 input
 </span>
+<span class="source-lf">
+ 
+</span>
+<span class="source-lf variable-other-lflang">
+in
+</span>
+<span class="source-lf">
+:
+</span>
 <span class="source-lf meta-embedded-block-cpp">
- in:
+ 
 </span>
 <span class="source-lf meta-embedded-block-cpp storage-type-lflang">
- int
+int
 </span>
 
 <span class="source-lf">
@@ -151,11 +169,20 @@ input
 <span class="source-lf storage-modifier-lflang">
 output
 </span>
+<span class="source-lf">
+ 
+</span>
+<span class="source-lf variable-other-lflang">
+out
+</span>
+<span class="source-lf">
+:
+</span>
 <span class="source-lf meta-embedded-block-cpp">
- out:
+ 
 </span>
 <span class="source-lf meta-embedded-block-cpp storage-type-lflang">
- int
+int
 </span>
 
 <span class="source-lf">
@@ -192,14 +219,29 @@ msec
 <span class="source-lf storage-modifier-lflang">
 state
 </span>
+<span class="source-lf">
+ 
+</span>
+<span class="source-lf variable-other-lflang">
+count
+</span>
+<span class="source-lf">
+:
+</span>
 <span class="source-lf meta-embedded-block-cpp">
- count:
+ 
 </span>
 <span class="source-lf meta-embedded-block-cpp storage-type-lflang">
- int
+int
 </span>
 <span class="source-lf meta-embedded-block-cpp">
- = start
+ 
+</span>
+<span class="source-lf">
+=
+</span>
+<span class="source-lf">
+ start
 </span>
 
 <span class="source-lf">
@@ -208,14 +250,29 @@ state
 <span class="source-lf storage-modifier-lflang">
 state
 </span>
+<span class="source-lf">
+ 
+</span>
+<span class="source-lf variable-other-lflang">
+expected
+</span>
+<span class="source-lf">
+:
+</span>
 <span class="source-lf meta-embedded-block-cpp">
- expected:
+ 
 </span>
 <span class="source-lf meta-embedded-block-cpp storage-type-lflang">
- int
+int
 </span>
 <span class="source-lf meta-embedded-block-cpp">
- = expected_start
+ 
+</span>
+<span class="source-lf">
+=
+</span>
+<span class="source-lf">
+ expected_start
 </span>
 
 <span class="source-lf">
@@ -229,7 +286,10 @@ state
 reaction
 </span>
 <span class="source-lf">
-(t) 
+(
+</span>
+<span class="source-lf">
+t) 
 </span>
 <span class="source-lf keyword-operator-lflang">
 ->
@@ -276,7 +336,10 @@ count
 reaction
 </span>
 <span class="source-lf">
-(in) {
+(
+</span>
+<span class="source-lf">
+in) {
 </span>
 <span class="source-lf keyword-operator-lflang">
 =
@@ -698,7 +761,7 @@ a
 <span class="source-lf">
  
 </span>
-<span class="source-lf keyword-operator-new-lflang">
+<span class="source-lf keyword-control-new-lflang">
 new
 </span>
 <span class="source-lf">
@@ -756,7 +819,7 @@ b
 <span class="source-lf">
  
 </span>
-<span class="source-lf keyword-operator-new-lflang">
+<span class="source-lf keyword-control-new-lflang">
 new
 </span>
 <span class="source-lf">

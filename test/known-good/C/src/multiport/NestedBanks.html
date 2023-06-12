@@ -59,7 +59,7 @@ a
 <span class="source-lf">
  
 </span>
-<span class="source-lf keyword-operator-new-lflang">
+<span class="source-lf keyword-control-new-lflang">
 new
 </span>
 <span class="source-lf">
@@ -87,7 +87,7 @@ c
 <span class="source-lf">
  
 </span>
-<span class="source-lf keyword-operator-new-lflang">
+<span class="source-lf keyword-control-new-lflang">
 new
 </span>
 <span class="source-lf">
@@ -115,7 +115,7 @@ d
 <span class="source-lf">
  
 </span>
-<span class="source-lf keyword-operator-new-lflang">
+<span class="source-lf keyword-control-new-lflang">
 new
 </span>
 <span class="source-lf">
@@ -143,7 +143,7 @@ e
 <span class="source-lf">
  
 </span>
-<span class="source-lf keyword-operator-new-lflang">
+<span class="source-lf keyword-control-new-lflang">
 new
 </span>
 <span class="source-lf">
@@ -239,10 +239,10 @@ reactor
 A
 </span>
 <span class="source-lf">
-(bank_index:
+(bank_index: 
 </span>
 <span class="source-lf storage-type-lflang">
- int
+int
 </span>
 <span class="source-lf">
  
@@ -269,14 +269,23 @@ output
 <span class="source-lf">
 [
 </span>
-<span class="source-lf constant-numeric-int-lflang">
+<span class="source-lf variable-other-lflang">
 4
 </span>
 <span class="source-lf">
-] x:
+] 
 </span>
-<span class="source-lf storage-type-lflang">
- int
+<span class="source-lf variable-other-lflang">
+x
+</span>
+<span class="source-lf">
+:
+</span>
+<span class="source-lf meta-embedded-block-cpp">
+ 
+</span>
+<span class="source-lf meta-embedded-block-cpp storage-type-lflang">
+int
 </span>
 
 <span class="source-lf">
@@ -294,7 +303,7 @@ b
 <span class="source-lf">
  
 </span>
-<span class="source-lf keyword-operator-new-lflang">
+<span class="source-lf keyword-control-new-lflang">
 new
 </span>
 <span class="source-lf">
@@ -353,10 +362,10 @@ reactor
 B
 </span>
 <span class="source-lf">
-(a_bank_index:
+(a_bank_index: 
 </span>
 <span class="source-lf storage-type-lflang">
- int
+int
 </span>
 <span class="source-lf">
  
@@ -371,10 +380,10 @@ B
 0
 </span>
 <span class="source-lf">
-, bank_index:
+, bank_index: 
 </span>
 <span class="source-lf storage-type-lflang">
- int
+int
 </span>
 <span class="source-lf">
  
@@ -401,14 +410,23 @@ output
 <span class="source-lf">
 [
 </span>
-<span class="source-lf constant-numeric-int-lflang">
+<span class="source-lf variable-other-lflang">
 2
 </span>
 <span class="source-lf">
-] y:
+] 
 </span>
-<span class="source-lf storage-type-lflang">
- int
+<span class="source-lf variable-other-lflang">
+y
+</span>
+<span class="source-lf">
+:
+</span>
+<span class="source-lf meta-embedded-block-cpp">
+ 
+</span>
+<span class="source-lf meta-embedded-block-cpp storage-type-lflang">
+int
 </span>
 
 <span class="source-lf">
@@ -552,10 +570,10 @@ reactor
 C
 </span>
 <span class="source-lf">
-(bank_index:
+(bank_index: 
 </span>
 <span class="source-lf storage-type-lflang">
- int
+int
 </span>
 <span class="source-lf">
  
@@ -580,16 +598,13 @@ C
 input
 </span>
 <span class="source-lf">
-[
+[2] z:
 </span>
-<span class="source-lf constant-numeric-int-lflang">
-2
+<span class="source-lf meta-embedded-block-cpp">
+ 
 </span>
-<span class="source-lf">
-] z:
-</span>
-<span class="source-lf storage-type-lflang">
- int
+<span class="source-lf meta-embedded-block-cpp storage-type-lflang">
+int
 </span>
 
 <span class="source-lf">
@@ -607,7 +622,7 @@ f
 <span class="source-lf">
  
 </span>
-<span class="source-lf keyword-operator-new-lflang">
+<span class="source-lf keyword-control-new-lflang">
 new
 </span>
 <span class="source-lf">
@@ -641,7 +656,7 @@ g
 <span class="source-lf">
  
 </span>
-<span class="source-lf keyword-operator-new-lflang">
+<span class="source-lf keyword-control-new-lflang">
 new
 </span>
 <span class="source-lf">
@@ -719,16 +734,13 @@ D
 input
 </span>
 <span class="source-lf">
-[
+[2] u:
 </span>
-<span class="source-lf constant-numeric-int-lflang">
-2
+<span class="source-lf meta-embedded-block-cpp">
+ 
 </span>
-<span class="source-lf">
-] u:
-</span>
-<span class="source-lf storage-type-lflang">
- int
+<span class="source-lf meta-embedded-block-cpp storage-type-lflang">
+int
 </span>
 
 <span class="source-lf">
@@ -742,7 +754,10 @@ input
 reaction
 </span>
 <span class="source-lf">
-(u) {
+(
+</span>
+<span class="source-lf">
+u) {
 </span>
 <span class="source-lf keyword-operator-lflang">
 =
@@ -903,16 +918,13 @@ E
 input
 </span>
 <span class="source-lf">
-[
+[8] t:
 </span>
-<span class="source-lf constant-numeric-int-lflang">
-8
+<span class="source-lf meta-embedded-block-cpp">
+ 
 </span>
-<span class="source-lf">
-] t:
-</span>
-<span class="source-lf storage-type-lflang">
- int
+<span class="source-lf meta-embedded-block-cpp storage-type-lflang">
+int
 </span>
 
 <span class="source-lf">
@@ -926,7 +938,10 @@ input
 reaction
 </span>
 <span class="source-lf">
-(t) {
+(
+</span>
+<span class="source-lf">
+t) {
 </span>
 <span class="source-lf keyword-operator-lflang">
 =
@@ -1011,10 +1026,10 @@ reactor
 F
 </span>
 <span class="source-lf">
-(c_bank_index:
+(c_bank_index: 
 </span>
 <span class="source-lf storage-type-lflang">
- int
+int
 </span>
 <span class="source-lf">
  
@@ -1038,11 +1053,20 @@ F
 <span class="source-lf storage-modifier-lflang">
 input
 </span>
+<span class="source-lf">
+ 
+</span>
+<span class="source-lf variable-other-lflang">
+w
+</span>
+<span class="source-lf">
+:
+</span>
 <span class="source-lf meta-embedded-block-cpp">
- w:
+ 
 </span>
 <span class="source-lf meta-embedded-block-cpp storage-type-lflang">
- int
+int
 </span>
 
 <span class="source-lf">
@@ -1056,7 +1080,10 @@ input
 reaction
 </span>
 <span class="source-lf">
-(w) {
+(
+</span>
+<span class="source-lf">
+w) {
 </span>
 <span class="source-lf keyword-operator-lflang">
 =
@@ -1196,10 +1223,10 @@ reactor
 G
 </span>
 <span class="source-lf">
-(c_bank_index:
+(c_bank_index: 
 </span>
 <span class="source-lf storage-type-lflang">
- int
+int
 </span>
 <span class="source-lf">
  
@@ -1223,11 +1250,20 @@ G
 <span class="source-lf storage-modifier-lflang">
 input
 </span>
+<span class="source-lf">
+ 
+</span>
+<span class="source-lf variable-other-lflang">
+s
+</span>
+<span class="source-lf">
+:
+</span>
 <span class="source-lf meta-embedded-block-cpp">
- s:
+ 
 </span>
 <span class="source-lf meta-embedded-block-cpp storage-type-lflang">
- int
+int
 </span>
 
 <span class="source-lf">
@@ -1241,7 +1277,10 @@ input
 reaction
 </span>
 <span class="source-lf">
-(s) {
+(
+</span>
+<span class="source-lf">
+s) {
 </span>
 <span class="source-lf keyword-operator-lflang">
 =
