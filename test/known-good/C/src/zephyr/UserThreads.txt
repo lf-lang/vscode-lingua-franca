@@ -1,0 +1,40 @@
+<span class="source-lf comment-line-double-dash-lflang">// Test user threads platform option for Zephyr. The application should be able to create exactly</span>
+<span class="source-lf comment-line-double-dash-lflang">// three threads.</span>
+<span class="source-lf meta-targetspec-lflang keyword-control-lflang">target</span><span class="source-lf meta-targetspec-lflang"> </span><span class="source-lf meta-targetspec-lflang constant-language-lflang">C</span><span class="source-lf meta-targetspec-lflang"> {</span>
+<span class="source-lf meta-targetspec-lflang variable-parameter-lflang">  platform</span><span class="source-lf meta-targetspec-lflang">: {</span>
+<span class="source-lf meta-targetspec-lflang variable-parameter-lflang">    name</span><span class="source-lf meta-targetspec-lflang">: Zephyr,</span>
+<span class="source-lf meta-targetspec-lflang variable-parameter-lflang">    user-threads</span><span class="source-lf meta-targetspec-lflang">: </span><span class="source-lf meta-targetspec-lflang constant-numeric-int-lflang">3</span>
+<span class="source-lf meta-targetspec-lflang">  },</span>
+<span class="source-lf meta-targetspec-lflang variable-parameter-lflang">  threading</span><span class="source-lf meta-targetspec-lflang">: </span><span class="source-lf meta-targetspec-lflang constant-language-lflang">true</span><span class="source-lf meta-targetspec-lflang">,</span>
+<span class="source-lf meta-targetspec-lflang variable-parameter-lflang">  workers</span><span class="source-lf meta-targetspec-lflang">: </span><span class="source-lf meta-targetspec-lflang constant-numeric-int-lflang">2</span>
+<span class="source-lf meta-targetspec-lflang">}</span>
+<span class="source-lf"></span>
+<span class="source-lf storage-modifier-lflang">main</span><span class="source-lf"> </span><span class="source-lf storage-modifier-lflang">reactor</span><span class="source-lf"> {</span>
+<span class="source-lf">  </span><span class="source-lf keyword-control-lflang">preamble</span><span class="source-lf"> {</span><span class="source-lf keyword-operator-lflang">=</span>
+<span class="source-lf comment-line-double-dash-lflang">    </span><span class="source-lf comment-line-double-dash-lflang">#include "platform.h"</span>
+<span class="source-lf">    void func(void</span><span class="source-lf keyword-operator-lflang">*</span><span class="source-lf"> arg) {</span>
+<span class="source-lf">        lf_print(</span><span class="source-lf string-quoted-double-lflang">"</span><span class="source-lf string-quoted-double-lflang">Hello from user thread</span><span class="source-lf string-quoted-double-lflang">"</span><span class="source-lf">);</span>
+<span class="source-lf">    }</span>
+<span class="source-lf"></span>
+<span class="source-lf">    lf_thread_t thread_ids[</span><span class="source-lf constant-numeric-int-lflang">4</span><span class="source-lf">];</span>
+<span class="source-lf">  </span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf">}</span>
+<span class="source-lf"></span>
+<span class="source-lf">  </span><span class="source-lf keyword-control-lflang">reaction</span><span class="source-lf">(</span><span class="source-lf support-variable-lflang">startup</span><span class="source-lf">) {</span><span class="source-lf keyword-operator-lflang">=</span>
+<span class="source-lf">    int res;</span>
+<span class="source-lf"></span>
+<span class="source-lf">    for (int i </span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf"> </span><span class="source-lf constant-numeric-int-lflang">0</span><span class="source-lf">; i < </span><span class="source-lf constant-numeric-int-lflang">3</span><span class="source-lf">; i</span><span class="source-lf keyword-operator-lflang">+</span><span class="source-lf keyword-operator-lflang">+</span><span class="source-lf">) {</span>
+<span class="source-lf">        res </span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf"> lf_thread_create(&thread_ids[i], &func, NULL);</span>
+<span class="source-lf">        if (res !</span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf"> </span><span class="source-lf constant-numeric-int-lflang">0</span><span class="source-lf">) {</span>
+<span class="source-lf">            lf_print_error_and_exit(</span><span class="source-lf string-quoted-double-lflang">"</span><span class="source-lf string-quoted-double-lflang">Could not create thread</span><span class="source-lf string-quoted-double-lflang">"</span><span class="source-lf">);</span>
+<span class="source-lf">        }</span>
+<span class="source-lf">    }</span>
+<span class="source-lf"></span>
+<span class="source-lf">    res </span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf"> lf_thread_create(&thread_ids[</span><span class="source-lf constant-numeric-int-lflang">3</span><span class="source-lf">], &func, NULL);</span>
+<span class="source-lf">    if (res </span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf"> </span><span class="source-lf constant-numeric-int-lflang">0</span><span class="source-lf">) {</span>
+<span class="source-lf">        lf_print_error_and_exit(</span><span class="source-lf string-quoted-double-lflang">"</span><span class="source-lf string-quoted-double-lflang">Could create more threads than specified.</span><span class="source-lf string-quoted-double-lflang">"</span><span class="source-lf">);</span>
+<span class="source-lf">    } else {</span>
+<span class="source-lf">        printf(</span><span class="source-lf string-quoted-double-lflang">"</span><span class="source-lf string-quoted-double-lflang">SUCCESS: Created exactly three user threads.</span><span class="source-lf string-quoted-double-lflang constant-character-escape">\n</span><span class="source-lf string-quoted-double-lflang">"</span><span class="source-lf">);</span>
+<span class="source-lf">    }</span>
+<span class="source-lf">  </span><span class="source-lf keyword-operator-lflang">=</span><span class="source-lf">}</span>
+<span class="source-lf">}</span>
+<span class="source-lf"></span>

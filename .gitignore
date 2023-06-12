@@ -1,7 +1,7 @@
 *.jar
 *.vsix
-.vscode
+.vscode-test
 node_modules/*
 out/*
 .gradle/*
-lingua-franca/
+__pycache__/*

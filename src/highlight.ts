@@ -30,9 +30,7 @@ export const legend = new SemanticTokensLegend(tokenTypes, tokenModifiers);
  * Returns whether `r` really, truly contains `other`, not whether `r`
  * contains `other` according to the seemingly inconsistent
  * implementation of `Range`.
- * @param r an arbitrary Range
- * @param other an arbitrary Position
- * @returns whether `r` contains `other`
+ * @returns Whether `r` contains `other`.
  */
 function contains(r: Range, other: Range | Position): boolean {
     if (other instanceof Position) return !(
@@ -44,9 +42,9 @@ function contains(r: Range, other: Range | Position): boolean {
 /**
  * Returns a list of all ranges contained by `range` that correspond to
  * words.
- * @param document - The document from which to extract tokens
- * @param range - The range of the document in which to search
- * @param shadow - The regions of the document to ignore
+ * @param document The document from which to extract tokens.
+ * @param range The range of the document in which to search.
+ * @param shadow The regions of the document to ignore.
  */
 function getWords(document: TextDocument, range: Range, shadow: Range[]): Range[] {
     function getWords(range?: Range): Range[] {
@@ -72,11 +70,8 @@ function getWords(document: TextDocument, range: Range, shadow: Range[]): Range[
     }
     return [].concat(...setDiff(document, range, shadow).map(getWords));
 }
-/**
- * Returns a Range containing the entirety of a given TextDocument.
- * @param document - A TextDocument
- * @returns a Range containing the entirety of document
- */
+
+/** Returns a Range containing the entirety of a given TextDocument. */
 function wholeDocument(document: TextDocument): Range {
     return new Range(
         new Position(0, 0),
@@ -87,13 +82,13 @@ function wholeDocument(document: TextDocument): Range {
 /**
  * Returns the ranges in an LF document that are not parsed normally,
  * such as comments, strings, and code blocks.
- * @param document - A Lingua Franca source code file
- * @returns the ranges in an LF document that are not parsed normally,
- *     such as comments, strings, and code blocks
+ * @param document A Lingua Franca source code file.
+ * @returns The ranges in an LF document that are not parsed normally,
+ *     such as comments, strings, and code blocks.
  */
 function standardShadow(document: TextDocument): Range[] {
     const ret: Range[] = [];
-    for (const [_, rangeList] of Object.entries(getNonLFBlocks(document))) {
+    for (const [, rangeList] of Object.entries(getNonLFBlocks(document))) {
         for (const range of rangeList) {
             ret.push(range);
         }
@@ -104,9 +99,9 @@ function standardShadow(document: TextDocument): Range[] {
 /**
  * Returns an object with the list of ranges corresponding to each type
  * of block that is not written in Lingua Franca.
- * @param document - The document from which to extract ranges
- * @returns an object with the list of ranges corresponding to each type
- *     of block that is not LF
+ * @param document The document from which to extract ranges
+ * @returns An object with the list of ranges corresponding to each type
+ *     of block that is not LF.
  */
 function getNonLFBlocks(document: TextDocument): {
     comments: Range[], strings: Range[], code: Range[]
@@ -129,9 +124,9 @@ function getNonLFBlocks(document: TextDocument): {
 /**
  * Returns the programmatic (i.e., not comments or strings) ranges of
  * the given reactor body.
- * @param document an LF document
- * @param reactorBody the body of a reactor
- * @returns the programmatic ranges contained in `reactorBody`
+ * @param document An LF document.
+ * @param reactorBody The body of a reactor.
+ * @returns The programmatic ranges contained in `reactorBody`.
  */
 function getProgrammaticContent(
     document: TextDocument, reactorBody: Range
@@ -158,12 +153,12 @@ function getProgrammaticContent(
 
 /**
  * Returns the ranges beginning and ending with the given patterns.
- * @param document the document from which the ranges are to be found
- * @param patterns pairs of beginnings and corresponding endings for
- * each type of range
- * @param initialOffset the initial offset from which to search
- * @param finalOffset the offset at which to stop searching
- * @returns the ranges beginning and ending with the given patterns
+ * @param document The document from which the ranges are to be found.
+ * @param patterns Pairs of beginnings and corresponding endings for
+ * each type of range.
+ * @param initialOffset The initial offset from which to search.
+ * @param finalOffset The offset at which to stop searching.
+ * @returns The ranges beginning and ending with the given patterns.
  */
 function getMutuallyExclusiveRanges(
     document: TextDocument,
@@ -206,12 +201,12 @@ function getMutuallyExclusiveRanges(
 /**
  * Returns a representation of the set difference of the Positions
  * contained by `range` and `shadowRanges`, respectively.
- * @param range - A Range that may intersect with some elements of
- *     shadowRanges
- * @param shadowRanges - An array of ranges
- * @returns a list of disjoint ranges whose union contains a Position
+ * @param range A Range that may intersect with some elements of
+ *     shadowRanges.
+ * @param shadowRanges An array of ranges.
+ * @returns A list of disjoint ranges whose union contains a Position
  *     iff (`range` contains that position, and no element of
- *     `shadowRanges` contains that position)
+ *     `shadowRanges` contains that position).
  */
 function setDiff(
     document: TextDocument, range: Range, shadowRanges: Range[]
@@ -258,14 +253,14 @@ function setDiff(
  * including the entirety of '(a(b(c)d)e)', except for the first and last
  * character. The nesting depth of a token is never negative.
  * 
- * @param document - The document to be examined for contained ranges
- * @param range - The range within the document in which to search
- * @param begin - The token that causes an increment of nesting depth
- * @param end - The token that causes a decrement of nesting depth. Must
+ * @param document The document to be examined for contained ranges.
+ * @param range The range within the document in which to search.
+ * @param begin The token that causes an increment of nesting depth.
+ * @param end The token that causes a decrement of nesting depth. Must
  *     not be equal to begin.
- * @param shadowRanges - The ranges which detected matches to `begin`
+ * @param shadowRanges The ranges which detected matches to `begin`
  *     and `end` may not intersect
- * @param possibleNesting - Whether nesting depth greater than 1 is
+ * @param possibleNesting Whether nesting depth greater than 1 is
  *     possible
  */
 function getContainedRanges(
@@ -297,7 +292,7 @@ function getContainedRanges(
         while (isInShadowRange(current) && current != -1) {
             current = text.indexOf(token, current + token.length);
         }
-        if (current == -1 || current >= endOffset) return endOffset;
+        if (current === -1 || current >= endOffset) return endOffset;
         return current;
     }
 
@@ -307,11 +302,11 @@ function getContainedRanges(
         if (nextBegin < nextEnd) {
             if (possibleNesting || !depth) depth++;
             current = nextBegin + begin.length;
-            if (depth == 1) rangeStart = document.positionAt(current);
+            if (depth === 1) rangeStart = document.positionAt(current);
         } else {
             if (depth) {
                 depth--;
-                if (depth == 0) {
+                if (depth === 0) {
                     ret.push(
                         new Range(rangeStart, document.positionAt(nextEnd))
                     );
@@ -326,10 +321,10 @@ function getContainedRanges(
 /**
  * Returns an array of objects representing the locations of reactors in
  * `document`.
- * @param document - A document in which to search for reactors
- * @param range - The range in which to search for reactors
+ * @param document A document in which to search for reactors.
+ * @param range The range in which to search for reactors
  * @return an array of objects representing the locations of reactors in
- *     `document`
+ *     `document`.
  */
 function getReactors(
     document: TextDocument, range: Range
@@ -354,13 +349,13 @@ function getReactors(
 /**
  * Associates `tokenType` and `tokenModifiers` with matches to elements
  * of `tokens` that appear in some element of `ranges`.
- * @param document - The document in which to search for tokens
- * @param ranges - The ranges in `document` in which to search for tokens
- * @param tokens - The tokens for which to search
- * @param tokenType - The token type associated with the given tokens
- * @param tokenModifiers - The modifiers associated with the given tokens
- * @param tokensBuilder - The object that records the range-token type
- *     associations generated by this function
+ * @param document The document in which to search for tokens.
+ * @param ranges The ranges in `document` in which to search for tokens.
+ * @param tokens The tokens for which to search.
+ * @param tokenType The token type associated with the given tokens.
+ * @param tokenModifiers The modifiers associated with the given tokens.
+ * @param tokensBuilder The object that records the range-token type
+ *     associations generated by this function.
  */
 function applyTokenType(
     document: TextDocument, ranges: Range[], tokens: string[],
@@ -387,8 +382,8 @@ function applyTokenType(
 /**
  * Pushes semantic labels associated with type parameters to
  * `tokensBuilder`.
- * @param document - The document to be analyzed for type parameters
- * @param tokensBuilder  - The object that accumulates semantic labels
+ * @param document The document to be analyzed for type parameters.
+ * @param tokensBuilder The object that accumulates semantic labels.
  */
 function provideTypeParameters(
     document: TextDocument,
@@ -424,8 +419,8 @@ function provideTypeParameters(
 /**
  * Pushes semantic labels associated with parameters and their
  * associated types and default values to `tokensBuilder`.
- * @param document - The document to be analyzed for parameters
- * @param tokensBuilder  - The object that accumulates semantic labels
+ * @param document The document to be analyzed for parameters.
+ * @param tokensBuilder The object that accumulates semantic labels.
  */
 function provideParameters(
     document: TextDocument,
@@ -490,8 +485,8 @@ function provideParameters(
 
 /**
  * Pushes semantic labels associated with variables to `tokensBuilder`.
- * @param document - The document to be analyzed for variables
- * @param tokensBuilder  - The object that accumulates semantic labels
+ * @param document The document to be analyzed for variables.
+ * @param tokensBuilder The object that accumulates semantic labels.
  */
 function provideVariables(
     document: TextDocument,
@@ -525,9 +520,9 @@ function provideVariables(
 /**
  * Pushes semantic labels associated with the assignment of values to
  * reactor parameters to `tokensBuilder`.
- * @param document - The document to be analyzed for parameter
- * assignments
- * @param tokensBuilder - The object that accumulates semantic labels
+ * @param document The document to be analyzed for parameter
+ * assignments.
+ * @param tokensBuilder The object that accumulates semantic labels.
  */
 function provideParameterAssignments(
     document: TextDocument,
@@ -560,9 +555,8 @@ function provideParameterAssignments(
  * Returns semantic labels associated with a subset of the tokens in
  * a document.
  * 
- * @param document - The document to be semantically analyzed
- * @returns - Semantic labels associated with some subset of the
- * document's tokens
+ * @param document The document to be semantically analyzed.
+ * @returns Semantic labels associated with some subset of the document's tokens.
  */
 export const semanticTokensProvider: DocumentSemanticTokensProvider = {
     provideDocumentSemanticTokens(

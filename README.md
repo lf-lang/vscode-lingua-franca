@@ -1,31 +1,55 @@
-# VS Code Extension
+# Lingua Franca support for Visual Studio Code
+[![CI](https://github.com/lf-lang/vscode-lingua-franca/actions/workflows/ci.yml/badge.svg)](https://github.com/lf-lang/vscode-lingua-franca/actions/workflows/ci.yml)
 
-## Production Build
-The extension is built and installed by the Gradle task "startCode":
-> ./gradlew startCode
+This extension adds language support for [Lingua Franca (LF)](https://www.lf-lang.org/). It is based on the LF Language and Diagram Server and provides:
+* find references
+* folding ranges
+* get workspace symbols
+* hover
+* [KlighD](https://github.com/kieler/KLighD)-based interactive diagrams (click on diagrams icon: ![image](https://user-images.githubusercontent.com/33707478/130875545-ad78a9b7-a07b-4eb9-be59-f6c758cc816b.png))
+* syntax highlighting
+* target syntax highlighting
+* code validation upon edit
+* target code validation upon build or file save
+* user-triggered build (<kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>P</kbd>, then `Lingua Franca: Build`) 
+* user-triggered build and run (<kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>P</kbd>, then `Lingua Franca: Build and Run`) 
 
-The installation process requires that the following are true:
-* Python 3 (`python3`) is installed. (Currently, the workaround if Python is invoked by `python` instead of `python3` on your machine is to edit `org.lflang.lds/pom.xml` to specify `python` in place of `python3`.)
-* VS Code (`code`) is installed.
-* Maven (`mvn`) is installed.
-* Java 11 is your default JDK (specified by the JAVA\_HOME environment variable)
-* You have deleted the untracked directories `org.lflang/src-gen` and `org.lflang/xtend-gen`, which
-may contain generated code from a different branch.
+## Quick Start
+ 1. Install this plugin from the [VSCode
+    Marketplace](https://marketplace.visualstudio.com/items?itemName=lf-lang.vscode-lingua-franca)/[Open VSX Registry](https://open-vsx.org/extension/lf-lang/vscode-lingua-franca)
+    (in the command palette <kbd>Ctrl</kbd> + <kbd>P</kbd>, enter `ext install lf-lang.vscode-lingua-franca`)
+ 2. (Skip this step if you already have Lingua Franca projects that you'd like
+    to work on.) Create a new Lingua Franca project by creating a `<My Project
+    Name>/src` folder and putting a file in it that has the `.lf` extension.
+ 3. Open a Lingua Franca project (`File > Add Folder to Workspace...`). The Explorer (upper left in sidebar) should now show your project files. Open the `.lf` file you created.
+ 4. (Optional) Show the diagram for this file by clicking on the diagrams icon at the upper right: ![image](https://user-images.githubusercontent.com/33707478/130875545-ad78a9b7-a07b-4eb9-be59-f6c758cc816b.png))
+ 5. Compile the `.lf` file and run it using (<kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>P</kbd>, then `Lingua Franca: Build and Run`).
 
-This build process begins and ends with Gradle tasks, but it also depends on Tycho for collecting dependencies and a Python script for creating a fat jar with those dependencies.
+## Requirements
+This extension requires **Java 17 or up** in order to run its embedded Lingua Franca language server. You might need to install additional software to be able to build or execute target code produced by the Lingua Franca compiler. The extension reports missing dependencies upon attempting to build or run.
 
-## Development Build
-For development purposes, it is possible to manually perform an incremental build simply by bypassing Maven and Gradle entirely and instead running the Python script `org.lflang.lds/uf.py`. This script will re-compile Java and Kotlin files and add them to the fat jar using the `jar` command with the `-uf` flag.
+## Settings
 
-This is not ideal. If there were an IDE that could build the Language and Diagram Server, then development would be easier. However, there is no such IDE.
+Automatic code generation is enabled by default to allow target code to be validated on save. To disable automatic code generation, add the following to `.vscode/settings.json`:
+```json
+{
+    "linguafranca.generateCodeOnSave": false
+}
+```
 
-1. Ensure that the appropriate compiler is on your PATH.
-  * To build Java files, `javac` is required.
-  * To build Kotlin files, [the Kotlin JVM compiler](https://github.com/JetBrains/kotlin/releases/tag/v1.5.30) `kotlinc` is required. It must be the JVM compiler, not the native compiler.
-2. Ensure that the language and diagram server fat JAR exists. This file is called `vscode-extension\ls\lflang-lds.jar`. If it does not exist, then it is necessary to build it using the build task: `./gradlew startCode`.
-3. `cd` into the `org.lflang.lds` directory and run the command: ```python3 uf.py <CANONICAL_NAME>``` where <CANONICAL_NAME> is either:
-* the canonical name of a package that you would like to update, or
-* the canonical name of the class that you would like to update. An example would be: ```python3 uf.py org.lflang.FileConfig```. This will also update any nested classes, and it should work as you would expect even for Kotlin files that do not include exactly one top-level class.
-4. Open `vscode-extension\src\extension.ts` in Visual Studio Code.
-5. Press <kbd>F5</kbd> to run the extension in a new Extension Development Host window.
+## Contributing
+We very much appreciate contributions in the form of 
+[code, tests, documentation](https://github.com/lf-lang/vscode-lingua-franca/pulls), [bug reports, and feature requests](https://github.com/lf-lang/vscode-lingua-franca/issues). 
+For more details, see
+[CONTRIBUTING.md](https://github.com/lf-lang/vscode-lingua-franca/blob/main/CONTRIBUTING.md).
 
+### Join us!
+<a href="https://github.com/lf-lang/vscode-lingua-franca/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=lf-lang/vscode-lingua-franca" />
+</a>
+
+# Configuration
+## Diagrams
+To enable diagram-based code navigation, go to `Settings > Extensions > KLighD
+Diagram` and deactivate `Initial Should Select Diagram` and activate `Initial
+Should Select Text` instead.

@@ -1,118 +1,121 @@
 'use strict';
 
 import * as path from 'path';
-import * as os from 'os';
 import * as fs from 'fs';
 
 import { Trace } from 'vscode-jsonrpc';
-import { commands, window, workspace, ExtensionContext, languages, TextEditor, TextDocument } from 'vscode';
-import { LanguageClient, LanguageClientOptions, ServerOptions } from 'vscode-languageclient';
+import * as vscode from 'vscode';
+import { connect, NetConnectOpts, Socket } from 'net';
+import { LanguageClient, LanguageClientOptions, ServerOptions, StreamInfo } from 'vscode-languageclient';
 import { legend, semanticTokensProvider } from './highlight';
-import { Config } from './config'
+import * as config from './config';
+import { registerBuildCommands, registerNewFileCommand } from './build_commands';
+import * as checkDependencies from './check_dependencies';
 
 let client: LanguageClient;
+let socket: Socket
 
-export async function activate(context: ExtensionContext) {
-    let javaArgs: string[];
-    
-    const ldsJar = context.asAbsolutePath(path.join(Config.libDirName, Config.ldsJarName));
-    const hasDiagrams = fs.existsSync(ldsJar);
+export async function activate(context: vscode.ExtensionContext) {
 
-    if (hasDiagrams) {
-        // Get os to select platform dependent SWT library
-        let swt: string;
-        let cpSep = ':';
-        switch(os.platform()) {
-            case 'win32': 
-                swt = context.asAbsolutePath(path.join(Config.libDirName, 'org.eclipse.swt.win32.win32.jar'));
-                cpSep = ';';
-                break;
-            case 'darwin': 
-                swt = context.asAbsolutePath(path.join(Config.libDirName, 'org.eclipse.swt.cocoa.macosx.jar'));
-                break;
-            default: // maybe a bit too optimistic
-                swt = context.asAbsolutePath(path.join(Config.libDirName, 'org.eclipse.swt.gtk.linux.jar'));
-                break;
-        }
-        javaArgs = ['-cp', ldsJar+cpSep+swt, 'org.lflang.diagram.lsp.LanguageDiagramServer'];
-    } else {
-        // This assumes the extention was build with the standart LS without diagrams only named lflang.jar (requires manual activation in the gradle script)
-        javaArgs = ['-jar', context.asAbsolutePath(path.join(Config.libDirName, 'lflang.jar'))];
-    }
-    
-    // TODO check if correct java is available
-    let serverOptions: ServerOptions = {
-        run : { command: 'java', args: javaArgs },
-        debug: { command: 'java', args: javaArgs, options: { env: createDebugEnv() } }
-    };
-    
-    let clientOptions: LanguageClientOptions = {
-        documentSelector: ['lflang'],
-        synchronize: {
-            fileEvents: workspace.createFileSystemWatcher('**/*.*')
-        }
-    };
-    
-    client = new LanguageClient('LF Language Server', serverOptions, clientOptions);
-    // enable tracing (.Off, .Messages, Verbose)
-    client.trace = Trace.Verbose;
-
-    if (hasDiagrams) {
-        // Register with Klighd Diagram extension
-        const refId = await commands.executeCommand(
-            "klighd-vscode.setLanguageClient",
-            client,
-            ["lf"]
-        );
-    }
-
-    client.start();
-
-    context.subscriptions.push(commands.registerTextEditorCommand(
-        'linguafranca.build',
-        (textEditor: TextEditor, _) => {
-            const uri = getLfUri(textEditor.document)
-            if (!uri) {
-                window.showErrorMessage(
-                    'The currently active file is not a Lingua Franca source '
-                    + 'file.'
-                );
-                return;
-            };
-            workspace.saveAll().then(function(successful) {
-                if (!successful) return;
-                client.sendNotification('generator/build', uri);
-            });
-        }
-    ));
-    workspace.onDidSaveTextDocument(function(textDocument: TextDocument) {
-        const uri = getLfUri(textDocument);
-        if (!uri) return; // This is not an LF document, so do nothing.
-        client.sendNotification('generator/partialBuild', uri);
-    })
-
-    context.subscriptions.push(languages.registerDocumentSemanticTokensProvider(
+    context.subscriptions.push(vscode.languages.registerDocumentSemanticTokensProvider(
         { language: 'lflang', scheme: 'file' },
         semanticTokensProvider,
         legend
     ));
+
+    checkDependencies.registerDependencyWatcher();
+
+    if (!(
+        await checkDependencies.checkerFor
+        (checkDependencies.Dependency.Java)
+        (vscode.window.showErrorMessage)
+        ()
+    )) return;
+
+    const serverOptions: ServerOptions = createServerOptions(context);
+
+    const clientOptions: LanguageClientOptions = {
+        documentSelector: ['lflang'],
+        synchronize: {
+            fileEvents: vscode.workspace.createFileSystemWatcher('**/*.*')
+        }
+    };
+
+    client = new LanguageClient('LF Language Server', serverOptions, clientOptions);
+    // enable tracing (.Off, .Messages, Verbose)
+    client.trace = Trace.Verbose;
+
+    // Register with Klighd Diagram extension
+    const refId = await vscode.commands.executeCommand(
+        'klighd-vscode.setLanguageClient',
+        client,
+        ['lf']
+    );
+
+    client.start();
+
+    registerBuildCommands(context, client);
+    registerNewFileCommand(context);
 }
 
-function getLfUri(textDocument: TextDocument): string | undefined {
-    const uri: string = textDocument.uri.toString();
-    if (!uri.endsWith('.lf')) return undefined;
-    return uri;
+/**
+ * Depending on the launch configuration, returns {@link ServerOptions} that either
+ * connects to a socket or starts the LS as a process. It uses a socket if the
+ * environment variable `LF_LS_PORT` is present. Otherwise it runs the jar located
+ * at `lib/lflang-lds.jar`.
+ */
+ function createServerOptions(context: vscode.ExtensionContext): ServerOptions {
+    // Connect to language server via socket if a port is specified as an env variable
+    if (typeof process.env.LF_LS_PORT !== 'undefined') {
+        const connectionInfo: NetConnectOpts = {
+            port: parseInt(process.env.LF_LS_PORT, 10),
+        };
+        console.log('Connecting to language server on port: ', connectionInfo.port);
+
+        return async () => {
+            socket = connect(connectionInfo);
+            const result: StreamInfo = {
+                writer: socket,
+                reader: socket,
+            };
+            return result;
+        };
+    } else { // Start LDS Jar
+        const ldsJar = context.asAbsolutePath(path.join(config.libDirName, config.ldsJarName));
+
+        console.log('Spawning the language server as a process.');
+        console.assert(fs.existsSync(ldsJar));
+
+        return {
+            run: {
+                command: 'java',
+                args: ['-Djava.awt.headless=true', '-jar', ldsJar]
+            },
+            debug: {
+                command: 'java',
+                args: ['-Djava.awt.headless=true', '-jar', ldsJar],
+                options: { env: createDebugEnv() }
+            },
+        };
+    }
 }
 
 function createDebugEnv() {
     return Object.assign({
-        JAVA_OPTS:"-Xdebug -Xrunjdwp:server=y,transport=dt_socket,address=8000,suspend=n,quiet=y"
-    }, process.env)
+        JAVA_OPTS:'-Xdebug -Xrunjdwp:server=y,transport=dt_socket,address=8000,suspend=n,quiet=y'
+    }, process.env);
 }
 
 export function deactivate(): Thenable<void> | undefined {
     if (!client) {
         return undefined;
     }
-    return client.stop();
+    if (socket) {
+        // Don't call client.stop when we are connected via socket for development.
+        // That call will end the LS server, leading to a bad dev experience.
+        socket.end();
+        return;
+    } else {
+        return client.stop();
+    }
 }
