@@ -52,9 +52,9 @@ function annotateCode(code: string, grammar: vsctm.IGrammar): string {
     let lengthAppended = 0
     for (const token of result.tokens) {
       annotatedLine += line.substring(lengthAppended, token.startIndex)
-      annotatedLine += `<span class="${token.scopes.join(" ").replace(/\./g, "-")}">${
+      annotatedLine += `<span class="${token.scopes.join(" ").replace(/\./g, "-")}">\n${
         line.substring(token.startIndex, token.endIndex)
-      }</span>`
+      }\n</span>\n`
       lengthAppended = token.endIndex
     }
     annotatedLine += line.substring(lengthAppended, line.length)
@@ -75,7 +75,7 @@ suite('test syntax highlighting', () => {
             const code = fs.readFileSync(file).toString()
             const annotated = annotateCode(code, grammar)
             const relPath = path.relative(path.join(root, "lingua-franca", "test"), file)
-            const testPath = path.resolve(root, "test", "known-good", relPath.replace(".lf", ".txt"))
+            const testPath = path.resolve(root, "test", "known-good", relPath.replace(".lf", ".html"))
             if (fs.existsSync(testPath)) {
                 const knownGood = fs.readFileSync(testPath).toString()
                 try {
