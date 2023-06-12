@@ -97,7 +97,7 @@
                     "include": "#startup-shutdown"
                 },
                 {
-                    "include": "#time"
+                    "include": "#type-certain"
                 },
                 {
                     "include": "#instantiation"
@@ -501,9 +501,9 @@
             "name": "support.variable.lflang",
             "match": "\\b(startup|shutdown|reset)\\b"
         },
-        "time": {
+        "type-certain": {
             "name": "storage.type.lflang",
-            "match": "\\b(time)\\b"
+            "match": "\\b(time)\\b|((?<=:\\s)\\w+\\b)"
         },
         "instantiation": {
             "patterns": [
