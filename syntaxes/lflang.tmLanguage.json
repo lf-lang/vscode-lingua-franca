@@ -43,9 +43,6 @@
                 },
                 {
                     "include": "#context-insensitive"
-                },
-                {
-                    "include": "#type"
                 }
             ]
         },
@@ -79,7 +76,7 @@
                     "include": "#timer"
                 },
                 {
-                    "include": "#member-type"
+                    "include": "#reactor-member"
                 },
                 {
                     "include": "#number"
@@ -134,28 +131,46 @@
         "c-or-cpp-target": {
             "patterns": [
                 {
-                    "begin": "(?<=(input|state))\\s+\\w+\\s*:",
+                    "begin": "(?<=(input|state))",
                     "end": "[\\(\\{;=\\n]|(?=\\{=)",
-                    "name": "meta.embedded.block.cpp",
                     "patterns": [
                         {
-                            "include": "source.cpp"
+                            "include": "#nested-member-id"
                         },
                         {
-                            "include": "#type"
+                            "begin": "(?<=:)",
+                            "end": "(?=[\\(\\{;=\\n])",
+                            "name": "meta.embedded.block.cpp",
+                            "patterns": [
+                                {
+                                    "include": "#type"
+                                },
+                                {
+                                    "include": "source.cpp"
+                                }
+                            ]
                         }
                     ]
                 },
                 {
-                    "begin": "(?<=(output|action))\\s+\\w+\\s*:",
+                    "begin": "(?<=(output|action))",
                     "end": "[\\(;\\n]|(?=\\{=)",
-                    "name": "meta.embedded.block.cpp",
                     "patterns": [
                         {
-                            "include": "source.cpp"
+                            "include": "#nested-member-id"
                         },
                         {
-                            "include": "#type"
+                            "begin": "(?<=:)",
+                            "end": "(?=[\\(\\{;=\\n])",
+                            "name": "meta.embedded.block.cpp",
+                            "patterns": [
+                                {
+                                    "include": "#type"
+                                },
+                                {
+                                    "include": "source.cpp"
+                                }
+                            ]
                         }
                     ]
                 },
@@ -373,9 +388,31 @@
             "name": "storage.modifier.lflang",
             "match": "\\b(timer)\\b"
         },
-        "member-type": {
-            "begin": "(input|output|action|state).*:(\\s*)",
-            "end": "[\\(\\{;=\\n]",
+        "reactor-member": {
+            "begin": "(?<=\\b(input |output|action|state )\\b)",
+            "end": "(?=[\\(\\{;=\\n])",
+            "patterns": [
+                {
+                    "include": "#nested-member-id"
+                },
+                {
+                    "include": "#nested-member-type"
+                }
+            ]
+        },
+        "nested-member-id": {
+            "patterns": [{
+                "begin": "(?<=(\\binput\\b |\\boutput\\b|\\baction\\b|\\bstate\\b ))",
+                "end": "(?=[:\\(\\{;=\\n])",
+                "patterns": [{
+                    "name": "variable.other.lflang",
+                    "match": "\\b(\\w+)\\b"
+                }]
+            }]
+        },
+        "nested-member-type": {
+            "begin": "(?<=:)",
+            "end": "(?=[\\(\\{;=\\n])",
             "patterns": [{
                 "include": "#type"
             }]
