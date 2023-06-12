@@ -260,9 +260,6 @@
                     "include": "#context-insensitive"
                 },
                 {
-                    "include": "#type"
-                },
-                {
                     "name": "keyword.control.import.lflang",
                     "match": "\\b(import)\\b|\\b(as)\\b|\\b(from)\\b"
                 },
