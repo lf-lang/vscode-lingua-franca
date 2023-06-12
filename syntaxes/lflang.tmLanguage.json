@@ -43,9 +43,6 @@
                 },
                 {
                     "include": "#context-insensitive"
-                },
-                {
-                    "include": "#type"
                 }
             ]
         },
@@ -79,6 +76,9 @@
                     "include": "#timer"
                 },
                 {
+                    "include": "#reactor-member"
+                },
+                {
                     "include": "#number"
                 },
                 {
@@ -97,7 +97,7 @@
                     "include": "#startup-shutdown"
                 },
                 {
-                    "include": "#time"
+                    "include": "#type-certain"
                 },
                 {
                     "include": "#instantiation"
@@ -131,28 +131,46 @@
         "c-or-cpp-target": {
             "patterns": [
                 {
-                    "begin": "(?<=(input|state))\\s+\\w+\\s*:",
-                    "end": "[\\(;\\n]|(?=\\{=)",
-                    "name": "meta.embedded.block.cpp",
+                    "begin": "(?<=(input|state))",
+                    "end": "[\\(\\{;=\\n]|(?=\\{=)",
                     "patterns": [
                         {
-                            "include": "source.cpp"
+                            "include": "#nested-member-id"
                         },
                         {
-                            "include": "#type"
+                            "begin": "(?<=:)",
+                            "end": "(?=[\\(\\{;=\\n])",
+                            "name": "meta.embedded.block.cpp",
+                            "patterns": [
+                                {
+                                    "include": "#type"
+                                },
+                                {
+                                    "include": "source.cpp"
+                                }
+                            ]
                         }
                     ]
                 },
                 {
-                    "begin": "(?<=(output|action))\\s+\\w+\\s*:",
+                    "begin": "(?<=(output|action))",
                     "end": "[\\(;\\n]|(?=\\{=)",
-                    "name": "meta.embedded.block.cpp",
                     "patterns": [
                         {
-                            "include": "source.cpp"
+                            "include": "#nested-member-id"
                         },
                         {
-                            "include": "#type"
+                            "begin": "(?<=:)",
+                            "end": "(?=[\\(\\{;=\\n])",
+                            "name": "meta.embedded.block.cpp",
+                            "patterns": [
+                                {
+                                    "include": "#type"
+                                },
+                                {
+                                    "include": "source.cpp"
+                                }
+                            ]
                         }
                     ]
                 },
@@ -255,9 +273,6 @@
             "patterns": [
                 {
                     "include": "#context-insensitive"
-                },
-                {
-                    "include": "#type"
                 },
                 {
                     "name": "keyword.control.import.lflang",
@@ -373,15 +388,44 @@
             "name": "storage.modifier.lflang",
             "match": "\\b(timer)\\b"
         },
+        "reactor-member": {
+            "begin": "(?<=\\b(input |output|action|state )\\b)",
+            "end": "(?=[\\(\\{;=\\n])",
+            "patterns": [
+                {
+                    "include": "#nested-member-id"
+                },
+                {
+                    "include": "#nested-member-type"
+                }
+            ]
+        },
+        "nested-member-id": {
+            "patterns": [{
+                "begin": "(?<=(\\binput\\b |\\boutput\\b|\\baction\\b|\\bstate\\b ))",
+                "end": "(?=[:\\(\\{;=\\n])",
+                "patterns": [{
+                    "name": "variable.other.lflang",
+                    "match": "\\b(\\w+)\\b"
+                }]
+            }]
+        },
+        "nested-member-type": {
+            "begin": "(?<=:)",
+            "end": "(?=[\\(\\{;=\\n])",
+            "patterns": [{
+                "include": "#type"
+            }]
+        },
         "type": {
             "patterns": [
                 {
                     "name": "entity.name.type.lflang",
-                    "match": "(?<=:)\\s*(\\b([A-Z]\\w*)\\b)"
+                    "match": "\\b([A-Z]\\w*)\\b"
                 },
                 {
                     "name": "storage.type.lflang",
-                    "match": "(?<=:)\\s*(\\b(\\w+)\\b)"
+                    "match": "\\b(\\w+)\\b"
                 }
             ]
         },
@@ -447,7 +491,7 @@
         },
         "time-unit": {
             "name": "constant.numeric.lflang",
-            "match": "\\b(nsec|nsecs|usec|usecs|msec|msecs|sec|secs|second|seconds|min|mins|minute|minutes|hour|hours|day|days|week|weeks)\\b"
+            "match": "\\b\\d*(nsec|nsecs|usec|usecs|msec|msecs|sec|secs|second|seconds|min|mins|minute|minutes|hour|hours|day|days|week|weeks)\\b"
         },
         "operator": {
             "name": "keyword.operator.lflang",
@@ -457,14 +501,14 @@
             "name": "support.variable.lflang",
             "match": "\\b(startup|shutdown|reset)\\b"
         },
-        "time": {
+        "type-certain": {
             "name": "storage.type.lflang",
-            "match": "\\b(time)\\b"
+            "match": "\\b(time)\\b|((?<=:\\s)\\w+\\b)"
         },
         "instantiation": {
             "patterns": [
                 {
-                    "name": "keyword.operator.new.lflang",
+                    "name": "keyword.control.new.lflang",
                     "match": "\\b(new)\\b"
                 },
                 {
@@ -474,6 +518,13 @@
                 {
                     "name": "entity.name.type.lflang",
                     "match": "(?<=new\\s)\\s*(\\[[^\\]]*\\])?\\s*(\\w+)\\b"
+                },
+                {
+                    "begin": "(?<=\\s*=\\s*new\\s*(\\[[^\\]]*\\])?\\s+\\w+\\s*)<",
+                    "end": ">",
+                    "patterns": [{
+                        "include": "#type"
+                    }]
                 }
             ]
         },

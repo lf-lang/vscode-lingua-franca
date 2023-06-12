@@ -35,11 +35,20 @@ GeneratedDelay
 <span class="source-lf storage-modifier-lflang">
 input
 </span>
+<span class="source-lf">
+ 
+</span>
+<span class="source-lf variable-other-lflang">
+y_in
+</span>
+<span class="source-lf">
+:
+</span>
 <span class="source-lf meta-embedded-block-cpp">
- y_in:
+ 
 </span>
 <span class="source-lf meta-embedded-block-cpp storage-type-lflang">
- int
+int
 </span>
 
 <span class="source-lf">
@@ -48,11 +57,20 @@ input
 <span class="source-lf storage-modifier-lflang">
 output
 </span>
+<span class="source-lf">
+ 
+</span>
+<span class="source-lf variable-other-lflang">
+y_out
+</span>
+<span class="source-lf">
+:
+</span>
 <span class="source-lf meta-embedded-block-cpp">
- y_out:
+ 
 </span>
 <span class="source-lf meta-embedded-block-cpp storage-type-lflang">
- int
+int
 </span>
 
 <span class="source-lf">
@@ -61,14 +79,32 @@ output
 <span class="source-lf storage-modifier-lflang">
 state
 </span>
+<span class="source-lf">
+ 
+</span>
+<span class="source-lf variable-other-lflang">
+y_state
+</span>
+<span class="source-lf">
+:
+</span>
 <span class="source-lf meta-embedded-block-cpp">
- y_state:
+ 
 </span>
 <span class="source-lf meta-embedded-block-cpp storage-type-lflang">
- int
+int
 </span>
 <span class="source-lf meta-embedded-block-cpp">
- = 0
+ 
+</span>
+<span class="source-lf">
+=
+</span>
+<span class="source-lf">
+ 
+</span>
+<span class="source-lf constant-numeric-int-lflang">
+0
 </span>
 
 <span class="source-lf">
@@ -84,7 +120,13 @@ logical
 action
 </span>
 <span class="source-lf">
- act(
+ 
+</span>
+<span class="source-lf variable-other-lflang">
+act
+</span>
+<span class="source-lf">
+(
 </span>
 <span class="source-lf constant-numeric-int-lflang">
 100
@@ -110,7 +152,10 @@ msec
 reaction
 </span>
 <span class="source-lf">
-(y_in) 
+(
+</span>
+<span class="source-lf">
+y_in) 
 </span>
 <span class="source-lf keyword-operator-lflang">
 ->
@@ -129,9 +174,12 @@ reaction
 ->
 </span>
 <span class="source-lf">
-y_state 
+y_state
 </span>
-<span class="source-lf keyword-operator-lflang">
+<span class="source-lf">
+ 
+</span>
+<span class="source-lf">
 =
 </span>
 <span class="source-lf">
@@ -175,7 +223,10 @@ value;
 reaction
 </span>
 <span class="source-lf">
-(act) 
+(
+</span>
+<span class="source-lf">
+act) 
 </span>
 <span class="source-lf keyword-operator-lflang">
 ->
@@ -193,7 +244,16 @@ reaction
 ->
 </span>
 <span class="source-lf">
-y_state); 
+y_state
+</span>
+<span class="source-lf">
+)
+</span>
+<span class="source-lf">
+;
+</span>
+<span class="source-lf">
+ 
 </span>
 <span class="source-lf keyword-operator-lflang">
 =
@@ -229,11 +289,20 @@ Source
 <span class="source-lf storage-modifier-lflang">
 output
 </span>
+<span class="source-lf">
+ 
+</span>
+<span class="source-lf variable-other-lflang">
+out
+</span>
+<span class="source-lf">
+:
+</span>
 <span class="source-lf meta-embedded-block-cpp">
- out:
+ 
 </span>
 <span class="source-lf meta-embedded-block-cpp storage-type-lflang">
- int
+int
 </span>
 
 <span class="source-lf">
@@ -307,11 +376,20 @@ Sink
 <span class="source-lf storage-modifier-lflang">
 input
 </span>
+<span class="source-lf">
+ 
+</span>
+<span class="source-lf variable-other-lflang">
+in
+</span>
+<span class="source-lf">
+:
+</span>
 <span class="source-lf meta-embedded-block-cpp">
- in:
+ 
 </span>
 <span class="source-lf meta-embedded-block-cpp storage-type-lflang">
- int
+int
 </span>
 
 <span class="source-lf">
@@ -325,7 +403,10 @@ input
 reaction
 </span>
 <span class="source-lf">
-(in) {
+(
+</span>
+<span class="source-lf">
+in) {
 </span>
 <span class="source-lf keyword-operator-lflang">
 =
@@ -534,7 +615,7 @@ source
 <span class="source-lf">
  
 </span>
-<span class="source-lf keyword-operator-new-lflang">
+<span class="source-lf keyword-control-new-lflang">
 new
 </span>
 <span class="source-lf">
@@ -562,7 +643,7 @@ sink
 <span class="source-lf">
  
 </span>
-<span class="source-lf keyword-operator-new-lflang">
+<span class="source-lf keyword-control-new-lflang">
 new
 </span>
 <span class="source-lf">
@@ -590,7 +671,7 @@ g
 <span class="source-lf">
  
 </span>
-<span class="source-lf keyword-operator-new-lflang">
+<span class="source-lf keyword-control-new-lflang">
 new
 </span>
 <span class="source-lf">

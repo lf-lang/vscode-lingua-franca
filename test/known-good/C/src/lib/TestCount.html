@@ -57,10 +57,10 @@ reactor
 TestCount
 </span>
 <span class="source-lf">
-(start:
+(start: 
 </span>
 <span class="source-lf storage-type-lflang">
- int
+int
 </span>
 <span class="source-lf">
  
@@ -75,10 +75,10 @@ TestCount
 1
 </span>
 <span class="source-lf">
-, stride:
+, stride: 
 </span>
 <span class="source-lf storage-type-lflang">
- int
+int
 </span>
 <span class="source-lf">
  
@@ -93,15 +93,21 @@ TestCount
 1
 </span>
 <span class="source-lf">
-, num_inputs:
-</span>
-<span class="source-lf storage-type-lflang">
- int
+, num_input
 </span>
 <span class="source-lf">
+s:
+</span>
+<span class="source-lf meta-embedded-block-cpp">
  
 </span>
-<span class="source-lf keyword-operator-lflang">
+<span class="source-lf meta-embedded-block-cpp storage-type-lflang">
+int
+</span>
+<span class="source-lf meta-embedded-block-cpp">
+ 
+</span>
+<span class="source-lf">
 =
 </span>
 <span class="source-lf">
@@ -120,14 +126,29 @@ TestCount
 <span class="source-lf storage-modifier-lflang">
 state
 </span>
+<span class="source-lf">
+ 
+</span>
+<span class="source-lf variable-other-lflang">
+count
+</span>
+<span class="source-lf">
+:
+</span>
 <span class="source-lf meta-embedded-block-cpp">
- count:
+ 
 </span>
 <span class="source-lf meta-embedded-block-cpp storage-type-lflang">
- int
+int
 </span>
 <span class="source-lf meta-embedded-block-cpp">
- = start
+ 
+</span>
+<span class="source-lf">
+=
+</span>
+<span class="source-lf">
+ start
 </span>
 
 <span class="source-lf">
@@ -136,14 +157,32 @@ state
 <span class="source-lf storage-modifier-lflang">
 state
 </span>
+<span class="source-lf">
+ 
+</span>
+<span class="source-lf variable-other-lflang">
+inputs_received
+</span>
+<span class="source-lf">
+:
+</span>
 <span class="source-lf meta-embedded-block-cpp">
- inputs_received:
+ 
 </span>
 <span class="source-lf meta-embedded-block-cpp storage-type-lflang">
- int
+int
 </span>
 <span class="source-lf meta-embedded-block-cpp">
- = 0
+ 
+</span>
+<span class="source-lf">
+=
+</span>
+<span class="source-lf">
+ 
+</span>
+<span class="source-lf constant-numeric-int-lflang">
+0
 </span>
 
 <span class="source-lf">
@@ -152,11 +191,20 @@ state
 <span class="source-lf storage-modifier-lflang">
 input
 </span>
+<span class="source-lf">
+ 
+</span>
+<span class="source-lf variable-other-lflang">
+in
+</span>
+<span class="source-lf">
+:
+</span>
 <span class="source-lf meta-embedded-block-cpp">
- in:
+ 
 </span>
 <span class="source-lf meta-embedded-block-cpp storage-type-lflang">
- int
+int
 </span>
 
 <span class="source-lf">
@@ -170,7 +218,10 @@ input
 reaction
 </span>
 <span class="source-lf">
-(in) {
+(
+</span>
+<span class="source-lf">
+in) {
 </span>
 <span class="source-lf keyword-operator-lflang">
 =
@@ -278,13 +329,10 @@ stride;
 ->
 </span>
 <span class="source-lf">
-inputs_received
+input
 </span>
-<span class="source-lf keyword-operator-lflang">
-+
-</span>
-<span class="source-lf keyword-operator-lflang">
-+
+<span class="source-lf">
+s_received++
 </span>
 <span class="source-lf">
 ;
@@ -346,9 +394,12 @@ Shutdown invoked.
 ->
 </span>
 <span class="source-lf">
-inputs_received !
+input
 </span>
-<span class="source-lf keyword-operator-lflang">
+<span class="source-lf">
+s_received !
+</span>
+<span class="source-lf">
 =
 </span>
 <span class="source-lf">
@@ -358,7 +409,13 @@ inputs_received !
 ->
 </span>
 <span class="source-lf">
-num_inputs) {
+num_input
+</span>
+<span class="source-lf">
+s) 
+</span>
+<span class="source-lf">
+{
 </span>
 
 <span class="source-lf">
@@ -384,7 +441,10 @@ Expected to receive %d inputs, but got %d.
 ->
 </span>
 <span class="source-lf">
-num_inputs,
+num_input
+</span>
+<span class="source-lf">
+s,
 </span>
 
 <span class="source-lf">
@@ -394,7 +454,10 @@ num_inputs,
 ->
 </span>
 <span class="source-lf">
-inputs_received
+input
+</span>
+<span class="source-lf">
+s_received
 </span>
 
 <span class="source-lf">

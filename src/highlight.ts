@@ -259,14 +259,17 @@ function setDiff(
  * @param end The token that causes a decrement of nesting depth. Must
  *     not be equal to begin.
  * @param shadowRanges The ranges which detected matches to `begin`
- *     and `end` may not intersect.
+ *     and `end` may not intersect
+ * @param possibleNesting Whether nesting depth greater than 1 is
+ *     possible
  */
 function getContainedRanges(
     document: TextDocument,
     range: Range,
     begin: string,
     end: string,
-    shadowRanges: Range[] = []
+    shadowRanges: Range[] = [],
+    possibleNesting: boolean = true
 ): Range[] {
     const text = document.getText();
     const endOffset = document.offsetAt(range.end);
@@ -297,7 +300,7 @@ function getContainedRanges(
         const nextBegin = indexOf(begin, current);
         const nextEnd = indexOf(end, current);
         if (nextBegin < nextEnd) {
-            depth++;
+            if (possibleNesting || !depth) depth++;
             current = nextBegin + begin.length;
             if (depth === 1) rangeStart = document.positionAt(current);
         } else {
@@ -432,23 +435,26 @@ function provideParameters(
         for (const parameterList of getContainedRanges(
             document, reactor.declaration, '(', ')', stdShadow
         )) {
-            const values = getContainedRanges(
-                document, parameterList, '(', ')', stdShadow
-            ).concat(getContainedRanges(
-                document, parameterList, '{', '}', stdShadow
-            ));
-            const typeValuePairs = getContainedRanges(
-                document, parameterList, ':', ',', stdShadow.concat(values)
+            const gcr = (left: string, right: string) => getContainedRanges(
+                document, parameterList, left, right, stdShadow
             );
+            let values = gcr('(', ')').concat(gcr('{', '}')).concat(gcr('[', ']'));
+            values = values.concat(getContainedRanges(
+                document, parameterList, '=', ',', stdShadow.concat(values), false
+            ));
+            const typesAndValues = getContainedRanges(
+                document, parameterList, ':', ',', stdShadow.concat(values), false
+            ).concat(values);
             for (const nonTypeValuePair of setDiff(
-                document, parameterList, typeValuePairs
+                document, parameterList, typesAndValues
             )) {
-                for (const word of getWords(document, nonTypeValuePair, stdShadow)) {
+                const word: Range = getWords(document, nonTypeValuePair, stdShadow)[0];
+                if (word) {
                     parameters.push(document.getText(word));
                     tokensBuilder.push(word, 'parameter', ['readonly']);
                 }
             }
-            for (const typeValuePair of typeValuePairs) {
+            for (const typeValuePair of typesAndValues) {
                 for (const nonValue of setDiff(
                     document, typeValuePair, values
                 )) {
@@ -526,15 +532,22 @@ function provideParameterAssignments(
     for (const reactor of getReactors(
         document, wholeDocument(document)
     )) {
-        applyTokenType(
-            document,
-            getContainedRanges(
-                document, reactor.body, '(', ')', stdShadow
-            ),
-            ['\\w+(?=\\s*=)'],
-            'parameter', [],
-            tokensBuilder
-        );
+        for (const argArea of getContainedRanges(
+            document, reactor.body, '(', ')', stdShadow
+        )) {
+            const gcr = (left: string, right: string) => getContainedRanges(
+                document, argArea, left, right, stdShadow
+            );
+            const nestedExpressions: Range[] = gcr('(', ')')
+                .concat(gcr('{', '}')).concat(gcr('[', ']'));
+            applyTokenType(
+                document,
+                setDiff(document, argArea, nestedExpressions),
+                ['(?<=(^|,)\\s*)\\w+(?=\\s*[=([{])'],
+                'parameter', [],
+                tokensBuilder
+            );
+        }
     }
 }
 

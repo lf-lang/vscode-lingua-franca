@@ -66,10 +66,10 @@ reactor
 Source
 </span>
 <span class="source-lf">
-(check_override:
+(check_override: 
 </span>
 <span class="source-lf storage-type-lflang">
- int
+int
 </span>
 <span class="source-lf">
  
@@ -84,10 +84,10 @@ Source
 0
 </span>
 <span class="source-lf">
-, bank_index:
+, bank_index: 
 </span>
 <span class="source-lf storage-type-lflang">
- int
+int
 </span>
 <span class="source-lf">
  
@@ -111,11 +111,20 @@ Source
 <span class="source-lf storage-modifier-lflang">
 output
 </span>
+<span class="source-lf">
+ 
+</span>
+<span class="source-lf variable-other-lflang">
+out
+</span>
+<span class="source-lf">
+:
+</span>
 <span class="source-lf meta-embedded-block-cpp">
- out:
+ 
 </span>
 <span class="source-lf meta-embedded-block-cpp storage-type-lflang">
- int
+int
 </span>
 
 <span class="source-lf">
@@ -192,10 +201,10 @@ reactor
 Destination
 </span>
 <span class="source-lf">
-(port_width:
+(port_width: 
 </span>
 <span class="source-lf storage-type-lflang">
- int
+int
 </span>
 <span class="source-lf">
  
@@ -222,8 +231,11 @@ input
 <span class="source-lf">
 [port_width] in:
 </span>
-<span class="source-lf storage-type-lflang">
- int
+<span class="source-lf meta-embedded-block-cpp">
+ 
+</span>
+<span class="source-lf meta-embedded-block-cpp storage-type-lflang">
+int
 </span>
 
 <span class="source-lf">
@@ -232,14 +244,32 @@ input
 <span class="source-lf storage-modifier-lflang">
 state
 </span>
+<span class="source-lf">
+ 
+</span>
+<span class="source-lf variable-other-lflang">
+received
+</span>
+<span class="source-lf">
+:
+</span>
 <span class="source-lf meta-embedded-block-cpp">
- received:
+ 
 </span>
 <span class="source-lf meta-embedded-block-cpp storage-type-lflang">
- bool
+bool
 </span>
 <span class="source-lf meta-embedded-block-cpp">
- = false
+ 
+</span>
+<span class="source-lf">
+=
+</span>
+<span class="source-lf">
+ 
+</span>
+<span class="source-lf constant-language-lflang">
+false
 </span>
 
 <span class="source-lf">
@@ -253,7 +283,10 @@ state
 reaction
 </span>
 <span class="source-lf">
-(in) {
+(
+</span>
+<span class="source-lf">
+in) {
 </span>
 <span class="source-lf keyword-operator-lflang">
 =
@@ -513,10 +546,10 @@ reactor
 MultiportFromBank
 </span>
 <span class="source-lf">
-(width:
+(width: 
 </span>
 <span class="source-lf storage-type-lflang">
- int
+int
 </span>
 <span class="source-lf">
  
@@ -549,7 +582,7 @@ a
 <span class="source-lf">
  
 </span>
-<span class="source-lf keyword-operator-new-lflang">
+<span class="source-lf keyword-control-new-lflang">
 new
 </span>
 <span class="source-lf">
@@ -583,7 +616,7 @@ b
 <span class="source-lf">
  
 </span>
-<span class="source-lf keyword-operator-new-lflang">
+<span class="source-lf keyword-control-new-lflang">
 new
 </span>
 <span class="source-lf">

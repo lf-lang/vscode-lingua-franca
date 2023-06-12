@@ -62,10 +62,10 @@ reactor
 Source
 </span>
 <span class="source-lf">
-(width:
+(width: 
 </span>
 <span class="source-lf storage-type-lflang">
- int
+int
 </span>
 <span class="source-lf">
  
@@ -90,16 +90,67 @@ Source
 output
 </span>
 <span class="source-lf">
-[width] out:
+[
 </span>
-<span class="source-lf storage-type-lflang">
- int
+<span class="source-lf variable-other-lflang">
+width
 </span>
 <span class="source-lf">
-  
+] 
 </span>
-<span class="source-lf comment-line-double-dash-lflang">
-// Connected to a bank of Destination reactors
+<span class="source-lf variable-other-lflang">
+out
+</span>
+<span class="source-lf">
+:
+</span>
+<span class="source-lf meta-embedded-block-cpp">
+ 
+</span>
+<span class="source-lf meta-embedded-block-cpp storage-type-lflang">
+int
+</span>
+<span class="source-lf meta-embedded-block-cpp">
+  // 
+</span>
+<span class="source-lf meta-embedded-block-cpp entity-name-type-lflang">
+Connected
+</span>
+<span class="source-lf meta-embedded-block-cpp">
+ 
+</span>
+<span class="source-lf meta-embedded-block-cpp storage-type-lflang">
+to
+</span>
+<span class="source-lf meta-embedded-block-cpp">
+ 
+</span>
+<span class="source-lf meta-embedded-block-cpp storage-type-lflang">
+a
+</span>
+<span class="source-lf meta-embedded-block-cpp">
+ 
+</span>
+<span class="source-lf meta-embedded-block-cpp storage-type-lflang">
+bank
+</span>
+<span class="source-lf meta-embedded-block-cpp">
+ 
+</span>
+<span class="source-lf meta-embedded-block-cpp storage-type-lflang">
+of
+</span>
+<span class="source-lf meta-embedded-block-cpp">
+ 
+</span>
+<span class="source-lf meta-embedded-block-cpp entity-name-type-lflang">
+Destination
+</span>
+<span class="source-lf meta-embedded-block-cpp">
+ 
+</span>
+<span class="source-lf meta-embedded-block-cpp storage-type-lflang">
+reactors
 </span>
 
 <span class="source-lf">
@@ -108,14 +159,44 @@ output
 <span class="source-lf storage-modifier-lflang">
 input
 </span>
+<span class="source-lf">
+ 
+</span>
+<span class="source-lf variable-other-lflang">
+dummy
+</span>
+<span class="source-lf">
+:
+</span>
 <span class="source-lf meta-embedded-block-cpp">
- dummy:
+ 
 </span>
 <span class="source-lf meta-embedded-block-cpp storage-type-lflang">
- int
+int
 </span>
 <span class="source-lf meta-embedded-block-cpp">
-        // Not connected to anything
+        // 
+</span>
+<span class="source-lf meta-embedded-block-cpp entity-name-type-lflang">
+Not
+</span>
+<span class="source-lf meta-embedded-block-cpp">
+ 
+</span>
+<span class="source-lf meta-embedded-block-cpp storage-type-lflang">
+connected
+</span>
+<span class="source-lf meta-embedded-block-cpp">
+ 
+</span>
+<span class="source-lf meta-embedded-block-cpp storage-type-lflang">
+to
+</span>
+<span class="source-lf meta-embedded-block-cpp">
+ 
+</span>
+<span class="source-lf meta-embedded-block-cpp storage-type-lflang">
+anything
 </span>
 
 <span class="source-lf">
@@ -215,7 +296,10 @@ startup
 reaction
 </span>
 <span class="source-lf">
-(dummy) 
+(
+</span>
+<span class="source-lf">
+dummy) 
 </span>
 <span class="source-lf keyword-operator-lflang">
 ->
@@ -294,10 +378,10 @@ reactor
 Destination
 </span>
 <span class="source-lf">
-(bank_index:
+(bank_index: 
 </span>
 <span class="source-lf storage-type-lflang">
- int
+int
 </span>
 <span class="source-lf">
  
@@ -321,11 +405,20 @@ Destination
 <span class="source-lf storage-modifier-lflang">
 input
 </span>
+<span class="source-lf">
+ 
+</span>
+<span class="source-lf variable-other-lflang">
+in
+</span>
+<span class="source-lf">
+:
+</span>
 <span class="source-lf meta-embedded-block-cpp">
- in:
+ 
 </span>
 <span class="source-lf meta-embedded-block-cpp storage-type-lflang">
- int
+int
 </span>
 
 <span class="source-lf">
@@ -334,14 +427,32 @@ input
 <span class="source-lf storage-modifier-lflang">
 state
 </span>
+<span class="source-lf">
+ 
+</span>
+<span class="source-lf variable-other-lflang">
+received
+</span>
+<span class="source-lf">
+:
+</span>
 <span class="source-lf meta-embedded-block-cpp">
- received:
+ 
 </span>
 <span class="source-lf meta-embedded-block-cpp storage-type-lflang">
- bool
+bool
 </span>
 <span class="source-lf meta-embedded-block-cpp">
- = false
+ 
+</span>
+<span class="source-lf">
+=
+</span>
+<span class="source-lf">
+ 
+</span>
+<span class="source-lf constant-language-lflang">
+false
 </span>
 
 <span class="source-lf">
@@ -355,7 +466,10 @@ state
 reaction
 </span>
 <span class="source-lf">
-(in) {
+(
+</span>
+<span class="source-lf">
+in) {
 </span>
 <span class="source-lf keyword-operator-lflang">
 =
@@ -610,10 +724,10 @@ reactor
 MultiportToBank
 </span>
 <span class="source-lf">
-(width:
+(width: 
 </span>
 <span class="source-lf storage-type-lflang">
- int
+int
 </span>
 <span class="source-lf">
  
@@ -646,7 +760,7 @@ a
 <span class="source-lf">
  
 </span>
-<span class="source-lf keyword-operator-new-lflang">
+<span class="source-lf keyword-control-new-lflang">
 new
 </span>
 <span class="source-lf">
@@ -680,7 +794,7 @@ b
 <span class="source-lf">
  
 </span>
-<span class="source-lf keyword-operator-new-lflang">
+<span class="source-lf keyword-control-new-lflang">
 new
 </span>
 <span class="source-lf">

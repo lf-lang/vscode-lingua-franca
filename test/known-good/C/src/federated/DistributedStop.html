@@ -54,11 +54,20 @@ Sender
 <span class="source-lf storage-modifier-lflang">
 output
 </span>
+<span class="source-lf">
+ 
+</span>
+<span class="source-lf variable-other-lflang">
+out
+</span>
+<span class="source-lf">
+:
+</span>
 <span class="source-lf meta-embedded-block-cpp">
- out:
+ 
 </span>
 <span class="source-lf meta-embedded-block-cpp storage-type-lflang">
- int
+int
 </span>
 
 <span class="source-lf">
@@ -102,7 +111,10 @@ logical
 action
 </span>
 <span class="source-lf">
- act
+ 
+</span>
+<span class="source-lf variable-other-lflang">
+act
 </span>
 
 <span class="source-lf">
@@ -111,14 +123,32 @@ action
 <span class="source-lf storage-modifier-lflang">
 state
 </span>
+<span class="source-lf">
+ 
+</span>
+<span class="source-lf variable-other-lflang">
+reaction_invoked_correctly
+</span>
+<span class="source-lf">
+:
+</span>
 <span class="source-lf meta-embedded-block-cpp">
- reaction_invoked_correctly:
+ 
 </span>
 <span class="source-lf meta-embedded-block-cpp storage-type-lflang">
- bool
+bool
 </span>
 <span class="source-lf meta-embedded-block-cpp">
- = false
+ 
+</span>
+<span class="source-lf">
+=
+</span>
+<span class="source-lf">
+ 
+</span>
+<span class="source-lf constant-language-lflang">
+false
 </span>
 
 <span class="source-lf">
@@ -132,7 +162,10 @@ state
 reaction
 </span>
 <span class="source-lf">
-(t, act) 
+(
+</span>
+<span class="source-lf">
+t, act) 
 </span>
 <span class="source-lf keyword-operator-lflang">
 ->
@@ -408,16 +441,10 @@ microstep
 ->
 </span>
 <span class="source-lf">
-reaction_invoked_correctly 
-</span>
-<span class="source-lf keyword-operator-lflang">
-=
+reaction
 </span>
 <span class="source-lf">
- 
-</span>
-<span class="source-lf constant-language-lflang">
-true
+_invoked_correctly = true
 </span>
 <span class="source-lf">
 ;
@@ -581,22 +608,10 @@ microstep);
 ->
 </span>
 <span class="source-lf">
-reaction_invoked_correctly 
-</span>
-<span class="source-lf keyword-operator-lflang">
-=
-</span>
-<span class="source-lf keyword-operator-lflang">
-=
+reaction
 </span>
 <span class="source-lf">
- 
-</span>
-<span class="source-lf constant-language-lflang">
-false
-</span>
-<span class="source-lf">
-) {
+_invoked_correctly == false) {
 </span>
 
 <span class="source-lf">
@@ -708,10 +723,10 @@ Receiver
 </span>
 
 <span class="source-lf">
-  stp_offset:
+  stp_offset: 
 </span>
 <span class="source-lf storage-type-lflang">
- time
+time
 </span>
 <span class="source-lf">
  
@@ -748,11 +763,20 @@ msec
 <span class="source-lf storage-modifier-lflang">
 input
 </span>
+<span class="source-lf">
+ 
+</span>
+<span class="source-lf variable-other-lflang">
+in
+</span>
+<span class="source-lf">
+:
+</span>
 <span class="source-lf meta-embedded-block-cpp">
- in:
+ 
 </span>
 <span class="source-lf meta-embedded-block-cpp storage-type-lflang">
- int
+int
 </span>
 
 <span class="source-lf">
@@ -761,14 +785,32 @@ input
 <span class="source-lf storage-modifier-lflang">
 state
 </span>
+<span class="source-lf">
+ 
+</span>
+<span class="source-lf variable-other-lflang">
+reaction_invoked_correctly
+</span>
+<span class="source-lf">
+:
+</span>
 <span class="source-lf meta-embedded-block-cpp">
- reaction_invoked_correctly:
+ 
 </span>
 <span class="source-lf meta-embedded-block-cpp storage-type-lflang">
- bool
+bool
 </span>
 <span class="source-lf meta-embedded-block-cpp">
- = false
+ 
+</span>
+<span class="source-lf">
+=
+</span>
+<span class="source-lf">
+ 
+</span>
+<span class="source-lf constant-language-lflang">
+false
 </span>
 
 <span class="source-lf">
@@ -782,7 +824,10 @@ state
 reaction
 </span>
 <span class="source-lf">
-(in) {
+(
+</span>
+<span class="source-lf">
+in) {
 </span>
 <span class="source-lf keyword-operator-lflang">
 =
@@ -902,16 +947,10 @@ microstep);
 ->
 </span>
 <span class="source-lf">
-reaction_invoked_correctly 
-</span>
-<span class="source-lf keyword-operator-lflang">
-=
+reaction
 </span>
 <span class="source-lf">
- 
-</span>
-<span class="source-lf constant-language-lflang">
-true
+_invoked_correctly = true
 </span>
 <span class="source-lf">
 ;
@@ -991,16 +1030,10 @@ microstep
 ->
 </span>
 <span class="source-lf">
-reaction_invoked_correctly 
-</span>
-<span class="source-lf keyword-operator-lflang">
-=
+reaction
 </span>
 <span class="source-lf">
- 
-</span>
-<span class="source-lf constant-language-lflang">
-false
+_invoked_correctly = false
 </span>
 <span class="source-lf">
 ;
@@ -1152,22 +1185,10 @@ microstep);
 ->
 </span>
 <span class="source-lf">
-reaction_invoked_correctly 
-</span>
-<span class="source-lf keyword-operator-lflang">
-=
-</span>
-<span class="source-lf keyword-operator-lflang">
-=
+reaction
 </span>
 <span class="source-lf">
- 
-</span>
-<span class="source-lf constant-language-lflang">
-false
-</span>
-<span class="source-lf">
-) {
+_invoked_correctly == false) {
 </span>
 
 <span class="source-lf">
@@ -1299,7 +1320,7 @@ sender
 <span class="source-lf">
  
 </span>
-<span class="source-lf keyword-operator-new-lflang">
+<span class="source-lf keyword-control-new-lflang">
 new
 </span>
 <span class="source-lf">
@@ -1327,7 +1348,7 @@ receiver
 <span class="source-lf">
  
 </span>
-<span class="source-lf keyword-operator-new-lflang">
+<span class="source-lf keyword-control-new-lflang">
 new
 </span>
 <span class="source-lf">

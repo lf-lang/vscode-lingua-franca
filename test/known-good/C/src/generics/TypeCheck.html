@@ -68,10 +68,10 @@ reactor
 Count
 </span>
 <span class="source-lf">
-(offset:
+(offset: 
 </span>
 <span class="source-lf storage-type-lflang">
- time
+time
 </span>
 <span class="source-lf">
  
@@ -86,10 +86,10 @@ Count
 0
 </span>
 <span class="source-lf">
-, period:
+, period: 
 </span>
 <span class="source-lf storage-type-lflang">
- time
+time
 </span>
 <span class="source-lf">
  
@@ -119,14 +119,32 @@ sec
 <span class="source-lf storage-modifier-lflang">
 state
 </span>
+<span class="source-lf">
+ 
+</span>
+<span class="source-lf variable-other-lflang">
+count
+</span>
+<span class="source-lf">
+:
+</span>
 <span class="source-lf meta-embedded-block-cpp">
- count:
+ 
 </span>
 <span class="source-lf meta-embedded-block-cpp storage-type-lflang">
- int
+int
 </span>
 <span class="source-lf meta-embedded-block-cpp">
- = 1
+ 
+</span>
+<span class="source-lf">
+=
+</span>
+<span class="source-lf">
+ 
+</span>
+<span class="source-lf constant-numeric-int-lflang">
+1
 </span>
 
 <span class="source-lf">
@@ -135,11 +153,20 @@ state
 <span class="source-lf storage-modifier-lflang">
 output
 </span>
+<span class="source-lf">
+ 
+</span>
+<span class="source-lf variable-other-lflang">
+out
+</span>
+<span class="source-lf">
+:
+</span>
 <span class="source-lf meta-embedded-block-cpp">
- out:
+ 
 </span>
 <span class="source-lf meta-embedded-block-cpp storage-type-lflang">
- int
+int
 </span>
 
 <span class="source-lf">
@@ -163,7 +190,10 @@ timer
 reaction
 </span>
 <span class="source-lf">
-(t) 
+(
+</span>
+<span class="source-lf">
+t) 
 </span>
 <span class="source-lf keyword-operator-lflang">
 ->
@@ -217,10 +247,10 @@ reactor
 TestCount
 </span>
 <span class="source-lf">
-<T>(start:
+<T>(start: 
 </span>
 <span class="source-lf storage-type-lflang">
- int
+int
 </span>
 <span class="source-lf">
  
@@ -235,15 +265,21 @@ TestCount
 1
 </span>
 <span class="source-lf">
-, num_inputs:
-</span>
-<span class="source-lf storage-type-lflang">
- int
+, num_input
 </span>
 <span class="source-lf">
+s:
+</span>
+<span class="source-lf meta-embedded-block-cpp">
  
 </span>
-<span class="source-lf keyword-operator-lflang">
+<span class="source-lf meta-embedded-block-cpp storage-type-lflang">
+int
+</span>
+<span class="source-lf meta-embedded-block-cpp">
+ 
+</span>
+<span class="source-lf">
 =
 </span>
 <span class="source-lf">
@@ -262,14 +298,29 @@ TestCount
 <span class="source-lf storage-modifier-lflang">
 state
 </span>
+<span class="source-lf">
+ 
+</span>
+<span class="source-lf variable-other-lflang">
+count
+</span>
+<span class="source-lf">
+:
+</span>
 <span class="source-lf meta-embedded-block-cpp">
- count:
+ 
 </span>
 <span class="source-lf meta-embedded-block-cpp storage-type-lflang">
- int
+int
 </span>
 <span class="source-lf meta-embedded-block-cpp">
- = start
+ 
+</span>
+<span class="source-lf">
+=
+</span>
+<span class="source-lf">
+ start
 </span>
 
 <span class="source-lf">
@@ -278,14 +329,32 @@ state
 <span class="source-lf storage-modifier-lflang">
 state
 </span>
+<span class="source-lf">
+ 
+</span>
+<span class="source-lf variable-other-lflang">
+inputs_received
+</span>
+<span class="source-lf">
+:
+</span>
 <span class="source-lf meta-embedded-block-cpp">
- inputs_received:
+ 
 </span>
 <span class="source-lf meta-embedded-block-cpp storage-type-lflang">
- int
+int
 </span>
 <span class="source-lf meta-embedded-block-cpp">
- = 0
+ 
+</span>
+<span class="source-lf">
+=
+</span>
+<span class="source-lf">
+ 
+</span>
+<span class="source-lf constant-numeric-int-lflang">
+0
 </span>
 
 <span class="source-lf">
@@ -294,11 +363,20 @@ state
 <span class="source-lf storage-modifier-lflang">
 input
 </span>
+<span class="source-lf">
+ 
+</span>
+<span class="source-lf variable-other-lflang">
+in
+</span>
+<span class="source-lf">
+:
+</span>
 <span class="source-lf meta-embedded-block-cpp">
- in:
+ 
 </span>
 <span class="source-lf meta-embedded-block-cpp entity-name-type-lflang">
- T
+T
 </span>
 
 <span class="source-lf">
@@ -312,7 +390,10 @@ input
 reaction
 </span>
 <span class="source-lf">
-(in) {
+(
+</span>
+<span class="source-lf">
+in) {
 </span>
 <span class="source-lf keyword-operator-lflang">
 =
@@ -414,13 +495,10 @@ count
 ->
 </span>
 <span class="source-lf">
-inputs_received
+input
 </span>
-<span class="source-lf keyword-operator-lflang">
-+
-</span>
-<span class="source-lf keyword-operator-lflang">
-+
+<span class="source-lf">
+s_received++
 </span>
 <span class="source-lf">
 ;
@@ -482,9 +560,12 @@ Shutdown invoked.
 ->
 </span>
 <span class="source-lf">
-inputs_received !
+input
 </span>
-<span class="source-lf keyword-operator-lflang">
+<span class="source-lf">
+s_received !
+</span>
+<span class="source-lf">
 =
 </span>
 <span class="source-lf">
@@ -494,7 +575,13 @@ inputs_received !
 ->
 </span>
 <span class="source-lf">
-num_inputs) {
+num_input
+</span>
+<span class="source-lf">
+s) 
+</span>
+<span class="source-lf">
+{
 </span>
 
 <span class="source-lf">
@@ -520,7 +607,10 @@ Expected to receive %d inputs, but got %d.
 ->
 </span>
 <span class="source-lf">
-num_inputs,
+num_input
+</span>
+<span class="source-lf">
+s,
 </span>
 
 <span class="source-lf">
@@ -530,7 +620,10 @@ num_inputs,
 ->
 </span>
 <span class="source-lf">
-inputs_received
+input
+</span>
+<span class="source-lf">
+s_received
 </span>
 
 <span class="source-lf">
@@ -587,7 +680,7 @@ count
 <span class="source-lf">
  
 </span>
-<span class="source-lf keyword-operator-new-lflang">
+<span class="source-lf keyword-control-new-lflang">
 new
 </span>
 <span class="source-lf">
@@ -597,7 +690,16 @@ new
 Count
 </span>
 <span class="source-lf">
-<int>()
+<
+</span>
+<span class="source-lf storage-type-lflang">
+int
+</span>
+<span class="source-lf">
+>
+</span>
+<span class="source-lf">
+()
 </span>
 
 <span class="source-lf">
@@ -615,7 +717,7 @@ testcount
 <span class="source-lf">
  
 </span>
-<span class="source-lf keyword-operator-new-lflang">
+<span class="source-lf keyword-control-new-lflang">
 new
 </span>
 <span class="source-lf">
@@ -625,9 +727,21 @@ new
 TestCount
 </span>
 <span class="source-lf">
-<int>(num_inputs 
+<
 </span>
-<span class="source-lf keyword-operator-lflang">
+<span class="source-lf storage-type-lflang">
+int
+</span>
+<span class="source-lf">
+>
+</span>
+<span class="source-lf">
+(num_input
+</span>
+<span class="source-lf">
+s 
+</span>
+<span class="source-lf">
 =
 </span>
 <span class="source-lf">
