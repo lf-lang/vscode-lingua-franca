@@ -10,7 +10,7 @@ import * as vscode from 'vscode';
 import chai from 'chai';
 import spies from 'chai-spies';
 import { expect } from 'chai';
-import { after, Context } from 'mocha';
+import { after } from 'mocha';
 import { MessageDisplayHelper } from '../utils';
 import * as http from 'http';
 import * as url from 'url';
@@ -60,7 +60,7 @@ suite('test dependency checking',  () => {
                 this.test.skip();
             case DependencyStatus.Missing0:
                 await expectFailure(dependency, spy);
-                expect(spy).to.have.been.called.with(depMissingMessage);
+                expect(spy).to.have.been.called.with(depMissingMessage + " " + checkDependencies.caveat);
                 break;
             case DependencyStatus.Missing1:
                 this.test.skip();
@@ -96,7 +96,7 @@ suite('test dependency checking',  () => {
             this.test.skip();
         case DependencyStatus.Missing1:
             await expectFailure(Dependency.Pylint, spy);
-            expect(spy).to.have.been.called.with(checkDependencies.pylintMessage);
+            expect(spy).to.have.been.called.with(checkDependencies.pylintMessage + " " + checkDependencies.caveat);
             await new Promise(resolve => setTimeout(resolve, maxInstallationTimeMilliseconds));
             await expectSuccess(Dependency.Pylint, spy);
             break;
@@ -105,7 +105,7 @@ suite('test dependency checking',  () => {
             expect(spy).to.have.been.called.with(
                 `The Lingua Franca language server is tested with Pylint version `
                     + `${config.pylintVersion.major}.${config.pylintVersion.minor} and newer, but `
-                    + `the version detected on your system is 2.10.0.`
+                    + `the version detected on your system is 2.10.0. ${checkDependencies.caveat}`
             );
             await new Promise(resolve => setTimeout(resolve, maxInstallationTimeMilliseconds));
             await expectSuccess(Dependency.Pylint, spy);
@@ -126,13 +126,13 @@ suite('test dependency checking',  () => {
             break;
         case DependencyStatus.Missing0:
             await expectFailure(Dependency.Pnpm, spy);
-            expect(spy).to.have.been.called.with(checkDependencies.pnpmMessage);
+            expect(spy).to.have.been.called.with(checkDependencies.pnpmMessage + " " + checkDependencies.caveat);
             break;
         case DependencyStatus.Missing1:
             await expectFailure(Dependency.Pnpm, spy);
             expect(spy).to.have.been.called.with(
                 'To prevent an accumulation of replicated dependencies when compiling LF programs '
-                + 'with the TypeScript target, it is highly recommended to install pnpm globally.'
+                + 'with the TypeScript target, it is highly recommended to install pnpm globally.' + " " + checkDependencies.caveat
             );
             await new Promise(resolve => setTimeout(resolve, maxInstallationTimeMilliseconds));
             await expectSuccess(Dependency.Pnpm, spy);
@@ -158,7 +158,7 @@ suite('test dependency checking',  () => {
             break;
         case DependencyStatus.Missing0:
             await expectFailure(Dependency.Rust, spy);
-            expect(spy).to.have.been.called.with(checkDependencies.rustMessage);
+            expect(spy).to.have.been.called.with(checkDependencies.rustMessage + " " + checkDependencies.caveat);
             break;
         case DependencyStatus.Missing1:
             this.test.skip();
@@ -180,7 +180,7 @@ suite('test dependency checking',  () => {
             this.test.skip();
         case DependencyStatus.Missing1:
             await expectFailure(Dependency.Rti, spy);
-            expect(spy).to.have.been.called.with(checkDependencies.rtiMessage);
+            expect(spy).to.have.been.called.with(checkDependencies.rtiMessage + " " + checkDependencies.caveat);
             break;
         default:
             throw new Error('unreachable');

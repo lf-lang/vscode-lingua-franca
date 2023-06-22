@@ -104,7 +104,7 @@ export const rtiVersionChecker = async () => {
     // TODO: Update when #76 is addressed: https://github.com/lf-lang/reactor-c/issues/76
     let exists: boolean;
     try {
-        exists = (await which("RTI")).length > 0;
+        exists = (await which('RTI')).length > 0;
     } catch (e) {
         return { version: new Version('0.0.0'), isCorrect: null };
     }
