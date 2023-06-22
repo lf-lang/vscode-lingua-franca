@@ -25,14 +25,14 @@ jobs:
         rust: [nightly]
     runs-on: ${{ matrix.platform }}
     steps:
-      - uses: lf-lang/vscode-lingua-franca/.github/actions/build@main
+      - uses: lf-lang/vscode-lingua-franca/.github/actions/build@update-error-message
   test-dependencies-outdated:
     strategy:
       matrix:
         platform: [ubuntu-latest]
     runs-on: ${{ matrix.platform }}
     steps:
-      - uses: lf-lang/vscode-lingua-franca/.github/actions/build@main
+      - uses: lf-lang/vscode-lingua-franca/.github/actions/build@update-error-message
       - name: Downgrade dependencies
         run: |
           pip install -I pylint==2.10.0
@@ -49,7 +49,7 @@ jobs:
         platform: [ubuntu-latest, macos-latest, windows-latest]
     runs-on: ${{ matrix.platform }}
     steps:
-      - uses: lf-lang/vscode-lingua-franca/.github/actions/build@main
+      - uses: lf-lang/vscode-lingua-franca/.github/actions/build@update-error-message
       - name: Run tests (Linux)
         run: xvfb-run --auto-servernum --server-args="-screen 0 1280x960x24" -- npm run test-dependencies-missing-extended
         if: ${{ runner.os == 'Linux' }}
@@ -62,7 +62,7 @@ jobs:
         platform: [ubuntu-latest, macos-latest, windows-latest]
     runs-on: ${{ matrix.platform }}
     steps:
-      - uses: lf-lang/vscode-lingua-franca/.github/actions/build@main
+      - uses: lf-lang/vscode-lingua-franca/.github/actions/build@update-error-message
       - name: Run tests (Linux)
         run: xvfb-run --auto-servernum --server-args="-screen 0 1280x960x24" -- npm run test-dependencies-missing-basic
         if: ${{ runner.os == 'Linux' }}

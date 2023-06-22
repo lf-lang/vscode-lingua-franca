@@ -33,7 +33,7 @@ runs:
     - name: Setup Rust
       uses: ATiltedTree/setup-rust@v1
       with:
-        rust-version: ${{ matrix.rust }}
+        rust-version: stable
         components: clippy
     - name: Install RTI
       run: |
