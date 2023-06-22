@@ -33,6 +33,9 @@ jobs:
     runs-on: ${{ matrix.platform }}
     steps:
       - uses: lf-lang/vscode-lingua-franca/.github/actions/build@update-error-message
+      - name: Uninstall dependencies
+        run: |
+          python3 -m pip uninstall pylint
       - name: Downgrade dependencies
         run: |
           pip install -I pylint==2.10.0
@@ -53,6 +56,9 @@ jobs:
       - name: Run tests (Linux)
         run: xvfb-run --auto-servernum --server-args="-screen 0 1280x960x24" -- npm run test-dependencies-missing-extended
         if: ${{ runner.os == 'Linux' }}
+      - name: Uninstall dependencies
+        run: |
+          python3 -m pip uninstall pylint
       - name: Run tests (non-Linux)
         run: npm run test-dependencies-missing-extended
         if: ${{ runner.os != 'Linux' }}
