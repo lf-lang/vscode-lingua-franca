@@ -35,7 +35,7 @@ jobs:
       - uses: lf-lang/vscode-lingua-franca/.github/actions/build@update-error-message
       - name: Uninstall dependencies
         run: |
-          python3 -m pip uninstall pylint
+          python3 -m pip uninstall -y pylint
       - name: Downgrade dependencies
         run: |
           pip install -I pylint==2.10.0
@@ -58,7 +58,7 @@ jobs:
         if: ${{ runner.os == 'Linux' }}
       - name: Uninstall dependencies
         run: |
-          python3 -m pip uninstall pylint
+          python3 -m pip uninstall -y pylint
       - name: Run tests (non-Linux)
         run: npm run test-dependencies-missing-extended
         if: ${{ runner.os != 'Linux' }}
