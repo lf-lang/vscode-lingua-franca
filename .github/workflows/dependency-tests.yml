@@ -18,14 +18,6 @@ on:
       - "**/version.ts"
 
 jobs:
-  test:
-    strategy:
-      matrix:
-        platform: [ubuntu-latest, macos-latest, windows-latest]
-        rust: [nightly]
-    runs-on: ${{ matrix.platform }}
-    steps:
-      - uses: lf-lang/vscode-lingua-franca/.github/actions/build@update-error-message
   test-dependencies-outdated:
     strategy:
       matrix:
@@ -53,12 +45,12 @@ jobs:
     runs-on: ${{ matrix.platform }}
     steps:
       - uses: lf-lang/vscode-lingua-franca/.github/actions/build@update-error-message
-      - name: Run tests (Linux)
-        run: xvfb-run --auto-servernum --server-args="-screen 0 1280x960x24" -- npm run test-dependencies-missing-extended
-        if: ${{ runner.os == 'Linux' }}
       - name: Uninstall dependencies
         run: |
           python3 -m pip uninstall -y pylint
+      - name: Run tests (Linux)
+        run: xvfb-run --auto-servernum --server-args="-screen 0 1280x960x24" -- npm run test-dependencies-missing-extended
+        if: ${{ runner.os == 'Linux' }}
       - name: Run tests (non-Linux)
         run: npm run test-dependencies-missing-extended
         if: ${{ runner.os != 'Linux' }}
