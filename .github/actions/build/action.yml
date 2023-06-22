@@ -1,6 +1,11 @@
 name: Build
 description: Set up repository and install dependencies required to build extension.
 
+inputs:
+  partial:
+    required: false
+    default: "true"
+
 runs:
   using: "composite"
   steps:
@@ -27,18 +32,21 @@ runs:
     - name: Install pylint
       run: python3 -m pip install pylint
       shell: bash
+      if: ${{ inputs.partial != 'false' }}
     - name: Install pnpm
       run: npm i -g pnpm
       shell: bash
+      if: ${{ inputs.partial != 'false' }}
     - name: Setup Rust
       uses: ATiltedTree/setup-rust@v1
       with:
         rust-version: stable
         components: clippy
+      if: ${{ inputs.partial != 'false' }}
     - name: Install RTI
       run: |
         cd lingua-franca
         .github/actions/install-rti/install.sh
         cd ..
       shell: bash
-      if: ${{ runner.os == 'macOS' || runner.os == 'Linux' }}
+      if: ${{ (runner.os == 'macOS' || runner.os == 'Linux') && inputs.partial != 'false' }}

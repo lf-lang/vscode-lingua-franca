@@ -7,15 +7,15 @@ on:
     branches:
       - main
     paths:
-      - '**/check_dependencies.ts'
-      - '**/version_checker.ts'
-      - '**/version.ts'
+      - "**/check_dependencies.ts"
+      - "**/version_checker.ts"
+      - "**/version.ts"
   # Trigger this workflow also on pull_request events.
   pull_request:
     paths:
-    - '**/check_dependencies.ts'
-    - '**/version_checker.ts'
-    - '**/version.ts'
+      - "**/check_dependencies.ts"
+      - "**/version_checker.ts"
+      - "**/version.ts"
 
 jobs:
   test:
@@ -33,6 +33,8 @@ jobs:
     runs-on: ${{ matrix.platform }}
     steps:
       - uses: lf-lang/vscode-lingua-franca/.github/actions/build@update-error-message
+        with:
+          partial: "true"
       - name: Downgrade dependencies
         run: |
           pip install -I pylint==2.10.0
@@ -50,6 +52,8 @@ jobs:
     runs-on: ${{ matrix.platform }}
     steps:
       - uses: lf-lang/vscode-lingua-franca/.github/actions/build@update-error-message
+        with:
+          partial: true
       - name: Run tests (Linux)
         run: xvfb-run --auto-servernum --server-args="-screen 0 1280x960x24" -- npm run test-dependencies-missing-extended
         if: ${{ runner.os == 'Linux' }}
@@ -63,6 +67,8 @@ jobs:
     runs-on: ${{ matrix.platform }}
     steps:
       - uses: lf-lang/vscode-lingua-franca/.github/actions/build@update-error-message
+        with:
+          partial: "true"
       - name: Run tests (Linux)
         run: xvfb-run --auto-servernum --server-args="-screen 0 1280x960x24" -- npm run test-dependencies-missing-basic
         if: ${{ runner.os == 'Linux' }}
