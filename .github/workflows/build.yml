@@ -11,11 +11,6 @@ on:
 jobs:
   build:
     steps:
-      - name: Check out vscode-lingua-franca repository
-        uses: actions/checkout@v3
-        with:
-          submodules: recursive
-          fetch-depth: 1
       - name: Set up Java 17
         run: |
           echo "$JAVA_HOME_17_X64/bin" >> $GITHUB_PATH

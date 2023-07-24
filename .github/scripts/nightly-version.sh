@@ -8,4 +8,5 @@ date=$(date +%Y%m%d)
 # NOTE: the following assumes that only simple
 # major.minor.patch version numbers are being used.
 nightly="${version%.*}.$date"
+echo $nightly
 npm version $nightly --no-git-tag-version
