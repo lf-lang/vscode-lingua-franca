@@ -2,6 +2,8 @@ name: Nightly build
 
 # Trigger the workflow every day at 5 AM (UTC).
 on:
+  push:
+    branches: nightly
   schedule:
     - cron: '0 5 * * *'
   workflow_dispatch:
