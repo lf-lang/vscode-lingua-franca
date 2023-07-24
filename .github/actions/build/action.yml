@@ -30,6 +30,13 @@ runs:
     - name: Build the VS Code extension
       run: npm install --ignore-scripts
       shell: bash
+    - name: Install Code
+      run: |
+        curl -fSsL https://packages.microsoft.com/keys/microsoft.asc | sudo gpg --dearmor | sudo tee /usr/share/keyrings/vscode.gpg > /dev/null
+        echo deb [arch=amd64 signed-by=/usr/share/keyrings/vscode.gpg] https://packages.microsoft.com/repos/vscode stable main | sudo tee /etc/apt/sources.list.d/vscode.list
+        sudo apt update
+        sudo apt install code
+      shell: bash
     - name: Package the VS Code extension
       run: npm run build && npm run package
       shell: bash
