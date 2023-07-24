@@ -19,7 +19,10 @@ jobs:
           fetch-depth: 1
       - name: Pull the latest lingua-franca submodule
         run: |
-          ls -l
+          git checkout master
+          git pull
+          git submodule update --init --recursive
+        working-directory: vscode-lingua-franca/lingua-franca
       - name: Set nightly version number
         run: |
           ./.github/scripts/nightly-version.sh
