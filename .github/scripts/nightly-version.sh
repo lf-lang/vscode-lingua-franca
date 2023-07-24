@@ -10,3 +10,6 @@ date=$(date +%Y%m%d)
 # major.minor.patch version numbers are being used.
 nightly="${version%.*}.$date"
 npm version $nightly --no-git-tag-version
+
+# Show which files have changed.
+git status
