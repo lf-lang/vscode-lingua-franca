@@ -7,6 +7,11 @@ on:
   schedule:
     - cron: '0 5 * * *'
   workflow_dispatch:
+    inputs:
+      dry-run:
+        type: boolean
+        default: true
+        description: "Dry run"
 
 jobs:
   nightly-build:
@@ -34,3 +39,18 @@ jobs:
         run: |
           ls -l
           git status
+      - name: Publish to Visual Studio Marketplace
+        uses: HaaLeo/publish-vscode-extension@v1
+        with:
+          pat: ${{ secrets.PUBLISH_RELEASE }}
+          registryUrl: https://marketplace.visualstudio.com
+          extensionFile: vscode-lingua-franca/vscode-lingua-franca-${{ env.nightly }}.vsix
+          dryRun: true
+        #   ${{ inputs.dry-run }}
+      - name: Publish to Open VSX Registry
+        uses: HaaLeo/publish-vscode-extension@v1
+        with:
+          pat: ${{ secrets.VS_MARKETPLACE_TOKEN }}
+          extensionFile: vscode-lingua-franca/vscode-lingua-franca-${{ env.nightly }}.vsix
+          dryRun: true
+        #   ${{ inputs.dry-run }}

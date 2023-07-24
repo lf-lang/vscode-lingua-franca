@@ -11,5 +11,6 @@ date=$(date +%Y%m%d)
 nightly="${version%.*}.$date"
 npm version $nightly --no-git-tag-version
 
-# Show a diff of the changes.
-git diff
+# Store new version number as environment variable.
+nightly=$(echo "$(npm pkg get version)" | tr -d '"')
+echo "{version}={$nightly}" >> "$GITHUB_ENV"
