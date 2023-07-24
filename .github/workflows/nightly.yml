@@ -1,0 +1,23 @@
+name: Nightly build
+
+# Trigger the workflow every day at 5 AM (UTC).
+on:
+  schedule:
+    - cron: '0 5 * * *'
+  workflow_dispatch:
+
+jobs:
+  nightly-build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out vscode-lingua-franca repository
+        uses: actions/checkout@v3
+        with:
+          submodules: recursive
+          fetch-depth: 1
+      - name: Pull the latest lingua-franca submodule
+        run: |
+          ls -l
+      - name: Set nightly version number
+        run: |
+          ./.github/scripts/nightly-version.sh
