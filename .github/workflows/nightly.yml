@@ -34,15 +34,12 @@ jobs:
       - name: Build the extension
         uses: ./.github/actions/build
         with:
-          package: true  
-      - name: Report status
-        run: |
-          ls -l
-          git status
+          package: true
+          partial: true
       - name: Publish to Visual Studio Marketplace
         uses: HaaLeo/publish-vscode-extension@v1
         with:
-          pat: ${{ secrets.PUBLISH_RELEASE }}
+          pat: ${{ secrets.VS_MARKETPLACE_TOKEN }}
           registryUrl: https://marketplace.visualstudio.com
           extensionFile: vscode-lingua-franca/vscode-lingua-franca-${{ env.version }}.vsix
           preRelease: true
@@ -51,7 +48,7 @@ jobs:
       - name: Publish to Open VSX Registry
         uses: HaaLeo/publish-vscode-extension@v1
         with:
-          pat: ${{ secrets.VS_MARKETPLACE_TOKEN }}
+          pat: ${{ secrets.OPEN_VSX_TOKEN }}
           extensionFile: vscode-lingua-franca/vscode-lingua-franca-${{ env.version }}.vsix
           preRelease: true
           dryRun: true
