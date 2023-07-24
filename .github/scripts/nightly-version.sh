@@ -13,4 +13,4 @@ npm version $nightly --no-git-tag-version
 
 # Store new version number as environment variable.
 nightly=$(echo "$(npm pkg get version)" | tr -d '"')
-echo "{version}={$nightly}" >> "$GITHUB_ENV"
+echo "version=$nightly" >> "$GITHUB_ENV"

@@ -44,13 +44,15 @@ jobs:
         with:
           pat: ${{ secrets.PUBLISH_RELEASE }}
           registryUrl: https://marketplace.visualstudio.com
-          extensionFile: vscode-lingua-franca/vscode-lingua-franca-${{ env.nightly }}.vsix
+          extensionFile: vscode-lingua-franca/vscode-lingua-franca-${{ env.version }}.vsix
+          preRelease: true
           dryRun: true
         #   ${{ inputs.dry-run }}
       - name: Publish to Open VSX Registry
         uses: HaaLeo/publish-vscode-extension@v1
         with:
           pat: ${{ secrets.VS_MARKETPLACE_TOKEN }}
-          extensionFile: vscode-lingua-franca/vscode-lingua-franca-${{ env.nightly }}.vsix
+          extensionFile: vscode-lingua-franca/vscode-lingua-franca-${{ env.version }}.vsix
+          preRelease: true
           dryRun: true
         #   ${{ inputs.dry-run }}
