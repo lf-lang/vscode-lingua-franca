@@ -5,6 +5,10 @@ inputs:
   partial:
     required: false
     default: "true"
+  package:
+    description: Produce a VSIX package
+    default: false
+    required: false
 
 runs:
   using: "composite"
@@ -25,6 +29,11 @@ runs:
     - name: Build the VS Code extension
       run: npm install --ignore-scripts
       shell: bash
+      if: ${{ inputs.package != 'true' }}
+    - name: Build and package the VS Code extension
+      run: npm install
+      shell: bash
+      if: ${{ inputs.package == 'true' }}
     - name: Install pylint
       run: python3 -m pip install pylint
       shell: bash
