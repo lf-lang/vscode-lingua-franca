@@ -1,9 +1,10 @@
 name: Nightly build
 
-# Trigger the workflow every day at 5 AM (UTC).
 on:
+  # Trigger the workflow every day at 5 AM (UTC).
   schedule:
     - cron: '0 5 * * *'
+  # Also allow manual dispatch.
   workflow_dispatch:
     inputs:
       dry-run:
