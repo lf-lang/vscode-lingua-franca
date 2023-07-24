@@ -38,18 +38,26 @@ jobs:
         with:
           package: true
           partial: true
+      - name: Upload build artifact (dry run only)
+        uses: actions/upload-artifact@v2
+        with:
+          name: Nightly VS Code extension
+          path: vscode-lingua-franca-${{ env.version }}.vsix
+          if-no-files-found: error
+          retention-days: 3
+        if: ${{ inputs.dry-run == 'true' }}
       - name: Publish to Visual Studio Marketplace
         uses: HaaLeo/publish-vscode-extension@v1
         with:
           pat: ${{ secrets.VS_MARKETPLACE_TOKEN }}
           registryUrl: https://marketplace.visualstudio.com
-          extensionFile: vscode-lingua-franca/vscode-lingua-franca-${{ env.version }}.vsix
+          extensionFile: vscode-lingua-franca-${{ env.version }}.vsix
           preRelease: true
           dryRun: ${{ github.event_name == 'workflow_dispatch' && inputs.dry-run == 'true' }}
       - name: Publish to Open VSX Registry
         uses: HaaLeo/publish-vscode-extension@v1
         with:
           pat: ${{ secrets.OPEN_VSX_TOKEN }}
-          extensionFile: vscode-lingua-franca/vscode-lingua-franca-${{ env.version }}.vsix
+          extensionFile: vscode-lingua-franca-${{ env.version }}.vsix
           preRelease: true
           dryRun: ${{ github.event_name == 'workflow_dispatch' && inputs.dry-run == 'true' }}
