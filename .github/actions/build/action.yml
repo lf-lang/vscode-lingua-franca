@@ -37,6 +37,7 @@ runs:
         sudo apt update
         sudo apt install code
       shell: bash
+      if: ${{ inputs.package == 'true' }}
     - name: Package the VS Code extension
       run: npm run build && npm run package
       shell: bash
