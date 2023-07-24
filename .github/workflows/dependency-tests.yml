@@ -1,5 +1,5 @@
-# Main workflow for testing the Lingua Franca Visual Studio Code Extension
-name: CI
+# Workflow for testing check for dependencies in the Lingua Franca VS Code Extension
+name: Test Dependency checks
 
 on:
   # Trigger this workflow on push events, but only on main.
