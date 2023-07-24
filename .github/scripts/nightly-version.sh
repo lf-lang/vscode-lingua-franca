@@ -11,5 +11,5 @@ date=$(date +%Y%m%d)
 nightly="${version%.*}.$date"
 npm version $nightly --no-git-tag-version
 
-# Show which files have changed.
-git status
+# Show a diff of the changes.
+git diff
