@@ -24,7 +24,9 @@ jobs:
         platform: [ubuntu-latest]
     runs-on: ${{ matrix.platform }}
     steps:
-      - uses: lf-lang/vscode-lingua-franca/.github/actions/build@main
+      - uses: lf-lang/vscode-lingua-franca/.github/actions/build@update-error-message
+        with:
+          partial: "true"
       - name: Uninstall dependencies
         run: |
           python3 -m pip uninstall -y pylint
@@ -45,6 +47,8 @@ jobs:
     runs-on: ${{ matrix.platform }}
     steps:
       - uses: lf-lang/vscode-lingua-franca/.github/actions/build@main
+        with:
+          partial: true
       - name: Uninstall dependencies
         run: |
           python3 -m pip uninstall -y pylint
@@ -61,6 +65,8 @@ jobs:
     runs-on: ${{ matrix.platform }}
     steps:
       - uses: lf-lang/vscode-lingua-franca/.github/actions/build@main
+        with:
+          partial: "true"
       - name: Run tests (Linux)
         run: xvfb-run --auto-servernum --server-args="-screen 0 1280x960x24" -- npm run test-dependencies-missing-basic
         if: ${{ runner.os == 'Linux' }}
