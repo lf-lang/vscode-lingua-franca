@@ -268,6 +268,8 @@ export const watcherConfig: CheckSet[] = [
     },
 ];
 
+export const caveat = 'If this dependency is already on your system, start VS Code from a terminal emulator so that VS Code sees the same value of your PATH that you see in your terminal.'
+
 /**
  * Return a dependency checker that returns whether the given dependency is satisfied and, as a side
  * effect, warns the user if not.
@@ -277,10 +279,10 @@ const checkDependency: UserFacingVersionCheckerMaker = (dependency: DependencyIn
         (MessageDisplayHelper: MessageDisplayHelper) => async () => {
     const checkerResult: versionChecker.VersionCheckResult = await dependency.checker();
     if (checkerResult.isCorrect) return true;
-    const message: string = await (checkerResult.isCorrect === false ? (
+    const message: string = (await (checkerResult.isCorrect === false ? (
         dependency.wrongVersionMessage?.(checkerResult)
         ?? dependency.message(checkerResult)
-    ) : dependency.message(checkerResult));
+    ) : dependency.message(checkerResult))) + ' ' + caveat;
     const installCommand: InstallCommand = await dependency.installCommand?.(checkerResult);
     if (!installCommand && !dependency.installLink) {
         MessageDisplayHelper(message);
@@ -320,7 +322,7 @@ export const checkerFor: CheckerGetter = (name: Dependency) => {
 };
 
 const doDependencyCheck = (document: vscode.TextDocument) => {
-    if (document.languageId != "lflang") return;
+    if (document.languageId != 'lflang') return;
     for (const checkSet of watcherConfig.filter(it => it.regexp.test(document.getText()))) {
         for (const check of checkSet.checks.filter(
             it => !it.alreadyChecked || (it.isEssential && !it.satisfied))
