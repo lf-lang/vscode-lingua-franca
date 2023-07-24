@@ -22,7 +22,7 @@ jobs:
           git checkout master
           git pull
           git submodule update --init --recursive
-        working-directory: vscode-lingua-franca/lingua-franca
+        working-directory: lingua-franca
       - name: Set nightly version number
         run: |
           ./.github/scripts/nightly-version.sh
