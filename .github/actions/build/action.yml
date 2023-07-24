@@ -1,52 +1,66 @@
 name: Build
-description: Set up repository and install dependencies required to build extension.
+description: Set up build dependencies and build the extension
 
 inputs:
-  partial:
+  package:
+    description: Produce a VSIX package
+    default: false
     required: false
-    default: "true"
+  partial:
+    description: Skip the installation of extra dependencies
+    required: false
+    default: true
 
 runs:
   using: "composite"
   steps:
-    - name: Check out vscode-lingua-franca repository
-      uses: actions/checkout@v3
-      with:
-        submodules: recursive
-        fetch-depth: 1
     - name: Set up Java 17
       run: |
         echo "$JAVA_HOME_17_X64/bin" >> $GITHUB_PATH
         echo "org.gradle.java.home=${JAVA_HOME_17_X64//\\/\/}" >> gradle.properties
         echo "JAVA_HOME=$JAVA_HOME_17_X64" >> $GITHUB_ENV
+      working-directory: lingua-franca
       shell: bash
     - name: Check settings
       run: |
         echo $(which java)
         cat gradle.properties
         echo $JAVA_HOME
+      working-directory: lingua-franca
       shell: bash
     - name: Build the VS Code extension
       run: npm install --ignore-scripts
       shell: bash
+    - name: Install Code
+      run: |
+        curl -fSsL https://packages.microsoft.com/keys/microsoft.asc | sudo gpg --dearmor | sudo tee /usr/share/keyrings/vscode.gpg > /dev/null
+        echo deb [arch=amd64 signed-by=/usr/share/keyrings/vscode.gpg] https://packages.microsoft.com/repos/vscode stable main | sudo tee /etc/apt/sources.list.d/vscode.list
+        sudo apt update
+        sudo apt install code
+      shell: bash
+      if: ${{ inputs.package == 'true' }}
+    - name: Package the VS Code extension
+      run: npm run build && npm run package
+      shell: bash
+      if: ${{ inputs.package == 'true' }}
     - name: Install pylint
       run: python3 -m pip install pylint
       shell: bash
-      if: ${{ inputs.partial != 'false' }}
+      if: ${{ inputs.partial == 'true' }}
     - name: Install pnpm
       run: npm i -g pnpm
       shell: bash
-      if: ${{ inputs.partial != 'false' }}
+      if: ${{ inputs.partial == 'true' }}
     - name: Setup Rust
       uses: ATiltedTree/setup-rust@v1
       with:
         rust-version: stable
         components: clippy
-      if: ${{ inputs.partial != 'false' }}
+      if: ${{ inputs.partial == 'true' }}
     - name: Install RTI
       run: |
         cd lingua-franca
         .github/actions/install-rti/install.sh
         cd ..
       shell: bash
-      if: ${{ (runner.os == 'macOS' || runner.os == 'Linux') && inputs.partial != 'false' }}
+      if: ${{ (runner.os == 'macOS' || runner.os == 'Linux') && inputs.partial == 'true' }}

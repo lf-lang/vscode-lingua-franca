@@ -1,0 +1,55 @@
+name: Nightly build
+
+on:
+  # Trigger the workflow every day at 5 AM (UTC).
+  schedule:
+    - cron: '0 5 * * *'
+  # Also allow manual dispatch.
+  workflow_dispatch:
+    inputs:
+      dry-run:
+        type: boolean
+        default: true
+        description: "Dry run"
+
+jobs:
+  nightly-build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out vscode-lingua-franca repository
+        uses: actions/checkout@v3
+        with:
+          submodules: recursive
+          fetch-depth: 1
+      - name: Pull the latest lingua-franca submodule
+        run: |
+          git checkout master
+          git pull
+          git submodule update --init --recursive
+        working-directory: lingua-franca
+      - name: Set the time zone to Berkeley, CA
+        run: |
+          sudo timedatectl set-timezone America/Los_Angeles
+      - name: Set the nightly version number
+        run: |
+          ./.github/scripts/nightly-version.sh
+      - name: Build the extension
+        uses: ./.github/actions/build
+        with:
+          package: true
+          partial: true
+      - name: Publish to Visual Studio Marketplace
+        uses: HaaLeo/publish-vscode-extension@v1
+        with:
+          pat: ${{ secrets.VS_MARKETPLACE_TOKEN }}
+          registryUrl: https://marketplace.visualstudio.com
+          extensionFile: vscode-lingua-franca/vscode-lingua-franca-${{ env.version }}.vsix
+          preRelease: true
+          dryRun: ${{ github.event_name == 'workflow_dispatch' && inputs.dry-run == 'true' }}
+      - name: Publish to Open VSX Registry
+        uses: HaaLeo/publish-vscode-extension@v1
+        with:
+          pat: ${{ secrets.OPEN_VSX_TOKEN }}
+          extensionFile: vscode-lingua-franca/vscode-lingua-franca-${{ env.version }}.vsix
+          preRelease: true
+          dryRun: ${{ github.event_name == 'workflow_dispatch' && inputs.dry-run == 'true' }}
