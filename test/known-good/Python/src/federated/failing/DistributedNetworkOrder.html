@@ -59,7 +59,7 @@ Python
 </span>
 
 <span class="source-lf meta-targetspec-lflang variable-parameter-lflang">
-    timeout
+  timeout
 </span>
 <span class="source-lf meta-targetspec-lflang">
 : 
@@ -96,7 +96,7 @@ Sender
 </span>
 
 <span class="source-lf">
-    
+  
 </span>
 <span class="source-lf storage-modifier-lflang">
 output
@@ -109,7 +109,7 @@ out
 </span>
 
 <span class="source-lf">
-    
+  
 </span>
 <span class="source-lf storage-modifier-lflang">
 timer
@@ -141,7 +141,7 @@ msec
 </span>
 
 <span class="source-lf">
-    
+  
 </span>
 <span class="source-lf keyword-control-lflang">
 reaction
@@ -154,43 +154,43 @@ reaction
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-        int payload = 1;
+    int payload = 1;
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-        if (lf.time.logical_elapsed() == 0LL) {
+    if (lf.time.logical_elapsed() == 0LL) {
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-            send_timed_message(MSEC(10), MSG_TYPE_TAGGED_MESSAGE, 0, 1, "federate 1", sizeof(int),
+      send_timed_message(MSEC(10), MSG_TYPE_TAGGED_MESSAGE, 0, 1, "federate 1", sizeof(int),
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-                                (unsigned char*)&payload);
+                (unsigned char*)&payload);
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-        } else if (lf.time.logical_elapsed() == MSEC(5)) {
+    } else if (lf.time.logical_elapsed() == MSEC(5)) {
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-            payload = 2;
+      payload = 2;
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-            send_timed_message(MSEC(5), MSG_TYPE_TAGGED_MESSAGE, 0, 1, "federate 1", sizeof(int),
+      send_timed_message(MSEC(5), MSG_TYPE_TAGGED_MESSAGE, 0, 1, "federate 1", sizeof(int),
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-                                (unsigned char*)&payload);
+                (unsigned char*)&payload);
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-        }
+    }
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-    
+  
 </span>
 <span class="source-lf meta-embedded-block-py">
 =}
@@ -218,7 +218,7 @@ Receiver
 </span>
 
 <span class="source-lf">
-    
+  
 </span>
 <span class="source-lf storage-modifier-lflang">
 input
@@ -231,7 +231,7 @@ in_
 </span>
 
 <span class="source-lf">
-    
+  
 </span>
 <span class="source-lf storage-modifier-lflang">
 state
@@ -257,7 +257,7 @@ success
 </span>
 
 <span class="source-lf">
-    
+  
 </span>
 <span class="source-lf keyword-control-lflang">
 reaction
@@ -270,55 +270,55 @@ reaction
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-        tag_t current_tag = lf.tag();
+    tag_t current_tag = lf.tag();
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-        if (current_tag.time == (start_time + MSEC(10))) {
+    if (current_tag.time == (start_time + MSEC(10))) {
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-            if (current_tag.microstep == 0 && in_->value == 1) {
+      if (current_tag.microstep == 0 && in_->value == 1) {
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-                self->success++;
+        self->success++;
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-            } else if (current_tag.microstep == 1 && in_->value == 2) {
+      } else if (current_tag.microstep == 1 && in_->value == 2) {
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-                self->success++;
+        self->success++;
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-            }
+      }
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-        }
+    }
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-        printf("Received %d at tag (%lld, %u).\n",
+    printf("Received %d at tag (%lld, %u).\n",
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-               in_->value,
+         in_->value,
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-               current_tag.time,
+         current_tag.time,
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-               current_tag.microstep);
+         current_tag.microstep);
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-    
+  
 </span>
 <span class="source-lf meta-embedded-block-py">
 =}
@@ -329,7 +329,7 @@ reaction
 </span>
 
 <span class="source-lf">
-    
+  
 </span>
 <span class="source-lf keyword-control-lflang">
 reaction
@@ -348,27 +348,27 @@ shutdown
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-        if (self->success != 2) {
+    if (self->success != 2) {
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-            fprintf(stderr, "ERROR: Failed to receive messages.\n");
+      fprintf(stderr, "ERROR: Failed to receive messages.\n");
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-            exit(1);
+      exit(1);
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-        }
+    }
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-        printf("SUCCESS.\n");
+    printf("SUCCESS.\n");
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-    
+  
 </span>
 <span class="source-lf meta-embedded-block-py">
 =}
@@ -402,7 +402,7 @@ DistributedNetworkOrder
 </span>
 
 <span class="source-lf">
-    
+  
 </span>
 <span class="source-lf variable-other-constant-reactorinstance-lflang">
 sender
@@ -430,7 +430,7 @@ Sender
 </span>
 
 <span class="source-lf">
-    
+  
 </span>
 <span class="source-lf variable-other-constant-reactorinstance-lflang">
 receiver
@@ -462,7 +462,7 @@ Receiver
 </span>
 
 <span class="source-lf">
-    
+  
 </span>
 <span class="source-lf variable-other-constant-reactorinstance-lflang">
 sender

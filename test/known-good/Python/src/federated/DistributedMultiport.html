@@ -165,11 +165,11 @@ reaction
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-        out[i].set(self.count)
+      out[i].set(self.count)
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-        self.count += 1
+      self.count += 1
 </span>
 
 <span class="source-lf meta-embedded-block-py">
@@ -288,27 +288,27 @@ reaction
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-        if in_[i].is_present:
+      if in_[i].is_present:
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-            print("Received {}.".format(in_[i].value))
+        print("Received {}.".format(in_[i].value))
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-            if in_[i].value != self.count:
+        if in_[i].value != self.count:
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-                self.sys.stderr.write("Expected {}.\n".format(self.count))
+          self.sys.stderr.write("Expected {}.\n".format(self.count))
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-                self.sys.exit(1)
+          self.sys.exit(1)
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-            self.count += 1
+        self.count += 1
 </span>
 
 <span class="source-lf meta-embedded-block-py">
@@ -346,11 +346,11 @@ shutdown
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-        self.sys.stderr.write("No data received.")
+      self.sys.stderr.write("No data received.")
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-        self.sys.exit(1)
+      self.sys.exit(1)
 </span>
 
 <span class="source-lf meta-embedded-block-py">

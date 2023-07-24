@@ -162,7 +162,7 @@ input
 in_
 </span>
 <span class="source-lf">
-           # 
+             # 
 </span>
 <span class="source-lf variable-other-lflang">
 STP
@@ -199,7 +199,7 @@ success
 0
 </span>
 <span class="source-lf">
-   
+     
 </span>
 <span class="source-lf comment-line-double-dash-lflang">
 # STP(in, 30 msec);
@@ -246,7 +246,7 @@ timer
 , 
 </span>
 <span class="source-lf constant-numeric-int-lflang">
-1
+100
 </span>
 <span class="source-lf">
  
@@ -286,7 +286,7 @@ c
 0
 </span>
 <span class="source-lf">
-         
+           
 </span>
 <span class="source-lf comment-line-double-dash-lflang">
 # to ensure logical time will advance in the absence of incoming messages.
@@ -318,27 +318,27 @@ reaction
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-        lf.time.logical_elapsed(),
+      lf.time.logical_elapsed(),
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-        lf.tag().microstep,
+      lf.tag().microstep,
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-        in_.value,
+      in_.value,
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-        in_.intended_tag.time - lf.time.start(),
+      in_.intended_tag.time - lf.time.start(),
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-        in_.intended_tag.microstep
+      in_.intended_tag.microstep
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-        )
+      )
 </span>
 
 <span class="source-lf meta-embedded-block-py">
@@ -350,7 +350,7 @@ reaction
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-        self.success += 1 # Message was on-time
+      self.success += 1 # Message was on-time
 </span>
 
 <span class="source-lf meta-embedded-block-py">
@@ -391,19 +391,19 @@ STP
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-            current_tag.time - lf.time.start(), current_tag.microstep,
+        current_tag.time - lf.time.start(), current_tag.microstep,
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-            current_tag.time - in_.intended_tag.time,
+        current_tag.time - in_.intended_tag.time,
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-            current_tag.microstep - in_.intended_tag.microstep
+        current_tag.microstep - in_.intended_tag.microstep
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-            )
+        )
 </span>
 
 <span class="source-lf meta-embedded-block-py">
@@ -481,11 +481,11 @@ shutdown
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-        self.sys.stderr.write("Failed to detect STP violations in messages.\n")
+      self.sys.stderr.write("Failed to detect STP violations in messages.\n")
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-        self.sys.exit(1)
+      self.sys.exit(1)
 </span>
 
 <span class="source-lf meta-embedded-block-py">
@@ -493,7 +493,7 @@ shutdown
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-        print("Successfully detected STP violation ({} violations, {} on-time).".format(self.success_stp_violation, self.success))
+      print("Successfully detected STP violation ({} violations, {} on-time).".format(self.success_stp_violation, self.success))
 </span>
 
 <span class="source-lf meta-embedded-block-py">

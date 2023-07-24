@@ -238,7 +238,7 @@ timer
 , 
 </span>
 <span class="source-lf constant-numeric-int-lflang">
-10
+100
 </span>
 <span class="source-lf">
  
@@ -287,7 +287,7 @@ int
 0
 </span>
 <span class="source-lf">
-     
+      
 </span>
 <span class="source-lf comment-line-double-dash-lflang">
 // to ensure logical time will advance in the absence of incoming messages.
@@ -324,16 +324,13 @@ in) {
 </span>
 
 <span class="source-lf">
-    printf(
+    lf_print(
 </span>
 <span class="source-lf string-quoted-double-lflang">
 "
 </span>
 <span class="source-lf string-quoted-double-lflang">
-At tag (%lld, %u) received %d. Intended tag is (%lld, %u).
-</span>
-<span class="source-lf string-quoted-double-lflang constant-character-escape">
-\n
+At tag (%lld, %u) ImportantActuator received %d. Intended tag is (%lld, %u).
 </span>
 <span class="source-lf string-quoted-double-lflang">
 "
@@ -343,11 +340,11 @@ At tag (%lld, %u) received %d. Intended tag is (%lld, %u).
 </span>
 
 <span class="source-lf">
-        lf_time_logical_elapsed(),
+      lf_time_logical_elapsed(),
 </span>
 
 <span class="source-lf">
-        lf_tag()
+      lf_tag()
 </span>
 <span class="source-lf keyword-operator-lflang">
 .
@@ -357,7 +354,7 @@ microstep,
 </span>
 
 <span class="source-lf">
-        in
+      in
 </span>
 <span class="source-lf keyword-operator-lflang">
 ->
@@ -367,7 +364,7 @@ value,
 </span>
 
 <span class="source-lf">
-        in
+      in
 </span>
 <span class="source-lf keyword-operator-lflang">
 ->
@@ -392,7 +389,7 @@ time
 </span>
 
 <span class="source-lf">
-        in
+      in
 </span>
 <span class="source-lf keyword-operator-lflang">
 ->
@@ -463,7 +460,7 @@ microstep
 </span>
 
 <span class="source-lf">
-                     (tag_t){
+             (tag_t){
 </span>
 <span class="source-lf keyword-operator-lflang">
 .
@@ -527,7 +524,7 @@ microstep
 </span>
 
 <span class="source-lf">
-        self
+      self
 </span>
 <span class="source-lf keyword-operator-lflang">
 ->
@@ -607,16 +604,13 @@ STP
 </span>
 
 <span class="source-lf">
-    printf(
+    lf_print(
 </span>
 <span class="source-lf string-quoted-double-lflang">
 "
 </span>
 <span class="source-lf string-quoted-double-lflang">
 Message violated STP offset by (%lld, %u).
-</span>
-<span class="source-lf string-quoted-double-lflang constant-character-escape">
-\n
 </span>
 <span class="source-lf string-quoted-double-lflang">
 "
@@ -626,7 +620,7 @@ Message violated STP offset by (%lld, %u).
 </span>
 
 <span class="source-lf">
-            
+        
 </span>
 <span class="source-lf variable-other-constant-reactorinstance-lflang">
 current_tag
@@ -663,7 +657,7 @@ time
 </span>
 
 <span class="source-lf">
-            
+        
 </span>
 <span class="source-lf variable-other-constant-reactorinstance-lflang">
 current_tag
@@ -842,7 +836,7 @@ success_stp_violation) !
 </span>
 
 <span class="source-lf">
-        fprintf(stderr, 
+      fprintf(stderr, 
 </span>
 <span class="source-lf string-quoted-double-lflang">
 "
@@ -861,7 +855,7 @@ Failed to detect STP violations in messages.
 </span>
 
 <span class="source-lf">
-        exit(
+      exit(
 </span>
 <span class="source-lf constant-numeric-int-lflang">
 1
@@ -875,7 +869,7 @@ Failed to detect STP violations in messages.
 </span>
 
 <span class="source-lf">
-        printf(
+      printf(
 </span>
 <span class="source-lf string-quoted-double-lflang">
 "
@@ -993,16 +987,13 @@ in) {
 </span>
 
 <span class="source-lf">
-    printf(
+    lf_print(
 </span>
 <span class="source-lf string-quoted-double-lflang">
 "
 </span>
 <span class="source-lf string-quoted-double-lflang">
-At tag (%lld, %u) received %d. Intended tag is (%lld, %u).
-</span>
-<span class="source-lf string-quoted-double-lflang constant-character-escape">
-\n
+At tag (%lld, %u) Print received %d. Intended tag is (%lld, %u).
 </span>
 <span class="source-lf string-quoted-double-lflang">
 "
@@ -1012,7 +1003,7 @@ At tag (%lld, %u) received %d. Intended tag is (%lld, %u).
 </span>
 
 <span class="source-lf">
-           
+         
 </span>
 <span class="source-lf variable-other-constant-reactorinstance-lflang">
 current_tag
@@ -1034,7 +1025,7 @@ time
 </span>
 
 <span class="source-lf">
-           
+         
 </span>
 <span class="source-lf variable-other-constant-reactorinstance-lflang">
 current_tag
@@ -1050,7 +1041,7 @@ microstep
 </span>
 
 <span class="source-lf">
-           in
+         in
 </span>
 <span class="source-lf keyword-operator-lflang">
 ->
@@ -1060,7 +1051,7 @@ value,
 </span>
 
 <span class="source-lf">
-           in
+         in
 </span>
 <span class="source-lf keyword-operator-lflang">
 ->
@@ -1085,7 +1076,7 @@ time
 </span>
 
 <span class="source-lf">
-           in
+         in
 </span>
 <span class="source-lf keyword-operator-lflang">
 ->
@@ -1172,7 +1163,7 @@ timer
 , 
 </span>
 <span class="source-lf constant-numeric-int-lflang">
-10
+100
 </span>
 <span class="source-lf">
  
@@ -1221,7 +1212,7 @@ int
 0
 </span>
 <span class="source-lf">
-     
+      
 </span>
 <span class="source-lf comment-line-double-dash-lflang">
 // to ensure logical time will advance in the absence of incoming messages.

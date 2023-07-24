@@ -198,7 +198,7 @@ success
 0
 </span>
 <span class="source-lf">
-    
+     
 </span>
 <span class="source-lf comment-line-double-dash-lflang">
 # Count messages that arrive without STP violation.
@@ -245,13 +245,13 @@ timer
 , 
 </span>
 <span class="source-lf constant-numeric-int-lflang">
-10
+100
 </span>
 <span class="source-lf">
  
 </span>
 <span class="source-lf constant-numeric-lflang">
-usec
+msec
 </span>
 <span class="source-lf">
 )  
@@ -285,7 +285,7 @@ c
 0
 </span>
 <span class="source-lf">
-          
+           
 </span>
 <span class="source-lf comment-line-double-dash-lflang">
 # to ensure logical time will advance in the absence of incoming messages.
@@ -317,7 +317,7 @@ reaction
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-          f"Intended tag is ({inp.intended_tag.time - lf.time.start()}, {inp.intended_tag.microstep}).")
+        f"Intended tag is ({inp.intended_tag.time - lf.time.start()}, {inp.intended_tag.microstep}).")
 </span>
 
 <span class="source-lf meta-embedded-block-py">
@@ -325,7 +325,7 @@ reaction
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-        self.success += 1 # Message was on-time
+      self.success += 1 # Message was on-time
 </span>
 
 <span class="source-lf meta-embedded-block-py">
@@ -333,11 +333,11 @@ reaction
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-        self.sys.stderr.write("Normal reaction was invoked, but current tag doesn't match expected tag.")
+      self.sys.stderr.write("Normal reaction was invoked, but current tag doesn't match expected tag.")
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-        self.sys.exit(1)
+      self.sys.exit(1)
 </span>
 
 <span class="source-lf meta-embedded-block-py">
@@ -378,7 +378,7 @@ STP
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-          f"by ({lf.tag().time - inp.intended_tag.time}, {lf.tag().microstep - inp.intended_tag.microstep}).")
+        f"by ({lf.tag().time - inp.intended_tag.time}, {lf.tag().microstep - inp.intended_tag.microstep}).")
 </span>
 
 <span class="source-lf meta-embedded-block-py">
@@ -452,11 +452,11 @@ shutdown
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-        self.sys.stderr.write("Failed to detect STP violation in messages.")
+      self.sys.stderr.write("Failed to detect STP violation in messages.")
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-        self.sys.exit(1)
+      self.sys.exit(1)
 </span>
 
 <span class="source-lf meta-embedded-block-py">
@@ -464,7 +464,7 @@ shutdown
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-        print(f"Successfully detected STP violations ({self.success_stp_violation} violations, {self.success} on-time).")
+      print(f"Successfully detected STP violations ({self.success_stp_violation} violations, {self.success} on-time).")
 </span>
 
 <span class="source-lf meta-embedded-block-py">
@@ -524,7 +524,7 @@ timer
 , 
 </span>
 <span class="source-lf constant-numeric-int-lflang">
-10
+100
 </span>
 <span class="source-lf">
  
@@ -564,7 +564,7 @@ c
 0
 </span>
 <span class="source-lf">
-          
+           
 </span>
 <span class="source-lf comment-line-double-dash-lflang">
 # to ensure logical time will advance in the absence of incoming messages.

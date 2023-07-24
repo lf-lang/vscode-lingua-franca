@@ -265,7 +265,7 @@ timer
 , 
 </span>
 <span class="source-lf constant-numeric-int-lflang">
-10
+100
 </span>
 <span class="source-lf">
  
@@ -342,16 +342,13 @@ in) {
 </span>
 
 <span class="source-lf">
-    printf(
+    lf_print(
 </span>
 <span class="source-lf string-quoted-double-lflang">
 "
 </span>
 <span class="source-lf string-quoted-double-lflang">
 At tag (%lld, %u) received %d. Intended tag is (%lld, %u).
-</span>
-<span class="source-lf string-quoted-double-lflang constant-character-escape">
-\n
 </span>
 <span class="source-lf string-quoted-double-lflang">
 "
@@ -361,11 +358,11 @@ At tag (%lld, %u) received %d. Intended tag is (%lld, %u).
 </span>
 
 <span class="source-lf">
-        lf_time_logical_elapsed(),
+      lf_time_logical_elapsed(),
 </span>
 
 <span class="source-lf">
-        lf_tag()
+      lf_tag()
 </span>
 <span class="source-lf keyword-operator-lflang">
 .
@@ -375,7 +372,7 @@ microstep,
 </span>
 
 <span class="source-lf">
-        in
+      in
 </span>
 <span class="source-lf keyword-operator-lflang">
 ->
@@ -385,7 +382,7 @@ value,
 </span>
 
 <span class="source-lf">
-        in
+      in
 </span>
 <span class="source-lf keyword-operator-lflang">
 ->
@@ -410,7 +407,7 @@ time
 </span>
 
 <span class="source-lf">
-        in
+      in
 </span>
 <span class="source-lf keyword-operator-lflang">
 ->
@@ -481,7 +478,7 @@ microstep
 </span>
 
 <span class="source-lf">
-                     (tag_t){
+             (tag_t){
 </span>
 <span class="source-lf keyword-operator-lflang">
 .
@@ -545,7 +542,7 @@ microstep
 </span>
 
 <span class="source-lf">
-        self
+      self
 </span>
 <span class="source-lf keyword-operator-lflang">
 ->
@@ -625,16 +622,13 @@ STP
 </span>
 
 <span class="source-lf">
-    printf(
+    lf_print(
 </span>
 <span class="source-lf string-quoted-double-lflang">
 "
 </span>
 <span class="source-lf string-quoted-double-lflang">
 At tag (%lld, %u), message has violated the STP offset by (%lld, %u).
-</span>
-<span class="source-lf string-quoted-double-lflang constant-character-escape">
-\n
 </span>
 <span class="source-lf string-quoted-double-lflang">
 "
@@ -644,7 +638,7 @@ At tag (%lld, %u), message has violated the STP offset by (%lld, %u).
 </span>
 
 <span class="source-lf">
-            
+        
 </span>
 <span class="source-lf variable-other-constant-reactorinstance-lflang">
 current_tag
@@ -678,7 +672,7 @@ microstep
 </span>
 
 <span class="source-lf">
-            
+        
 </span>
 <span class="source-lf variable-other-constant-reactorinstance-lflang">
 current_tag
@@ -715,7 +709,7 @@ time
 </span>
 
 <span class="source-lf">
-            
+        
 </span>
 <span class="source-lf variable-other-constant-reactorinstance-lflang">
 current_tag
@@ -894,7 +888,7 @@ success_stp_violation) !
 </span>
 
 <span class="source-lf">
-        fprintf(stderr, 
+      lf_print_error_and_exit(
 </span>
 <span class="source-lf string-quoted-double-lflang">
 "
@@ -902,21 +896,8 @@ success_stp_violation) !
 <span class="source-lf string-quoted-double-lflang">
 Failed to detect STP violations in messages.
 </span>
-<span class="source-lf string-quoted-double-lflang constant-character-escape">
-\n
-</span>
 <span class="source-lf string-quoted-double-lflang">
 "
-</span>
-<span class="source-lf">
-);
-</span>
-
-<span class="source-lf">
-        exit(
-</span>
-<span class="source-lf constant-numeric-int-lflang">
-1
 </span>
 <span class="source-lf">
 );
@@ -927,16 +908,13 @@ Failed to detect STP violations in messages.
 </span>
 
 <span class="source-lf">
-        printf(
+      lf_print(
 </span>
 <span class="source-lf string-quoted-double-lflang">
 "
 </span>
 <span class="source-lf string-quoted-double-lflang">
 Successfully detected STP violation (%d violations, %d on-time).
-</span>
-<span class="source-lf string-quoted-double-lflang constant-character-escape">
-\n
 </span>
 <span class="source-lf string-quoted-double-lflang">
 "

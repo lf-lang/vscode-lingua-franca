@@ -185,6 +185,10 @@ reaction
 
 </span>
 
+<span class="source-lf comment-line-double-dash-lflang">
+# The scale parameter is just for testing.
+</span>
+
 <span class="source-lf storage-modifier-lflang">
 reactor
 </span>
@@ -195,22 +199,16 @@ reactor
 Print
 </span>
 <span class="source-lf">
-(scale 
+(scale
 </span>
 <span class="source-lf keyword-operator-lflang">
 =
-</span>
-<span class="source-lf">
- 
 </span>
 <span class="source-lf constant-numeric-int-lflang">
 1
 </span>
 <span class="source-lf">
-) {  
-</span>
-<span class="source-lf comment-line-double-dash-lflang">
-# The scale parameter is just for testing.
+) {
 </span>
 
 <span class="source-lf">
@@ -314,11 +312,11 @@ reaction
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-        sys.stderr.write("ERROR: Value received by Print does not match expectation!\n")
+      sys.stderr.write("ERROR: Value received by Print does not match expectation!\n")
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-        exit(1)
+      exit(1)
 </span>
 
 <span class="source-lf meta-embedded-block-py">
@@ -326,11 +324,11 @@ reaction
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-        sys.stderr.write("ERROR: Received list length is not 3!\n")
+      sys.stderr.write("ERROR: Received list length is not 3!\n")
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-        exit(2)
+      exit(2)
 </span>
 
 <span class="source-lf meta-embedded-block-py">
@@ -376,11 +374,11 @@ shutdown
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-        sys.stderr.write("ERROR: Print reactor received no inputs.\n")
+      sys.stderr.write("ERROR: Print reactor received no inputs.\n")
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-        exit(3)
+      exit(3)
 </span>
 
 <span class="source-lf meta-embedded-block-py">

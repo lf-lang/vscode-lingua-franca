@@ -59,7 +59,7 @@ Python
 </span>
 
 <span class="source-lf meta-targetspec-lflang variable-parameter-lflang">
-    timeout
+  timeout
 </span>
 <span class="source-lf meta-targetspec-lflang">
 : 
@@ -162,7 +162,7 @@ reactor
 </span>
 
 <span class="source-lf">
-    
+  
 </span>
 <span class="source-lf keyword-control-lflang">
 preamble
@@ -175,7 +175,7 @@ preamble
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-        
+    
 </span>
 <span class="source-lf meta-embedded-block-py keyword-control-import-python">
 import
@@ -185,14 +185,14 @@ import
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-    
+  
 </span>
 <span class="source-lf meta-embedded-block-py">
 =}
 </span>
 
 <span class="source-lf">
-    
+  
 </span>
 <span class="source-lf storage-modifier-lflang">
 input
@@ -208,7 +208,7 @@ in_
 </span>
 
 <span class="source-lf">
-    
+  
 </span>
 <span class="source-lf storage-modifier-lflang">
 output
@@ -224,7 +224,7 @@ out
 </span>
 
 <span class="source-lf">
-    
+  
 </span>
 <span class="source-lf storage-modifier-lflang">
 state
@@ -246,7 +246,7 @@ successes
 </span>
 
 <span class="source-lf">
-    
+  
 </span>
 <span class="source-lf keyword-control-lflang">
 reaction
@@ -265,18 +265,18 @@ startup
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-        self.successes += 1;
+    self.successes += 1;
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-    
+  
 </span>
 <span class="source-lf meta-embedded-block-py">
 =}
 </span>
 
 <span class="source-lf">
-    
+  
 </span>
 <span class="source-lf storage-modifier-lflang">
 timer
@@ -304,7 +304,7 @@ sec
 </span>
 
 <span class="source-lf">
-    
+  
 </span>
 <span class="source-lf keyword-control-lflang">
 reaction
@@ -323,22 +323,22 @@ reaction
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-        self.successes += 1;
+    self.successes += 1;
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-        act.schedule(0);
+    act.schedule(0);
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-    
+  
 </span>
 <span class="source-lf meta-embedded-block-py">
 =}
 </span>
 
 <span class="source-lf">
-    
+  
 </span>
 <span class="source-lf storage-modifier-lflang">
 logical
@@ -366,7 +366,7 @@ act
 </span>
 
 <span class="source-lf">
-    
+  
 </span>
 <span class="source-lf keyword-control-lflang">
 reaction
@@ -385,39 +385,39 @@ reaction
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-        self.successes += 1;
+    self.successes += 1;
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-        if in_.is_present:
+    if in_.is_present:
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-            self.sys.stderr.write("Input is present in the top-level reactor!\n");
+      self.sys.stderr.write("Input is present in the top-level reactor!\n");
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-            self.sys.exit(1);
+      self.sys.exit(1);
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-        out.set(1);
+    out.set(1);
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-        if out.value != 1:
+    if out.value != 1:
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-            self.sys.stderr.write("Ouput has unexpected value {}!\n".format(out.value));
+      self.sys.stderr.write("Ouput has unexpected value {}!\n".format(out.value));
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-            self.sys.exit(1);
+      self.sys.exit(1);
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-    
+  
 </span>
 <span class="source-lf meta-embedded-block-py">
 =}
@@ -428,7 +428,7 @@ reaction
 </span>
 
 <span class="source-lf">
-    
+  
 </span>
 <span class="source-lf variable-other-constant-reactorinstance-lflang">
 c
@@ -456,7 +456,7 @@ Count
 </span>
 
 <span class="source-lf">
-    
+  
 </span>
 <span class="source-lf variable-other-constant-reactorinstance-lflang">
 tc
@@ -484,7 +484,7 @@ TestCount
 </span>
 
 <span class="source-lf">
-    
+  
 </span>
 <span class="source-lf variable-other-constant-reactorinstance-lflang">
 c
@@ -522,7 +522,7 @@ in_
 </span>
 
 <span class="source-lf">
-    
+  
 </span>
 <span class="source-lf keyword-control-lflang">
 reaction
@@ -541,23 +541,23 @@ shutdown
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-        if self->successes != 3:
+    if self->successes != 3:
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-            self.sys.stderr.write("Failed to properly execute top-level reactions\n");
+      self.sys.stderr.write("Failed to properly execute top-level reactions\n");
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-            self.sys.exit(1);
+      self.sys.exit(1);
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-        print("SUCCESS!");
+    print("SUCCESS!");
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-    
+  
 </span>
 <span class="source-lf meta-embedded-block-py">
 =}

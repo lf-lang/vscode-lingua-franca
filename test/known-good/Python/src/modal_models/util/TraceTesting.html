@@ -32,13 +32,10 @@ reactor
 TraceTesting
 </span>
 <span class="source-lf">
-(events_size 
+(events_size
 </span>
 <span class="source-lf keyword-operator-lflang">
 =
-</span>
-<span class="source-lf">
- 
 </span>
 <span class="source-lf constant-numeric-int-lflang">
 0
@@ -62,13 +59,10 @@ TraceTesting
 =}
 </span>
 <span class="source-lf">
-, training 
+, training
 </span>
 <span class="source-lf keyword-operator-lflang">
 =
-</span>
-<span class="source-lf">
- 
 </span>
 <span class="source-lf constant-language-lflang">
 False
@@ -260,11 +254,11 @@ reaction
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-        # Save the time
+      # Save the time
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-        self.recorded_events.append(curr_reaction_delay)
+      self.recorded_events.append(curr_reaction_delay)
 </span>
 
 <span class="source-lf meta-embedded-block-py">
@@ -272,27 +266,15 @@ reaction
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-        if self.trace_idx >= len(self.trace):
+      if self.trace_idx >= len(self.trace):
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-            sys.stderr.write("ERROR: Trace Error: Current execution exceeds given trace.\n")
+        sys.stderr.write("ERROR: Trace Error: Current execution exceeds given trace.\n")
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-            exit(1)
-</span>
-
-<span class="source-lf meta-embedded-block-py">
-
-</span>
-
-<span class="source-lf meta-embedded-block-py">
-        trace_reaction_delay = self.trace[self.trace_idx]
-</span>
-
-<span class="source-lf meta-embedded-block-py">
-        self.trace_idx += 1
+        exit(1)
 </span>
 
 <span class="source-lf meta-embedded-block-py">
@@ -300,15 +282,27 @@ reaction
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-        if curr_reaction_delay != trace_reaction_delay:
+      trace_reaction_delay = self.trace[self.trace_idx]
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-            sys.stderr.write(f"ERROR: Trace Mismatch: Unexpected reaction timing. (delay: {curr_reaction_delay}, expected: {trace_reaction_delay})\n")
+      self.trace_idx += 1
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-            exit(2)
+
+</span>
+
+<span class="source-lf meta-embedded-block-py">
+      if curr_reaction_delay != trace_reaction_delay:
+</span>
+
+<span class="source-lf meta-embedded-block-py">
+        sys.stderr.write(f"ERROR: Trace Mismatch: Unexpected reaction timing. (delay: {curr_reaction_delay}, expected: {trace_reaction_delay})\n")
+</span>
+
+<span class="source-lf meta-embedded-block-py">
+        exit(2)
 </span>
 
 <span class="source-lf meta-embedded-block-py">
@@ -320,51 +314,11 @@ reaction
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-        curr_present = events[i].is_present
+      curr_present = events[i].is_present
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-        curr_value = events[i].value
-</span>
-
-<span class="source-lf meta-embedded-block-py">
-
-</span>
-
-<span class="source-lf meta-embedded-block-py">
-        if self.training:
-</span>
-
-<span class="source-lf meta-embedded-block-py">
-            # Save the event
-</span>
-
-<span class="source-lf meta-embedded-block-py">
-            self.recorded_events.append(curr_present)
-</span>
-
-<span class="source-lf meta-embedded-block-py">
-            self.recorded_events.append(curr_value)
-</span>
-
-<span class="source-lf meta-embedded-block-py">
-        else:
-</span>
-
-<span class="source-lf meta-embedded-block-py">
-            trace_present = self.trace[self.trace_idx]
-</span>
-
-<span class="source-lf meta-embedded-block-py">
-            self.trace_idx += 1
-</span>
-
-<span class="source-lf meta-embedded-block-py">
-            trace_value = self.trace[self.trace_idx]
-</span>
-
-<span class="source-lf meta-embedded-block-py">
-            self.trace_idx += 1
+      curr_value = events[i].value
 </span>
 
 <span class="source-lf meta-embedded-block-py">
@@ -372,27 +326,67 @@ reaction
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-            if trace_present != curr_present:
+      if self.training:
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-                sys.stderr.write(f"ERROR: Trace Mismatch: Unexpected event presence. (event: {i}, presence: {curr_present}, expected: {trace_present})\n")
+        # Save the event
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-                exit(3)
+        self.recorded_events.append(curr_present)
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-            elif curr_present and trace_value != curr_value:
+        self.recorded_events.append(curr_value)
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-                sys.stderr.write(f"ERROR: Trace Mismatch: Unexpected event presence. (event: {i}, value: {curr_value}, expected: {trace_value})\n")
+      else:
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-                exit(4)
+        trace_present = self.trace[self.trace_idx]
+</span>
+
+<span class="source-lf meta-embedded-block-py">
+        self.trace_idx += 1
+</span>
+
+<span class="source-lf meta-embedded-block-py">
+        trace_value = self.trace[self.trace_idx]
+</span>
+
+<span class="source-lf meta-embedded-block-py">
+        self.trace_idx += 1
+</span>
+
+<span class="source-lf meta-embedded-block-py">
+
+</span>
+
+<span class="source-lf meta-embedded-block-py">
+        if trace_present != curr_present:
+</span>
+
+<span class="source-lf meta-embedded-block-py">
+          sys.stderr.write(f"ERROR: Trace Mismatch: Unexpected event presence. (event: {i}, presence: {curr_present}, expected: {trace_present})\n")
+</span>
+
+<span class="source-lf meta-embedded-block-py">
+          exit(3)
+</span>
+
+<span class="source-lf meta-embedded-block-py">
+        elif curr_present and trace_value != curr_value:
+</span>
+
+<span class="source-lf meta-embedded-block-py">
+          sys.stderr.write(f"ERROR: Trace Mismatch: Unexpected event presence. (event: {i}, value: {curr_value}, expected: {trace_value})\n")
+</span>
+
+<span class="source-lf meta-embedded-block-py">
+          exit(4)
 </span>
 
 <span class="source-lf meta-embedded-block-py">
@@ -438,11 +432,11 @@ shutdown
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-        print(f"Recorded event trace ({self.recorded_events_next}):")
+      print(f"Recorded event trace ({self.recorded_events_next}):")
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-        print(self.recorded_events)
+      print(self.recorded_events)
 </span>
 
 <span class="source-lf meta-embedded-block-py">

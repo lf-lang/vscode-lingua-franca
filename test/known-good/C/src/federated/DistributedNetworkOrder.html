@@ -288,7 +288,22 @@ t)
 </span>
 
 <span class="source-lf">
-        send_timed_message(MSEC(
+      send_timed_message(self
+</span>
+<span class="source-lf keyword-operator-lflang">
+->
+</span>
+<span class="source-lf variable-other-constant-reactorinstance-lflang">
+base
+</span>
+<span class="source-lf keyword-operator-lflang">
+.
+</span>
+<span class="source-lf variable-other-lflang">
+environment
+</span>
+<span class="source-lf">
+, MSEC(
 </span>
 <span class="source-lf constant-numeric-int-lflang">
 10
@@ -322,7 +337,7 @@ federate 1
 </span>
 
 <span class="source-lf">
-                            (unsigned char
+                (unsigned char
 </span>
 <span class="source-lf keyword-operator-lflang">
 *
@@ -351,7 +366,7 @@ federate 1
 </span>
 
 <span class="source-lf">
-        payload 
+      payload 
 </span>
 <span class="source-lf keyword-operator-lflang">
 =
@@ -367,7 +382,22 @@ federate 1
 </span>
 
 <span class="source-lf">
-        send_timed_message(MSEC(
+      send_timed_message(self
+</span>
+<span class="source-lf keyword-operator-lflang">
+->
+</span>
+<span class="source-lf variable-other-constant-reactorinstance-lflang">
+base
+</span>
+<span class="source-lf keyword-operator-lflang">
+.
+</span>
+<span class="source-lf variable-other-lflang">
+environment
+</span>
+<span class="source-lf">
+, MSEC(
 </span>
 <span class="source-lf constant-numeric-int-lflang">
 5
@@ -401,7 +431,7 @@ federate 1
 </span>
 
 <span class="source-lf">
-                            (unsigned char
+                (unsigned char
 </span>
 <span class="source-lf keyword-operator-lflang">
 *
@@ -569,7 +599,7 @@ time
 </span>
 
 <span class="source-lf">
-        if (
+      if (
 </span>
 <span class="source-lf variable-other-constant-reactorinstance-lflang">
 current_tag
@@ -621,7 +651,7 @@ value
 </span>
 
 <span class="source-lf">
-            self
+        self
 </span>
 <span class="source-lf keyword-operator-lflang">
 ->
@@ -640,7 +670,7 @@ success
 </span>
 
 <span class="source-lf">
-        } else if (
+      } else if (
 </span>
 <span class="source-lf variable-other-constant-reactorinstance-lflang">
 current_tag
@@ -692,7 +722,7 @@ value
 </span>
 
 <span class="source-lf">
-            self
+        self
 </span>
 <span class="source-lf keyword-operator-lflang">
 ->
@@ -711,7 +741,7 @@ success
 </span>
 
 <span class="source-lf">
-        }
+      }
 </span>
 
 <span class="source-lf">
@@ -738,7 +768,7 @@ Received %d at tag (%lld, %u).
 </span>
 
 <span class="source-lf">
-           in
+         in
 </span>
 <span class="source-lf keyword-operator-lflang">
 ->
@@ -748,11 +778,11 @@ value,
 </span>
 
 <span class="source-lf">
-           lf_time_logical_elapsed(),
+         lf_time_logical_elapsed(),
 </span>
 
 <span class="source-lf">
-           lf_tag()
+         lf_tag()
 </span>
 <span class="source-lf keyword-operator-lflang">
 .
@@ -817,7 +847,7 @@ success !
 </span>
 
 <span class="source-lf">
-        fprintf(stderr, 
+      fprintf(stderr, 
 </span>
 <span class="source-lf string-quoted-double-lflang">
 "
@@ -836,7 +866,7 @@ ERROR: Failed to receive messages.
 </span>
 
 <span class="source-lf">
-        exit(
+      exit(
 </span>
 <span class="source-lf constant-numeric-int-lflang">
 1

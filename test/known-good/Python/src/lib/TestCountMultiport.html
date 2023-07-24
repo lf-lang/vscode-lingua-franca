@@ -65,49 +65,37 @@ reactor
 TestCountMultiport
 </span>
 <span class="source-lf">
-(start 
+(start
 </span>
 <span class="source-lf keyword-operator-lflang">
 =
-</span>
-<span class="source-lf">
- 
 </span>
 <span class="source-lf constant-numeric-int-lflang">
 1
 </span>
 <span class="source-lf">
-, stride 
+, stride
 </span>
 <span class="source-lf keyword-operator-lflang">
 =
-</span>
-<span class="source-lf">
- 
 </span>
 <span class="source-lf constant-numeric-int-lflang">
 1
 </span>
 <span class="source-lf">
-, num_inputs 
+, num_inputs
 </span>
 <span class="source-lf keyword-operator-lflang">
 =
-</span>
-<span class="source-lf">
- 
 </span>
 <span class="source-lf constant-numeric-int-lflang">
 1
 </span>
 <span class="source-lf">
-, width 
+, width
 </span>
 <span class="source-lf keyword-operator-lflang">
 =
-</span>
-<span class="source-lf">
- 
 </span>
 <span class="source-lf constant-numeric-int-lflang">
 2
@@ -220,35 +208,35 @@ reaction
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-        if not inp[i].is_present:
+      if not inp[i].is_present:
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-            print("No input on channel {}.".format(i))
+        print("No input on channel {}.".format(i))
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-            self.sys.exit(1)
+        self.sys.exit(1)
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-        print("Received {} on channel {}.".format(inp[i].value, i))
+      print("Received {} on channel {}.".format(inp[i].value, i))
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-        if inp[i].value != self.count:
+      if inp[i].value != self.count:
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-            print("Expected {}.".format(self.count))
+        print("Expected {}.".format(self.count))
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-            self.sys.exit(1)
+        self.sys.exit(1)
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-        self.count += self.stride
+      self.count += self.stride
 </span>
 
 <span class="source-lf meta-embedded-block-py">
@@ -294,23 +282,23 @@ shutdown
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-        print("Expected to receive {} inputs, but only got {}.".format(
+      print("Expected to receive {} inputs, but only got {}.".format(
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-            self.num_inputs,
+        self.num_inputs,
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-            self.inputs_received
+        self.inputs_received
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-        ))
+      ))
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-        self.sys.exit(1)
+      self.sys.exit(1)
 </span>
 
 <span class="source-lf meta-embedded-block-py">

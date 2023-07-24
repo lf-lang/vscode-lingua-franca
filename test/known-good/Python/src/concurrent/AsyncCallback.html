@@ -119,31 +119,31 @@ import
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-        # Schedule twice. If the action is not physical, these should
+      # Schedule twice. If the action is not physical, these should
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-        # get consolidated into a single action triggering. If it is,
+      # get consolidated into a single action triggering. If it is,
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-        # then they cause two separate triggerings with close but not
+      # then they cause two separate triggerings with close but not
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-        # equal time stamps. The minimum time between these is determined
+      # equal time stamps. The minimum time between these is determined
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-        # by the argument in the physical action definition.
+      # by the argument in the physical action definition.
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-        a.schedule(0)
+      a.schedule(0)
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-        a.schedule(0)
+      a.schedule(0)
 </span>
 
 <span class="source-lf meta-embedded-block-py">
@@ -159,19 +159,19 @@ import
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-        # The best Python can offer short of directly using ctypes to call nanosleep
+      # The best Python can offer short of directly using ctypes to call nanosleep
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-        self.time.sleep(0.1)
+      self.time.sleep(0.1)
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-        self.callback(a)
+      self.callback(a)
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-        return None
+      return None
 </span>
 
 <span class="source-lf meta-embedded-block-py">
@@ -439,11 +439,11 @@ reaction
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-        sys.stderr.write("ERROR: Expected logical time to be larger than {:d}.".format(self.expected_time));
+      sys.stderr.write("ERROR: Expected logical time to be larger than {:d}.".format(self.expected_time));
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-        exit(1)
+      exit(1)
 </span>
 
 <span class="source-lf meta-embedded-block-py">
@@ -451,11 +451,11 @@ reaction
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-        self.toggle = False
+      self.toggle = False
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-        self.expected_time += 200000000
+      self.expected_time += 200000000
 </span>
 
 <span class="source-lf meta-embedded-block-py">
@@ -463,7 +463,7 @@ reaction
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-        self.toggle = True
+      self.toggle = True
 </span>
 
 <span class="source-lf meta-embedded-block-py">

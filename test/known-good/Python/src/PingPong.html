@@ -118,13 +118,10 @@ reactor
 Ping
 </span>
 <span class="source-lf">
-(count 
+(count
 </span>
 <span class="source-lf keyword-operator-lflang">
 =
-</span>
-<span class="source-lf">
- 
 </span>
 <span class="source-lf constant-numeric-int-lflang">
 10
@@ -272,7 +269,7 @@ reaction
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-        serve.schedule(0)
+      serve.schedule(0)
 </span>
 
 <span class="source-lf meta-embedded-block-py">
@@ -280,7 +277,7 @@ reaction
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-        request_stop()
+      request_stop()
 </span>
 
 <span class="source-lf meta-embedded-block-py">
@@ -308,13 +305,10 @@ reactor
 Pong
 </span>
 <span class="source-lf">
-(expected 
+(expected
 </span>
 <span class="source-lf keyword-operator-lflang">
 =
-</span>
-<span class="source-lf">
- 
 </span>
 <span class="source-lf constant-numeric-int-lflang">
 10
@@ -440,23 +434,19 @@ shutdown
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-        sys.stderr.write(
+      sys.stderr.write(
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-            "ERROR: Pong expected to receive {} inputs, but it received {}.\n".format(
+        "ERROR: Pong expected to receive {} inputs, but it received {}.\n".format(
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-                self.expected,
+          self.expected,
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-                self.count
-</span>
-
-<span class="source-lf meta-embedded-block-py">
-            )
+          self.count
 </span>
 
 <span class="source-lf meta-embedded-block-py">
@@ -464,7 +454,11 @@ shutdown
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-        sys.exit(1)
+      )
+</span>
+
+<span class="source-lf meta-embedded-block-py">
+      sys.exit(1)
 </span>
 
 <span class="source-lf meta-embedded-block-py">

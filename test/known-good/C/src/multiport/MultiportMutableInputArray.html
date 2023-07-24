@@ -391,6 +391,10 @@ value[
 
 </span>
 
+<span class="source-lf comment-line-double-dash-lflang">
+// The scale parameter is just for testing.
+</span>
+
 <span class="source-lf storage-modifier-lflang">
 reactor
 </span>
@@ -419,10 +423,7 @@ int
 1
 </span>
 <span class="source-lf">
-) {  
-</span>
-<span class="source-lf comment-line-double-dash-lflang">
-// The scale parameter is just for testing.
+) {
 </span>
 
 <span class="source-lf">
@@ -477,7 +478,7 @@ in) {
 0
 </span>
 <span class="source-lf">
-;       
+;     
 </span>
 <span class="source-lf comment-line-double-dash-lflang">
 // For testing.
@@ -534,7 +535,7 @@ false
 </span>
 
 <span class="source-lf">
-        printf(
+      printf(
 </span>
 <span class="source-lf string-quoted-double-lflang">
 "
@@ -550,7 +551,7 @@ Received on channel %d: [
 </span>
 
 <span class="source-lf">
-        for (int i 
+      for (int i 
 </span>
 <span class="source-lf keyword-operator-lflang">
 =
@@ -581,7 +582,7 @@ length; i
 </span>
 
 <span class="source-lf">
-            if (i > 
+        if (i > 
 </span>
 <span class="source-lf constant-numeric-int-lflang">
 0
@@ -603,7 +604,7 @@ length; i
 </span>
 
 <span class="source-lf">
-            printf(
+        printf(
 </span>
 <span class="source-lf string-quoted-double-lflang">
 "
@@ -625,14 +626,14 @@ value[i]);
 </span>
 
 <span class="source-lf comment-line-double-dash-lflang">
-            
+        
 </span>
 <span class="source-lf comment-line-double-dash-lflang">
 // For testing, check whether values match expectation.
 </span>
 
 <span class="source-lf">
-            if (in[j]
+        if (in[j]
 </span>
 <span class="source-lf keyword-operator-lflang">
 ->
@@ -660,7 +661,7 @@ scale
 </span>
 
 <span class="source-lf">
-                failed 
+          failed 
 </span>
 <span class="source-lf keyword-operator-lflang">
 =
@@ -676,11 +677,11 @@ true
 </span>
 
 <span class="source-lf">
-            }
+        }
 </span>
 
 <span class="source-lf">
-            count
+        count
 </span>
 <span class="source-lf keyword-operator-lflang">
 +
@@ -689,18 +690,18 @@ true
 +
 </span>
 <span class="source-lf">
-;         
+;     
 </span>
 <span class="source-lf comment-line-double-dash-lflang">
 // For testing.
 </span>
 
 <span class="source-lf">
-        }
+      }
 </span>
 
 <span class="source-lf">
-        printf(
+      printf(
 </span>
 <span class="source-lf string-quoted-double-lflang">
 "
@@ -727,7 +728,7 @@ true
 </span>
 
 <span class="source-lf">
-        printf(
+      printf(
 </span>
 <span class="source-lf string-quoted-double-lflang">
 "
@@ -746,7 +747,7 @@ ERROR: Value received by Print does not match expectation!
 </span>
 
 <span class="source-lf">
-        exit(
+      exit(
 </span>
 <span class="source-lf constant-numeric-int-lflang">
 1
@@ -916,7 +917,7 @@ in)
 </span>
 
 <span class="source-lf">
-        for(int i 
+      for(int i 
 </span>
 <span class="source-lf keyword-operator-lflang">
 =
@@ -947,7 +948,7 @@ length; i
 </span>
 
 <span class="source-lf">
-            if (in[j]
+        if (in[j]
 </span>
 <span class="source-lf keyword-operator-lflang">
 ->
@@ -957,7 +958,7 @@ is_present) {
 </span>
 
 <span class="source-lf">
-                in[j]
+          in[j]
 </span>
 <span class="source-lf keyword-operator-lflang">
 ->
@@ -982,15 +983,15 @@ scale;
 </span>
 
 <span class="source-lf">
-            }
-</span>
-
-<span class="source-lf">
         }
 </span>
 
 <span class="source-lf">
-        lf_set_token(out[j], in[j]
+      }
+</span>
+
+<span class="source-lf">
+      lf_set_token(out[j], in[j]
 </span>
 <span class="source-lf keyword-operator-lflang">
 ->
@@ -1115,13 +1116,10 @@ new
 Print
 </span>
 <span class="source-lf">
-(scale 
+(scale
 </span>
 <span class="source-lf keyword-operator-lflang">
 =
-</span>
-<span class="source-lf">
- 
 </span>
 <span class="source-lf constant-numeric-int-lflang">
 2

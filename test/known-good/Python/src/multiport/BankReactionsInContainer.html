@@ -55,13 +55,10 @@ reactor
 R
 </span>
 <span class="source-lf">
-(bank_index 
+(bank_index
 </span>
 <span class="source-lf keyword-operator-lflang">
 =
-</span>
-<span class="source-lf">
- 
 </span>
 <span class="source-lf constant-numeric-int-lflang">
 0
@@ -164,15 +161,15 @@ startup
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-        value = self.bank_index * 2 + i
+      value = self.bank_index * 2 + i
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-        p.set(value)
+      p.set(value)
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-        print(f"Inner sending {value} to bank {self.bank_index} channel {i}.")
+      print(f"Inner sending {value} to bank {self.bank_index} channel {i}.")
 </span>
 
 <span class="source-lf meta-embedded-block-py">
@@ -204,27 +201,27 @@ reaction
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-        if p.is_present:
+      if p.is_present:
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-            print(f"Inner received {p.value} in bank {self.bank_index}, channel {i}")
+        print(f"Inner received {p.value} in bank {self.bank_index}, channel {i}")
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-            self.received = True
+        self.received = True
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-            if p.value != (self.bank_index * 2 + i):
+        if p.value != (self.bank_index * 2 + i):
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-                sys.stderr.write(f"ERROR: Expected {self.bank_index * 2 + i}.\n")
+          sys.stderr.write(f"ERROR: Expected {self.bank_index * 2 + i}.\n")
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-                exit(1)
+          exit(1)
 </span>
 
 <span class="source-lf meta-embedded-block-py">
@@ -266,11 +263,11 @@ shutdown
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-        sys.stderr.write(f"ERROR: Received no input.")
+      sys.stderr.write(f"ERROR: Received no input.")
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-        exit(1)
+      exit(1)
 </span>
 
 <span class="source-lf meta-embedded-block-py">
@@ -404,19 +401,19 @@ inp
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-        for (j, p) in enumerate(s[i].inp):
+      for (j, p) in enumerate(s[i].inp):
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-            print(f"Sending {count} to bank {i} channel {j}.")
+        print(f"Sending {count} to bank {i} channel {j}.")
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-            p.set(count)
+        p.set(count)
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-            count+=1
+        count+=1
 </span>
 
 <span class="source-lf meta-embedded-block-py">
@@ -460,31 +457,31 @@ out
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-        for (j, p) in enumerate(s[i].out):
+      for (j, p) in enumerate(s[i].out):
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-            if p.is_present:
+        if p.is_present:
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-                print(f"Outer received {p.value} on bank {i} channel {j}.")
+          print(f"Outer received {p.value} on bank {i} channel {j}.")
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-                self.received = True
+          self.received = True
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-                if p.value != i * 2 + j:
+          if p.value != i * 2 + j:
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-                    sys.stderr.write(f"ERROR: Expected {i*2+j}.\n")
+            sys.stderr.write(f"ERROR: Expected {i*2+j}.\n")
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-                    exit(1)
+            exit(1)
 </span>
 
 <span class="source-lf meta-embedded-block-py">
@@ -526,11 +523,11 @@ shutdown
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-        sys.stderr.write(f"ERROR: Received no input.\n")
+      sys.stderr.write(f"ERROR: Received no input.\n")
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-        exit(1)
+      exit(1)
 </span>
 
 <span class="source-lf meta-embedded-block-py">

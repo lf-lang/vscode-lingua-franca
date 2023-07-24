@@ -41,25 +41,19 @@ reactor
 A
 </span>
 <span class="source-lf">
-(bank_index 
+(bank_index
 </span>
 <span class="source-lf keyword-operator-lflang">
 =
-</span>
-<span class="source-lf">
- 
 </span>
 <span class="source-lf constant-numeric-int-lflang">
 0
 </span>
 <span class="source-lf">
-, outer_bank_index 
+, outer_bank_index
 </span>
 <span class="source-lf keyword-operator-lflang">
 =
-</span>
-<span class="source-lf">
- 
 </span>
 <span class="source-lf constant-numeric-int-lflang">
 0
@@ -121,11 +115,11 @@ startup
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-        port.set(self.outer_bank_index * 4 + self.bank_index * 2 + i + 1)
+      port.set(self.outer_bank_index * 4 + self.bank_index * 2 + i + 1)
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-        print(f"A sending {port.value}.")
+      print(f"A sending {port.value}.")
 </span>
 
 <span class="source-lf meta-embedded-block-py">
@@ -153,13 +147,10 @@ reactor
 B
 </span>
 <span class="source-lf">
-(bank_index 
+(bank_index
 </span>
 <span class="source-lf keyword-operator-lflang">
 =
-</span>
-<span class="source-lf">
- 
 </span>
 <span class="source-lf constant-numeric-int-lflang">
 0
@@ -212,13 +203,13 @@ new
 2
 </span>
 <span class="source-lf">
-] A(outer_bank_index 
+] A(outer_bank_index
 </span>
 <span class="source-lf keyword-operator-lflang">
 =
 </span>
 <span class="source-lf">
- bank_index)
+bank_index)
 </span>
 
 <span class="source-lf">
@@ -228,7 +219,7 @@ new
 interleaved
 </span>
 <span class="source-lf">
- (
+(
 </span>
 <span class="source-lf variable-other-constant-reactorinstance-lflang">
 a
@@ -312,19 +303,19 @@ reaction
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-        print(f"C received {port.value}.")
+      print(f"C received {port.value}.")
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-        if port.value != expected[j]:
+      if port.value != expected[j]:
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-            sys.stderr.write(f"ERROR: Expected {expected[j]}.\n")
+        sys.stderr.write(f"ERROR: Expected {expected[j]}.\n")
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-            exit(1)
+        exit(1)
 </span>
 
 <span class="source-lf meta-embedded-block-py">

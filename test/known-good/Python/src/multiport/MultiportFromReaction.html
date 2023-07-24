@@ -62,13 +62,10 @@ reactor
 Destination
 </span>
 <span class="source-lf">
-(width 
+(width
 </span>
 <span class="source-lf keyword-operator-lflang">
 =
-</span>
-<span class="source-lf">
- 
 </span>
 <span class="source-lf constant-numeric-int-lflang">
 1
@@ -138,11 +135,11 @@ reaction
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-        if port.is_present:
+      if port.is_present:
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-            sm += port.value
+        sm += port.value
 </span>
 
 <span class="source-lf meta-embedded-block-py">
@@ -154,11 +151,11 @@ reaction
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-        sys.stderr.write("ERROR: Expected {:d}.\n".format(self.s))
+      sys.stderr.write("ERROR: Expected {:d}.\n".format(self.s))
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-        exit(1)
+      exit(1)
 </span>
 
 <span class="source-lf meta-embedded-block-py">
@@ -204,11 +201,11 @@ shutdown
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-        sys.stderr.write("ERROR: Destination received no input!\n")
+      sys.stderr.write("ERROR: Destination received no input!\n")
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-        exit(1)
+      exit(1)
 </span>
 
 <span class="source-lf meta-embedded-block-py">
@@ -327,13 +324,10 @@ new
 Destination
 </span>
 <span class="source-lf">
-(width 
+(width
 </span>
 <span class="source-lf keyword-operator-lflang">
 =
-</span>
-<span class="source-lf">
- 
 </span>
 <span class="source-lf constant-numeric-int-lflang">
 4
@@ -382,23 +376,23 @@ _in
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-        print("Before SET, b.in[{:d}].is_present has value {:d}".format(idx, port.is_present))
+      print("Before SET, b.in[{:d}].is_present has value {:d}".format(idx, port.is_present))
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-        port.set(self.s)
+      port.set(self.s)
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-        self.s += 1
+      self.s += 1
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-        print("AFTER set, b.in[{:d}].is_present has value {:d}".format(idx, port.is_present))
+      print("AFTER set, b.in[{:d}].is_present has value {:d}".format(idx, port.is_present))
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-        print("AFTER set, b.in[{:d}].value has value {:d}".format(idx, port.value))
+      print("AFTER set, b.in[{:d}].value has value {:d}".format(idx, port.value))
 </span>
 
 <span class="source-lf meta-embedded-block-py">

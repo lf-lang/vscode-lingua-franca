@@ -66,25 +66,19 @@ reactor
 Source
 </span>
 <span class="source-lf">
-(check_override 
+(check_override
 </span>
 <span class="source-lf keyword-operator-lflang">
 =
-</span>
-<span class="source-lf">
- 
 </span>
 <span class="source-lf constant-numeric-int-lflang">
 0
 </span>
 <span class="source-lf">
-, bank_index 
+, bank_index
 </span>
 <span class="source-lf keyword-operator-lflang">
 =
-</span>
-<span class="source-lf">
- 
 </span>
 <span class="source-lf constant-numeric-int-lflang">
 0
@@ -225,19 +219,19 @@ reaction
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-        print("Destination channel " + str(idx) + " received " + str(port.value))
+      print("Destination channel " + str(idx) + " received " + str(port.value))
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-        if idx != port.value:
+      if idx != port.value:
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-            sys.stderr.write("ERROR: Expected " + str(idx))
+        sys.stderr.write("ERROR: Expected " + str(idx))
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-            exit(1)
+        exit(1)
 </span>
 
 <span class="source-lf meta-embedded-block-py">
@@ -283,11 +277,11 @@ shutdown
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-        sys.stderr.write("ERROR: Destination received no input!\n")
+      sys.stderr.write("ERROR: Destination received no input!\n")
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-        exit(1)
+      exit(1)
 </span>
 
 <span class="source-lf meta-embedded-block-py">
@@ -357,13 +351,10 @@ new
 3
 </span>
 <span class="source-lf">
-] Source(check_override 
+] Source(check_override
 </span>
 <span class="source-lf keyword-operator-lflang">
 =
-</span>
-<span class="source-lf">
- 
 </span>
 <span class="source-lf constant-numeric-int-lflang">
 1

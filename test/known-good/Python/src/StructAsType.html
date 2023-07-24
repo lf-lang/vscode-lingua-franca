@@ -145,6 +145,10 @@ startup
 
 </span>
 
+<span class="source-lf comment-line-double-dash-lflang">
+# expected parameter is for testing.
+</span>
+
 <span class="source-lf storage-modifier-lflang">
 reactor
 </span>
@@ -155,22 +159,16 @@ reactor
 Print
 </span>
 <span class="source-lf">
-(expected 
+(expected
 </span>
 <span class="source-lf keyword-operator-lflang">
 =
-</span>
-<span class="source-lf">
- 
 </span>
 <span class="source-lf constant-numeric-int-lflang">
 42
 </span>
 <span class="source-lf">
-) {  
-</span>
-<span class="source-lf comment-line-double-dash-lflang">
-# expected parameter is for testing.
+) {
 </span>
 
 <span class="source-lf">
@@ -212,11 +210,11 @@ reaction
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-        sys.stderr.write("ERROR: Expected value to be {:d}.\n".format(self.expected))
+      sys.stderr.write("ERROR: Expected value to be {:d}.\n".format(self.expected))
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-        exit(1)
+      exit(1)
 </span>
 
 <span class="source-lf meta-embedded-block-py">

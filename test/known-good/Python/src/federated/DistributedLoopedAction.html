@@ -100,13 +100,10 @@ reactor
 Receiver
 </span>
 <span class="source-lf">
-(take_a_break_after 
+(take_a_break_after
 </span>
 <span class="source-lf keyword-operator-lflang">
 =
-</span>
-<span class="source-lf">
- 
 </span>
 <span class="source-lf constant-numeric-int-lflang">
 10
@@ -306,19 +303,19 @@ reaction
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-        lf.time.logical_elapsed(),
+      lf.time.logical_elapsed(),
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-        lf.tag().microstep,
+      lf.tag().microstep,
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-        in_.value
+      in_.value
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-        )
+      )
 </span>
 
 <span class="source-lf meta-embedded-block-py">
@@ -334,11 +331,11 @@ reaction
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-        self.sys.stderr.write("ERROR: received messages out of order.\n")
+      self.sys.stderr.write("ERROR: received messages out of order.\n")
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-        # exit(1);
+      # exit(1);
 </span>
 
 <span class="source-lf meta-embedded-block-py">
@@ -350,11 +347,11 @@ reaction
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-        self.sys.stderr.write("ERROR: received messages at an incorrect time: {}.\n".format(lf.time.logical_elapsed()))
+      self.sys.stderr.write("ERROR: received messages at an incorrect time: {}.\n".format(lf.time.logical_elapsed()))
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-        # exit(2);
+      # exit(2);
 </span>
 
 <span class="source-lf meta-embedded-block-py">
@@ -366,15 +363,15 @@ reaction
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-        # Sender is taking a break;
+      # Sender is taking a break;
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-        self.breaks += 1
+      self.breaks += 1
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-        self.received_messages = 0
+      self.received_messages = 0
 </span>
 
 <span class="source-lf meta-embedded-block-py">
@@ -444,11 +441,11 @@ shutdown
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-        self.sys.stderr.write("ERROR: test failed.\n")
+      self.sys.stderr.write("ERROR: test failed.\n")
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-        exit(4)
+      exit(4)
 </span>
 
 <span class="source-lf meta-embedded-block-py">

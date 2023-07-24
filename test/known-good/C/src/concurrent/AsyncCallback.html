@@ -211,46 +211,46 @@ preamble
 </span>
 
 <span class="source-lf comment-line-double-dash-lflang">
-        
+      
 </span>
 <span class="source-lf comment-line-double-dash-lflang">
 // Schedule twice. If the action is not physical, these should
 </span>
 
 <span class="source-lf comment-line-double-dash-lflang">
-        
+      
 </span>
 <span class="source-lf comment-line-double-dash-lflang">
 // get consolidated into a single action triggering. If it is,
 </span>
 
 <span class="source-lf comment-line-double-dash-lflang">
-        
+      
 </span>
 <span class="source-lf comment-line-double-dash-lflang">
 // then they cause two separate triggerings with close but not
 </span>
 
 <span class="source-lf comment-line-double-dash-lflang">
-        
+      
 </span>
 <span class="source-lf comment-line-double-dash-lflang">
 // equal time stamps. The minimum time between these is determined
 </span>
 
 <span class="source-lf comment-line-double-dash-lflang">
-        
+      
 </span>
 <span class="source-lf comment-line-double-dash-lflang">
 // by the argument in the physical action definition.
 </span>
 
 <span class="source-lf">
-        lf_schedule(a, 0LL);
+      lf_schedule(a, 0LL);
 </span>
 
 <span class="source-lf">
-        lf_schedule(a, 0LL);
+      lf_schedule(a, 0LL);
 </span>
 
 <span class="source-lf">
@@ -281,7 +281,7 @@ preamble
 </span>
 
 <span class="source-lf">
-        instant_t sleep_time 
+      instant_t sleep_time 
 </span>
 <span class="source-lf keyword-operator-lflang">
 =
@@ -297,15 +297,15 @@ preamble
 </span>
 
 <span class="source-lf">
-        lf_sleep(sleep_time);
+      lf_sleep(sleep_time);
 </span>
 
 <span class="source-lf">
-        callback(a);
+      callback(a);
 </span>
 
 <span class="source-lf">
-        return NULL;
+      return NULL;
 </span>
 
 <span class="source-lf">
@@ -640,7 +640,7 @@ Asynchronous callback %d: Assigned logical time greater than start time by %lld 
 </span>
 
 <span class="source-lf">
-           self
+         self
 </span>
 <span class="source-lf keyword-operator-lflang">
 ->
@@ -675,7 +675,7 @@ expected_time) {
 </span>
 
 <span class="source-lf">
-        printf(
+      printf(
 </span>
 <span class="source-lf string-quoted-double-lflang">
 "
@@ -700,7 +700,7 @@ expected_time);
 </span>
 
 <span class="source-lf">
-        exit(
+      exit(
 </span>
 <span class="source-lf constant-numeric-int-lflang">
 1
@@ -724,7 +724,7 @@ toggle) {
 </span>
 
 <span class="source-lf">
-        self
+      self
 </span>
 <span class="source-lf keyword-operator-lflang">
 ->
@@ -746,7 +746,7 @@ false
 </span>
 
 <span class="source-lf">
-        self
+      self
 </span>
 <span class="source-lf keyword-operator-lflang">
 ->
@@ -769,7 +769,7 @@ expected_time
 </span>
 
 <span class="source-lf">
-        self
+      self
 </span>
 <span class="source-lf keyword-operator-lflang">
 ->

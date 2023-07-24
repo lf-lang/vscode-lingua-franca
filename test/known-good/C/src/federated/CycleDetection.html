@@ -209,7 +209,7 @@ is_present) {
 </span>
 
 <span class="source-lf">
-        self
+      self
 </span>
 <span class="source-lf keyword-operator-lflang">
 ->
@@ -248,7 +248,7 @@ is_present) {
 </span>
 
 <span class="source-lf">
-        self
+      self
 </span>
 <span class="source-lf keyword-operator-lflang">
 ->
@@ -479,7 +479,7 @@ value !
 </span>
 
 <span class="source-lf">
-        lf_print_error_and_exit(
+      lf_print_error_and_exit(
 </span>
 <span class="source-lf string-quoted-double-lflang">
 "
@@ -527,6 +527,71 @@ value);
 </span>
 
 <span class="source-lf">
+    if (balance
+</span>
+<span class="source-lf keyword-operator-lflang">
+->
+</span>
+<span class="source-lf">
+value 
+</span>
+<span class="source-lf keyword-operator-lflang">
+=
+</span>
+<span class="source-lf keyword-operator-lflang">
+=
+</span>
+<span class="source-lf">
+ 
+</span>
+<span class="source-lf constant-numeric-int-lflang">
+200
+</span>
+<span class="source-lf">
+) {
+</span>
+
+<span class="source-lf">
+      lf_print(
+</span>
+<span class="source-lf string-quoted-double-lflang">
+"
+</span>
+<span class="source-lf string-quoted-double-lflang">
+Test passed!
+</span>
+<span class="source-lf string-quoted-double-lflang">
+"
+</span>
+<span class="source-lf">
+);
+</span>
+
+<span class="source-lf">
+    } else {
+</span>
+
+<span class="source-lf">
+      lf_print_error_and_exit(
+</span>
+<span class="source-lf string-quoted-double-lflang">
+"
+</span>
+<span class="source-lf string-quoted-double-lflang">
+Expect balance of 200.
+</span>
+<span class="source-lf string-quoted-double-lflang">
+"
+</span>
+<span class="source-lf">
+);
+</span>
+
+<span class="source-lf">
+    }
+</span>
+
+<span class="source-lf">
     lf_request_stop();
 </span>
 
@@ -569,7 +634,7 @@ shutdown
 "
 </span>
 <span class="source-lf string-quoted-double-lflang">
-Test passed!
+Shutdown reaction invoked.
 </span>
 <span class="source-lf string-quoted-double-lflang">
 "

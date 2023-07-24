@@ -62,13 +62,10 @@ reactor
 Source
 </span>
 <span class="source-lf">
-(width 
+(width
 </span>
 <span class="source-lf keyword-operator-lflang">
 =
-</span>
-<span class="source-lf">
- 
 </span>
 <span class="source-lf constant-numeric-int-lflang">
 1
@@ -177,11 +174,11 @@ reaction
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-        port.set(self.s)
+      port.set(self.s)
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-        self.s += 1
+      self.s += 1
 </span>
 
 <span class="source-lf meta-embedded-block-py">
@@ -209,13 +206,10 @@ reactor
 Destination
 </span>
 <span class="source-lf">
-(width 
+(width
 </span>
 <span class="source-lf keyword-operator-lflang">
 =
-</span>
-<span class="source-lf">
- 
 </span>
 <span class="source-lf constant-numeric-int-lflang">
 1
@@ -285,11 +279,11 @@ reaction
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-        if port.is_present:
+      if port.is_present:
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-            sm += port.value
+        sm += port.value
 </span>
 
 <span class="source-lf meta-embedded-block-py">
@@ -305,11 +299,11 @@ reaction
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-        sys.stderr.write("ERROR: Expected {:d}.\n".format(self.s))
+      sys.stderr.write("ERROR: Expected {:d}.\n".format(self.s))
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-        exit(1)
+      exit(1)
 </span>
 
 <span class="source-lf meta-embedded-block-py">
@@ -355,11 +349,11 @@ shutdown
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-        sys.stderr.write("ERROR: Destination received no input!\n")
+      sys.stderr.write("ERROR: Destination received no input!\n")
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-        exit(1)
+      exit(1)
 </span>
 
 <span class="source-lf meta-embedded-block-py">
@@ -401,13 +395,10 @@ reactor
 BankToBankMultiport
 </span>
 <span class="source-lf">
-(bank_width 
+(bank_width
 </span>
 <span class="source-lf keyword-operator-lflang">
 =
-</span>
-<span class="source-lf">
- 
 </span>
 <span class="source-lf constant-numeric-int-lflang">
 4
@@ -435,13 +426,10 @@ a
 new
 </span>
 <span class="source-lf">
-[bank_width] Source(width 
+[bank_width] Source(width
 </span>
 <span class="source-lf keyword-operator-lflang">
 =
-</span>
-<span class="source-lf">
- 
 </span>
 <span class="source-lf constant-numeric-int-lflang">
 4
@@ -469,13 +457,10 @@ b
 new
 </span>
 <span class="source-lf">
-[bank_width] Destination(width 
+[bank_width] Destination(width
 </span>
 <span class="source-lf keyword-operator-lflang">
 =
-</span>
-<span class="source-lf">
- 
 </span>
 <span class="source-lf constant-numeric-int-lflang">
 4

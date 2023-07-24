@@ -51,7 +51,7 @@ Python
 </span>
 
 <span class="source-lf meta-targetspec-lflang variable-parameter-lflang">
-    flags
+  flags
 </span>
 <span class="source-lf meta-targetspec-lflang">
 : 
@@ -70,7 +70,7 @@ Python
 </span>
 
 <span class="source-lf meta-targetspec-lflang variable-parameter-lflang">
-    coordination
+  coordination
 </span>
 <span class="source-lf meta-targetspec-lflang">
 : 
@@ -83,14 +83,14 @@ centralized
 </span>
 
 <span class="source-lf meta-targetspec-lflang variable-parameter-lflang">
-    coordination-options
+  coordination-options
 </span>
 <span class="source-lf meta-targetspec-lflang">
 : {
 </span>
 
 <span class="source-lf meta-targetspec-lflang variable-parameter-lflang">
-        advance-message-interval
+    advance-message-interval
 </span>
 <span class="source-lf meta-targetspec-lflang">
 : 
@@ -106,11 +106,11 @@ msec
 </span>
 
 <span class="source-lf meta-targetspec-lflang">
-    },
+  },
 </span>
 
 <span class="source-lf meta-targetspec-lflang variable-parameter-lflang">
-    timeout
+  timeout
 </span>
 <span class="source-lf meta-targetspec-lflang">
 : 
@@ -177,7 +177,7 @@ msec
 </span>
 
 <span class="source-lf">
-    
+  
 </span>
 <span class="source-lf storage-modifier-lflang">
 input
@@ -190,7 +190,7 @@ in_
 </span>
 
 <span class="source-lf">
-    
+  
 </span>
 <span class="source-lf storage-modifier-lflang">
 output
@@ -203,7 +203,7 @@ out
 </span>
 
 <span class="source-lf">
-    
+  
 </span>
 <span class="source-lf storage-modifier-lflang">
 state
@@ -228,7 +228,7 @@ count
 </span>
 
 <span class="source-lf">
-    
+  
 </span>
 <span class="source-lf storage-modifier-lflang">
 state
@@ -253,7 +253,7 @@ received_count
 </span>
 
 <span class="source-lf">
-    
+  
 </span>
 <span class="source-lf storage-modifier-lflang">
 timer
@@ -285,7 +285,7 @@ sec
 </span>
 
 <span class="source-lf">
-    
+  
 </span>
 <span class="source-lf keyword-control-lflang">
 reaction
@@ -304,15 +304,15 @@ reaction
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-        SET(out, self->count);
+    SET(out, self->count);
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-        self->count += self->incr;
+    self->count += self->incr;
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-    
+  
 </span>
 <span class="source-lf meta-embedded-block-py">
 =}
@@ -323,7 +323,7 @@ reaction
 </span>
 
 <span class="source-lf">
-    
+  
 </span>
 <span class="source-lf keyword-control-lflang">
 reaction
@@ -336,27 +336,27 @@ reaction
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-        instant_t time_lag = lf.time.physical() - lf.time.logical();
+    instant_t time_lag = lf.time.physical() - lf.time.logical();
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-        char time_buffer[28]; // 28 bytes is enough for the largest 64 bit number: 9,223,372,036,854,775,807
+    char time_buffer[28]; // 28 bytes is enough for the largest 64 bit number: 9,223,372,036,854,775,807
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-        lf_comma_separated_time(time_buffer, time_lag);
+    lf_comma_separated_time(time_buffer, time_lag);
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-        lf_print("Received %d. Logical time is behind physical time by %s nsec.", in_->value, time_buffer);
+    lf_print("Received %d. Logical time is behind physical time by %s nsec.", in_->value, time_buffer);
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-        self->received_count = self->count;
+    self->received_count = self->count;
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-    
+  
 </span>
 <span class="source-lf meta-embedded-block-py">
 =}
@@ -367,7 +367,7 @@ reaction
 </span>
 
 <span class="source-lf">
-    
+  
 </span>
 <span class="source-lf keyword-control-lflang">
 reaction
@@ -380,19 +380,19 @@ reaction
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-        if (self->received_count != self->count) {
+    if (self->received_count != self->count) {
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-            lf_print_error_and_exit("reaction(t) was invoked before reaction(in_). Precedence order was not kept.");
+      lf_print_error_and_exit("reaction(t) was invoked before reaction(in_). Precedence order was not kept.");
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-        }
+    }
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-    
+  
 </span>
 <span class="source-lf meta-embedded-block-py">
 =}
@@ -403,7 +403,7 @@ reaction
 </span>
 
 <span class="source-lf">
-    
+  
 </span>
 <span class="source-lf keyword-control-lflang">
 reaction
@@ -422,23 +422,23 @@ shutdown
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-        lf_print("******* Shutdown invoked.");
+    lf_print("******* Shutdown invoked.");
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-        if (self->count != 6 * self->incr) {
+    if (self->count != 6 * self->incr) {
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-            lf_print_error_and_exit("Failed to receive all six expected inputs.");
+      lf_print_error_and_exit("Failed to receive all six expected inputs.");
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-        }
+    }
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-    
+  
 </span>
 <span class="source-lf meta-embedded-block-py">
 =}
@@ -478,7 +478,7 @@ reactor
 </span>
 
 <span class="source-lf">
-    
+  
 </span>
 <span class="source-lf variable-other-constant-reactorinstance-lflang">
 left
@@ -506,7 +506,7 @@ Looper
 </span>
 
 <span class="source-lf">
-    
+  
 </span>
 <span class="source-lf variable-other-constant-reactorinstance-lflang">
 right
@@ -549,7 +549,7 @@ Looper
 </span>
 
 <span class="source-lf">
-    
+  
 </span>
 <span class="source-lf variable-other-constant-reactorinstance-lflang">
 left
@@ -580,7 +580,7 @@ in_
 </span>
 
 <span class="source-lf">
-    
+  
 </span>
 <span class="source-lf variable-other-constant-reactorinstance-lflang">
 right

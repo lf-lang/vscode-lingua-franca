@@ -191,11 +191,11 @@ reaction
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-                 lf.time.logical_elapsed(),
+           lf.time.logical_elapsed(),
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-                 tag.microstep))
+           tag.microstep))
 </span>
 
 <span class="source-lf meta-embedded-block-py">
@@ -207,23 +207,23 @@ reaction
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-        # Instead of having a separate reaction
+      # Instead of having a separate reaction
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-        # for 'act' like Stop.lf, we trigger the
+      # for 'act' like Stop.lf, we trigger the
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-        # same reaction to test request_stop() being
+      # same reaction to test request_stop() being
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-        # called multiple times
+      # called multiple times
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-        act.schedule(0)
+      act.schedule(0)
 </span>
 
 <span class="source-lf meta-embedded-block-py">
@@ -231,27 +231,27 @@ reaction
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-        # Call request_stop() both at (1 usec, 0) and
+      # Call request_stop() both at (1 usec, 0) and
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-        # (1 usec, 1)
+      # (1 usec, 1)
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-        print("Requesting stop at ({}, {}).".format(
+      print("Requesting stop at ({}, {}).".format(
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-                 lf.time.logical_elapsed(),
+           lf.time.logical_elapsed(),
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-                 lf.tag().microstep))
+           lf.tag().microstep))
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-        request_stop()
+      request_stop()
 </span>
 
 <span class="source-lf meta-embedded-block-py">
@@ -267,11 +267,11 @@ reaction
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-        # The reaction was invoked at (1 usec, 1) as expected
+      # The reaction was invoked at (1 usec, 1) as expected
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-        self.reaction_invoked_correctly = True
+      self.reaction_invoked_correctly = True
 </span>
 
 <span class="source-lf meta-embedded-block-py">
@@ -279,15 +279,15 @@ reaction
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-        # The reaction should not have been invoked at tags larger than (1 usec, 1)
+      # The reaction should not have been invoked at tags larger than (1 usec, 1)
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-        sys.stderr.write("ERROR: Invoked reaction(t, act) at tag bigger than shutdown.\n")
+      sys.stderr.write("ERROR: Invoked reaction(t, act) at tag bigger than shutdown.\n")
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-        sys.exit(1)
+      sys.exit(1)
 </span>
 
 <span class="source-lf meta-embedded-block-py">
@@ -325,19 +325,19 @@ shutdown
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-        sys.stderr.write("ERROR: Sender failed to stop the federation in time. Stopping at ({}, {}).\n".format(
+      sys.stderr.write("ERROR: Sender failed to stop the federation in time. Stopping at ({}, {}).\n".format(
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-                 lf.time.logical_elapsed(),
+           lf.time.logical_elapsed(),
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-                 lf.tag().microstep))
+           lf.tag().microstep))
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-        sys.exit(1)
+      sys.exit(1)
 </span>
 
 <span class="source-lf meta-embedded-block-py">
@@ -345,19 +345,19 @@ shutdown
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-        sys.stderr.write("ERROR: Sender reaction(t, act) was not invoked at (1 usec, 1). Stopping at ({}, {}).\n".format(
+      sys.stderr.write("ERROR: Sender reaction(t, act) was not invoked at (1 usec, 1). Stopping at ({}, {}).\n".format(
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-                 lf.time.logical_elapsed(),
+           lf.time.logical_elapsed(),
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-                 lf.tag().microstep))
+           lf.tag().microstep))
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-        sys.exit(1)
+      sys.exit(1)
 </span>
 
 <span class="source-lf meta-embedded-block-py">
@@ -365,11 +365,11 @@ shutdown
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-                 lf.time.logical_elapsed(),
+           lf.time.logical_elapsed(),
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-                 lf.tag().microstep))
+           lf.tag().microstep))
 </span>
 
 <span class="source-lf meta-embedded-block-py">
@@ -400,8 +400,15 @@ Receiver
 (
 </span>
 
+<span class="source-lf comment-line-double-dash-lflang">
+    
+</span>
+<span class="source-lf comment-line-double-dash-lflang">
+# Used in the decentralized variant of the test
+</span>
+
 <span class="source-lf">
-  stp_offset 
+    stp_offset 
 </span>
 <span class="source-lf keyword-operator-lflang">
 =
@@ -418,13 +425,6 @@ Receiver
 <span class="source-lf constant-numeric-lflang">
 msec
 </span>
-<span class="source-lf">
-  
-</span>
-<span class="source-lf comment-line-double-dash-lflang">
-# Used in the decentralized variant of the test
-</span>
-
 <span class="source-lf">
 ) {
 </span>
@@ -493,15 +493,15 @@ reaction
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-                 in_.value,
+           in_.value,
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-                 lf.time.logical_elapsed(),
+           lf.time.logical_elapsed(),
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-                 lf.tag().microstep))
+           lf.tag().microstep))
 </span>
 
 <span class="source-lf meta-embedded-block-py">
@@ -509,31 +509,31 @@ reaction
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-        print("Requesting stop at ({}, {}).".format(
+      print("Requesting stop at ({}, {}).".format(
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-                 lf.time.logical_elapsed(),
+           lf.time.logical_elapsed(),
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-                 lf.tag().microstep))
+           lf.tag().microstep))
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-        request_stop()
+      request_stop()
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-        # The receiver should receive a message at tag
+      # The receiver should receive a message at tag
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-        # (1 usec, 1) and trigger this reaction
+      # (1 usec, 1) and trigger this reaction
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-        self.reaction_invoked_correctly = True
+      self.reaction_invoked_correctly = True
 </span>
 
 <span class="source-lf meta-embedded-block-py">
@@ -549,7 +549,7 @@ reaction
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-        self.reaction_invoked_correctly = False
+      self.reaction_invoked_correctly = False
 </span>
 
 <span class="source-lf meta-embedded-block-py">
@@ -599,19 +599,19 @@ shutdown
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-        sys.stderr.write("Error: Receiver failed to stop the federation at the right time. Stopping at ({}, {}).\n".format(
+      sys.stderr.write("Error: Receiver failed to stop the federation at the right time. Stopping at ({}, {}).\n".format(
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-                 lf.time.logical_elapsed(),
+           lf.time.logical_elapsed(),
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-                 lf.tag().microstep))
+           lf.tag().microstep))
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-        sys.exit(1)
+      sys.exit(1)
 </span>
 
 <span class="source-lf meta-embedded-block-py">
@@ -619,19 +619,19 @@ shutdown
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-        sys.stderr.write("Error: Receiver reaction(in) was not invoked the correct number of times. Stopping at ({}, {}).\n".format(
+      sys.stderr.write("Error: Receiver reaction(in) was not invoked the correct number of times. Stopping at ({}, {}).\n".format(
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-                 lf.time.logical_elapsed(),
+           lf.time.logical_elapsed(),
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-                 lf.tag().microstep))
+           lf.tag().microstep))
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-        sys.exit(1)
+      sys.exit(1)
 </span>
 
 <span class="source-lf meta-embedded-block-py">
@@ -639,11 +639,11 @@ shutdown
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-                 lf.time.logical_elapsed(),
+           lf.time.logical_elapsed(),
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-                 lf.tag().microstep))
+           lf.tag().microstep))
 </span>
 
 <span class="source-lf meta-embedded-block-py">

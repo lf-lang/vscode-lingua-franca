@@ -46,25 +46,19 @@ reactor
 Source
 </span>
 <span class="source-lf">
-(bank_index 
+(bank_index
 </span>
 <span class="source-lf keyword-operator-lflang">
 =
-</span>
-<span class="source-lf">
- 
 </span>
 <span class="source-lf constant-numeric-int-lflang">
 0
 </span>
 <span class="source-lf">
-, value 
+, value
 </span>
 <span class="source-lf keyword-operator-lflang">
 =
-</span>
-<span class="source-lf">
- 
 </span>
 <span class="source-lf constant-numeric-int-lflang">
 0
@@ -139,13 +133,10 @@ reactor
 Sink
 </span>
 <span class="source-lf">
-(width 
+(width
 </span>
 <span class="source-lf keyword-operator-lflang">
 =
-</span>
-<span class="source-lf">
- 
 </span>
 <span class="source-lf constant-numeric-int-lflang">
 4
@@ -211,27 +202,27 @@ reaction
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-        if port.is_present is True:
+      if port.is_present is True:
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-            print("Received on channel {:d}: {:d}".format(idx, port.value))
+        print("Received on channel {:d}: {:d}".format(idx, port.value))
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-            self.received = True
+        self.received = True
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-            if port.value != 4 - idx:
+        if port.value != 4 - idx:
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-                sys.stderr.write("ERROR: expected {:d}\n".format(4 - idx))
+          sys.stderr.write("ERROR: expected {:d}\n".format(4 - idx))
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-                exit(1)
+          exit(1)
 </span>
 
 <span class="source-lf meta-embedded-block-py">
@@ -269,11 +260,11 @@ shutdown
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-        sys.stderr.write("ERROR: Sink received no data\n")
+      sys.stderr.write("ERROR: Sink received no data\n")
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-        exit(1)
+      exit(1)
 </span>
 
 <span class="source-lf meta-embedded-block-py">
@@ -301,13 +292,10 @@ main
 reactor
 </span>
 <span class="source-lf">
-(width 
+(width
 </span>
 <span class="source-lf keyword-operator-lflang">
 =
-</span>
-<span class="source-lf">
- 
 </span>
 <span class="source-lf constant-numeric-int-lflang">
 4
@@ -381,13 +369,13 @@ new
 Sink
 </span>
 <span class="source-lf">
-(width 
+(width
 </span>
 <span class="source-lf keyword-operator-lflang">
 =
 </span>
 <span class="source-lf">
- width)
+width)
 </span>
 
 <span class="source-lf">

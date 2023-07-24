@@ -26,13 +26,10 @@ reactor
 Source
 </span>
 <span class="source-lf">
-(width 
+(width
 </span>
 <span class="source-lf keyword-operator-lflang">
 =
-</span>
-<span class="source-lf">
- 
 </span>
 <span class="source-lf constant-numeric-int-lflang">
 2
@@ -94,7 +91,7 @@ startup
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-        port.set(idx)
+      port.set(idx)
 </span>
 
 <span class="source-lf meta-embedded-block-py">
@@ -122,13 +119,10 @@ reactor
 Destination
 </span>
 <span class="source-lf">
-(width 
+(width
 </span>
 <span class="source-lf keyword-operator-lflang">
 =
-</span>
-<span class="source-lf">
- 
 </span>
 <span class="source-lf constant-numeric-int-lflang">
 2
@@ -169,31 +163,31 @@ reaction
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-        if port.is_present:
+      if port.is_present:
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-            print("Received on channel {:d}: ".format(idx), port.value)
+        print("Received on channel {:d}: ".format(idx), port.value)
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-            # NOTE: For testing purposes, this assumes the specific
+        # NOTE: For testing purposes, this assumes the specific
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-            # widths instantiated below.
+        # widths instantiated below.
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-            if port.value != idx % 3:
+        if port.value != idx % 3:
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-                sys.stderr.write("ERROR: expected {:d}!\n".format(idx % 3))
+          sys.stderr.write("ERROR: expected {:d}!\n".format(idx % 3))
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-                exit(1)
+          exit(1)
 </span>
 
 <span class="source-lf meta-embedded-block-py">
@@ -255,13 +249,10 @@ new
 Source
 </span>
 <span class="source-lf">
-(width 
+(width
 </span>
 <span class="source-lf keyword-operator-lflang">
 =
-</span>
-<span class="source-lf">
- 
 </span>
 <span class="source-lf constant-numeric-int-lflang">
 3
@@ -295,13 +286,10 @@ new
 Source
 </span>
 <span class="source-lf">
-(width 
+(width
 </span>
 <span class="source-lf keyword-operator-lflang">
 =
-</span>
-<span class="source-lf">
- 
 </span>
 <span class="source-lf constant-numeric-int-lflang">
 2
@@ -335,13 +323,10 @@ new
 Destination
 </span>
 <span class="source-lf">
-(width 
+(width
 </span>
 <span class="source-lf keyword-operator-lflang">
 =
-</span>
-<span class="source-lf">
- 
 </span>
 <span class="source-lf constant-numeric-int-lflang">
 5

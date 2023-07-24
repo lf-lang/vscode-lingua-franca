@@ -12,6 +12,10 @@ C
 
 </span>
 
+<span class="source-lf comment-line-double-dash-lflang">
+// This test verifies that floating-point literals are handled correctly.
+</span>
+
 <span class="source-lf storage-modifier-lflang">
 main
 </span>
@@ -22,10 +26,7 @@ main
 reactor
 </span>
 <span class="source-lf">
- {  
-</span>
-<span class="source-lf comment-line-double-dash-lflang">
-// This test verifies that floating-point literals are handled correctly.
+ {
 </span>
 
 <span class="source-lf">
@@ -290,7 +291,7 @@ minus_epsilon)) {
 </span>
 
 <span class="source-lf">
-        lf_print(
+      lf_print(
 </span>
 <span class="source-lf string-quoted-double-lflang">
 "
@@ -310,11 +311,11 @@ The Faraday constant is roughly %f.
 </span>
 
 <span class="source-lf">
-        lf_print_error_and_exit(
+      lf_print_error_and_exit(
 </span>
 
 <span class="source-lf">
-            
+        
 </span>
 <span class="source-lf string-quoted-double-lflang">
 "
@@ -330,7 +331,7 @@ ERROR: Expected %f but computed %f.
 </span>
 
 <span class="source-lf">
-            self
+        self
 </span>
 <span class="source-lf keyword-operator-lflang">
 ->
@@ -340,7 +341,7 @@ expected, F
 </span>
 
 <span class="source-lf">
-        );
+      );
 </span>
 
 <span class="source-lf">

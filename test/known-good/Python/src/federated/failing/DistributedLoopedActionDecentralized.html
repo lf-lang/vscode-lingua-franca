@@ -79,7 +79,7 @@ Python
 </span>
 
 <span class="source-lf meta-targetspec-lflang variable-parameter-lflang">
-    timeout
+  timeout
 </span>
 <span class="source-lf meta-targetspec-lflang">
 : 
@@ -98,7 +98,7 @@ sec
 </span>
 
 <span class="source-lf meta-targetspec-lflang variable-parameter-lflang">
-    coordination
+  coordination
 </span>
 <span class="source-lf meta-targetspec-lflang">
 : 
@@ -189,7 +189,7 @@ STPReceiver
 </span>
 
 <span class="source-lf">
-    take_a_break_after(
+  take_a_break_after(
 </span>
 <span class="source-lf constant-numeric-int-lflang">
 10
@@ -199,7 +199,7 @@ STPReceiver
 </span>
 
 <span class="source-lf">
-    break_interval(
+  break_interval(
 </span>
 <span class="source-lf constant-numeric-int-lflang">
 400
@@ -215,7 +215,7 @@ msec
 </span>
 
 <span class="source-lf">
-    stp_offset(
+  stp_offset(
 </span>
 <span class="source-lf constant-numeric-int-lflang">
 0
@@ -229,7 +229,7 @@ msec
 </span>
 
 <span class="source-lf">
-    
+  
 </span>
 <span class="source-lf storage-modifier-lflang">
 input
@@ -242,7 +242,7 @@ inp
 </span>
 
 <span class="source-lf">
-    
+  
 </span>
 <span class="source-lf storage-modifier-lflang">
 state
@@ -264,7 +264,7 @@ last_time_updated_stp
 </span>
 
 <span class="source-lf">
-    
+  
 </span>
 <span class="source-lf variable-other-constant-reactorinstance-lflang">
 receiver
@@ -322,7 +322,7 @@ msec
 </span>
 
 <span class="source-lf">
-    
+  
 </span>
 <span class="source-lf storage-modifier-lflang">
 timer
@@ -357,7 +357,7 @@ msec
 </span>
 
 <span class="source-lf">
-    
+  
 </span>
 <span class="source-lf keyword-control-lflang">
 reaction
@@ -388,15 +388,15 @@ in_
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-        print(f"Received {inp.value}.")
+    print(f"Received {inp.value}.")
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-        receiver.in_.set(inp.value)
+    receiver.in_.set(inp.value)
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-    
+  
 </span>
 <span class="source-lf meta-embedded-block-py">
 =}
@@ -415,59 +415,59 @@ STP
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-        print(f"Received {inp.value} late.")
+    print(f"Received {inp.value} late.")
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-        current_tag = lf.tag()
+    current_tag = lf.tag()
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-        print(f"STP violation of "
+    print(f"STP violation of "
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-            f"({current_tag.time - inp.intended_tag.time}, "
+      f"({current_tag.time - inp.intended_tag.time}, "
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-            f"{current_tag.microstep - inp.intended_tag.microstep}) "
+      f"{current_tag.microstep - inp.intended_tag.microstep}) "
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-            "perceived on the input.")
+      "perceived on the input.")
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-        receiver.inp.set(inp.value)
+    receiver.inp.set(inp.value)
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-        # Only update the STP offset once per
+    # Only update the STP offset once per
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-        # time step.
+    # time step.
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-        if current_tag.time != self.last_time_updated_stp :
+    if current_tag.time != self.last_time_updated_stp :
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-            print(f"Raising the STP offset by {MSEC(10)}.")
+      print(f"Raising the STP offset by {MSEC(10)}.")
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-            lf_set_stp_offset(MSEC(10))
+      lf_set_stp_offset(MSEC(10))
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-            self.last_time_updated_stp = current_tag.time
+      self.last_time_updated_stp = current_tag.time
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-    
+  
 </span>
 <span class="source-lf meta-embedded-block-py">
 =}
@@ -478,7 +478,7 @@ STP
 </span>
 
 <span class="source-lf">
-    
+  
 </span>
 <span class="source-lf keyword-control-lflang">
 reaction
@@ -491,11 +491,11 @@ reaction
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-        # Do nothing
+    # Do nothing
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-    
+  
 </span>
 <span class="source-lf meta-embedded-block-py">
 =}
@@ -529,7 +529,7 @@ DistributedLoopedActionDecentralized
 </span>
 
 <span class="source-lf">
-    
+  
 </span>
 <span class="source-lf variable-other-constant-reactorinstance-lflang">
 sender
@@ -587,7 +587,7 @@ msec
 </span>
 
 <span class="source-lf">
-    
+  
 </span>
 <span class="source-lf variable-other-constant-reactorinstance-lflang">
 stpReceiver
@@ -615,7 +615,7 @@ STPReceiver
 </span>
 
 <span class="source-lf">
-        take_a_break_after 
+    take_a_break_after 
 </span>
 <span class="source-lf keyword-operator-lflang">
 =
@@ -631,7 +631,7 @@ STPReceiver
 </span>
 
 <span class="source-lf">
-        break_interval 
+    break_interval 
 </span>
 <span class="source-lf keyword-operator-lflang">
 =
@@ -650,7 +650,7 @@ msec
 </span>
 
 <span class="source-lf">
-    )
+  )
 </span>
 
 <span class="source-lf">
@@ -658,7 +658,7 @@ msec
 </span>
 
 <span class="source-lf">
-    
+  
 </span>
 <span class="source-lf variable-other-constant-reactorinstance-lflang">
 sender

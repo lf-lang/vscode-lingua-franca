@@ -104,6 +104,10 @@ startup
 
 </span>
 
+<span class="source-lf comment-line-double-dash-lflang">
+# The scale parameter is just for testing.
+</span>
+
 <span class="source-lf storage-modifier-lflang">
 reactor
 </span>
@@ -114,22 +118,16 @@ reactor
 Print
 </span>
 <span class="source-lf">
-(scale 
+(scale
 </span>
 <span class="source-lf keyword-operator-lflang">
 =
-</span>
-<span class="source-lf">
- 
 </span>
 <span class="source-lf constant-numeric-int-lflang">
 1
 </span>
 <span class="source-lf">
-) {  
-</span>
-<span class="source-lf comment-line-double-dash-lflang">
-# The scale parameter is just for testing.
+) {
 </span>
 
 <span class="source-lf">
@@ -174,23 +172,23 @@ reaction
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-        print("Received on channel {:d}: ".format(idx), port.value)
+      print("Received on channel {:d}: ".format(idx), port.value)
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-        if port.value != expected:
+      if port.value != expected:
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-            sys.stderr.write("ERROR: Expected {:d}!\n".format(expected))
+        sys.stderr.write("ERROR: Expected {:d}!\n".format(expected))
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-            exit(1)
+        exit(1)
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-        expected *= 2
+      expected *= 2
 </span>
 
 <span class="source-lf meta-embedded-block-py">
@@ -218,13 +216,10 @@ reactor
 Scale
 </span>
 <span class="source-lf">
-(scale 
+(scale
 </span>
 <span class="source-lf keyword-operator-lflang">
 =
-</span>
-<span class="source-lf">
- 
 </span>
 <span class="source-lf constant-numeric-int-lflang">
 2
@@ -302,15 +297,15 @@ reaction
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-        # Modify the input, allowed because mutable.
+      # Modify the input, allowed because mutable.
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-        port.value *= self.scale
+      port.value *= self.scale
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-        out[idx].set(port.value)
+      out[idx].set(port.value)
 </span>
 
 <span class="source-lf meta-embedded-block-py">
@@ -428,13 +423,10 @@ new
 Print
 </span>
 <span class="source-lf">
-(scale 
+(scale
 </span>
 <span class="source-lf keyword-operator-lflang">
 =
-</span>
-<span class="source-lf">
- 
 </span>
 <span class="source-lf constant-numeric-int-lflang">
 2

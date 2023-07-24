@@ -47,7 +47,7 @@ Python
 </span>
 
 <span class="source-lf meta-targetspec-lflang variable-parameter-lflang">
-    coordination
+  coordination
 </span>
 <span class="source-lf meta-targetspec-lflang">
 : 
@@ -60,7 +60,7 @@ decentralized
 </span>
 
 <span class="source-lf meta-targetspec-lflang variable-parameter-lflang">
-    timeout
+  timeout
 </span>
 <span class="source-lf meta-targetspec-lflang">
 : 
@@ -94,47 +94,47 @@ preamble
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-    #include <unistd.h> // Defines sleep()
+  #include <unistd.h> // Defines sleep()
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-    bool stop = false;
+  bool stop = false;
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-    // Thread to trigger an action once every second.
+  // Thread to trigger an action once every second.
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-    void* ping(void* actionref) {
+  void* ping(void* actionref) {
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-        while(!stop) {
+    while(!stop) {
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-            lf_print("Scheduling action.");
+      lf_print("Scheduling action.");
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-            schedule(actionref, 0);
+      schedule(actionref, 0);
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-            sleep(1);
-</span>
-
-<span class="source-lf meta-embedded-block-py">
-        }
-</span>
-
-<span class="source-lf meta-embedded-block-py">
-        return NULL;
+      sleep(1);
 </span>
 
 <span class="source-lf meta-embedded-block-py">
     }
+</span>
+
+<span class="source-lf meta-embedded-block-py">
+    return NULL;
+</span>
+
+<span class="source-lf meta-embedded-block-py">
+  }
 </span>
 
 <span class="source-lf meta-embedded-block-py">
@@ -183,7 +183,7 @@ msec
 </span>
 
 <span class="source-lf">
-    
+  
 </span>
 <span class="source-lf storage-modifier-lflang">
 input
@@ -196,7 +196,7 @@ in_
 </span>
 
 <span class="source-lf">
-    
+  
 </span>
 <span class="source-lf storage-modifier-lflang">
 output
@@ -209,7 +209,7 @@ out
 </span>
 
 <span class="source-lf">
-    
+  
 </span>
 <span class="source-lf storage-modifier-lflang">
 physical
@@ -231,7 +231,7 @@ a
 </span>
 
 <span class="source-lf">
-    
+  
 </span>
 <span class="source-lf storage-modifier-lflang">
 state
@@ -257,7 +257,7 @@ count
 </span>
 
 <span class="source-lf">
-    
+  
 </span>
 <span class="source-lf keyword-control-lflang">
 reaction
@@ -282,23 +282,23 @@ startup
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-        // Start the thread that listens for Enter or Return.
+    // Start the thread that listens for Enter or Return.
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-        lf_thread_t thread_id;
+    lf_thread_t thread_id;
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-        lf_print("Starting thread.");
+    lf_print("Starting thread.");
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-        lf_thread_create(&thread_id, &ping, a);
+    lf_thread_create(&thread_id, &ping, a);
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-    
+  
 </span>
 <span class="source-lf meta-embedded-block-py">
 =}
@@ -309,7 +309,7 @@ startup
 </span>
 
 <span class="source-lf">
-    
+  
 </span>
 <span class="source-lf keyword-control-lflang">
 reaction
@@ -328,19 +328,19 @@ reaction
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-        lf_print("Setting out.");
+    lf_print("Setting out.");
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-        SET(out, self->count);
+    SET(out, self->count);
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-        self->count += self->incr;
+    self->count += self->incr;
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-    
+  
 </span>
 <span class="source-lf meta-embedded-block-py">
 =}
@@ -351,7 +351,7 @@ reaction
 </span>
 
 <span class="source-lf">
-    
+  
 </span>
 <span class="source-lf keyword-control-lflang">
 reaction
@@ -364,23 +364,23 @@ reaction
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-        instant_t time_lag = lf.time.physical() - lf.time.logical();
+    instant_t time_lag = lf.time.physical() - lf.time.logical();
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-        char time_buffer[28]; // 28 bytes is enough for the largest 64 bit number: 9,223,372,036,854,775,807
+    char time_buffer[28]; // 28 bytes is enough for the largest 64 bit number: 9,223,372,036,854,775,807
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-        lf_comma_separated_time(time_buffer, time_lag);
+    lf_comma_separated_time(time_buffer, time_lag);
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-        lf_print("Received %d. Logical time is behind physical time by %s nsec.", in_->value, time_buffer);
+    lf_print("Received %d. Logical time is behind physical time by %s nsec.", in_->value, time_buffer);
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-    
+  
 </span>
 <span class="source-lf meta-embedded-block-py">
 =}
@@ -399,23 +399,23 @@ STP
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-        instant_t time_lag = lf.time.physical() - lf.time.logical();
+    instant_t time_lag = lf.time.physical() - lf.time.logical();
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-        char time_buffer[28]; // 28 bytes is enough for the largest 64 bit number: 9,223,372,036,854,775,807
+    char time_buffer[28]; // 28 bytes is enough for the largest 64 bit number: 9,223,372,036,854,775,807
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-        lf_comma_separated_time(time_buffer, time_lag);
+    lf_comma_separated_time(time_buffer, time_lag);
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-        lf_print("STP offset was violated. Received %d. Logical time is behind physical time by %s nsec.", in_->value, time_buffer);
+    lf_print("STP offset was violated. Received %d. Logical time is behind physical time by %s nsec.", in_->value, time_buffer);
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-    
+  
 </span>
 <span class="source-lf meta-embedded-block-py">
 =}
@@ -446,23 +446,23 @@ msec
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-        instant_t time_lag = lf.time.physical() - lf.time.logical();
+    instant_t time_lag = lf.time.physical() - lf.time.logical();
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-        char time_buffer[28]; // 28 bytes is enough for the largest 64 bit number: 9,223,372,036,854,775,807
+    char time_buffer[28]; // 28 bytes is enough for the largest 64 bit number: 9,223,372,036,854,775,807
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-        lf_comma_separated_time(time_buffer, time_lag);
+    lf_comma_separated_time(time_buffer, time_lag);
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-        lf_print("Deadline miss. Received %d. Logical time is behind physical time by %s nsec.", in_->value, time_buffer);
+    lf_print("Deadline miss. Received %d. Logical time is behind physical time by %s nsec.", in_->value, time_buffer);
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-    
+  
 </span>
 <span class="source-lf meta-embedded-block-py">
 =}
@@ -473,7 +473,7 @@ msec
 </span>
 
 <span class="source-lf">
-    
+  
 </span>
 <span class="source-lf keyword-control-lflang">
 reaction
@@ -492,31 +492,31 @@ shutdown
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-        lf_print("******* Shutdown invoked.");
+    lf_print("******* Shutdown invoked.");
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-        // Stop the thread that is scheduling actions.
+    // Stop the thread that is scheduling actions.
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-        stop = true;
+    stop = true;
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-        if (self->count != 5 * self->incr) {
+    if (self->count != 5 * self->incr) {
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-            lf_print_error_and_exit("Failed to receive all five expected inputs.");
+      lf_print_error_and_exit("Failed to receive all five expected inputs.");
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-        }
+    }
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-    
+  
 </span>
 <span class="source-lf meta-embedded-block-py">
 =}
@@ -556,7 +556,7 @@ LoopDistributedDecentralized
 </span>
 
 <span class="source-lf">
-    
+  
 </span>
 <span class="source-lf variable-other-constant-reactorinstance-lflang">
 left
@@ -602,7 +602,7 @@ usec
 </span>
 
 <span class="source-lf">
-    
+  
 </span>
 <span class="source-lf variable-other-constant-reactorinstance-lflang">
 right
@@ -663,7 +663,7 @@ usec
 </span>
 
 <span class="source-lf">
-    
+  
 </span>
 <span class="source-lf variable-other-constant-reactorinstance-lflang">
 left
@@ -694,7 +694,7 @@ in_
 </span>
 
 <span class="source-lf">
-    
+  
 </span>
 <span class="source-lf variable-other-constant-reactorinstance-lflang">
 right

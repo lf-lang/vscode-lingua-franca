@@ -12,6 +12,10 @@ Python
 
 </span>
 
+<span class="source-lf comment-line-double-dash-lflang">
+# This test verifies that floating-point literals are handled correctly.
+</span>
+
 <span class="source-lf storage-modifier-lflang">
 main
 </span>
@@ -22,10 +26,7 @@ main
 reactor
 </span>
 <span class="source-lf">
- {  
-</span>
-<span class="source-lf comment-line-double-dash-lflang">
-# This test verifies that floating-point literals are handled correctly.
+ {
 </span>
 
 <span class="source-lf">
@@ -172,7 +173,7 @@ startup
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-        print("The Faraday constant is roughly {}.".format(F))
+      print("The Faraday constant is roughly {}.".format(F))
 </span>
 
 <span class="source-lf meta-embedded-block-py">
@@ -180,19 +181,19 @@ startup
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-        sys.stderr.write("ERROR: Expected {} but got {}.".format(
+      sys.stderr.write("ERROR: Expected {} but got {}.".format(
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-            self.expected, F
+        self.expected, F
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-        ))
+      ))
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-        exit(1)
+      exit(1)
 </span>
 
 <span class="source-lf meta-embedded-block-py">

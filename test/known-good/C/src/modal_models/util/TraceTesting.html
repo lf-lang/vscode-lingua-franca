@@ -36,7 +36,7 @@ TraceTesting
 </span>
 
 <span class="source-lf">
-  events_size: 
+    events_size: 
 </span>
 <span class="source-lf storage-type-lflang">
 int
@@ -58,7 +58,7 @@ int
 </span>
 
 <span class="source-lf">
-  trace_size: 
+    trace_size: 
 </span>
 <span class="source-lf storage-type-lflang">
 int
@@ -80,7 +80,7 @@ int
 </span>
 
 <span class="source-lf">
-  trace: 
+    trace: 
 </span>
 <span class="source-lf storage-type-lflang">
 int
@@ -102,7 +102,7 @@ int
 </span>
 
 <span class="source-lf">
-  training: 
+    training: 
 </span>
 <span class="source-lf storage-type-lflang">
 bool
@@ -119,7 +119,6 @@ bool
 <span class="source-lf constant-language-lflang">
 false
 </span>
-
 <span class="source-lf">
 ) {
 </span>
@@ -400,14 +399,14 @@ training) {
 </span>
 
 <span class="source-lf comment-line-double-dash-lflang">
-        
+      
 </span>
 <span class="source-lf comment-line-double-dash-lflang">
 // Save time
 </span>
 
 <span class="source-lf">
-        self
+      self
 </span>
 <span class="source-lf keyword-operator-lflang">
 ->
@@ -483,7 +482,7 @@ events_size));
 </span>
 
 <span class="source-lf">
-        self
+      self
 </span>
 <span class="source-lf keyword-operator-lflang">
 ->
@@ -524,7 +523,7 @@ _delay
 </span>
 
 <span class="source-lf">
-        if (self
+      if (self
 </span>
 <span class="source-lf keyword-operator-lflang">
 ->
@@ -546,7 +545,7 @@ trace_size) {
 </span>
 
 <span class="source-lf">
-            printf(
+        printf(
 </span>
 <span class="source-lf string-quoted-double-lflang">
 "
@@ -565,7 +564,7 @@ ERROR: Trace Error: Current execution exceeds given trace.
 </span>
 
 <span class="source-lf">
-            exit(
+        exit(
 </span>
 <span class="source-lf constant-numeric-int-lflang">
 1
@@ -575,7 +574,7 @@ ERROR: Trace Error: Current execution exceeds given trace.
 </span>
 
 <span class="source-lf">
-        }
+      }
 </span>
 
 <span class="source-lf">
@@ -583,7 +582,7 @@ ERROR: Trace Error: Current execution exceeds given trace.
 </span>
 
 <span class="source-lf">
-        int trace_reaction
+      int trace_reaction
 </span>
 <span class="source-lf">
 _delay = self->trace[self->trace_idx++]
@@ -597,14 +596,14 @@ _delay = self->trace[self->trace_idx++]
 </span>
 
 <span class="source-lf">
-        if (curr_reaction
+      if (curr_reaction
 </span>
 <span class="source-lf">
 _delay != trace_reaction_delay) {
 </span>
 
 <span class="source-lf">
-            printf(
+        printf(
 </span>
 <span class="source-lf string-quoted-double-lflang">
 "
@@ -629,7 +628,7 @@ _delay, trace_reaction_delay)
 </span>
 
 <span class="source-lf">
-            exit(
+        exit(
 </span>
 <span class="source-lf constant-numeric-int-lflang">
 2
@@ -639,7 +638,7 @@ _delay, trace_reaction_delay)
 </span>
 
 <span class="source-lf">
-        }
+      }
 </span>
 
 <span class="source-lf">
@@ -682,7 +681,7 @@ events_size; i
 </span>
 
 <span class="source-lf">
-        int curr_present 
+      int curr_present 
 </span>
 <span class="source-lf keyword-operator-lflang">
 =
@@ -698,7 +697,7 @@ is_present;
 </span>
 
 <span class="source-lf">
-        int curr_value 
+      int curr_value 
 </span>
 <span class="source-lf keyword-operator-lflang">
 =
@@ -718,7 +717,7 @@ value;
 </span>
 
 <span class="source-lf">
-        if (self
+      if (self
 </span>
 <span class="source-lf keyword-operator-lflang">
 ->
@@ -728,14 +727,14 @@ training) {
 </span>
 
 <span class="source-lf comment-line-double-dash-lflang">
-            
+        
 </span>
 <span class="source-lf comment-line-double-dash-lflang">
 // Save event
 </span>
 
 <span class="source-lf">
-            self
+        self
 </span>
 <span class="source-lf keyword-operator-lflang">
 ->
@@ -766,7 +765,7 @@ recorded_events_next
 </span>
 
 <span class="source-lf">
-            self
+        self
 </span>
 <span class="source-lf keyword-operator-lflang">
 ->
@@ -797,11 +796,11 @@ recorded_events_next
 </span>
 
 <span class="source-lf">
-        } else {
+      } else {
 </span>
 
 <span class="source-lf">
-            int trace_present 
+        int trace_present 
 </span>
 <span class="source-lf keyword-operator-lflang">
 =
@@ -832,7 +831,7 @@ trace_idx
 </span>
 
 <span class="source-lf">
-            int trace_value 
+        int trace_value 
 </span>
 <span class="source-lf keyword-operator-lflang">
 =
@@ -867,7 +866,7 @@ trace_idx
 </span>
 
 <span class="source-lf">
-            if (trace_present !
+        if (trace_present !
 </span>
 <span class="source-lf keyword-operator-lflang">
 =
@@ -877,7 +876,7 @@ trace_idx
 </span>
 
 <span class="source-lf">
-                printf(
+          printf(
 </span>
 <span class="source-lf string-quoted-double-lflang">
 "
@@ -896,7 +895,7 @@ ERROR: Trace Mismatch: Unexpected event presence. (event: %d, presence: %d, expe
 </span>
 
 <span class="source-lf">
-                exit(
+          exit(
 </span>
 <span class="source-lf constant-numeric-int-lflang">
 3
@@ -906,7 +905,7 @@ ERROR: Trace Mismatch: Unexpected event presence. (event: %d, presence: %d, expe
 </span>
 
 <span class="source-lf">
-            } else if (curr_present && trace_value !
+        } else if (curr_present && trace_value !
 </span>
 <span class="source-lf keyword-operator-lflang">
 =
@@ -916,7 +915,7 @@ ERROR: Trace Mismatch: Unexpected event presence. (event: %d, presence: %d, expe
 </span>
 
 <span class="source-lf">
-                printf(
+          printf(
 </span>
 <span class="source-lf string-quoted-double-lflang">
 "
@@ -935,7 +934,7 @@ ERROR: Trace Mismatch: Unexpected event value. (event: %d, presence: %d, expecte
 </span>
 
 <span class="source-lf">
-                exit(
+          exit(
 </span>
 <span class="source-lf constant-numeric-int-lflang">
 4
@@ -945,11 +944,11 @@ ERROR: Trace Mismatch: Unexpected event value. (event: %d, presence: %d, expecte
 </span>
 
 <span class="source-lf">
-            }
+        }
 </span>
 
 <span class="source-lf">
-        }
+      }
 </span>
 
 <span class="source-lf">
@@ -1023,7 +1022,7 @@ training) {
 </span>
 
 <span class="source-lf">
-        printf(
+      printf(
 </span>
 <span class="source-lf string-quoted-double-lflang">
 "
@@ -1045,7 +1044,7 @@ recorded_events_next);
 </span>
 
 <span class="source-lf">
-        for (int i 
+      for (int i 
 </span>
 <span class="source-lf keyword-operator-lflang">
 =
@@ -1076,7 +1075,7 @@ recorded_events_next; i
 </span>
 
 <span class="source-lf">
-            printf(
+        printf(
 </span>
 <span class="source-lf string-quoted-double-lflang">
 "
@@ -1098,7 +1097,7 @@ recorded_events[i]);
 </span>
 
 <span class="source-lf">
-            if (i < self
+        if (i < self
 </span>
 <span class="source-lf keyword-operator-lflang">
 ->
@@ -1120,7 +1119,7 @@ recorded_events_next
 </span>
 
 <span class="source-lf">
-                printf(
+          printf(
 </span>
 <span class="source-lf string-quoted-double-lflang">
 "
@@ -1136,15 +1135,15 @@ recorded_events_next
 </span>
 
 <span class="source-lf">
-            }
-</span>
-
-<span class="source-lf">
         }
 </span>
 
 <span class="source-lf">
-        printf(
+      }
+</span>
+
+<span class="source-lf">
+      printf(
 </span>
 <span class="source-lf string-quoted-double-lflang">
 "
@@ -1167,7 +1166,7 @@ recorded_events_next
 </span>
 
 <span class="source-lf">
-        free(self
+      free(self
 </span>
 <span class="source-lf keyword-operator-lflang">
 ->

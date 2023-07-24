@@ -98,7 +98,7 @@ on
 </span>
 
 <span class="source-lf meta-targetspec-lflang variable-parameter-lflang">
-    local-federates-on
+  local-federates-on
 </span>
 <span class="source-lf meta-targetspec-lflang">
 : 
@@ -114,35 +114,35 @@ true
 </span>
 
 <span class="source-lf meta-targetspec-lflang comment-line-double-dash-lflang">
-    
+  
 </span>
 <span class="source-lf meta-targetspec-lflang comment-line-double-dash-lflang">
 // Collect useful statistics like average network delay and the standard deviation for the
 </span>
 
 <span class="source-lf meta-targetspec-lflang comment-line-double-dash-lflang">
-    
+  
 </span>
 <span class="source-lf meta-targetspec-lflang comment-line-double-dash-lflang">
 // network delay over one clock synchronization cycle. Generates a warning if the standard
 </span>
 
 <span class="source-lf meta-targetspec-lflang comment-line-double-dash-lflang">
-    
+  
 </span>
 <span class="source-lf meta-targetspec-lflang comment-line-double-dash-lflang">
 // deviation is higher than the clock sync guard. Artificially offsets clocks by multiples of
 </span>
 
 <span class="source-lf meta-targetspec-lflang comment-line-double-dash-lflang">
-    
+  
 </span>
 <span class="source-lf meta-targetspec-lflang comment-line-double-dash-lflang">
 // 200 msec.
 </span>
 
 <span class="source-lf meta-targetspec-lflang variable-parameter-lflang">
-    collect-stats
+  collect-stats
 </span>
 <span class="source-lf meta-targetspec-lflang">
 : 
@@ -155,7 +155,7 @@ true
 </span>
 
 <span class="source-lf meta-targetspec-lflang variable-parameter-lflang">
-    test-offset
+  test-offset
 </span>
 <span class="source-lf meta-targetspec-lflang">
 : 
@@ -174,7 +174,7 @@ msec
 </span>
 
 <span class="source-lf meta-targetspec-lflang variable-parameter-lflang">
-    period
+  period
 </span>
 <span class="source-lf meta-targetspec-lflang">
 : 
@@ -196,7 +196,7 @@ msec
 </span>
 
 <span class="source-lf meta-targetspec-lflang variable-parameter-lflang">
-    trials
+  trials
 </span>
 <span class="source-lf meta-targetspec-lflang">
 : 
@@ -212,7 +212,7 @@ msec
 </span>
 
 <span class="source-lf meta-targetspec-lflang variable-parameter-lflang">
-    attenuation
+  attenuation
 </span>
 <span class="source-lf meta-targetspec-lflang">
 : 
@@ -446,7 +446,7 @@ startup
 </span>
 
 <span class="source-lf">
-    interval_t offset 
+  interval_t offset 
 </span>
 <span class="source-lf keyword-operator-lflang">
 =
@@ -462,7 +462,7 @@ startup
 </span>
 
 <span class="source-lf">
-    lf_print(
+  lf_print(
 </span>
 <span class="source-lf string-quoted-double-lflang">
 "
@@ -558,7 +558,7 @@ shutdown
 </span>
 
 <span class="source-lf">
-    interval_t offset 
+  interval_t offset 
 </span>
 <span class="source-lf keyword-operator-lflang">
 =
@@ -574,7 +574,7 @@ shutdown
 </span>
 
 <span class="source-lf">
-    lf_print(
+  lf_print(
 </span>
 <span class="source-lf string-quoted-double-lflang">
 "
@@ -590,14 +590,14 @@ Clock sync error at shutdown is %lld ns.
 </span>
 
 <span class="source-lf comment-line-double-dash-lflang">
-    
+  
 </span>
 <span class="source-lf comment-line-double-dash-lflang">
 // Error out if the offset is bigger than 100 msec.
 </span>
 
 <span class="source-lf">
-    if (offset > MSEC(
+  if (offset > MSEC(
 </span>
 <span class="source-lf constant-numeric-int-lflang">
 100
@@ -607,7 +607,7 @@ Clock sync error at shutdown is %lld ns.
 </span>
 
 <span class="source-lf">
-        lf_print_error(
+    lf_print_error(
 </span>
 <span class="source-lf string-quoted-double-lflang">
 "
@@ -623,7 +623,7 @@ Offset exceeds test threshold of 100 msec.
 </span>
 
 <span class="source-lf">
-        exit(
+    exit(
 </span>
 <span class="source-lf constant-numeric-int-lflang">
 1
@@ -633,7 +633,7 @@ Offset exceeds test threshold of 100 msec.
 </span>
 
 <span class="source-lf">
-    }
+  }
 </span>
 
 <span class="source-lf">

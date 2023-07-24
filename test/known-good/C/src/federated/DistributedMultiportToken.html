@@ -214,21 +214,21 @@ t)
 </span>
 
 <span class="source-lf comment-line-double-dash-lflang">
-        
+      
 </span>
 <span class="source-lf comment-line-double-dash-lflang">
 // With NULL, 0 arguments, snprintf tells us how many bytes are needed.
 </span>
 
 <span class="source-lf comment-line-double-dash-lflang">
-        
+      
 </span>
 <span class="source-lf comment-line-double-dash-lflang">
 // Add one for the null terminator.
 </span>
 
 <span class="source-lf">
-        int length 
+      int length 
 </span>
 <span class="source-lf keyword-operator-lflang">
 =
@@ -274,25 +274,25 @@ count)
 </span>
 
 <span class="source-lf comment-line-double-dash-lflang">
-        
+      
 </span>
 <span class="source-lf comment-line-double-dash-lflang">
 // Dynamically allocate memory for the output.
 </span>
 
 <span class="source-lf">
-        SET_NEW_ARRAY(out[i], length);
+      SET_NEW_ARRAY(out[i], length);
 </span>
 
 <span class="source-lf comment-line-double-dash-lflang">
-        
+      
 </span>
 <span class="source-lf comment-line-double-dash-lflang">
 // Populate the output string and increment the count.
 </span>
 
 <span class="source-lf">
-        snprintf(out[i]
+      snprintf(out[i]
 </span>
 <span class="source-lf keyword-operator-lflang">
 ->
@@ -329,7 +329,7 @@ count
 </span>
 
 <span class="source-lf">
-        lf_print(
+      lf_print(
 </span>
 <span class="source-lf string-quoted-double-lflang">
 "
@@ -345,11 +345,11 @@ MessageGenerator: At time %lld, send message: %s.
 </span>
 
 <span class="source-lf">
-            lf_time_logical_elapsed(),
+        lf_time_logical_elapsed(),
 </span>
 
 <span class="source-lf">
-            out[i]
+        out[i]
 </span>
 <span class="source-lf keyword-operator-lflang">
 ->
@@ -359,7 +359,7 @@ value
 </span>
 
 <span class="source-lf">
-        );
+      );
 </span>
 
 <span class="source-lf">
@@ -462,7 +462,7 @@ in) {
 </span>
 
 <span class="source-lf">
-        if (in[i]
+      if (in[i]
 </span>
 <span class="source-lf keyword-operator-lflang">
 ->
@@ -472,7 +472,7 @@ is_present) {
 </span>
 
 <span class="source-lf">
-            lf_print(
+        lf_print(
 </span>
 <span class="source-lf string-quoted-double-lflang">
 "
@@ -494,7 +494,7 @@ value);
 </span>
 
 <span class="source-lf">
-        }
+      }
 </span>
 
 <span class="source-lf">

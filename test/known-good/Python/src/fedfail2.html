@@ -1,0 +1,595 @@
+<span class="source-lf meta-targetspec-lflang keyword-control-lflang">
+target
+</span>
+<span class="source-lf meta-targetspec-lflang">
+ 
+</span>
+<span class="source-lf meta-targetspec-lflang constant-language-lflang">
+Python
+</span>
+<span class="source-lf meta-targetspec-lflang">
+ {
+</span>
+
+<span class="source-lf meta-targetspec-lflang variable-parameter-lflang">
+  timeout
+</span>
+<span class="source-lf meta-targetspec-lflang">
+: 
+</span>
+<span class="source-lf meta-targetspec-lflang constant-numeric-int-lflang">
+10
+</span>
+<span class="source-lf meta-targetspec-lflang">
+ 
+</span>
+<span class="source-lf meta-targetspec-lflang constant-numeric-lflang">
+sec
+</span>
+
+<span class="source-lf meta-targetspec-lflang">
+}
+</span>
+
+<span class="source-lf">
+
+</span>
+
+<span class="source-lf keyword-control-lflang">
+preamble
+</span>
+<span class="source-lf">
+ 
+</span>
+<span class="source-lf meta-embedded-block-py">
+{=
+</span>
+
+<span class="source-lf meta-embedded-block-py">
+  
+</span>
+<span class="source-lf meta-embedded-block-py keyword-control-import-python">
+import
+</span>
+<span class="source-lf meta-embedded-block-py">
+ time
+</span>
+
+<span class="source-lf meta-embedded-block-py">
+  
+</span>
+<span class="source-lf meta-embedded-block-py keyword-control-import-python">
+import
+</span>
+<span class="source-lf meta-embedded-block-py">
+ numpy 
+</span>
+<span class="source-lf meta-embedded-block-py keyword-control-import-python">
+as
+</span>
+<span class="source-lf meta-embedded-block-py">
+ np
+</span>
+
+<span class="source-lf meta-embedded-block-py">
+=}
+</span>
+
+<span class="source-lf">
+
+</span>
+
+<span class="source-lf storage-modifier-lflang">
+reactor
+</span>
+<span class="source-lf">
+ 
+</span>
+<span class="source-lf entity-name-type-lflang">
+clientReactor
+</span>
+<span class="source-lf">
+ {
+</span>
+
+<span class="source-lf">
+  
+</span>
+<span class="source-lf storage-modifier-lflang">
+input
+</span>
+<span class="source-lf">
+ 
+</span>
+<span class="source-lf variable-other-lflang">
+global_parameter
+</span>
+
+<span class="source-lf">
+  
+</span>
+<span class="source-lf storage-modifier-lflang">
+output
+</span>
+<span class="source-lf">
+ 
+</span>
+<span class="source-lf variable-other-lflang">
+updated_parameters
+</span>
+
+<span class="source-lf">
+
+</span>
+
+<span class="source-lf">
+  
+</span>
+<span class="source-lf keyword-control-lflang">
+reaction
+</span>
+<span class="source-lf">
+(
+</span>
+<span class="source-lf support-variable-lflang">
+startup
+</span>
+<span class="source-lf">
+) 
+</span>
+<span class="source-lf meta-embedded-block-py">
+{=
+</span>
+<span class="source-lf meta-embedded-block-py">
+  
+</span>
+<span class="source-lf meta-embedded-block-py">
+=}
+</span>
+
+<span class="source-lf">
+
+</span>
+
+<span class="source-lf">
+  
+</span>
+<span class="source-lf keyword-control-lflang">
+reaction
+</span>
+<span class="source-lf">
+(global_parameter) 
+</span>
+<span class="source-lf keyword-operator-lflang">
+->
+</span>
+<span class="source-lf">
+ updated_parameters 
+</span>
+<span class="source-lf meta-embedded-block-py">
+{=
+</span>
+
+<span class="source-lf meta-embedded-block-py">
+    time.sleep(0.1)
+</span>
+
+<span class="source-lf meta-embedded-block-py">
+    param_temp = global_parameter.value
+</span>
+
+<span class="source-lf meta-embedded-block-py">
+    updated_parameters.set(param_temp)
+</span>
+
+<span class="source-lf meta-embedded-block-py">
+  
+</span>
+<span class="source-lf meta-embedded-block-py">
+=}
+</span>
+
+<span class="source-lf">
+}
+</span>
+
+<span class="source-lf">
+
+</span>
+
+<span class="source-lf storage-modifier-lflang">
+reactor
+</span>
+<span class="source-lf">
+ 
+</span>
+<span class="source-lf entity-name-type-lflang">
+serverReactor
+</span>
+<span class="source-lf">
+ {
+</span>
+
+<span class="source-lf">
+  
+</span>
+<span class="source-lf storage-modifier-lflang">
+output
+</span>
+<span class="source-lf">
+ 
+</span>
+<span class="source-lf variable-other-lflang">
+global_parameter
+</span>
+
+<span class="source-lf">
+  
+</span>
+<span class="source-lf storage-modifier-lflang">
+input
+</span>
+<span class="source-lf">
+[
+</span>
+<span class="source-lf constant-numeric-int-lflang">
+20
+</span>
+<span class="source-lf">
+] updated_parameters
+</span>
+
+<span class="source-lf">
+  
+</span>
+<span class="source-lf storage-modifier-lflang">
+state
+</span>
+<span class="source-lf">
+ 
+</span>
+<span class="source-lf variable-other-lflang">
+round_num
+</span>
+
+<span class="source-lf">
+  
+</span>
+<span class="source-lf storage-modifier-lflang">
+state
+</span>
+<span class="source-lf">
+ 
+</span>
+<span class="source-lf variable-other-lflang">
+start_time
+</span>
+
+<span class="source-lf">
+  
+</span>
+<span class="source-lf storage-modifier-lflang">
+state
+</span>
+<span class="source-lf">
+ 
+</span>
+<span class="source-lf variable-other-lflang">
+fixed_param
+</span>
+
+<span class="source-lf">
+
+</span>
+
+<span class="source-lf">
+  
+</span>
+<span class="source-lf keyword-control-lflang">
+reaction
+</span>
+<span class="source-lf">
+(
+</span>
+<span class="source-lf support-variable-lflang">
+startup
+</span>
+<span class="source-lf">
+) 
+</span>
+<span class="source-lf keyword-operator-lflang">
+->
+</span>
+<span class="source-lf">
+ global_parameter 
+</span>
+<span class="source-lf meta-embedded-block-py">
+{=
+</span>
+
+<span class="source-lf meta-embedded-block-py">
+    self.round_num = 0
+</span>
+
+<span class="source-lf meta-embedded-block-py">
+    temp = bytearray(5) #5MB
+</span>
+
+<span class="source-lf meta-embedded-block-py">
+    self.fixed_param = temp
+</span>
+
+<span class="source-lf meta-embedded-block-py">
+    global_parameter.set(temp)
+</span>
+
+<span class="source-lf meta-embedded-block-py">
+  
+</span>
+<span class="source-lf meta-embedded-block-py">
+=}
+</span>
+
+<span class="source-lf">
+
+</span>
+
+<span class="source-lf">
+  
+</span>
+<span class="source-lf keyword-control-lflang">
+reaction
+</span>
+<span class="source-lf">
+(updated_parameters) 
+</span>
+<span class="source-lf keyword-operator-lflang">
+->
+</span>
+<span class="source-lf">
+ global_parameter 
+</span>
+<span class="source-lf meta-embedded-block-py">
+{=
+</span>
+
+<span class="source-lf meta-embedded-block-py">
+    for i in range(15):
+</span>
+
+<span class="source-lf meta-embedded-block-py">
+        res = updated_parameters[i].value
+</span>
+
+<span class="source-lf meta-embedded-block-py">
+
+</span>
+
+<span class="source-lf meta-embedded-block-py">
+    #first round
+</span>
+
+<span class="source-lf meta-embedded-block-py">
+    if int(self.round_num) == 0:
+</span>
+
+<span class="source-lf meta-embedded-block-py">
+        self.start_time = time.time();
+</span>
+
+<span class="source-lf meta-embedded-block-py">
+
+</span>
+
+<span class="source-lf meta-embedded-block-py">
+    #time diff
+</span>
+
+<span class="source-lf meta-embedded-block-py">
+    elapsed_time = time.time() - self.start_time
+</span>
+
+<span class="source-lf meta-embedded-block-py">
+    print(f"Training time: {elapsed_time:.4f} seconds")
+</span>
+
+<span class="source-lf meta-embedded-block-py">
+
+</span>
+
+<span class="source-lf meta-embedded-block-py">
+    #print round number
+</span>
+
+<span class="source-lf meta-embedded-block-py">
+    print("Round: "+str(self.round_num) + " \n")
+</span>
+
+<span class="source-lf meta-embedded-block-py">
+    self.round_num += 1
+</span>
+
+<span class="source-lf meta-embedded-block-py">
+
+</span>
+
+<span class="source-lf meta-embedded-block-py">
+    #set clients parameters
+</span>
+
+<span class="source-lf meta-embedded-block-py">
+    global_parameter.set(updated_parameters[0].value)
+</span>
+
+<span class="source-lf meta-embedded-block-py">
+  
+</span>
+<span class="source-lf meta-embedded-block-py">
+=}
+</span>
+
+<span class="source-lf">
+}
+</span>
+
+<span class="source-lf">
+
+</span>
+
+<span class="source-lf storage-modifier-lflang">
+federated
+</span>
+<span class="source-lf">
+ 
+</span>
+<span class="source-lf storage-modifier-lflang">
+reactor
+</span>
+<span class="source-lf">
+ {
+</span>
+
+<span class="source-lf">
+  
+</span>
+<span class="source-lf variable-other-constant-reactorinstance-lflang">
+client
+</span>
+<span class="source-lf">
+ 
+</span>
+<span class="source-lf keyword-operator-lflang">
+=
+</span>
+<span class="source-lf">
+ 
+</span>
+<span class="source-lf keyword-control-new-lflang">
+new
+</span>
+<span class="source-lf">
+[
+</span>
+<span class="source-lf constant-numeric-int-lflang">
+20
+</span>
+<span class="source-lf">
+] clientReactor()
+</span>
+
+<span class="source-lf">
+  
+</span>
+<span class="source-lf variable-other-constant-reactorinstance-lflang">
+server
+</span>
+<span class="source-lf">
+ 
+</span>
+<span class="source-lf keyword-operator-lflang">
+=
+</span>
+<span class="source-lf">
+ 
+</span>
+<span class="source-lf keyword-control-new-lflang">
+new
+</span>
+<span class="source-lf">
+ 
+</span>
+<span class="source-lf entity-name-type-lflang">
+serverReactor
+</span>
+<span class="source-lf">
+()
+</span>
+
+<span class="source-lf">
+  (
+</span>
+<span class="source-lf variable-other-constant-reactorinstance-lflang">
+server
+</span>
+<span class="source-lf keyword-operator-lflang">
+.
+</span>
+<span class="source-lf variable-other-lflang">
+global_parameter
+</span>
+<span class="source-lf">
+)
+</span>
+<span class="source-lf keyword-operator-lflang">
++
+</span>
+<span class="source-lf">
+ 
+</span>
+<span class="source-lf keyword-operator-lflang">
+->
+</span>
+<span class="source-lf">
+ 
+</span>
+<span class="source-lf variable-other-constant-reactorinstance-lflang">
+client
+</span>
+<span class="source-lf keyword-operator-lflang">
+.
+</span>
+<span class="source-lf variable-other-lflang">
+global_parameter
+</span>
+<span class="source-lf">
+ 
+</span>
+<span class="source-lf keyword-control-lflang">
+after
+</span>
+<span class="source-lf">
+ 
+</span>
+<span class="source-lf constant-numeric-int-lflang">
+0
+</span>
+
+<span class="source-lf">
+  
+</span>
+<span class="source-lf variable-other-constant-reactorinstance-lflang">
+client
+</span>
+<span class="source-lf keyword-operator-lflang">
+.
+</span>
+<span class="source-lf variable-other-lflang">
+updated_parameters
+</span>
+<span class="source-lf">
+ 
+</span>
+<span class="source-lf keyword-operator-lflang">
+->
+</span>
+<span class="source-lf">
+ 
+</span>
+<span class="source-lf variable-other-constant-reactorinstance-lflang">
+server
+</span>
+<span class="source-lf keyword-operator-lflang">
+.
+</span>
+<span class="source-lf variable-other-lflang">
+updated_parameters
+</span>
+
+<span class="source-lf">
+}
+</span>
+
+<span class="source-lf">
+
+</span>
+

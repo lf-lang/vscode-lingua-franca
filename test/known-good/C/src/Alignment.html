@@ -512,7 +512,7 @@ value >
 </span>
 
 <span class="source-lf">
-        lf_print_warning(
+      lf_print_warning(
 </span>
 <span class="source-lf string-quoted-double-lflang">
 "
@@ -591,7 +591,7 @@ value
 </span>
 
 <span class="source-lf">
-        lf_set(out, 
+      lf_set(out, 
 </span>
 <span class="source-lf constant-language-lflang">
 true
@@ -601,7 +601,7 @@ true
 </span>
 
 <span class="source-lf">
-        return;
+      return;
 </span>
 
 <span class="source-lf">
@@ -674,14 +674,14 @@ last_prime]) {
 </span>
 
 <span class="source-lf comment-line-double-dash-lflang">
-        
+      
 </span>
 <span class="source-lf comment-line-double-dash-lflang">
 // The next prime is always odd, so we can increment by two.
 </span>
 
 <span class="source-lf">
-        candidate 
+      candidate 
 </span>
 <span class="source-lf keyword-operator-lflang">
 +
@@ -700,7 +700,7 @@ last_prime]) {
 </span>
 
 <span class="source-lf">
-        bool prime 
+      bool prime 
 </span>
 <span class="source-lf keyword-operator-lflang">
 =
@@ -716,7 +716,7 @@ true
 </span>
 
 <span class="source-lf">
-        for (int i 
+      for (int i 
 </span>
 <span class="source-lf keyword-operator-lflang">
 =
@@ -747,7 +747,7 @@ last_prime; i
 </span>
 
 <span class="source-lf">
-            if (candidate 
+        if (candidate 
 </span>
 <span class="source-lf keyword-operator-lflang">
 %
@@ -778,14 +778,14 @@ primes[i]
 </span>
 
 <span class="source-lf comment-line-double-dash-lflang">
-                
+          
 </span>
 <span class="source-lf comment-line-double-dash-lflang">
 // Candidate is not prime. Break and add 2
 </span>
 
 <span class="source-lf">
-                prime 
+          prime 
 </span>
 <span class="source-lf keyword-operator-lflang">
 =
@@ -801,30 +801,30 @@ false
 </span>
 
 <span class="source-lf">
-                break;
-</span>
-
-<span class="source-lf">
-            }
+          break;
 </span>
 
 <span class="source-lf">
         }
 </span>
 
+<span class="source-lf">
+      }
+</span>
+
 <span class="source-lf comment-line-double-dash-lflang">
-        
+      
 </span>
 <span class="source-lf comment-line-double-dash-lflang">
 // If the candidate is not divisible by any prime in the list, it is prime.
 </span>
 
 <span class="source-lf">
-        if (prime) {
+      if (prime) {
 </span>
 
 <span class="source-lf">
-            self
+        self
 </span>
 <span class="source-lf keyword-operator-lflang">
 ->
@@ -843,7 +843,7 @@ last_prime
 </span>
 
 <span class="source-lf">
-            self
+        self
 </span>
 <span class="source-lf keyword-operator-lflang">
 ->
@@ -865,7 +865,7 @@ last_prime]
 </span>
 
 <span class="source-lf">
-            lf_print(
+        lf_print(
 </span>
 <span class="source-lf string-quoted-double-lflang">
 "
@@ -881,7 +881,7 @@ Sieve: Found prime: %d.
 </span>
 
 <span class="source-lf">
-        }
+      }
 </span>
 
 <span class="source-lf">
@@ -947,14 +947,14 @@ last_prime; i >
 </span>
 
 <span class="source-lf comment-line-double-dash-lflang">
-        
+      
 </span>
 <span class="source-lf comment-line-double-dash-lflang">
 // Search the primes from the end, where they are sparser.
 </span>
 
 <span class="source-lf">
-        if (self
+      if (self
 </span>
 <span class="source-lf keyword-operator-lflang">
 ->
@@ -979,7 +979,7 @@ value) {
 </span>
 
 <span class="source-lf">
-            lf_set(out, 
+        lf_set(out, 
 </span>
 <span class="source-lf constant-language-lflang">
 true
@@ -989,11 +989,11 @@ true
 </span>
 
 <span class="source-lf">
-            return;
+        return;
 </span>
 
 <span class="source-lf">
-        }
+      }
 </span>
 
 <span class="source-lf">
@@ -1165,7 +1165,7 @@ is_present) {
 </span>
 
 <span class="source-lf">
-        lf_print(
+      lf_print(
 </span>
 <span class="source-lf string-quoted-double-lflang">
 "
@@ -1181,7 +1181,7 @@ Destination: Input %d is prime at tag (%lld, %d).
 </span>
 
 <span class="source-lf">
-            in
+        in
 </span>
 <span class="source-lf keyword-operator-lflang">
 ->
@@ -1191,7 +1191,7 @@ value,
 </span>
 
 <span class="source-lf">
-            
+        
 </span>
 <span class="source-lf variable-other-constant-reactorinstance-lflang">
 current_tag
@@ -1222,7 +1222,7 @@ microstep
 </span>
 
 <span class="source-lf">
-        );
+      );
 </span>
 
 <span class="source-lf">
@@ -1252,7 +1252,7 @@ last_invoked) <
 </span>
 
 <span class="source-lf">
-        lf_print_error_and_exit(
+      lf_print_error_and_exit(
 </span>
 <span class="source-lf string-quoted-double-lflang">
 "
@@ -1265,7 +1265,7 @@ Invoked at tag (%lld, %d),
 </span>
 
 <span class="source-lf">
-            
+        
 </span>
 <span class="source-lf string-quoted-double-lflang">
 "
@@ -1281,7 +1281,7 @@ but previously invoked at tag (%lld, %d).
 </span>
 
 <span class="source-lf">
-            
+        
 </span>
 <span class="source-lf variable-other-constant-reactorinstance-lflang">
 current_tag
@@ -1315,7 +1315,7 @@ microstep
 </span>
 
 <span class="source-lf">
-            self
+        self
 </span>
 <span class="source-lf keyword-operator-lflang">
 ->
@@ -1352,7 +1352,7 @@ microstep
 </span>
 
 <span class="source-lf">
-        );
+      );
 </span>
 
 <span class="source-lf">

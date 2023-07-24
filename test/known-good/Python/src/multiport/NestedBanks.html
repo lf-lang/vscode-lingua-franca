@@ -239,13 +239,10 @@ reactor
 A
 </span>
 <span class="source-lf">
-(bank_index 
+(bank_index
 </span>
 <span class="source-lf keyword-operator-lflang">
 =
-</span>
-<span class="source-lf">
- 
 </span>
 <span class="source-lf constant-numeric-int-lflang">
 0
@@ -298,13 +295,13 @@ new
 2
 </span>
 <span class="source-lf">
-] B(a_bank_index 
+] B(a_bank_index
 </span>
 <span class="source-lf keyword-operator-lflang">
 =
 </span>
 <span class="source-lf">
- bank_index)
+bank_index)
 </span>
 
 <span class="source-lf">
@@ -347,25 +344,19 @@ reactor
 B
 </span>
 <span class="source-lf">
-(a_bank_index 
+(a_bank_index
 </span>
 <span class="source-lf keyword-operator-lflang">
 =
-</span>
-<span class="source-lf">
- 
 </span>
 <span class="source-lf constant-numeric-int-lflang">
 0
 </span>
 <span class="source-lf">
-, bank_index 
+, bank_index
 </span>
 <span class="source-lf keyword-operator-lflang">
 =
-</span>
-<span class="source-lf">
- 
 </span>
 <span class="source-lf constant-numeric-int-lflang">
 0
@@ -459,13 +450,10 @@ reactor
 C
 </span>
 <span class="source-lf">
-(bank_index 
+(bank_index
 </span>
 <span class="source-lf keyword-operator-lflang">
 =
-</span>
-<span class="source-lf">
- 
 </span>
 <span class="source-lf constant-numeric-int-lflang">
 0
@@ -515,13 +503,13 @@ new
 F
 </span>
 <span class="source-lf">
-(c_bank_index 
+(c_bank_index
 </span>
 <span class="source-lf keyword-operator-lflang">
 =
 </span>
 <span class="source-lf">
- bank_index)
+bank_index)
 </span>
 
 <span class="source-lf">
@@ -549,13 +537,13 @@ new
 G
 </span>
 <span class="source-lf">
-(c_bank_index 
+(c_bank_index
 </span>
 <span class="source-lf keyword-operator-lflang">
 =
 </span>
 <span class="source-lf">
- bank_index)
+bank_index)
 </span>
 
 <span class="source-lf">
@@ -648,19 +636,19 @@ reaction
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-        print(f"d.u[{i}] received {p.value}.")
+      print(f"d.u[{i}] received {p.value}.")
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-        if p.value != (6 + i):
+      if p.value != (6 + i):
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-            sys.stderr.write(f"ERROR: Expected {6 + i} but received {p.value}.\n")
+        sys.stderr.write(f"ERROR: Expected {6 + i} but received {p.value}.\n")
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-            exit(1)
+        exit(1)
 </span>
 
 <span class="source-lf meta-embedded-block-py">
@@ -729,7 +717,7 @@ reaction
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-        print(f"e.t[{i}] received {p.value}.")
+      print(f"e.t[{i}] received {p.value}.")
 </span>
 
 <span class="source-lf meta-embedded-block-py">
@@ -757,13 +745,10 @@ reactor
 F
 </span>
 <span class="source-lf">
-(c_bank_index 
+(c_bank_index
 </span>
 <span class="source-lf keyword-operator-lflang">
 =
-</span>
-<span class="source-lf">
- 
 </span>
 <span class="source-lf constant-numeric-int-lflang">
 0
@@ -811,11 +796,11 @@ reaction
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-        sys.stderr.write(f"ERROR: Expected {self.c_bank_index * 2} but received {w.value}.\n")
+      sys.stderr.write(f"ERROR: Expected {self.c_bank_index * 2} but received {w.value}.\n")
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-        exit(1)
+      exit(1)
 </span>
 
 <span class="source-lf meta-embedded-block-py">
@@ -843,13 +828,10 @@ reactor
 G
 </span>
 <span class="source-lf">
-(c_bank_index 
+(c_bank_index
 </span>
 <span class="source-lf keyword-operator-lflang">
 =
-</span>
-<span class="source-lf">
- 
 </span>
 <span class="source-lf constant-numeric-int-lflang">
 0
@@ -897,11 +879,11 @@ reaction
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-        sys.stderr.write(f"ERROR: Expected {self.c_bank_index * 2 + 1} but received {s.value}.\n")
+      sys.stderr.write(f"ERROR: Expected {self.c_bank_index * 2 + 1} but received {s.value}.\n")
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-        exit(1)
+      exit(1)
 </span>
 
 <span class="source-lf meta-embedded-block-py">

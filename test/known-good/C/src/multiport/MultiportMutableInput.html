@@ -140,6 +140,10 @@ startup
 
 </span>
 
+<span class="source-lf comment-line-double-dash-lflang">
+// The scale parameter is just for testing.
+</span>
+
 <span class="source-lf storage-modifier-lflang">
 reactor
 </span>
@@ -168,10 +172,7 @@ int
 1
 </span>
 <span class="source-lf">
-) {  
-</span>
-<span class="source-lf comment-line-double-dash-lflang">
-// The scale parameter is just for testing.
+) {
 </span>
 
 <span class="source-lf">
@@ -258,7 +259,7 @@ in) {
 </span>
 
 <span class="source-lf">
-        lf_print(
+      lf_print(
 </span>
 <span class="source-lf string-quoted-double-lflang">
 "
@@ -280,7 +281,7 @@ value);
 </span>
 
 <span class="source-lf">
-        if (in[j]
+      if (in[j]
 </span>
 <span class="source-lf keyword-operator-lflang">
 ->
@@ -296,7 +297,7 @@ value !
 </span>
 
 <span class="source-lf">
-            lf_print_error_and_exit(
+        lf_print_error_and_exit(
 </span>
 <span class="source-lf string-quoted-double-lflang">
 "
@@ -315,11 +316,11 @@ ERROR: Expected %d!
 </span>
 
 <span class="source-lf">
-        }
+      }
 </span>
 
 <span class="source-lf">
-        expected 
+      expected 
 </span>
 <span class="source-lf keyword-operator-lflang">
 *
@@ -495,14 +496,14 @@ in)
 </span>
 
 <span class="source-lf comment-line-double-dash-lflang">
-        
+      
 </span>
 <span class="source-lf comment-line-double-dash-lflang">
 // Modify the input, allowed because mutable.
 </span>
 
 <span class="source-lf">
-        in[j]
+      in[j]
 </span>
 <span class="source-lf keyword-operator-lflang">
 ->
@@ -527,7 +528,7 @@ scale;
 </span>
 
 <span class="source-lf">
-        lf_set(out[j], in[j]
+      lf_set(out[j], in[j]
 </span>
 <span class="source-lf keyword-operator-lflang">
 ->
@@ -652,13 +653,10 @@ new
 Print
 </span>
 <span class="source-lf">
-(scale 
+(scale
 </span>
 <span class="source-lf keyword-operator-lflang">
 =
-</span>
-<span class="source-lf">
- 
 </span>
 <span class="source-lf constant-numeric-int-lflang">
 2

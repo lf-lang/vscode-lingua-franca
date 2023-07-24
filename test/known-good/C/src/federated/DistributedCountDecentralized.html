@@ -66,8 +66,45 @@ sec
 <span class="source-lf meta-targetspec-lflang storage-type-lflang">
 decentralized
 </span>
+<span class="source-lf meta-targetspec-lflang">
+,
+</span>
+
+<span class="source-lf meta-targetspec-lflang variable-parameter-lflang">
+  clock-sync
+</span>
+<span class="source-lf meta-targetspec-lflang">
+: 
+</span>
+<span class="source-lf meta-targetspec-lflang storage-type-lflang">
+on
+</span>
+<span class="source-lf meta-targetspec-lflang">
+,
+</span>
+
+<span class="source-lf meta-targetspec-lflang variable-parameter-lflang">
+  clock-sync-options
+</span>
+<span class="source-lf meta-targetspec-lflang">
+: {
+</span>
+
+<span class="source-lf meta-targetspec-lflang variable-parameter-lflang">
+    local-federates-on
+</span>
+<span class="source-lf meta-targetspec-lflang">
+: 
+</span>
+<span class="source-lf meta-targetspec-lflang constant-language-lflang">
+true
+</span>
 
 <span class="source-lf meta-targetspec-lflang">
+  }
+</span>
+
+<span class="source-lf">
 }
 </span>
 
@@ -220,7 +257,7 @@ At tag (%lld, %u), received %d.
 </span>
 
 <span class="source-lf">
-           
+         
 </span>
 <span class="source-lf string-quoted-double-lflang">
 "
@@ -239,11 +276,11 @@ The original intended tag of the message was (%lld, %u).
 </span>
 
 <span class="source-lf">
-            (long long int)elapsed_time,
+        (long long int)elapsed_time,
 </span>
 
 <span class="source-lf">
-            lf_tag()
+        lf_tag()
 </span>
 <span class="source-lf keyword-operator-lflang">
 .
@@ -253,7 +290,7 @@ microstep,
 </span>
 
 <span class="source-lf">
-            in
+        in
 </span>
 <span class="source-lf keyword-operator-lflang">
 ->
@@ -263,7 +300,7 @@ value,
 </span>
 
 <span class="source-lf">
-            (long long int)(in
+        (long long int)(in
 </span>
 <span class="source-lf keyword-operator-lflang">
 ->
@@ -288,7 +325,7 @@ time
 </span>
 
 <span class="source-lf">
-            in
+        in
 </span>
 <span class="source-lf keyword-operator-lflang">
 ->
@@ -329,7 +366,7 @@ c) {
 </span>
 
 <span class="source-lf">
-        printf(
+      printf(
 </span>
 <span class="source-lf string-quoted-double-lflang">
 "
@@ -354,7 +391,7 @@ c);
 </span>
 
 <span class="source-lf">
-        exit(
+      exit(
 </span>
 <span class="source-lf constant-numeric-int-lflang">
 1
@@ -420,7 +457,7 @@ c
 </span>
 
 <span class="source-lf">
-        printf(
+      printf(
 </span>
 <span class="source-lf string-quoted-double-lflang">
 "
@@ -457,7 +494,7 @@ c);
 </span>
 
 <span class="source-lf">
-        exit(
+      exit(
 </span>
 <span class="source-lf constant-numeric-int-lflang">
 3
@@ -545,7 +582,7 @@ c !
 </span>
 
 <span class="source-lf">
-        fprintf(stderr, 
+      fprintf(stderr, 
 </span>
 <span class="source-lf string-quoted-double-lflang">
 "
@@ -564,7 +601,7 @@ Expected to receive 5 items.
 </span>
 
 <span class="source-lf">
-        exit(
+      exit(
 </span>
 <span class="source-lf constant-numeric-int-lflang">
 2

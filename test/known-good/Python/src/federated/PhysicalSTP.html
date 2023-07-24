@@ -100,13 +100,10 @@ reactor
 Print
 </span>
 <span class="source-lf">
-(STP_offset 
+(STP_offset
 </span>
 <span class="source-lf keyword-operator-lflang">
 =
-</span>
-<span class="source-lf">
- 
 </span>
 <span class="source-lf constant-numeric-int-lflang">
 0
@@ -212,11 +209,11 @@ reaction
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-        self.sys.stderr.write("Expected to receive {}.\n".format(self.c))
+      self.sys.stderr.write("Expected to receive {}.\n".format(self.c))
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-        self.sys.exit(1)
+      self.sys.exit(1)
 </span>
 
 <span class="source-lf meta-embedded-block-py">
@@ -228,11 +225,11 @@ reaction
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-        print("The message has violated the STP offset by {} in physical time.".format(-1 * STP_discrepency))
+      print("The message has violated the STP offset by {} in physical time.".format(-1 * STP_discrepency))
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-        self.c += 1
+      self.c += 1
 </span>
 
 <span class="source-lf meta-embedded-block-py">
@@ -240,11 +237,11 @@ reaction
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-        self.sys.stderr.write("Message arrived {} early.\n".format(STP_discrepency))
+      self.sys.stderr.write("Message arrived {} early.\n".format(STP_discrepency))
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-        self.sys.exit(1)
+      self.sys.exit(1)
 </span>
 
 <span class="source-lf meta-embedded-block-py">
@@ -317,11 +314,11 @@ shutdown
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-        self.sys.stderr.write("Expected to receive 2 items but got {}.\n".format(self.c))
+      self.sys.stderr.write("Expected to receive 2 items but got {}.\n".format(self.c))
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-        self.sys.exit(1)
+      self.sys.exit(1)
 </span>
 
 <span class="source-lf meta-embedded-block-py">
