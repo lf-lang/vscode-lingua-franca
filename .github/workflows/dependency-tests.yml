@@ -1,5 +1,5 @@
 # Workflow for testing check for dependencies in the Lingua Franca VS Code Extension
-name: Test Dependency checks
+name: Test dependency checks
 
 on:
   # Trigger this workflow on push events, but only on main.
