@@ -23,7 +23,7 @@ jobs:
       - name: Set nightly version number
         run: |
           ./.github/scripts/nightly-version.sh
-      - uses: lf-lang/vscode-lingua-franca/.github/actions/build@nightly
+      - uses: ./.github/actions/build
       - name: Report status
         run: |
           ls -l
