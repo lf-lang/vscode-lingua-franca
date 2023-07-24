@@ -14,7 +14,7 @@
         "url": "https://github.com/lf-lang/vscode-lingua-franca/issues"
     },
     "engines": {
-        "vscode": "^1.49.0"
+        "vscode": "^1.63.0"
     },
     "categories": [
         "Programming Languages"
