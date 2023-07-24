@@ -25,6 +25,7 @@ runs:
         echo $(which java)
         cat gradle.properties
         echo $JAVA_HOME
+      working-directory: lingua-franca
       shell: bash
     - name: Build the VS Code extension
       run: npm install --ignore-scripts
