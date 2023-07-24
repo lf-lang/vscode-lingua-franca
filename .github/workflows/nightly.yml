@@ -28,7 +28,10 @@ jobs:
           git pull
           git submodule update --init --recursive
         working-directory: lingua-franca
-      - name: Set nightly version number
+      - name: Set the time zone to Berkeley, CA
+        run: |
+          sudo timedatectl set-timezone America/Los_Angeles
+      - name: Set the nightly version number
         run: |
           ./.github/scripts/nightly-version.sh
       - name: Build the extension
