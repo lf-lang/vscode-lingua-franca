@@ -38,6 +38,7 @@ jobs:
         with:
           package: true
           partial: true
+          pre-release: true
       - name: Upload build artifact (dry run only)
         uses: actions/upload-artifact@v2
         with:

@@ -10,6 +10,10 @@ inputs:
     description: Skip the installation of extra dependencies
     required: false
     default: false
+  pre-release:
+    description: Build a pre-release package, not a release one
+    default: false
+    required: false
 
 runs:
   using: "composite"
@@ -39,10 +43,14 @@ runs:
         sudo apt install code
       shell: bash
       if: ${{ inputs.package == 'true' }}
-    - name: Package the VS Code extension
+    - name: Create release package
       run: npm run build && npm run package
       shell: bash
-      if: ${{ inputs.package == 'true' }}
+      if: ${{ inputs.package == 'true' && inputs.pre-release != 'true'}}
+    - name: Create pre-release package
+      run: npm run build && npm run package-pre-release
+      shell: bash
+      if: ${{ inputs.package == 'true' && inputs.pre-release == 'true'}}
     - name: Install pylint
       run: python3 -m pip install pylint
       shell: bash
