@@ -48,7 +48,7 @@ runs:
       shell: bash
       if: ${{ inputs.package == 'true' && inputs.pre-release != 'true'}}
     - name: Create pre-release package
-      run: npm run build && npm run package
+      run: npm run build && npm run package-pre-release
       shell: bash
       if: ${{ inputs.package == 'true' && inputs.pre-release == 'true'}}
     - name: Install pylint
