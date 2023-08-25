@@ -267,7 +267,7 @@ shutdown
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-    if tag.time != USEC(0) or tag.microstep != 1:
+    if tag.time != self.startup_logical_time or tag.microstep != 1:
 </span>
 
 <span class="source-lf meta-embedded-block-py">
@@ -493,7 +493,7 @@ shutdown
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-    if tag.time != USEC(0) or tag.microstep != 1:
+    if tag.time != self.startup_logical_time or tag.microstep != 1:
 </span>
 
 <span class="source-lf meta-embedded-block-py">

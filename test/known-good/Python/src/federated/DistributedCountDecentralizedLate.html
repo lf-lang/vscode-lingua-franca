@@ -346,7 +346,7 @@ reaction
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-    if (lf.tag() == Tag(SEC(1), 0)):
+    if (lf.tag() == Tag(lf.time.start() + SEC(1), 0)):
 </span>
 
 <span class="source-lf meta-embedded-block-py">
@@ -481,7 +481,7 @@ shutdown
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-      self.sys.stderr.write("Failed to detect STP violations in messages.\n")
+      print(f"FATAL ERROR: Failed to detect STP violations in messages. Expected at most 1 initial success and 4 or 5 STP violations depending on whether the first was a success, but got {self.success} initial successes and {self.success_stp_violation} STP violations.\n")
 </span>
 
 <span class="source-lf meta-embedded-block-py">

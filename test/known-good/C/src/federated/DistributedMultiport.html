@@ -62,7 +62,25 @@ reactor
 Source
 </span>
 <span class="source-lf">
- {
+(width: 
+</span>
+<span class="source-lf storage-type-lflang">
+int
+</span>
+<span class="source-lf">
+ 
+</span>
+<span class="source-lf keyword-operator-lflang">
+=
+</span>
+<span class="source-lf">
+ 
+</span>
+<span class="source-lf constant-numeric-int-lflang">
+2
+</span>
+<span class="source-lf">
+) {
 </span>
 
 <span class="source-lf">
@@ -75,7 +93,7 @@ output
 [
 </span>
 <span class="source-lf variable-other-lflang">
-4
+width
 </span>
 <span class="source-lf">
 ] 
@@ -257,7 +275,25 @@ reactor
 Destination
 </span>
 <span class="source-lf">
- {
+(width: 
+</span>
+<span class="source-lf storage-type-lflang">
+int
+</span>
+<span class="source-lf">
+ 
+</span>
+<span class="source-lf keyword-operator-lflang">
+=
+</span>
+<span class="source-lf">
+ 
+</span>
+<span class="source-lf constant-numeric-int-lflang">
+3
+</span>
+<span class="source-lf">
+) {
 </span>
 
 <span class="source-lf">
@@ -267,7 +303,7 @@ Destination
 input
 </span>
 <span class="source-lf">
-[4] in:
+[width] in:
 </span>
 <span class="source-lf meta-embedded-block-cpp">
  
@@ -372,7 +408,7 @@ is_present) {
 "
 </span>
 <span class="source-lf string-quoted-double-lflang">
-Received %d.
+Received %d at %d.
 </span>
 <span class="source-lf string-quoted-double-lflang">
 "
@@ -384,7 +420,7 @@ Received %d.
 ->
 </span>
 <span class="source-lf">
-value);
+value, i);
 </span>
 
 <span class="source-lf">
@@ -419,7 +455,7 @@ count
 </span>
 
 <span class="source-lf">
-          lf_print_error_and_exit(
+            lf_print_error_and_exit(
 </span>
 <span class="source-lf string-quoted-double-lflang">
 "
@@ -604,7 +640,16 @@ new
 Source
 </span>
 <span class="source-lf">
-()
+(width
+</span>
+<span class="source-lf keyword-operator-lflang">
+=
+</span>
+<span class="source-lf constant-numeric-int-lflang">
+4
+</span>
+<span class="source-lf">
+)
 </span>
 
 <span class="source-lf">
@@ -632,7 +677,16 @@ new
 Destination
 </span>
 <span class="source-lf">
-()
+(width
+</span>
+<span class="source-lf keyword-operator-lflang">
+=
+</span>
+<span class="source-lf constant-numeric-int-lflang">
+4
+</span>
+<span class="source-lf">
+)
 </span>
 
 <span class="source-lf">
