@@ -1,5 +1,31 @@
 # Changelog
  
+## [v0.4.3](https://github.com/lf-lang/vscode-lingua-franca/tree/v0.4.3) (2023-08-26)
+
+To change this text, edit notes/vscode-lingua-franca/v0.4.3.md in the release-notes repo.
+
+**🧪 Tests**
+
+- Tests for syntax highlighting [\#105](https://github.com/lf-lang/vscode-lingua-franca/pull/105) ([petervdonovan](https://github.com/petervdonovan))
+
+- Update README [\#107](https://github.com/lf-lang/vscode-lingua-franca/pull/107) ([petervdonovan](https://github.com/petervdonovan))
+- Support for "New LF file" [\#112](https://github.com/lf-lang/vscode-lingua-franca/pull/112) ([jesslin02](https://github.com/jesslin02))
+- Upgrade to `@vscode/vsce` 2.19.0 [\#114](https://github.com/lf-lang/vscode-lingua-franca/pull/114) ([lhstrh](https://github.com/lhstrh))
+- Compatibility with Linguist [\#111](https://github.com/lf-lang/vscode-lingua-franca/pull/111) ([jesslin02](https://github.com/jesslin02))
+- Partially revert "update build" [\#116](https://github.com/lf-lang/vscode-lingua-franca/pull/116) ([petervdonovan](https://github.com/petervdonovan))
+- Run dependency tests only if relevant files change [\#117](https://github.com/lf-lang/vscode-lingua-franca/pull/117) ([petervdonovan](https://github.com/petervdonovan))
+- Update debug configuration and CONTRIBUTING.md [\#121](https://github.com/lf-lang/vscode-lingua-franca/pull/121) ([petervdonovan](https://github.com/petervdonovan))
+- Update according to the gradle configuration [\#120](https://github.com/lf-lang/vscode-lingua-franca/pull/120) ([petervdonovan](https://github.com/petervdonovan))
+- Highlighting improvements [\#8](https://github.com/lf-lang/vscode-lingua-franca/pull/8) ([petervdonovan](https://github.com/petervdonovan))
+- Temporarily move lingua-franca while indexing [\#125](https://github.com/lf-lang/vscode-lingua-franca/pull/125) ([petervdonovan](https://github.com/petervdonovan))
+- VS code engine bumped to `1.63.0` [\#128](https://github.com/lf-lang/vscode-lingua-franca/pull/128) ([lhstrh](https://github.com/lhstrh))
+- Added .gitattributes file to let Linguist ignore known-good HTML files [\#129](https://github.com/lf-lang/vscode-lingua-franca/pull/129) ([lhstrh](https://github.com/lhstrh))
+- Update message for missing dependencies [\#123](https://github.com/lf-lang/vscode-lingua-franca/pull/123) ([petervdonovan](https://github.com/petervdonovan))
+- Nightly publication of pre-release [\#130](https://github.com/lf-lang/vscode-lingua-franca/pull/130) ([lhstrh](https://github.com/lhstrh))
+- Small fixes to the nightly build workflow [\#131](https://github.com/lf-lang/vscode-lingua-franca/pull/131) ([lhstrh](https://github.com/lhstrh))
+- Ability to create pre-release package [\#132](https://github.com/lf-lang/vscode-lingua-franca/pull/132) ([lhstrh](https://github.com/lhstrh))
+
+ 
 ## [v0.4.2](https://github.com/lf-lang/vscode-lingua-franca/tree/v0.4.2) (2023-03-04)
 
 **Highlights**
