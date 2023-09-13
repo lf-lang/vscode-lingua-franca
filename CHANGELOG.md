@@ -1,5 +1,17 @@
 # Changelog
  
+## [v0.5.1](https://github.com/lf-lang/vscode-lingua-franca/tree/v0.5.1) (2023-09-12)
+
+**Highlights**
+
+This release features an updated Lingua Franca compiler.
+
+**⬆️ Updated Dependencies**
+
+- `vsce` bumped from `2.7.0` to `2.15.0` [\#137](https://github.com/lf-lang/vscode-lingua-franca/pull/137) (@lhstrh)
+
+
+ 
 ## [v0.5.0](https://github.com/lf-lang/vscode-lingua-franca/tree/v0.5.0) (2023-09-01)
 
 **Highlights**
