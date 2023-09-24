@@ -21,15 +21,29 @@ jobs:
         with:
           submodules: recursive
           fetch-depth: 1
+      - name: Set the time zone to Berkeley, CA
+        run: |
+          sudo timedatectl set-timezone America/Los_Angeles
+      - name: Configure Git for francabot
+        uses: lf-lang/lingua-franca/.github/actions/setup-francabot@master
+        with:
+          gpg-key: ${{ secrets.gpg-key }}
+          gpg-passphrase: ${{ secrets.gpg-passphrase }}
       - name: Pull the latest lingua-franca submodule
         run: |
           git checkout master
           git pull
           git submodule update --init --recursive
         working-directory: lingua-franca
-      - name: Set the time zone to Berkeley, CA
+      - name: Commit to the `latest` branch
         run: |
-          sudo timedatectl set-timezone America/Los_Angeles
+          git add lingua-franca
+          git status --porcelain | grep . && git commit -m 'Update lingua-franca submodule'
+          git switch latest || git checkout -b latest
+          git reset --hard HEAD@{1}
+          git push -f
+        shell: bash
+        if: ${{ github.event.inputs.dry-run != 'true' }}
       - name: Set the nightly version number
         run: |
           ./.github/scripts/nightly-version.sh
@@ -39,6 +53,16 @@ jobs:
           package: true
           partial: true
           pre-release: true
+      - name: Deploy nightly release
+        uses: marvinpinto/action-automatic-releases@latest
+        with:
+          repo_token: "${{ secrets.GITHUB_TOKEN }}"
+          automatic_release_tag: 'nightly'
+          prerelease: true
+          title: "Lingua Franca VS Code Nightly"
+          files: |
+            vscode-lingua-franca-*.vsix
+        if: ${{ github.event.inputs.dry-run != 'true' }}
       - name: Upload build artifact (dry run only)
         uses: actions/upload-artifact@v2
         with:
