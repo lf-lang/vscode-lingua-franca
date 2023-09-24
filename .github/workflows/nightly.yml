@@ -27,8 +27,8 @@ jobs:
       - name: Configure Git for francabot
         uses: lf-lang/lingua-franca/.github/actions/setup-francabot@master
         with:
-          gpg-key: ${{ secrets.gpg-key }}
-          gpg-passphrase: ${{ secrets.gpg-passphrase }}
+          gpg-key: ${{ secrets.GPG_PRIVATE_KEY }}
+          gpg-passphrase: ${{ secrets.GPG_PASSPHRASE }}
       - name: Pull the latest lingua-franca submodule
         run: |
           git checkout master
