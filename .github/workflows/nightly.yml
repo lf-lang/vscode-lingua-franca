@@ -41,7 +41,7 @@ jobs:
           git status --porcelain | grep . && git commit -m 'Update lingua-franca submodule'
           git switch latest || git checkout -b latest
           git reset --hard HEAD@{1}
-          git push -f
+          git push -f --set-upstream origin latest
         shell: bash
         if: ${{ github.event.inputs.dry-run != 'true' }}
       - name: Set the nightly version number
