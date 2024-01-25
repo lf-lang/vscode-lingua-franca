@@ -330,7 +330,31 @@ in) {
 "
 </span>
 <span class="source-lf string-quoted-double-lflang">
-At tag (%lld, %u) ImportantActuator received %d. Intended tag is (%lld, %u).
+At tag 
+</span>
+<span class="source-lf string-quoted-double-lflang">
+"
+</span>
+<span class="source-lf">
+ PRINTF_TAG 
+</span>
+<span class="source-lf string-quoted-double-lflang">
+"
+</span>
+<span class="source-lf string-quoted-double-lflang">
+ ImportantActuator received %d. Intended tag is 
+</span>
+<span class="source-lf string-quoted-double-lflang">
+"
+</span>
+<span class="source-lf">
+ PRINTF_TAG 
+</span>
+<span class="source-lf string-quoted-double-lflang">
+"
+</span>
+<span class="source-lf string-quoted-double-lflang">
+.
 </span>
 <span class="source-lf string-quoted-double-lflang">
 "
@@ -610,7 +634,19 @@ STP
 "
 </span>
 <span class="source-lf string-quoted-double-lflang">
-Message violated STP offset by (%lld, %u).
+Message violated STP offset by 
+</span>
+<span class="source-lf string-quoted-double-lflang">
+"
+</span>
+<span class="source-lf">
+ PRINTF_TAG 
+</span>
+<span class="source-lf string-quoted-double-lflang">
+"
+</span>
+<span class="source-lf string-quoted-double-lflang">
+.
 </span>
 <span class="source-lf string-quoted-double-lflang">
 "
@@ -993,7 +1029,198 @@ in) {
 "
 </span>
 <span class="source-lf string-quoted-double-lflang">
-At tag (%lld, %u) Print received %d. Intended tag is (%lld, %u).
+At tag 
+</span>
+<span class="source-lf string-quoted-double-lflang">
+"
+</span>
+<span class="source-lf">
+ PRINTF_TAG 
+</span>
+<span class="source-lf string-quoted-double-lflang">
+"
+</span>
+<span class="source-lf string-quoted-double-lflang">
+ Print received %d. Intended tag is 
+</span>
+<span class="source-lf string-quoted-double-lflang">
+"
+</span>
+<span class="source-lf">
+ PRINTF_TAG 
+</span>
+<span class="source-lf string-quoted-double-lflang">
+"
+</span>
+<span class="source-lf string-quoted-double-lflang">
+.
+</span>
+<span class="source-lf string-quoted-double-lflang">
+"
+</span>
+<span class="source-lf">
+,
+</span>
+
+<span class="source-lf">
+         
+</span>
+<span class="source-lf variable-other-constant-reactorinstance-lflang">
+current_tag
+</span>
+<span class="source-lf keyword-operator-lflang">
+.
+</span>
+<span class="source-lf storage-type-lflang">
+time
+</span>
+<span class="source-lf">
+ 
+</span>
+<span class="source-lf keyword-operator-lflang">
+-
+</span>
+<span class="source-lf">
+ lf_time_start(),
+</span>
+
+<span class="source-lf">
+         
+</span>
+<span class="source-lf variable-other-constant-reactorinstance-lflang">
+current_tag
+</span>
+<span class="source-lf keyword-operator-lflang">
+.
+</span>
+<span class="source-lf variable-other-lflang">
+microstep
+</span>
+<span class="source-lf">
+,
+</span>
+
+<span class="source-lf">
+         in
+</span>
+<span class="source-lf keyword-operator-lflang">
+->
+</span>
+<span class="source-lf">
+value,
+</span>
+
+<span class="source-lf">
+         in
+</span>
+<span class="source-lf keyword-operator-lflang">
+->
+</span>
+<span class="source-lf variable-other-constant-reactorinstance-lflang">
+intended_tag
+</span>
+<span class="source-lf keyword-operator-lflang">
+.
+</span>
+<span class="source-lf storage-type-lflang">
+time
+</span>
+<span class="source-lf">
+ 
+</span>
+<span class="source-lf keyword-operator-lflang">
+-
+</span>
+<span class="source-lf">
+ lf_time_start(),
+</span>
+
+<span class="source-lf">
+         in
+</span>
+<span class="source-lf keyword-operator-lflang">
+->
+</span>
+<span class="source-lf variable-other-constant-reactorinstance-lflang">
+intended_tag
+</span>
+<span class="source-lf keyword-operator-lflang">
+.
+</span>
+<span class="source-lf variable-other-lflang">
+microstep
+</span>
+<span class="source-lf">
+);
+</span>
+
+<span class="source-lf">
+  
+</span>
+<span class="source-lf keyword-operator-lflang">
+=
+</span>
+<span class="source-lf">
+} 
+</span>
+<span class="source-lf keyword-control-lflang">
+STP
+</span>
+<span class="source-lf">
+(
+</span>
+<span class="source-lf constant-numeric-int-lflang">
+0
+</span>
+<span class="source-lf">
+) {
+</span>
+<span class="source-lf keyword-operator-lflang">
+=
+</span>
+
+<span class="source-lf">
+    tag_t current_tag 
+</span>
+<span class="source-lf keyword-operator-lflang">
+=
+</span>
+<span class="source-lf">
+ lf_tag();
+</span>
+
+<span class="source-lf">
+    lf_print(
+</span>
+<span class="source-lf string-quoted-double-lflang">
+"
+</span>
+<span class="source-lf string-quoted-double-lflang">
+STP Violation: At tag 
+</span>
+<span class="source-lf string-quoted-double-lflang">
+"
+</span>
+<span class="source-lf">
+ PRINTF_TAG 
+</span>
+<span class="source-lf string-quoted-double-lflang">
+"
+</span>
+<span class="source-lf string-quoted-double-lflang">
+ Print received %d. Intended tag is 
+</span>
+<span class="source-lf string-quoted-double-lflang">
+"
+</span>
+<span class="source-lf">
+ PRINTF_TAG 
+</span>
+<span class="source-lf string-quoted-double-lflang">
+"
+</span>
+<span class="source-lf string-quoted-double-lflang">
+.
 </span>
 <span class="source-lf string-quoted-double-lflang">
 "

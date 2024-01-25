@@ -71,6 +71,36 @@ int
 0
 </span>
 <span class="source-lf">
+, s: 
+</span>
+<span class="source-lf storage-type-lflang">
+std
+</span>
+<span class="source-lf keyword-operator-lflang">
+::
+</span>
+<span class="source-lf variable-other-lflang">
+string
+</span>
+<span class="source-lf">
+ 
+</span>
+<span class="source-lf keyword-operator-lflang">
+=
+</span>
+<span class="source-lf">
+ 
+</span>
+<span class="source-lf string-quoted-double-lflang">
+"
+</span>
+<span class="source-lf string-quoted-double-lflang">
+foo
+</span>
+<span class="source-lf string-quoted-double-lflang">
+"
+</span>
+<span class="source-lf">
 ) {
 </span>
 
@@ -134,7 +164,7 @@ Error
 "
 </span>
 <span class="source-lf string-quoted-double-lflang">
-Parameter value is: 
+Parameter value p is: 
 </span>
 <span class="source-lf string-quoted-double-lflang">
 "
@@ -166,11 +196,97 @@ Parameter value is:
 </span>
 
 <span class="source-lf">
-    } else {
+    }
+</span>
+
+<span class="source-lf">
+     if(s !
+</span>
+<span class="source-lf keyword-operator-lflang">
+=
+</span>
+<span class="source-lf">
+ 
+</span>
+<span class="source-lf string-quoted-double-lflang">
+"
+</span>
+<span class="source-lf string-quoted-double-lflang">
+bar
+</span>
+<span class="source-lf string-quoted-double-lflang">
+"
+</span>
+<span class="source-lf">
+) {
 </span>
 
 <span class="source-lf">
       
+</span>
+<span class="source-lf storage-modifier-lflang">
+reactor
+</span>
+<span class="source-lf keyword-operator-lflang">
+::
+</span>
+<span class="source-lf variable-other-constant-reactorinstance-lflang">
+log
+</span>
+<span class="source-lf keyword-operator-lflang">
+::
+</span>
+<span class="source-lf variable-other-lflang">
+Error
+</span>
+<span class="source-lf">
+() << 
+</span>
+<span class="source-lf string-quoted-double-lflang">
+"
+</span>
+<span class="source-lf string-quoted-double-lflang">
+Parameter value s is: 
+</span>
+<span class="source-lf string-quoted-double-lflang">
+"
+</span>
+<span class="source-lf">
+ << s << 
+</span>
+<span class="source-lf string-quoted-double-lflang">
+"
+</span>
+<span class="source-lf string-quoted-double-lflang">
+. Should have been bar.
+</span>
+<span class="source-lf string-quoted-double-lflang">
+"
+</span>
+<span class="source-lf">
+;
+</span>
+
+<span class="source-lf">
+      exit(
+</span>
+<span class="source-lf constant-numeric-int-lflang">
+2
+</span>
+<span class="source-lf">
+);
+</span>
+
+<span class="source-lf">
+    }
+</span>
+
+<span class="source-lf">
+
+</span>
+
+<span class="source-lf">
+    
 </span>
 <span class="source-lf storage-modifier-lflang">
 reactor
@@ -201,10 +317,6 @@ Success.
 </span>
 <span class="source-lf">
 ;
-</span>
-
-<span class="source-lf">
-    }
 </span>
 
 <span class="source-lf">
@@ -253,6 +365,36 @@ int
 10
 </span>
 <span class="source-lf">
+, s: 
+</span>
+<span class="source-lf storage-type-lflang">
+std
+</span>
+<span class="source-lf keyword-operator-lflang">
+::
+</span>
+<span class="source-lf variable-other-lflang">
+string
+</span>
+<span class="source-lf">
+ 
+</span>
+<span class="source-lf keyword-operator-lflang">
+=
+</span>
+<span class="source-lf">
+ 
+</span>
+<span class="source-lf string-quoted-double-lflang">
+"
+</span>
+<span class="source-lf string-quoted-double-lflang">
+default
+</span>
+<span class="source-lf string-quoted-double-lflang">
+"
+</span>
+<span class="source-lf">
 ) {
 </span>
 
@@ -287,7 +429,13 @@ Deep
 =
 </span>
 <span class="source-lf">
-p)
+p, s
+</span>
+<span class="source-lf keyword-operator-lflang">
+=
+</span>
+<span class="source-lf">
+s)
 </span>
 
 <span class="source-lf">
@@ -326,7 +474,44 @@ int
 20
 </span>
 <span class="source-lf">
+, s: 
+</span>
+<span class="source-lf storage-type-lflang">
+std
+</span>
+<span class="source-lf keyword-operator-lflang">
+::
+</span>
+<span class="source-lf variable-other-lflang">
+string
+</span>
+<span class="source-lf">
+ 
+</span>
+<span class="source-lf keyword-operator-lflang">
+=
+</span>
+<span class="source-lf">
+ 
+</span>
+<span class="source-lf string-quoted-double-lflang">
+"
+</span>
+<span class="source-lf string-quoted-double-lflang">
+default
+</span>
+<span class="source-lf string-quoted-double-lflang">
+"
+</span>
+<span class="source-lf">
 ) {
+</span>
+
+<span class="source-lf comment-line-double-dash-lflang">
+  
+</span>
+<span class="source-lf comment-line-double-dash-lflang">
+// also test forwarding parameters via target code blocks
 </span>
 
 <span class="source-lf">
@@ -372,10 +557,25 @@ Intermediate
 =
 </span>
 <span class="source-lf">
-})  
+}, s 
 </span>
-<span class="source-lf comment-line-double-dash-lflang">
-// also test forwarding parameters via target code blocks
+<span class="source-lf keyword-operator-lflang">
+=
+</span>
+<span class="source-lf">
+ {
+</span>
+<span class="source-lf keyword-operator-lflang">
+=
+</span>
+<span class="source-lf">
+ s 
+</span>
+<span class="source-lf keyword-operator-lflang">
+=
+</span>
+<span class="source-lf">
+})
 </span>
 
 <span class="source-lf">
@@ -437,6 +637,21 @@ Intermediate
 </span>
 <span class="source-lf constant-numeric-int-lflang">
 42
+</span>
+<span class="source-lf">
+, s
+</span>
+<span class="source-lf keyword-operator-lflang">
+=
+</span>
+<span class="source-lf string-quoted-double-lflang">
+"
+</span>
+<span class="source-lf string-quoted-double-lflang">
+bar
+</span>
+<span class="source-lf string-quoted-double-lflang">
+"
 </span>
 <span class="source-lf">
 )

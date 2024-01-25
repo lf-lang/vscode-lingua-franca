@@ -351,7 +351,19 @@ in) {
 "
 </span>
 <span class="source-lf string-quoted-double-lflang">
-At tag (%lld, %u) received value %d with STP violation (%lld, %u).
+Inside, at tag 
+</span>
+<span class="source-lf string-quoted-double-lflang">
+"
+</span>
+<span class="source-lf">
+ PRINTF_TAG 
+</span>
+<span class="source-lf string-quoted-double-lflang">
+"
+</span>
+<span class="source-lf string-quoted-double-lflang">
+, received value %d.
 </span>
 <span class="source-lf string-quoted-double-lflang">
 "
@@ -379,11 +391,7 @@ time
 -
 </span>
 <span class="source-lf">
- lf_time_start(),
-</span>
-
-<span class="source-lf">
-      
+ lf_time_start(), 
 </span>
 <span class="source-lf variable-other-constant-reactorinstance-lflang">
 current_tag
@@ -405,78 +413,7 @@ microstep
 ->
 </span>
 <span class="source-lf">
-value,
-</span>
-
-<span class="source-lf">
-      
-</span>
-<span class="source-lf variable-other-constant-reactorinstance-lflang">
-current_tag
-</span>
-<span class="source-lf keyword-operator-lflang">
-.
-</span>
-<span class="source-lf storage-type-lflang">
-time
-</span>
-<span class="source-lf">
- 
-</span>
-<span class="source-lf keyword-operator-lflang">
--
-</span>
-<span class="source-lf">
- in
-</span>
-<span class="source-lf keyword-operator-lflang">
-->
-</span>
-<span class="source-lf variable-other-constant-reactorinstance-lflang">
-intended_tag
-</span>
-<span class="source-lf keyword-operator-lflang">
-.
-</span>
-<span class="source-lf storage-type-lflang">
-time
-</span>
-<span class="source-lf">
-,
-</span>
-
-<span class="source-lf">
-      
-</span>
-<span class="source-lf variable-other-constant-reactorinstance-lflang">
-current_tag
-</span>
-<span class="source-lf keyword-operator-lflang">
-.
-</span>
-<span class="source-lf variable-other-lflang">
-microstep
-</span>
-<span class="source-lf">
- 
-</span>
-<span class="source-lf keyword-operator-lflang">
--
-</span>
-<span class="source-lf">
- in
-</span>
-<span class="source-lf keyword-operator-lflang">
-->
-</span>
-<span class="source-lf variable-other-constant-reactorinstance-lflang">
-intended_tag
-</span>
-<span class="source-lf keyword-operator-lflang">
-.
-</span>
-<span class="source-lf variable-other-lflang">
-microstep
+value
 </span>
 
 <span class="source-lf">
@@ -500,92 +437,6 @@ total_received_messages
 </span>
 <span class="source-lf">
 ;
-</span>
-
-<span class="source-lf">
-    if (in
-</span>
-<span class="source-lf keyword-operator-lflang">
-->
-</span>
-<span class="source-lf">
-value !
-</span>
-<span class="source-lf keyword-operator-lflang">
-=
-</span>
-<span class="source-lf">
- lf_tag()
-</span>
-<span class="source-lf keyword-operator-lflang">
-.
-</span>
-<span class="source-lf">
-microstep) {
-</span>
-
-<span class="source-lf">
-      lf_print_warning(
-</span>
-<span class="source-lf string-quoted-double-lflang">
-"
-</span>
-<span class="source-lf string-quoted-double-lflang">
-Received incorrect value %d. Expected %d.
-</span>
-<span class="source-lf string-quoted-double-lflang">
-"
-</span>
-<span class="source-lf">
-, in
-</span>
-<span class="source-lf keyword-operator-lflang">
-->
-</span>
-<span class="source-lf">
-value, lf_tag()
-</span>
-<span class="source-lf keyword-operator-lflang">
-.
-</span>
-<span class="source-lf">
-microstep);
-</span>
-
-<span class="source-lf comment-line-double-dash-lflang">
-      
-</span>
-<span class="source-lf comment-line-double-dash-lflang">
-// exit(1); // The receiver should tolerate this type of error
-</span>
-
-<span class="source-lf comment-line-double-dash-lflang">
-            
-</span>
-<span class="source-lf comment-line-double-dash-lflang">
-// in this test because messages on the network can
-</span>
-
-<span class="source-lf comment-line-double-dash-lflang">
-            
-</span>
-<span class="source-lf comment-line-double-dash-lflang">
-// arrive late. Note that with an accurate STP offset,
-</span>
-
-<span class="source-lf comment-line-double-dash-lflang">
-            
-</span>
-<span class="source-lf comment-line-double-dash-lflang">
-// this type of error should be extremely rare.
-</span>
-
-<span class="source-lf">
-
-</span>
-
-<span class="source-lf">
-    }
 </span>
 
 <span class="source-lf">
@@ -837,6 +688,54 @@ received_messages
 =
 </span>
 <span class="source-lf">
+} 
+</span>
+<span class="source-lf keyword-control-lflang">
+STP
+</span>
+<span class="source-lf">
+(
+</span>
+<span class="source-lf constant-numeric-int-lflang">
+0
+</span>
+<span class="source-lf">
+) {
+</span>
+<span class="source-lf keyword-operator-lflang">
+=
+</span>
+
+<span class="source-lf comment-line-double-dash-lflang">
+    
+</span>
+<span class="source-lf comment-line-double-dash-lflang">
+// STP violation should NOT passed down to this inner reactor.
+</span>
+
+<span class="source-lf">
+    lf_print_error_and_exit(
+</span>
+<span class="source-lf string-quoted-double-lflang">
+"
+</span>
+<span class="source-lf string-quoted-double-lflang">
+STP violation should have been handled by the enclosing reactor and not passed down!
+</span>
+<span class="source-lf string-quoted-double-lflang">
+"
+</span>
+<span class="source-lf">
+);
+</span>
+
+<span class="source-lf">
+  
+</span>
+<span class="source-lf keyword-operator-lflang">
+=
+</span>
+<span class="source-lf">
 }
 </span>
 
@@ -944,6 +843,13 @@ take_a_break_after)
     ) {
 </span>
 
+<span class="source-lf comment-line-double-dash-lflang">
+      
+</span>
+<span class="source-lf comment-line-double-dash-lflang">
+// Messages should not have been lost!
+</span>
+
 <span class="source-lf">
       lf_print_error_and_exit(
 </span>
@@ -973,11 +879,11 @@ total_received_messages);
 </span>
 
 <span class="source-lf">
-    }
+    } else {
 </span>
 
 <span class="source-lf">
-    lf_print(
+      lf_print(
 </span>
 <span class="source-lf string-quoted-double-lflang">
 "
@@ -1002,6 +908,10 @@ breaks, self
 </span>
 <span class="source-lf">
 total_received_messages);
+</span>
+
+<span class="source-lf">
+    }
 </span>
 
 <span class="source-lf">
@@ -1234,7 +1144,7 @@ timer
 , 
 </span>
 <span class="source-lf constant-numeric-int-lflang">
-1
+10
 </span>
 <span class="source-lf">
  
@@ -1288,16 +1198,72 @@ in
 </span>
 
 <span class="source-lf">
+    tag_t current_tag 
+</span>
+<span class="source-lf keyword-operator-lflang">
+=
+</span>
+<span class="source-lf">
+ lf_tag();
+</span>
+
+<span class="source-lf">
     lf_print(
 </span>
 <span class="source-lf string-quoted-double-lflang">
 "
 </span>
 <span class="source-lf string-quoted-double-lflang">
-Received %d.
+At tag 
 </span>
 <span class="source-lf string-quoted-double-lflang">
 "
+</span>
+<span class="source-lf">
+ PRINTF_TAG 
+</span>
+<span class="source-lf string-quoted-double-lflang">
+"
+</span>
+<span class="source-lf string-quoted-double-lflang">
+, received %d on time.
+</span>
+<span class="source-lf string-quoted-double-lflang">
+"
+</span>
+<span class="source-lf">
+,
+</span>
+
+<span class="source-lf">
+        
+</span>
+<span class="source-lf variable-other-constant-reactorinstance-lflang">
+current_tag
+</span>
+<span class="source-lf keyword-operator-lflang">
+.
+</span>
+<span class="source-lf storage-type-lflang">
+time
+</span>
+<span class="source-lf">
+ 
+</span>
+<span class="source-lf keyword-operator-lflang">
+-
+</span>
+<span class="source-lf">
+ lf_time_start(), 
+</span>
+<span class="source-lf variable-other-constant-reactorinstance-lflang">
+current_tag
+</span>
+<span class="source-lf keyword-operator-lflang">
+.
+</span>
+<span class="source-lf variable-other-lflang">
+microstep
 </span>
 <span class="source-lf">
 , in
@@ -1306,7 +1272,11 @@ Received %d.
 ->
 </span>
 <span class="source-lf">
-value);
+value
+</span>
+
+<span class="source-lf">
+    );
 </span>
 
 <span class="source-lf">
@@ -1351,28 +1321,6 @@ STP
 </span>
 
 <span class="source-lf">
-    lf_print(
-</span>
-<span class="source-lf string-quoted-double-lflang">
-"
-</span>
-<span class="source-lf string-quoted-double-lflang">
-Received %d late.
-</span>
-<span class="source-lf string-quoted-double-lflang">
-"
-</span>
-<span class="source-lf">
-, in
-</span>
-<span class="source-lf keyword-operator-lflang">
-->
-</span>
-<span class="source-lf">
-value);
-</span>
-
-<span class="source-lf">
     tag_t current_tag 
 </span>
 <span class="source-lf keyword-operator-lflang">
@@ -1389,17 +1337,29 @@ value);
 "
 </span>
 <span class="source-lf string-quoted-double-lflang">
-STP violation of (%lld, %u) perceived on the input.
+At tag 
 </span>
 <span class="source-lf string-quoted-double-lflang">
 "
 </span>
 <span class="source-lf">
-,
+ PRINTF_TAG 
+</span>
+<span class="source-lf string-quoted-double-lflang">
+"
+</span>
+<span class="source-lf string-quoted-double-lflang">
+, received %d LATE. Intended tag is 
+</span>
+<span class="source-lf string-quoted-double-lflang">
+"
+</span>
+<span class="source-lf">
+ PRINTF_TAG,
 </span>
 
 <span class="source-lf">
-         
+        
 </span>
 <span class="source-lf variable-other-constant-reactorinstance-lflang">
 current_tag
@@ -1417,7 +1377,33 @@ time
 -
 </span>
 <span class="source-lf">
- in
+ lf_time_start(), 
+</span>
+<span class="source-lf variable-other-constant-reactorinstance-lflang">
+current_tag
+</span>
+<span class="source-lf keyword-operator-lflang">
+.
+</span>
+<span class="source-lf variable-other-lflang">
+microstep
+</span>
+<span class="source-lf">
+,
+</span>
+
+<span class="source-lf">
+        in
+</span>
+<span class="source-lf keyword-operator-lflang">
+->
+</span>
+<span class="source-lf">
+value,
+</span>
+
+<span class="source-lf">
+        in
 </span>
 <span class="source-lf keyword-operator-lflang">
 ->
@@ -1432,29 +1418,13 @@ intended_tag
 time
 </span>
 <span class="source-lf">
-,
-</span>
-
-<span class="source-lf">
-         
-</span>
-<span class="source-lf variable-other-constant-reactorinstance-lflang">
-current_tag
-</span>
-<span class="source-lf keyword-operator-lflang">
-.
-</span>
-<span class="source-lf variable-other-lflang">
-microstep
-</span>
-<span class="source-lf">
  
 </span>
 <span class="source-lf keyword-operator-lflang">
 -
 </span>
 <span class="source-lf">
- in
+ lf_time_start(), in
 </span>
 <span class="source-lf keyword-operator-lflang">
 ->
@@ -1468,8 +1438,9 @@ intended_tag
 <span class="source-lf variable-other-lflang">
 microstep
 </span>
+
 <span class="source-lf">
-);
+    );
 </span>
 
 <span class="source-lf">
@@ -1494,18 +1465,15 @@ in
 value);
 </span>
 
-<span class="source-lf comment-line-double-dash-lflang">
-    
-</span>
-<span class="source-lf comment-line-double-dash-lflang">
-// Only update the STP offset once per
+<span class="source-lf">
+
 </span>
 
 <span class="source-lf comment-line-double-dash-lflang">
     
 </span>
 <span class="source-lf comment-line-double-dash-lflang">
-// time step.
+// Update the STP offset at most once per time step.
 </span>
 
 <span class="source-lf">
@@ -1543,7 +1511,19 @@ last_time_updated_stp) {
 "
 </span>
 <span class="source-lf string-quoted-double-lflang">
-Raising the STP offset by %lld.
+Raising the STP offset by 
+</span>
+<span class="source-lf string-quoted-double-lflang">
+"
+</span>
+<span class="source-lf">
+ PRINTF_TIME 
+</span>
+<span class="source-lf string-quoted-double-lflang">
+"
+</span>
+<span class="source-lf string-quoted-double-lflang">
+.
 </span>
 <span class="source-lf string-quoted-double-lflang">
 "
@@ -1584,13 +1564,13 @@ stp_offset
 </span>
 
 <span class="source-lf">
-      lf_set_stp_offset(MSEC(
+      lf_set_stp_offset(self
 </span>
-<span class="source-lf constant-numeric-int-lflang">
-10
+<span class="source-lf keyword-operator-lflang">
+->
 </span>
 <span class="source-lf">
-));
+stp_offset);
 </span>
 
 <span class="source-lf">
@@ -1779,7 +1759,11 @@ new
 STPReceiver
 </span>
 <span class="source-lf">
-(take_a_break_after
+(
+</span>
+
+<span class="source-lf">
+      take_a_break_after
 </span>
 <span class="source-lf keyword-operator-lflang">
 =
@@ -1788,7 +1772,11 @@ STPReceiver
 10
 </span>
 <span class="source-lf">
-, break_interval 
+,
+</span>
+
+<span class="source-lf">
+      break_interval 
 </span>
 <span class="source-lf keyword-operator-lflang">
 =
@@ -1806,7 +1794,23 @@ STPReceiver
 msec
 </span>
 <span class="source-lf">
-)
+,
+</span>
+
+<span class="source-lf">
+      stp_offset 
+</span>
+<span class="source-lf keyword-operator-lflang">
+=
+</span>
+<span class="source-lf">
+ 
+</span>
+<span class="source-lf constant-numeric-int-lflang">
+100
+</span>
+<span class="source-lf">
+ ms)
 </span>
 
 <span class="source-lf">

@@ -288,7 +288,7 @@ t)
 </span>
 
 <span class="source-lf">
-      send_timed_message(self
+      lf_send_tagged_message(self
 </span>
 <span class="source-lf keyword-operator-lflang">
 ->
@@ -382,7 +382,7 @@ federate 1
 </span>
 
 <span class="source-lf">
-      send_timed_message(self
+      lf_send_tagged_message(self
 </span>
 <span class="source-lf keyword-operator-lflang">
 ->
@@ -755,7 +755,19 @@ success
 "
 </span>
 <span class="source-lf string-quoted-double-lflang">
-Received %d at tag (%lld, %u).
+Received %d at tag 
+</span>
+<span class="source-lf string-quoted-double-lflang">
+"
+</span>
+<span class="source-lf">
+ PRINTF_TAG 
+</span>
+<span class="source-lf string-quoted-double-lflang">
+"
+</span>
+<span class="source-lf string-quoted-double-lflang">
+.
 </span>
 <span class="source-lf string-quoted-double-lflang constant-character-escape">
 \n

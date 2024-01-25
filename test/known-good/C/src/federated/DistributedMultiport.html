@@ -402,25 +402,70 @@ is_present) {
 </span>
 
 <span class="source-lf">
+        tag_t now 
+</span>
+<span class="source-lf keyword-operator-lflang">
+=
+</span>
+<span class="source-lf">
+ lf_tag();
+</span>
+
+<span class="source-lf">
         lf_print(
 </span>
 <span class="source-lf string-quoted-double-lflang">
 "
 </span>
 <span class="source-lf string-quoted-double-lflang">
-Received %d at %d.
+Received %d at channel %d at tag 
 </span>
 <span class="source-lf string-quoted-double-lflang">
 "
 </span>
 <span class="source-lf">
-, in[i]
+ PRINTF_TAG, in[i]
 </span>
 <span class="source-lf keyword-operator-lflang">
 ->
 </span>
 <span class="source-lf">
-value, i);
+value, i,
+</span>
+
+<span class="source-lf">
+            
+</span>
+<span class="source-lf variable-other-constant-reactorinstance-lflang">
+now
+</span>
+<span class="source-lf keyword-operator-lflang">
+.
+</span>
+<span class="source-lf storage-type-lflang">
+time
+</span>
+<span class="source-lf">
+ 
+</span>
+<span class="source-lf keyword-operator-lflang">
+-
+</span>
+<span class="source-lf">
+ lf_time_start(), 
+</span>
+<span class="source-lf variable-other-constant-reactorinstance-lflang">
+now
+</span>
+<span class="source-lf keyword-operator-lflang">
+.
+</span>
+<span class="source-lf variable-other-lflang">
+microstep
+</span>
+
+<span class="source-lf">
+        );
 </span>
 
 <span class="source-lf">

@@ -21,10 +21,7 @@ Cpp
 0
 </span>
 <span class="source-lf meta-targetspec-lflang">
- 
-</span>
-<span class="source-lf meta-targetspec-lflang constant-numeric-lflang">
-sec
+ s
 </span>
 
 <span class="source-lf meta-targetspec-lflang">
@@ -55,63 +52,13 @@ reactor
 timer
 </span>
 <span class="source-lf">
- t(
-</span>
-<span class="source-lf constant-numeric-int-lflang">
-0
-</span>
-<span class="source-lf">
-, 
+ should_never_trigger(
 </span>
 <span class="source-lf constant-numeric-int-lflang">
 1
 </span>
 <span class="source-lf">
- 
-</span>
-<span class="source-lf constant-numeric-lflang">
-sec
-</span>
-<span class="source-lf">
-)
-</span>
-
-<span class="source-lf">
-
-</span>
-
-<span class="source-lf">
-  
-</span>
-<span class="source-lf storage-modifier-lflang">
-state
-</span>
-<span class="source-lf">
- 
-</span>
-<span class="source-lf variable-other-lflang">
-triggered
-</span>
-<span class="source-lf">
-:
-</span>
-<span class="source-lf meta-embedded-block-cpp">
- 
-</span>
-<span class="source-lf meta-embedded-block-cpp storage-type-lflang">
-bool
-</span>
-<span class="source-lf meta-embedded-block-cpp">
- 
-</span>
-<span class="source-lf">
-=
-</span>
-<span class="source-lf">
- 
-</span>
-<span class="source-lf constant-language-lflang">
-false
+ s)
 </span>
 
 <span class="source-lf">
@@ -127,59 +74,76 @@ reaction
 <span class="source-lf">
 (
 </span>
+<span class="source-lf support-variable-lflang">
+startup
+</span>
 <span class="source-lf">
-t) {
+, 
+</span>
+<span class="source-lf support-variable-lflang">
+shutdown
+</span>
+<span class="source-lf">
+) {
 </span>
 <span class="source-lf keyword-operator-lflang">
 =
 </span>
 
 <span class="source-lf">
-    triggered 
+    if (!(
+</span>
+<span class="source-lf support-variable-lflang">
+startup
 </span>
 <span class="source-lf keyword-operator-lflang">
-=
+.
+</span>
+<span class="source-lf variable-other-lflang">
+is_present
 </span>
 <span class="source-lf">
- 
+() && 
 </span>
-<span class="source-lf constant-language-lflang">
-true
-</span>
-<span class="source-lf">
-;
-</span>
-
-<span class="source-lf">
-    if (get_elapsed_logical_time() !
+<span class="source-lf support-variable-lflang">
+shutdown
 </span>
 <span class="source-lf keyword-operator-lflang">
-=
+.
+</span>
+<span class="source-lf variable-other-lflang">
+is_present
 </span>
 <span class="source-lf">
- 0s) {
+())) {
 </span>
 
 <span class="source-lf">
       
 </span>
+<span class="source-lf storage-modifier-lflang">
+reactor
+</span>
+<span class="source-lf keyword-operator-lflang">
+::
+</span>
 <span class="source-lf variable-other-constant-reactorinstance-lflang">
-std
+log
 </span>
 <span class="source-lf keyword-operator-lflang">
 ::
 </span>
 <span class="source-lf variable-other-lflang">
-cout
+Error
 </span>
 <span class="source-lf">
- << 
+() << 
 </span>
 <span class="source-lf string-quoted-double-lflang">
 "
 </span>
 <span class="source-lf string-quoted-double-lflang">
-ERROR: triggered reaction at an unexpected tag
+Shutdown was not triggered at startup
 </span>
 <span class="source-lf string-quoted-double-lflang">
 "
@@ -225,58 +189,39 @@ reaction
 <span class="source-lf">
 (
 </span>
-<span class="source-lf support-variable-lflang">
-shutdown
-</span>
 <span class="source-lf">
-) {
+should_never_trigger) {
 </span>
 <span class="source-lf keyword-operator-lflang">
 =
 </span>
 
 <span class="source-lf">
-    if (get_elapsed_logical_time() !
+    
+</span>
+<span class="source-lf storage-modifier-lflang">
+reactor
 </span>
 <span class="source-lf keyword-operator-lflang">
-=
-</span>
-<span class="source-lf">
- 0s || get_microstep() !
-</span>
-<span class="source-lf keyword-operator-lflang">
-=
-</span>
-<span class="source-lf">
- 
-</span>
-<span class="source-lf constant-numeric-int-lflang">
-0
-</span>
-<span class="source-lf">
-) {
-</span>
-
-<span class="source-lf">
-      
+::
 </span>
 <span class="source-lf variable-other-constant-reactorinstance-lflang">
-std
+log
 </span>
 <span class="source-lf keyword-operator-lflang">
 ::
 </span>
 <span class="source-lf variable-other-lflang">
-cout
+Error
 </span>
 <span class="source-lf">
- << 
+() << 
 </span>
 <span class="source-lf string-quoted-double-lflang">
 "
 </span>
 <span class="source-lf string-quoted-double-lflang">
-ERROR: shutdown invoked at an unexpected tag
+Executed a reaction after timeout.
 </span>
 <span class="source-lf string-quoted-double-lflang">
 "
@@ -286,105 +231,13 @@ ERROR: shutdown invoked at an unexpected tag
 </span>
 
 <span class="source-lf">
-      exit(
+    exit(
 </span>
 <span class="source-lf constant-numeric-int-lflang">
 2
 </span>
 <span class="source-lf">
 );
-</span>
-
-<span class="source-lf">
-    }
-</span>
-
-<span class="source-lf">
-
-</span>
-
-<span class="source-lf">
-    if (triggered) {
-</span>
-
-<span class="source-lf">
-      
-</span>
-<span class="source-lf variable-other-constant-reactorinstance-lflang">
-std
-</span>
-<span class="source-lf keyword-operator-lflang">
-::
-</span>
-<span class="source-lf variable-other-lflang">
-cout
-</span>
-<span class="source-lf">
- << 
-</span>
-<span class="source-lf string-quoted-double-lflang">
-"
-</span>
-<span class="source-lf string-quoted-double-lflang">
-SUCCESS!
-</span>
-<span class="source-lf string-quoted-double-lflang constant-character-escape">
-\n
-</span>
-<span class="source-lf string-quoted-double-lflang">
-"
-</span>
-<span class="source-lf">
-;
-</span>
-
-<span class="source-lf">
-    } else {
-</span>
-
-<span class="source-lf">
-      
-</span>
-<span class="source-lf variable-other-constant-reactorinstance-lflang">
-std
-</span>
-<span class="source-lf keyword-operator-lflang">
-::
-</span>
-<span class="source-lf variable-other-lflang">
-cout
-</span>
-<span class="source-lf">
- << 
-</span>
-<span class="source-lf string-quoted-double-lflang">
-"
-</span>
-<span class="source-lf string-quoted-double-lflang">
-ERROR: reaction was not invoked!
-</span>
-<span class="source-lf string-quoted-double-lflang constant-character-escape">
-\n
-</span>
-<span class="source-lf string-quoted-double-lflang">
-"
-</span>
-<span class="source-lf">
-;
-</span>
-
-<span class="source-lf">
-      exit(
-</span>
-<span class="source-lf constant-numeric-int-lflang">
-2
-</span>
-<span class="source-lf">
-);
-</span>
-
-<span class="source-lf">
-    }
 </span>
 
 <span class="source-lf">

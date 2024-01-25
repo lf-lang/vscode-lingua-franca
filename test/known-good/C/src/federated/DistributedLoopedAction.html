@@ -35,6 +35,19 @@ C
 </span>
 
 <span class="source-lf meta-targetspec-lflang variable-parameter-lflang">
+  logging
+</span>
+<span class="source-lf meta-targetspec-lflang">
+: 
+</span>
+<span class="source-lf meta-targetspec-lflang storage-type-lflang">
+LOG
+</span>
+<span class="source-lf meta-targetspec-lflang">
+,
+</span>
+
+<span class="source-lf meta-targetspec-lflang variable-parameter-lflang">
   timeout
 </span>
 <span class="source-lf meta-targetspec-lflang">
@@ -285,7 +298,7 @@ timer
 , 
 </span>
 <span class="source-lf constant-numeric-int-lflang">
-1
+10
 </span>
 <span class="source-lf">
  
@@ -328,16 +341,25 @@ in) {
 </span>
 
 <span class="source-lf">
-    printf(
+    lf_print(
 </span>
 <span class="source-lf string-quoted-double-lflang">
 "
 </span>
 <span class="source-lf string-quoted-double-lflang">
-At tag (%lld, %u) received value %d.
+At tag 
 </span>
-<span class="source-lf string-quoted-double-lflang constant-character-escape">
-\n
+<span class="source-lf string-quoted-double-lflang">
+"
+</span>
+<span class="source-lf">
+ PRINTF_TAG 
+</span>
+<span class="source-lf string-quoted-double-lflang">
+"
+</span>
+<span class="source-lf string-quoted-double-lflang">
+ received value %d.
 </span>
 <span class="source-lf string-quoted-double-lflang">
 "
@@ -421,19 +443,34 @@ received_messages
 </span>
 
 <span class="source-lf">
-      fprintf(stderr,
+      lf_print_error(
 </span>
 <span class="source-lf string-quoted-double-lflang">
 "
 </span>
 <span class="source-lf string-quoted-double-lflang">
-ERROR: received messages out of order.
-</span>
-<span class="source-lf string-quoted-double-lflang constant-character-escape">
-\n
+Expected %d
 </span>
 <span class="source-lf string-quoted-double-lflang">
 "
+</span>
+<span class="source-lf">
+, self
+</span>
+<span class="source-lf keyword-operator-lflang">
+->
+</span>
+<span class="source-lf">
+received_messages 
+</span>
+<span class="source-lf keyword-operator-lflang">
+-
+</span>
+<span class="source-lf">
+ 
+</span>
+<span class="source-lf constant-numeric-int-lflang">
+1
 </span>
 <span class="source-lf">
 );
@@ -479,22 +516,19 @@ break_interval) {
 </span>
 
 <span class="source-lf">
-      fprintf(stderr,
+      lf_print_error(
 </span>
 <span class="source-lf string-quoted-double-lflang">
 "
 </span>
 <span class="source-lf string-quoted-double-lflang">
-ERROR: received messages at an incorrect time: %lld.
-</span>
-<span class="source-lf string-quoted-double-lflang constant-character-escape">
-\n
+Received messages at an incorrect time: 
 </span>
 <span class="source-lf string-quoted-double-lflang">
 "
 </span>
 <span class="source-lf">
-, lf_time_logical_elapsed());
+ PRINTF_TIME, lf_time_logical_elapsed());
 </span>
 
 <span class="source-lf comment-line-double-dash-lflang">
@@ -741,29 +775,16 @@ take_a_break_after)
 </span>
 
 <span class="source-lf">
-      fprintf(stderr,
+      lf_print_error_and_exit(
 </span>
 <span class="source-lf string-quoted-double-lflang">
 "
 </span>
 <span class="source-lf string-quoted-double-lflang">
-ERROR: test failed.
-</span>
-<span class="source-lf string-quoted-double-lflang constant-character-escape">
-\n
+Did not receive enough messages.
 </span>
 <span class="source-lf string-quoted-double-lflang">
 "
-</span>
-<span class="source-lf">
-);
-</span>
-
-<span class="source-lf">
-      exit(
-</span>
-<span class="source-lf constant-numeric-int-lflang">
-4
 </span>
 <span class="source-lf">
 );
