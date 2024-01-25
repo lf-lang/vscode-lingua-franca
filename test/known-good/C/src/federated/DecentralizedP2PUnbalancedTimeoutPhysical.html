@@ -19,7 +19,7 @@
 </span>
 
 <span class="source-lf comment-block-lflang">
- * The test fails if the federation does not exit amenably. This variant has a physical connection
+ * The test fails if the federation does not exit normally. This variant has a physical connection
 </span>
 
 <span class="source-lf comment-block-lflang">
@@ -253,7 +253,7 @@ count)
     
 </span>
 <span class="source-lf comment-line-double-dash-lflang">
-//printf("Reacting at time %ld.\n", lf_time_logical_elapsed());
+//printf("Reacting at time " PRINTF_TIME ".\n", lf_time_logical_elapsed());
 </span>
 
 <span class="source-lf">
@@ -558,7 +558,19 @@ shutdown
 "
 </span>
 <span class="source-lf string-quoted-double-lflang">
-Approx. time per reaction: %lldns
+Approx. time per reaction: 
+</span>
+<span class="source-lf string-quoted-double-lflang">
+"
+</span>
+<span class="source-lf">
+ PRINTF_TIME 
+</span>
+<span class="source-lf string-quoted-double-lflang">
+"
+</span>
+<span class="source-lf string-quoted-double-lflang">
+ ns
 </span>
 <span class="source-lf string-quoted-double-lflang">
 "

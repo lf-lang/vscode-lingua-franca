@@ -30,6 +30,36 @@ target
 <span class="source-lf meta-targetspec-lflang constant-language-lflang">
 C
 </span>
+<span class="source-lf meta-targetspec-lflang">
+ {
+</span>
+
+<span class="source-lf meta-targetspec-lflang variable-parameter-lflang">
+  logging
+</span>
+<span class="source-lf meta-targetspec-lflang">
+: 
+</span>
+<span class="source-lf meta-targetspec-lflang storage-type-lflang">
+DEBUG
+</span>
+<span class="source-lf meta-targetspec-lflang">
+,
+</span>
+
+<span class="source-lf meta-targetspec-lflang variable-parameter-lflang">
+  tracing
+</span>
+<span class="source-lf meta-targetspec-lflang">
+: 
+</span>
+<span class="source-lf meta-targetspec-lflang constant-language-lflang">
+true
+</span>
+
+<span class="source-lf meta-targetspec-lflang">
+}
+</span>
 
 <span class="source-lf">
 
@@ -350,7 +380,25 @@ reactor
 UserInput
 </span>
 <span class="source-lf">
- {
+(send_stop: 
+</span>
+<span class="source-lf storage-type-lflang">
+bool
+</span>
+<span class="source-lf">
+ 
+</span>
+<span class="source-lf keyword-operator-lflang">
+=
+</span>
+<span class="source-lf">
+ 
+</span>
+<span class="source-lf constant-language-lflang">
+true
+</span>
+<span class="source-lf">
+) {
 </span>
 
 <span class="source-lf">
@@ -602,7 +650,13 @@ Expect balance of 200.
 </span>
 
 <span class="source-lf">
-    lf_request_stop();
+    if (self
+</span>
+<span class="source-lf keyword-operator-lflang">
+->
+</span>
+<span class="source-lf">
+send_stop) lf_request_stop();
 </span>
 
 <span class="source-lf">

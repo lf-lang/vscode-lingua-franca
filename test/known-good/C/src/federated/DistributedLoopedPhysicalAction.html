@@ -73,6 +73,19 @@ sec
 ,
 </span>
 
+<span class="source-lf meta-targetspec-lflang variable-parameter-lflang">
+  tracing
+</span>
+<span class="source-lf meta-targetspec-lflang">
+: 
+</span>
+<span class="source-lf meta-targetspec-lflang constant-language-lflang">
+true
+</span>
+<span class="source-lf meta-targetspec-lflang">
+,
+</span>
+
 <span class="source-lf meta-targetspec-lflang comment-line-double-dash-lflang">
   
 </span>
@@ -596,7 +609,7 @@ timer
 , 
 </span>
 <span class="source-lf constant-numeric-int-lflang">
-1
+10
 </span>
 <span class="source-lf">
  
@@ -655,7 +668,19 @@ in) {
 "
 </span>
 <span class="source-lf string-quoted-double-lflang">
-At tag (%lld, %u) received %d.
+At tag 
+</span>
+<span class="source-lf string-quoted-double-lflang">
+"
+</span>
+<span class="source-lf">
+ PRINTF_TAG 
+</span>
+<span class="source-lf string-quoted-double-lflang">
+"
+</span>
+<span class="source-lf string-quoted-double-lflang">
+ received %d.
 </span>
 <span class="source-lf string-quoted-double-lflang">
 "
@@ -958,13 +983,7 @@ shutdown
 ->
 </span>
 <span class="source-lf">
-breaks !
-</span>
-<span class="source-lf keyword-operator-lflang">
-=
-</span>
-<span class="source-lf">
- 
+breaks < 
 </span>
 <span class="source-lf constant-numeric-int-lflang">
 2
@@ -980,13 +999,7 @@ breaks !
 ->
 </span>
 <span class="source-lf">
-total_received_messages !
-</span>
-<span class="source-lf keyword-operator-lflang">
-=
-</span>
-<span class="source-lf">
- ((SEC(
+total_received_messages < ((SEC(
 </span>
 <span class="source-lf constant-numeric-int-lflang">
 1

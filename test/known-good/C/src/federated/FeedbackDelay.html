@@ -1,3 +1,26 @@
+<span class="source-lf comment-block-lflang">
+/**
+</span>
+
+<span class="source-lf comment-block-lflang">
+ * This test has two coupled cycles. In this variant, one is a zero-delay cycle (ZDC) and the other
+</span>
+
+<span class="source-lf comment-block-lflang">
+ * is not, having a microstep delay. In this variant, the microstep delay is on a connection
+</span>
+
+<span class="source-lf comment-block-lflang">
+ * entering the ZDC.
+</span>
+
+<span class="source-lf comment-block-lflang">
+ 
+</span>
+<span class="source-lf comment-block-lflang">
+*/
+</span>
+
 <span class="source-lf meta-targetspec-lflang keyword-control-lflang">
 target
 </span>
@@ -25,19 +48,6 @@ C
 </span>
 <span class="source-lf meta-targetspec-lflang constant-numeric-lflang">
 sec
-</span>
-<span class="source-lf meta-targetspec-lflang">
-,
-</span>
-
-<span class="source-lf meta-targetspec-lflang variable-parameter-lflang">
-  logging
-</span>
-<span class="source-lf meta-targetspec-lflang">
-: 
-</span>
-<span class="source-lf meta-targetspec-lflang storage-type-lflang">
-DEBUG
 </span>
 
 <span class="source-lf meta-targetspec-lflang">
@@ -121,16 +131,10 @@ timer
 , 
 </span>
 <span class="source-lf constant-numeric-int-lflang">
-33
+100
 </span>
 <span class="source-lf">
- 
-</span>
-<span class="source-lf constant-numeric-lflang">
-msec
-</span>
-<span class="source-lf">
-)
+ ms)
 </span>
 
 <span class="source-lf">
@@ -187,6 +191,40 @@ previous_sensor_time
 </span>
 <span class="source-lf meta-embedded-block-cpp storage-type-lflang">
 time
+</span>
+<span class="source-lf meta-embedded-block-cpp">
+ 
+</span>
+<span class="source-lf">
+=
+</span>
+<span class="source-lf">
+ 
+</span>
+<span class="source-lf constant-numeric-int-lflang">
+0
+</span>
+
+<span class="source-lf">
+  
+</span>
+<span class="source-lf storage-modifier-lflang">
+state
+</span>
+<span class="source-lf">
+ 
+</span>
+<span class="source-lf variable-other-lflang">
+count
+</span>
+<span class="source-lf">
+:
+</span>
+<span class="source-lf meta-embedded-block-cpp">
+ 
+</span>
+<span class="source-lf meta-embedded-block-cpp storage-type-lflang">
+int
 </span>
 <span class="source-lf meta-embedded-block-cpp">
  
@@ -306,6 +344,47 @@ control) {
 </span>
 
 <span class="source-lf">
+    self
+</span>
+<span class="source-lf keyword-operator-lflang">
+->
+</span>
+<span class="source-lf">
+count
+</span>
+<span class="source-lf keyword-operator-lflang">
++
+</span>
+<span class="source-lf keyword-operator-lflang">
++
+</span>
+<span class="source-lf">
+;
+</span>
+
+<span class="source-lf">
+    lf_print(
+</span>
+<span class="source-lf string-quoted-double-lflang">
+"
+</span>
+<span class="source-lf string-quoted-double-lflang">
+Control input: %f
+</span>
+<span class="source-lf string-quoted-double-lflang">
+"
+</span>
+<span class="source-lf">
+, control
+</span>
+<span class="source-lf keyword-operator-lflang">
+->
+</span>
+<span class="source-lf">
+value);
+</span>
+
+<span class="source-lf">
     instant_t control_time 
 </span>
 <span class="source-lf keyword-operator-lflang">
@@ -322,7 +401,19 @@ control) {
 "
 </span>
 <span class="source-lf string-quoted-double-lflang">
-Latency %lld.
+Latency: 
+</span>
+<span class="source-lf string-quoted-double-lflang">
+"
+</span>
+<span class="source-lf">
+ PRINTF_TIME 
+</span>
+<span class="source-lf string-quoted-double-lflang">
+"
+</span>
+<span class="source-lf string-quoted-double-lflang">
+.
 </span>
 <span class="source-lf string-quoted-double-lflang">
 "
@@ -350,7 +441,19 @@ previous_sensor_time);
 "
 </span>
 <span class="source-lf string-quoted-double-lflang">
-Logical time: %lld.
+Logical time: 
+</span>
+<span class="source-lf string-quoted-double-lflang">
+"
+</span>
+<span class="source-lf">
+ PRINTF_TIME 
+</span>
+<span class="source-lf string-quoted-double-lflang">
+"
+</span>
+<span class="source-lf string-quoted-double-lflang">
+.
 </span>
 <span class="source-lf string-quoted-double-lflang">
 "
@@ -366,22 +469,24 @@ Logical time: %lld.
 =
 </span>
 <span class="source-lf">
-} 
+}
+</span>
+
+<span class="source-lf">
+
+</span>
+
+<span class="source-lf">
+  
 </span>
 <span class="source-lf keyword-control-lflang">
-STP
+reaction
 </span>
 <span class="source-lf">
 (
 </span>
-<span class="source-lf constant-numeric-int-lflang">
-33
-</span>
-<span class="source-lf">
- 
-</span>
-<span class="source-lf constant-numeric-lflang">
-msec
+<span class="source-lf support-variable-lflang">
+shutdown
 </span>
 <span class="source-lf">
 ) {
@@ -391,19 +496,51 @@ msec
 </span>
 
 <span class="source-lf">
-    lf_print_warning(
+    if (self
+</span>
+<span class="source-lf keyword-operator-lflang">
+->
+</span>
+<span class="source-lf">
+count !
+</span>
+<span class="source-lf keyword-operator-lflang">
+=
+</span>
+<span class="source-lf">
+ 
+</span>
+<span class="source-lf constant-numeric-int-lflang">
+10
+</span>
+<span class="source-lf">
+) {
+</span>
+
+<span class="source-lf">
+      lf_print_error_and_exit(
 </span>
 <span class="source-lf string-quoted-double-lflang">
 "
 </span>
 <span class="source-lf string-quoted-double-lflang">
-STP violation.
+Received only %d inputs.
 </span>
 <span class="source-lf string-quoted-double-lflang">
 "
 </span>
 <span class="source-lf">
-);
+, self
+</span>
+<span class="source-lf keyword-operator-lflang">
+->
+</span>
+<span class="source-lf">
+count);
+</span>
+
+<span class="source-lf">
+    }
 </span>
 
 <span class="source-lf">
@@ -641,6 +778,73 @@ latest_control
 </span>
 <span class="source-lf">
 value;
+</span>
+
+<span class="source-lf">
+    tag_t now 
+</span>
+<span class="source-lf keyword-operator-lflang">
+=
+</span>
+<span class="source-lf">
+ lf_tag();
+</span>
+
+<span class="source-lf">
+    lf_print(
+</span>
+<span class="source-lf string-quoted-double-lflang">
+"
+</span>
+<span class="source-lf string-quoted-double-lflang">
+Controller received planning value %f at tag 
+</span>
+<span class="source-lf string-quoted-double-lflang">
+"
+</span>
+<span class="source-lf">
+ PRINTF_TAG,
+</span>
+
+<span class="source-lf">
+        self
+</span>
+<span class="source-lf keyword-operator-lflang">
+->
+</span>
+<span class="source-lf">
+latest_control, 
+</span>
+<span class="source-lf variable-other-constant-reactorinstance-lflang">
+now
+</span>
+<span class="source-lf keyword-operator-lflang">
+.
+</span>
+<span class="source-lf storage-type-lflang">
+time
+</span>
+<span class="source-lf">
+ 
+</span>
+<span class="source-lf keyword-operator-lflang">
+-
+</span>
+<span class="source-lf">
+ lf_time_start(), 
+</span>
+<span class="source-lf variable-other-constant-reactorinstance-lflang">
+now
+</span>
+<span class="source-lf keyword-operator-lflang">
+.
+</span>
+<span class="source-lf variable-other-lflang">
+microstep
+</span>
+
+<span class="source-lf">
+    );
 </span>
 
 <span class="source-lf">
