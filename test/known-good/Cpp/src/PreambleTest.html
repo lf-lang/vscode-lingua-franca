@@ -12,6 +12,143 @@ Cpp
 
 </span>
 
+<span class="source-lf comment-line-double-dash-lflang">
+// This is used to test for nested unused imports in PreambleImport.lf
+</span>
+
+<span class="source-lf keyword-control-import-lflang">
+import
+</span>
+<span class="source-lf">
+ 
+</span>
+<span class="source-lf entity-name-type-lflang">
+Imported
+</span>
+<span class="source-lf">
+ 
+</span>
+<span class="source-lf keyword-control-import-lflang">
+from
+</span>
+<span class="source-lf">
+ 
+</span>
+<span class="source-lf string-quoted-double-lflang">
+"
+</span>
+<span class="source-lf string-quoted-double-lflang">
+lib/Imported.lf
+</span>
+<span class="source-lf string-quoted-double-lflang">
+"
+</span>
+
+<span class="source-lf">
+
+</span>
+
+<span class="source-lf keyword-control-lflang">
+public
+</span>
+<span class="source-lf">
+ 
+</span>
+<span class="source-lf keyword-control-lflang">
+preamble
+</span>
+<span class="source-lf">
+ {
+</span>
+<span class="source-lf keyword-operator-lflang">
+=
+</span>
+
+<span class="source-lf">
+  int foo();
+</span>
+
+<span class="source-lf keyword-operator-lflang">
+=
+</span>
+<span class="source-lf">
+}
+</span>
+
+<span class="source-lf">
+
+</span>
+
+<span class="source-lf keyword-control-lflang">
+private
+</span>
+<span class="source-lf">
+ 
+</span>
+<span class="source-lf keyword-control-lflang">
+preamble
+</span>
+<span class="source-lf">
+ {
+</span>
+<span class="source-lf keyword-operator-lflang">
+=
+</span>
+
+<span class="source-lf">
+  int foo() {
+</span>
+
+<span class="source-lf">
+    return 
+</span>
+<span class="source-lf constant-numeric-int-lflang">
+42
+</span>
+<span class="source-lf">
+;
+</span>
+
+<span class="source-lf">
+  }
+</span>
+
+<span class="source-lf keyword-operator-lflang">
+=
+</span>
+<span class="source-lf">
+}
+</span>
+
+<span class="source-lf">
+
+</span>
+
+<span class="source-lf comment-line-double-dash-lflang">
+// This is a dummy reactor to test importing of preambles in PreambleImport.lf
+</span>
+
+<span class="source-lf storage-modifier-lflang">
+reactor
+</span>
+<span class="source-lf">
+ 
+</span>
+<span class="source-lf entity-name-type-lflang">
+PreambleFoo
+</span>
+<span class="source-lf">
+ {
+</span>
+
+<span class="source-lf">
+}
+</span>
+
+<span class="source-lf">
+
+</span>
+
 <span class="source-lf storage-modifier-lflang">
 main
 </span>
@@ -154,13 +291,7 @@ preamble
 +
 </span>
 <span class="source-lf">
- 
-</span>
-<span class="source-lf constant-numeric-int-lflang">
-42
-</span>
-<span class="source-lf">
-;
+ foo();
 </span>
 
 <span class="source-lf">
@@ -247,13 +378,7 @@ a
 schedule
 </span>
 <span class="source-lf">
-({add_42(
-</span>
-<span class="source-lf constant-numeric-int-lflang">
-42
-</span>
-<span class="source-lf">
-), 
+({add_42(foo()), 
 </span>
 <span class="source-lf string-quoted-double-lflang">
 "
@@ -400,6 +525,150 @@ bar
 </span>
 <span class="source-lf">
 ;
+</span>
+
+<span class="source-lf">
+    if (
+</span>
+<span class="source-lf variable-other-constant-reactorinstance-lflang">
+value
+</span>
+<span class="source-lf keyword-operator-lflang">
+.
+</span>
+<span class="source-lf variable-other-lflang">
+foo
+</span>
+<span class="source-lf">
+ 
+</span>
+<span class="source-lf keyword-operator-lflang">
+=
+</span>
+<span class="source-lf keyword-operator-lflang">
+=
+</span>
+<span class="source-lf">
+ 
+</span>
+<span class="source-lf constant-numeric-int-lflang">
+84
+</span>
+<span class="source-lf">
+ && 
+</span>
+<span class="source-lf variable-other-constant-reactorinstance-lflang">
+value
+</span>
+<span class="source-lf keyword-operator-lflang">
+.
+</span>
+<span class="source-lf variable-other-lflang">
+bar
+</span>
+<span class="source-lf">
+ 
+</span>
+<span class="source-lf keyword-operator-lflang">
+=
+</span>
+<span class="source-lf keyword-operator-lflang">
+=
+</span>
+<span class="source-lf">
+ 
+</span>
+<span class="source-lf string-quoted-double-lflang">
+"
+</span>
+<span class="source-lf string-quoted-double-lflang">
+baz
+</span>
+<span class="source-lf string-quoted-double-lflang">
+"
+</span>
+<span class="source-lf">
+) {
+</span>
+
+<span class="source-lf">
+      
+</span>
+<span class="source-lf variable-other-constant-reactorinstance-lflang">
+std
+</span>
+<span class="source-lf keyword-operator-lflang">
+::
+</span>
+<span class="source-lf variable-other-lflang">
+cout
+</span>
+<span class="source-lf">
+ << 
+</span>
+<span class="source-lf string-quoted-double-lflang">
+"
+</span>
+<span class="source-lf string-quoted-double-lflang">
+Success!
+</span>
+<span class="source-lf string-quoted-double-lflang constant-character-escape">
+\n
+</span>
+<span class="source-lf string-quoted-double-lflang">
+"
+</span>
+<span class="source-lf">
+;
+</span>
+
+<span class="source-lf">
+    } else {
+</span>
+
+<span class="source-lf">
+      
+</span>
+<span class="source-lf variable-other-constant-reactorinstance-lflang">
+std
+</span>
+<span class="source-lf keyword-operator-lflang">
+::
+</span>
+<span class="source-lf variable-other-lflang">
+cout
+</span>
+<span class="source-lf">
+ << 
+</span>
+<span class="source-lf string-quoted-double-lflang">
+"
+</span>
+<span class="source-lf string-quoted-double-lflang">
+Error!
+</span>
+<span class="source-lf string-quoted-double-lflang constant-character-escape">
+\n
+</span>
+<span class="source-lf string-quoted-double-lflang">
+"
+</span>
+<span class="source-lf">
+;
+</span>
+
+<span class="source-lf">
+      exit(
+</span>
+<span class="source-lf constant-numeric-int-lflang">
+1
+</span>
+<span class="source-lf">
+);
+</span>
+
+<span class="source-lf">
+    }
 </span>
 
 <span class="source-lf">
