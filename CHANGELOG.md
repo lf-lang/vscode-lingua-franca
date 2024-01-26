@@ -1,5 +1,17 @@
 # Changelog
  
+## [v0.6.0](https://github.com/lf-lang/vscode-lingua-franca/tree/v0.6.0) (2024-01-26)
+
+**Highlights**
+
+This release features an updated compiler core but includes no major changes to the extension itself.
+
+**⬆️ Updated Dependencies**
+
+- Package `vsce` renamed to `@vscode/vsce` [\#141](https://github.com/lf-lang/vscode-lingua-franca/pull/141) (@lhstrh)
+
+
+ 
 ## [v0.5.1](https://github.com/lf-lang/vscode-lingua-franca/tree/v0.5.1) (2023-09-12)
 
 **Highlights**
