@@ -4,6 +4,17 @@
         {
             "type": "npm",
             "script": "compile-tests"
+        },
+        {
+            "type": "npm",
+            "script": "compile",
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "problemMatcher": [],
+            "label": "npm: compile",
+            "detail": "npm run esbuild-base -- --sourcemap"
         }
     ]
 }
