@@ -70,6 +70,10 @@
         ],
         "commands": [
             {
+                "command": "linguafranca.getAst",
+                "title": "Lingua Franca: Get AST"
+            },
+            {
                 "command": "linguafranca.build",
                 "title": "Lingua Franca: Build"
             },

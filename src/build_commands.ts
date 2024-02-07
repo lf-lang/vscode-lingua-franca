@@ -24,6 +24,15 @@ function getLfUri(textDocument: vscode.TextDocument, failSilently = false): stri
 
 type MessageShowerTransformer = (MessageDisplayHelper: MessageDisplayHelper) => ((message: string) => void);
 
+const getAst = (withLogs: MessageShowerTransformer, client: LanguageClient) => (textEditor: vscode.TextEditor) => {
+    const uri = getLfUri(textEditor.document);
+    if (!uri) return;
+    client.sendRequest('parser/ast', uri).then((ast: string) => {
+        if (ast) withLogs(vscode.window.showInformationMessage)(ast);
+        else withLogs(vscode.window.showErrorMessage)('Failed to get AST.');
+    });
+}
+
 /**
  * Return the action that should be taken in case of a request to build.
  * @param withLogs A messageShowerTransformer that lets the user request to view logs.
@@ -86,7 +95,9 @@ export function registerBuildCommands(context: vscode.ExtensionContext, client: 
     ).then(choice => {
         if (choice === 'Show output') client.outputChannel.show();
     });
-
+    context.subscriptions.push(vscode.commands.registerTextEditorCommand(
+        'linguafranca.getAst', getAst(withLogs, client)
+    ));
     context.subscriptions.push(vscode.commands.registerTextEditorCommand(
         'linguafranca.build', build(withLogs, client)
     ));
