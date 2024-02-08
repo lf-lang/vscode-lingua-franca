@@ -13,7 +13,7 @@ import { registerBuildCommands, registerNewFileCommand } from './build_commands'
 import * as checkDependencies from './check_dependencies';
 
 let client: LanguageClient;
-let socket: Socket
+let socket: Socket;
 
 export async function activate(context: vscode.ExtensionContext) {
 
@@ -30,7 +30,9 @@ export async function activate(context: vscode.ExtensionContext) {
         (checkDependencies.Dependency.Java)
         (vscode.window.showErrorMessage)
         ()
-    )) return;
+    )) {
+        return;
+    }
 
     const serverOptions: ServerOptions = createServerOptions(context);
 

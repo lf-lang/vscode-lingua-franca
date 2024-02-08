@@ -24,14 +24,22 @@ function getLfUri(textDocument: vscode.TextDocument, failSilently = false): stri
 
 type MessageShowerTransformer = (MessageDisplayHelper: MessageDisplayHelper) => ((message: string) => void);
 
-const getAst = (withLogs: MessageShowerTransformer, client: LanguageClient) => (textEditor: vscode.TextEditor) => {
-    const uri = getLfUri(textEditor.document);
-    if (!uri) return;
-    client.sendRequest('parser/ast', uri).then((ast: string) => {
-        if (ast) withLogs(vscode.window.showInformationMessage)(ast);
-        else withLogs(vscode.window.showErrorMessage)('Failed to get AST.');
-    });
-}
+const getAst =
+  (withLogs: MessageShowerTransformer, client: LanguageClient) =>
+  async () => {
+    vscode.window.showInformationMessage("Getting AST...");
+    const uri = getLfUri(vscode.window.activeTextEditor.document);
+    if (!uri) {
+      return "The currently active file is not a Lingua Franca source file.";
+    }
+    let ret = await client.sendRequest("parser/ast", uri);
+    if (ret === undefined) {
+      withLogs(vscode.window.showErrorMessage)("Failed to get AST.");
+      return;
+    }
+    vscode.window.showInformationMessage("AST received: " + ret);
+    return ret;
+  };
 
 /**
  * Return the action that should be taken in case of a request to build.
@@ -95,8 +103,8 @@ export function registerBuildCommands(context: vscode.ExtensionContext, client: 
     ).then(choice => {
         if (choice === 'Show output') client.outputChannel.show();
     });
-    context.subscriptions.push(vscode.commands.registerTextEditorCommand(
-        'linguafranca.getAst', getAst(withLogs, client)
+    context.subscriptions.push(vscode.commands.registerCommand(
+        "linguafranca.getAst", getAst(withLogs, client)
     ));
     context.subscriptions.push(vscode.commands.registerTextEditorCommand(
         'linguafranca.build', build(withLogs, client)
