@@ -74,6 +74,10 @@
                 "title": "Lingua Franca: Get AST"
             },
             {
+                "command": "linguafranca.getWorkspace",
+                "title": "Lingua Franca: Get Workspace"
+            },
+            {
                 "command": "linguafranca.build",
                 "title": "Lingua Franca: Build"
             },
