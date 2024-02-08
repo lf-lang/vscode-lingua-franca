@@ -41,6 +41,47 @@ const getAst =
     return ret;
   };
 
+const getWorkspace =
+  (withLogs: MessageShowerTransformer, client: LanguageClient) =>
+  async () => {
+    vscode.window.showInformationMessage("Getting workspace...");
+    const roots = vscode.workspace.workspaceFolders;
+    let lf_files: vscode.Uri[] = [];
+    let lingo_tomls: vscode.Uri[] = [];
+    if (roots) {
+      for (const root of roots) {
+        const files: vscode.Uri[] = await vscode.workspace.findFiles(
+            new vscode.RelativePattern(root, "**/*.lf")
+        );
+        lf_files = lf_files.concat(files);
+        lingo_tomls = lingo_tomls.concat(await vscode.workspace.findFiles(
+            new vscode.RelativePattern(root, "**/Lingo.toml")
+        ));
+        lingo_tomls = lingo_tomls.concat(await vscode.workspace.findFiles(
+            new vscode.RelativePattern(root, "**/lingo.toml")
+        ));
+      }
+    }
+    lf_files.sort((a, b) => a.fsPath.localeCompare(b.fsPath));
+    lingo_tomls.sort((a, b) => a.fsPath.localeCompare(b.fsPath));
+    let lf_asts = [];
+    for (const lf_file of lf_files) {
+      const ast = await client.sendRequest("parser/ast", lf_file.toString());
+      lf_asts.push(ast);
+    }
+    let toml_contents = [];
+    for (const toml of lingo_tomls) {
+      const content = await vscode.workspace.fs.readFile(toml);
+      toml_contents.push(content);
+    }
+    const ret = {
+        lf: lf_asts,
+        config: toml_contents
+    };
+    vscode.window.showInformationMessage("Workspace received: " + ret);
+    return ret;
+  };
+
 /**
  * Return the action that should be taken in case of a request to build.
  * @param withLogs A messageShowerTransformer that lets the user request to view logs.
@@ -105,6 +146,9 @@ export function registerBuildCommands(context: vscode.ExtensionContext, client: 
     });
     context.subscriptions.push(vscode.commands.registerCommand(
         "linguafranca.getAst", getAst(withLogs, client)
+    ));
+    context.subscriptions.push(vscode.commands.registerCommand(
+        "linguafranca.getWorkspace", getWorkspace(withLogs, client)
     ));
     context.subscriptions.push(vscode.commands.registerTextEditorCommand(
         'linguafranca.build', build(withLogs, client)
