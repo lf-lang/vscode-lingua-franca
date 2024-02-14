@@ -110,3 +110,4 @@ export const rtiVersionChecker = async () => {
     }
     return { version: new Version('0.0.0'), isCorrect: exists };
 };
+export const dockerVersionChecker = basicChecker(config.dockerVersion, 'docker -v', false);
