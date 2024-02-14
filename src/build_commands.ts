@@ -127,7 +127,7 @@ const buildAndRun = (withLogs: MessageShowerTransformer, client: LanguageClient)
 };
 
 function buildOnSaveEnabled() {
-    let zerothFolder = vscode.workspace.workspaceFolders[0];
+    let zerothFolder = vscode.workspace?.workspaceFolders?.[0];
     if (!zerothFolder) {
         return false;
     }
