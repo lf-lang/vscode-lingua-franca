@@ -26,8 +26,9 @@ export const rustMessage = 'The Rust compiler is required for compiling LF progr
     + 'target.';
 export const cmakeMessage = `CMake version ${config.cmakeVersion} or higher is recommended for `
     + `compiling LF programs with the C or C++ target.`;
+export const dockerMessage = 'Docker is required for running LF programs in a container.';
 
-export enum Dependency { Pylint, Java, Python3, Node, Rti, Pnpm, Rust, Cmake }
+export enum Dependency { Pylint, Java, Python3, Node, Rti, Docker, Pnpm, Rust, Cmake }
 
 const wrongVersionMessageOf = (originalMessage: string) =>
     (badResult: versionChecker.VersionCheckResult) =>
@@ -266,6 +267,20 @@ export const watcherConfig: CheckSet[] = [
             },
         ]
     },
+    {
+        regexp: /docker\s*:/,
+        checks: [
+            {
+                name: Dependency.Docker,
+                checker: versionChecker.dockerVersionChecker,
+                message: () => dockerMessage,
+                requiredVersion: config.dockerVersion,
+                installLink: 'https://docs.docker.com/engine/install/',
+                installCommand: () => null,
+                isEssential: true
+            },
+        ]
+    }
 ];
 
 export const caveat = 'If this dependency is already on your system, start VS Code from a terminal emulator so that VS Code sees the same value of your PATH that you see in your terminal.'
@@ -335,6 +350,18 @@ const doDependencyCheck = (document: vscode.TextDocument) => {
         }
     }
 };
+
+export function checkDocker(message: string) {
+    checkDependency({
+        name: Dependency.Docker,
+        checker: versionChecker.dockerVersionChecker,
+        message: () => message || dockerMessage,
+        requiredVersion: config.dockerVersion,
+        installLink: 'https://docs.docker.com/engine/install/',
+        installCommand: () => null,
+        isEssential: true
+    })(vscode.window.showErrorMessage)();
+}
 
 export function registerDependencyWatcher() {
     vscode.workspace.onDidOpenTextDocument(doDependencyCheck);

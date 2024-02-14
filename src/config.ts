@@ -50,6 +50,9 @@ export const rustLatestKnownGoodVersion: Version = new Version('1.61.0');
 /** The minimum RTI version required for executing federated LF programs. */
 export const rtiVersion: Version = new Version('0.0.0');
 
+/** The minimum Docker version on which containerized execution with LF programs has been tested. */
+export const dockerVersion: Version = new Version('24.0.0');
+
 /** Name of the Language and Diagram Server jar as stored in the packaged extension. */
 export const ldsJarName = 'lflang-lds.jar';
 

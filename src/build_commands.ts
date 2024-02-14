@@ -127,8 +127,12 @@ const buildAndRun = (withLogs: MessageShowerTransformer, client: LanguageClient)
 };
 
 function buildOnSaveEnabled() {
+    let zerothFolder = vscode.workspace.workspaceFolders[0];
+    if (!zerothFolder) {
+        return false;
+    }
     const configuration: vscode.WorkspaceConfiguration = vscode.workspace.getConfiguration(
-        'linguafranca', vscode.workspace.workspaceFolders[0].uri
+        'linguafranca', zerothFolder.uri
     );
     return configuration.get('generateCodeOnSave');
 }

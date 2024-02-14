@@ -86,6 +86,10 @@
                 "title": "Lingua Franca: Build and Run"
             },
             {
+                "command": "linguafranca.checkDocker",
+                "title": "Lingua Franca: Check Docker Version"
+            },
+            {
                 "command": "linguafranca.createNewFile",
                 "title": "New Lingua Franca File",
                 "shortTitle": "Lingua Franca File"

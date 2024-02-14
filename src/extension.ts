@@ -58,6 +58,9 @@ export async function activate(context: vscode.ExtensionContext) {
 
     registerBuildCommands(context, client);
     registerNewFileCommand(context);
+    context.subscriptions.push(vscode.commands.registerCommand(
+        "linguafranca.checkDocker", checkDependencies.checkDocker
+    ));
 }
 
 /**
