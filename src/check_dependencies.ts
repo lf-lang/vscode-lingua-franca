@@ -351,8 +351,8 @@ const doDependencyCheck = (document: vscode.TextDocument) => {
     }
 };
 
-export function checkDocker(message: string) {
-    checkDependency({
+export async function checkDocker(message: string): Promise<boolean> {
+    return await checkDependency({
         name: Dependency.Docker,
         checker: versionChecker.dockerVersionChecker,
         message: () => message || dockerMessage,
