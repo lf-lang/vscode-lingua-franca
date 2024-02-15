@@ -93,6 +93,10 @@
                 "command": "linguafranca.createNewFile",
                 "title": "New Lingua Franca File",
                 "shortTitle": "Lingua Franca File"
+            },
+            {
+                "command": "linguafranca.getVersion",
+                "title": "Lingua Franca: Get Version"
             }
         ],
         "configuration": {
@@ -136,6 +140,12 @@
                 {
                     "command": "linguafranca.createNewFile"
                 }
+            ],
+            "commandPalette": [
+                {
+                    "command": "linguafranca.getVersion",
+                    "when": "false"
+                }
             ]
         }
     },
@@ -177,7 +187,7 @@
         "clean": "rimraf out && rimraf lib && rimraf vscode-lingua-franca-*.vsix",
         "esbuild-base": "esbuild ./src/extension.ts --bundle --outfile=out/extension.js --external:vscode --format=cjs --platform=node",
         "vscode:prepublish": "npm run esbuild-base -- --minify",
-        "compile": "npm run esbuild-base -- --sourcemap",
+        "compile": "./write-version-to-file.sh src/extension_version.ts && npm run esbuild-base -- --sourcemap",
         "watch": "npm run esbuild-base -- --sourcemap --watch",
         "build": "npx ts-node src/build_lds.ts",
         "compile-tests": "npx tsc --lib \"dom\" --outDir out/test --inlineSourceMap",

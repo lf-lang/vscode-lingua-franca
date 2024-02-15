@@ -11,6 +11,7 @@ import { legend, semanticTokensProvider } from './highlight';
 import * as config from './config';
 import { registerBuildCommands, registerNewFileCommand } from './build_commands';
 import * as checkDependencies from './check_dependencies';
+import * as extensionVersion from './extension_version';
 
 let client: LanguageClient;
 let socket: Socket;
@@ -60,6 +61,9 @@ export async function activate(context: vscode.ExtensionContext) {
     registerNewFileCommand(context);
     context.subscriptions.push(vscode.commands.registerCommand(
         "linguafranca.checkDocker", checkDependencies.checkDocker
+    ));
+    context.subscriptions.push(vscode.commands.registerCommand(
+        "linguafranca.getVersion", () => extensionVersion.version
     ));
 }
 
