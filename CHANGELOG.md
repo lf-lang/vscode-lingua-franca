@@ -1,5 +1,17 @@
 # Changelog
  
+## [v0.6.1](https://github.com/lf-lang/vscode-lingua-franca/tree/v0.6.1) (2024-02-18)
+
+**Highlights**
+
+This patch release includes a bugfix in the Lingua Franca compiler for the handling of environment variables to access files in the source tree.
+
+**⬆️ Updated Dependencies**
+
+- Dependency `get-func-name` bumped to 2.0.2 [\#149](https://github.com/lf-lang/vscode-lingua-franca/pull/149) (@lhstrh)
+
+
+ 
 ## [v0.6.0](https://github.com/lf-lang/vscode-lingua-franca/tree/v0.6.0) (2024-01-26)
 
 **Highlights**
