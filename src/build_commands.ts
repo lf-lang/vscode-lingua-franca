@@ -48,7 +48,6 @@ const getWorkspace =
     const roots = vscode.workspace.workspaceFolders;
     let lf_files: vscode.Uri[] = [];
     let lingo_tomls: vscode.Uri[] = [];
-    vscode.window.showInformationMessage("roots: " + JSON.stringify(lf_files));
     if (roots) {
       for (const root of roots) {
         const files: vscode.Uri[] = await vscode.workspace.findFiles(
@@ -65,13 +64,10 @@ const getWorkspace =
     }
     lf_files.sort((a, b) => a.fsPath.localeCompare(b.fsPath));
     lingo_tomls.sort((a, b) => a.fsPath.localeCompare(b.fsPath));
-    vscode.window.showInformationMessage("lf_files: " + JSON.stringify(lf_files));
-    vscode.window.showInformationMessage("lingo_tomls: " + JSON.stringify(lingo_tomls));
     let lf_asts = [];
     for (const lf_file of lf_files) {
-      vscode.window.showInformationMessage("getting ast for " + lf_file.toString());
-      const ast = await client.sendRequest("parser/ast", lf_file.toString());
-      vscode.window.showInformationMessage("got ast");
+      await client.onReady();
+      const ast = await client.sendRequest("parser/ast", lf_file.fsPath);
       vscode.window.showInformationMessage("ast: " + JSON.stringify(ast));
       lf_asts.push(ast);
     }
