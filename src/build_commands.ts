@@ -27,7 +27,7 @@ type MessageShowerTransformer = (MessageDisplayHelper: MessageDisplayHelper) => 
 const getAst =
   (withLogs: MessageShowerTransformer, client: LanguageClient) =>
   async () => {
-    vscode.window.showInformationMessage("Getting AST...");
+    // vscode.window.showInformationMessage("Getting AST...");
     const uri = getLfUri(vscode.window.activeTextEditor.document);
     if (!uri) {
       return "The currently active file is not a Lingua Franca source file.";
@@ -37,14 +37,14 @@ const getAst =
       withLogs(vscode.window.showErrorMessage)("Failed to get AST.");
       return;
     }
-    vscode.window.showInformationMessage("AST received: " + ret);
+    // vscode.window.showInformationMessage("AST received: " + ret);
     return ret;
   };
 
 const getWorkspace =
   (withLogs: MessageShowerTransformer, client: LanguageClient) =>
   async () => {
-    vscode.window.showInformationMessage("Getting workspace...");
+    // vscode.window.showInformationMessage("Getting workspace...");
     const roots = vscode.workspace.workspaceFolders;
     let lf_files: vscode.Uri[] = [];
     let lingo_tomls: vscode.Uri[] = [];
@@ -80,7 +80,7 @@ const getWorkspace =
         lf: lf_asts,
         config: toml_contents
     };
-    vscode.window.showInformationMessage("Workspace received: " + ret);
+    // vscode.window.showInformationMessage("Workspace received: " + ret);
     return ret;
   };
 
