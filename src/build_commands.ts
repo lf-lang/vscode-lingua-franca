@@ -68,7 +68,7 @@ const getWorkspace =
     for (const lf_file of lf_files) {
       await client.onReady();
       const ast = await client.sendRequest("parser/ast", lf_file.fsPath);
-      vscode.window.showInformationMessage("ast: " + JSON.stringify(ast));
+    //   vscode.window.showInformationMessage("ast: " + JSON.stringify(ast));
       lf_asts.push(ast);
     }
     let toml_contents = [];
