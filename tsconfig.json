@@ -2,14 +2,23 @@
     "compilerOptions": {
         "esModuleInterop": true,
         "inlineSources": false,
-        "lib": ["esnext"],
+        "lib": [
+            "esnext"
+        ],
         "module": "commonjs",
         "moduleResolution": "node",
         "outDir": "./out",
         "sourceMap": false,
         "target": "esnext",
         "rootDir": "./src",
+        "strict": true
     },
-    "exclude": ["node_modules", ".vscode-test", ".gradle"],
-    "include": ["./src"]
+    "exclude": [
+        "node_modules",
+        ".vscode-test",
+        ".gradle"
+    ],
+    "include": [
+        "./src"
+    ]
 }

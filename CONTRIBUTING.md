@@ -13,14 +13,18 @@ To check out the repository, build from source, and install the VS Code plugin, 
 ```
 git clone git@github.com:lf-lang/vscode-lingua-franca.git \
 && cd vscode-lingua-franca \
+&& cp -r /path/to/the/wasm/dependency/packaged/for/use/with/typescript ./lfw-pkg \
 && npm install
 ```
 If you do not have a public key set up for authentication with GitHub, you can also use HTTPS:
 ```
 git clone https://github.com/lf-lang/vscode-lingua-franca.git \
 && cd vscode-lingua-franca \
+&& cp -r /path/to/the/wasm/dependency/packaged/for/use/with/typescript ./lfw-pkg \
 && npm install
 ```
+
+Note that this assumes that you have the WASM dependency somewhere on your system. Eventually, the WASM will probably be published; however, that hasn't been done yet, and it isn't currently possible to build it from source from this open-source repo because it is closed-source.
 
 ### Trouble Shooting
 
