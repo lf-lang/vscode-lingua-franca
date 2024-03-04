@@ -1,6 +1,7 @@
 import * as vscode from 'vscode';
 import { LanguageClient } from 'vscode-languageclient';
 import { getTerminal, MessageDisplayHelper } from './utils';
+import * as lfw from 'lfwasm';
 
 /**
  * Return the URI of the given document, if the document is a Lingua Franca file; else, return
@@ -28,7 +29,11 @@ const getAst =
   (withLogs: MessageShowerTransformer, client: LanguageClient) =>
   async () => {
     // vscode.window.showInformationMessage("Getting AST...");
-    const uri = getLfUri(vscode.window.activeTextEditor.document);
+    const current_file = vscode.window.activeTextEditor?.document;
+    if (!current_file) {
+        return "There is no currently active file, so it is not clear which AST to return.";
+    }
+    const uri = getLfUri(current_file);
     if (!uri) {
       return "The currently active file is not a Lingua Franca source file.";
     }
@@ -96,12 +101,21 @@ const build = (withLogs: MessageShowerTransformer, client: LanguageClient) =>
     if (!uri) return;
     vscode.workspace.saveAll().then((successful: boolean) => {
         if (!successful) return;
-        client.sendRequest('generator/build', uri).then((message: string) => {
+        client.sendRequest('generator/build', [uri, getJson(uri)]).then((messageAny: any) => {
+            const message: string = messageAny;
             if (message) withLogs(vscode.window.showInformationMessage)(message);
             else withLogs(vscode.window.showErrorMessage)('Build failed.');
         });
     });
 };
+
+function getJson(uri: string): string {
+    let json: string | undefined = lfw.lfc_json(vscode.Uri.parse(uri).fsPath, (p: string) => vscode.workspace.fs.readFile(vscode.Uri.file(p)));
+    if (!json) {
+        json = "";
+    }
+    return json;
+}
 
 /**
  * Return the action that should be taken in case of a request to build and run.
@@ -115,7 +129,8 @@ const buildAndRun = (withLogs: MessageShowerTransformer, client: LanguageClient)
     if (!uri) return;
     vscode.workspace.saveAll().then((successful: boolean) => {
         if (!successful) return;
-        client.sendRequest('generator/buildAndRun', uri).then((command: string[]) => {
+        client.sendRequest('generator/buildAndRun', [uri, getJson(uri)]).then((commandAny: any) => {
+            const command: string[] = commandAny;
             if (!command || !command.length) {
                 withLogs(vscode.window.showErrorMessage)('Build failed.');
                 return;
