@@ -28,7 +28,7 @@ export async function activate(context: vscode.ExtensionContext) {
 
     if (!(
         await checkDependencies.checkerFor
-        (checkDependencies.Dependency.Java)
+        (checkDependencies.Dependency.Java)!
         (vscode.window.showErrorMessage)
         ()
     )) {

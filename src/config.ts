@@ -66,7 +66,7 @@ export const libDirName = 'lib';
 export const repoURL = 'https://github.com/lf-lang/lingua-franca.git';
 
 /** Absolute path to the root directory of the vscode-lingua-franca repo. */
-export const baseDirPath = path.resolve(path.dirname(require.main.filename), '..');
+export const baseDirPath = path.resolve(path.dirname(require.main!.filename), '..');
 
 /** Absolute path to the directory in which to put the jar files. */
 export const libDirPath = path.resolve(baseDirPath, libDirName);

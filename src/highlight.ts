@@ -47,7 +47,7 @@ function contains(r: Range, other: Range | Position): boolean {
  * @param shadow The regions of the document to ignore.
  */
 function getWords(document: TextDocument, range: Range, shadow: Range[]): Range[] {
-    function getWords(range?: Range): Range[] {
+    function getWords(range: Range): Range[] {
         const ret: Range[] = [];
         let pos = range.start;
         const getCurrentLineLength = () => document.lineAt(pos.line).text.length;
@@ -68,7 +68,7 @@ function getWords(document: TextDocument, range: Range, shadow: Range[]): Range[
         }
         return ret;
     }
-    return [].concat(...setDiff(document, range, shadow).map(getWords));
+    return ([] as Range[]).concat(...setDiff(document, range, shadow).map(getWords));
 }
 
 /** Returns a Range containing the entirety of a given TextDocument. */
@@ -166,7 +166,7 @@ function getMutuallyExclusiveRanges(
     initialOffset: number,
     finalOffset: number
 ): {comments: Range[], strings: Range[], code: Range[]} {
-    const ret = {comments: [], strings: [], code: []};
+    const ret: any = {comments: [], strings: [], code: []};
     const text = document.getText();
     var currentOffset = initialOffset;
     while (true) {
@@ -187,10 +187,10 @@ function getMutuallyExclusiveRanges(
             return ret;
         }
         let endOffset = text.indexOf(
-            firstPair[1], firstOffset + firstPair[0].length);
+            firstPair![1], firstOffset + firstPair![0].length);
         endOffset = endOffset === -1 ? text.length
-            : endOffset + firstPair[1].length
-        ret[firstBlockType].push(new Range(
+            : endOffset + firstPair![1].length
+        ret[firstBlockType!].push(new Range(
             document.positionAt(firstOffset),
             document.positionAt(endOffset)
         ));
@@ -308,7 +308,7 @@ function getContainedRanges(
                 depth--;
                 if (depth === 0) {
                     ret.push(
-                        new Range(rangeStart, document.positionAt(nextEnd))
+                        new Range(rangeStart!, document.positionAt(nextEnd))
                     );
                 }
             }
@@ -367,7 +367,7 @@ function applyTokenType(
         const rangeOffset = document.offsetAt(range.start);
         const rangeText = document.getText(range);
         const regex = new RegExp('\\b' + tokens.join('\\b|\\b') + '\\b', 'g');
-        let groups: string[];
+        let groups: string[] | null;
         while ((groups = regex.exec(rangeText)) != null) {
             let token = new Range(
                 document.positionAt(
@@ -499,10 +499,10 @@ function provideVariables(
             .map(range => document.getText(range))
             .join('');  // FIXME: '' might not be the best placeholder
             // for shadowed regions.
-        const variables: string[] = lfContent.match(
+        const variables: string[] | null = lfContent.match(
             /((?<=(action|timer|state|((mutable\s+input|output)(\[[^\]]*\])?))\s+)(\w+))/g
         );
-        const constants: string[] = lfContent.match(
+        const constants: string[] | null = lfContent.match(
             /(?<=(?<!mutable\s+)input(\[[^\]]*\])?\s+)(\w+)/g
         );
         const program = getProgrammaticContent(document, reactor.body)
