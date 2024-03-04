@@ -186,7 +186,7 @@
     },
     "scripts": {
         "clean": "rimraf out && rimraf lib && rimraf vscode-lingua-franca-*.vsix",
-        "esbuild-base": "esbuild ./src/extension.ts --bundle --outfile=out/extension.js --external:vscode --format=cjs --platform=node",
+        "esbuild-base": "node src/tsbuild.mjs",
         "vscode:prepublish": "npm run esbuild-base -- --minify",
         "compile": "./write-version-to-file.sh src/extension_version.ts && npm run esbuild-base -- --sourcemap",
         "watch": "npm run esbuild-base -- --sourcemap --watch",
