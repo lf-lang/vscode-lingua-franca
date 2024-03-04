@@ -42,7 +42,7 @@ const basicChecker: VersionCheckerMaker = (
     desiredVersion: Version,
     command: string,
     sameMajor: boolean,
-    permissive: boolean
+    permissive?: boolean
 ) => async () => {
     const nullResult = { version: new Version('0.0.0'), isCorrect: null };
     let stdout: string;

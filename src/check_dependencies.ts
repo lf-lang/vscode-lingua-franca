@@ -50,7 +50,7 @@ type DependencyInfo = {
     wrongVersionMessage?: (v: versionChecker.VersionCheckResult) => string,
     requiredVersion: Version,
     installLink: string | null,
-    installCommand: (v: versionChecker.VersionCheckResult) => Promise<InstallCommand> | null,
+    installCommand: (v: versionChecker.VersionCheckResult) => Promise<InstallCommand | null> | null,
     isEssential: boolean,
     alreadyChecked?: boolean,
     satisfied?: boolean
@@ -298,7 +298,7 @@ const checkDependency: UserFacingVersionCheckerMaker = (dependency: DependencyIn
         dependency.wrongVersionMessage?.(checkerResult)
         ?? dependency.message(checkerResult)
     ) : dependency.message(checkerResult))) + ' ' + caveat;
-    const installCommand: InstallCommand = await dependency.installCommand?.(checkerResult);
+    const installCommand: InstallCommand | null = await dependency.installCommand?.(checkerResult);
     if (!installCommand && !dependency.installLink) {
         MessageDisplayHelper(message);
         return false;
@@ -325,7 +325,7 @@ ${installCommand.description}`
     return false;
 };
 
-type CheckerGetter = (name: Dependency) => UserFacingVersionChecker;
+type CheckerGetter = (name: Dependency) => UserFacingVersionChecker | undefined;
 
 export const checkerFor: CheckerGetter = (name: Dependency) => {
     for (const cs of watcherConfig) {

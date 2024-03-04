@@ -138,7 +138,7 @@ async function build() {
  * @param deps Array of dependencies.
  */
 async function checkInstalled(deps: string[]) {
-    let missing = [];
+    let missing: string[] = [];
     console.log("> checking dependencies...")
     for (let dep of deps) {
         await which(dep)

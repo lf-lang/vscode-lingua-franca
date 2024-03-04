@@ -12,7 +12,7 @@ export class Version {
     constructor(version: string, permissive?: boolean) {
         if (!Version.regex.test(version)) {
             if (permissive && Version.permissiveRegex.test(version)) {
-                this.major = parseInt(version.match(Version.permissiveRegex).groups.major, 10);
+                this.major = parseInt(version.match(Version.permissiveRegex)!.groups!.major, 10);
                 this.minor = 0;
                 this.patch = 0;
                 return;
@@ -20,9 +20,9 @@ export class Version {
             throw new Error(`${version} does not describe a valid version number.`);
         }
         const result = version.match(Version.regex);
-        this.major = parseInt(result.groups.major, 10);
-        this.minor = parseInt(result.groups.minor, 10);
-        this.patch = parseInt(result.groups.patch, 10);
+        this.major = parseInt(result!.groups!.major, 10);
+        this.minor = parseInt(result!.groups!.minor, 10);
+        this.patch = parseInt(result!.groups!.patch, 10);
     }
 
     isAtLeast(version: Version | string): boolean {
