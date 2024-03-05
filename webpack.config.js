@@ -14,8 +14,8 @@ const extensionConfig = {
 
   entry: './src/extension.ts', // the entry point of this extension, 📖 -> https://webpack.js.org/configuration/entry-context/
   output: {
-    // the bundle is stored in the 'dist' folder (check package.json), 📖 -> https://webpack.js.org/configuration/output/
-    path: path.resolve(__dirname, 'dist'),
+    // the bundle is stored in the 'out' folder (check package.json), 📖 -> https://webpack.js.org/configuration/output/
+    path: path.resolve(__dirname, 'out'),
     filename: 'extension.js',
     libraryTarget: 'commonjs2'
   },
@@ -46,6 +46,9 @@ const extensionConfig = {
   },
   experiments: {
     asyncWebAssembly: true
+  },
+  node: {
+    __dirname: true
   }
 };
 module.exports = [ extensionConfig ];

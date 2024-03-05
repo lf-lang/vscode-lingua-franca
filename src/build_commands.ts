@@ -89,6 +89,22 @@ const getWorkspace =
     return ret;
   };
 
+const fsReadCapability = (p: string) => {
+    try {
+        return require('node:fs').readFileSync(p, {encoding: "utf-8"});
+    } catch {
+        return undefined;
+    };
+};
+
+async function getJson(uri: string): Promise<string> {
+    let json: string | undefined = (await import('lfwasm')).lfc_json(vscode.Uri.parse(uri).fsPath, fsReadCapability);
+    if (!json) {
+        json = "";
+    }
+    return json;
+}
+
 /**
  * Return the action that should be taken in case of a request to build.
  * @param withLogs A messageShowerTransformer that lets the user request to view logs.
@@ -96,26 +112,17 @@ const getWorkspace =
  * @returns The action that should be taken in case of a request to build.
  */
 const build = (withLogs: MessageShowerTransformer, client: LanguageClient) =>
-        (textEditor: vscode.TextEditor) => {
+        async (textEditor: vscode.TextEditor) => {
     const uri = getLfUri(textEditor.document);
     if (!uri) return;
-    vscode.workspace.saveAll().then((successful: boolean) => {
-        if (!successful) return;
-        client.sendRequest('generator/build', [uri, getJson(uri)]).then((messageAny: any) => {
-            const message: string = messageAny;
-            if (message) withLogs(vscode.window.showInformationMessage)(message);
-            else withLogs(vscode.window.showErrorMessage)('Build failed.');
-        });
+    const successful = vscode.workspace.saveAll();
+    if (!successful) return;
+    client.sendRequest('generator/build', [uri, await getJson(uri)]).then((messageAny: any) => {
+        const message: string = messageAny;
+        if (message) withLogs(vscode.window.showInformationMessage)(message);
+        else withLogs(vscode.window.showErrorMessage)('Build failed.');
     });
 };
-
-async function getJson(uri: string): Promise<string> {
-    let json: string | undefined = lfw.lfc_json(vscode.Uri.parse(uri).fsPath, (p: string) => vscode.workspace.fs.readFile(vscode.Uri.file(p)));
-    if (!json) {
-        json = "";
-    }
-    return json;
-}
 
 /**
  * Return the action that should be taken in case of a request to build and run.
