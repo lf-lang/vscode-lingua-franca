@@ -42,7 +42,7 @@ const getAst =
       withLogs(vscode.window.showErrorMessage)("Failed to get AST.");
       return;
     }
-    // vscode.window.showInformationMessage("AST received: " + ret);
+    vscode.window.showInformationMessage("AST received: " + ret);
     return ret;
   };
 
@@ -109,7 +109,7 @@ const build = (withLogs: MessageShowerTransformer, client: LanguageClient) =>
     });
 };
 
-function getJson(uri: string): string {
+async function getJson(uri: string): Promise<string> {
     let json: string | undefined = lfw.lfc_json(vscode.Uri.parse(uri).fsPath, (p: string) => vscode.workspace.fs.readFile(vscode.Uri.file(p)));
     if (!json) {
         json = "";
@@ -124,22 +124,24 @@ function getJson(uri: string): string {
  * @returns The action that should be taken in case of a request to build and run.
  */
 const buildAndRun = (withLogs: MessageShowerTransformer, client: LanguageClient) =>
-        (textEditor: vscode.TextEditor) => {
+        async (textEditor: vscode.TextEditor) => {
     const uri = getLfUri(textEditor.document);
     if (!uri) return;
-    vscode.workspace.saveAll().then((successful: boolean) => {
-        if (!successful) return;
-        client.sendRequest('generator/buildAndRun', [uri, getJson(uri)]).then((commandAny: any) => {
-            const command: string[] = commandAny;
-            if (!command || !command.length) {
-                withLogs(vscode.window.showErrorMessage)('Build failed.');
-                return;
-            }
-            const terminal = getTerminal('Lingua Franca: Run', command[0]);
-            terminal.sendText(`cd "${command[0]}"`);
-            terminal.show(true);
-            terminal.sendText(command.slice(1).join(' '));
-        });
+    const successful = vscode.workspace.saveAll();
+    if (!successful) {
+        return;
+    }
+    vscode.window.showInformationMessage("DEBUG: doing build and run.");
+    client.sendRequest('generator/buildAndRun', [uri, await getJson(uri)]).then((commandAny: any) => {
+        const command: string[] = commandAny;
+        if (!command || !command.length) {
+            withLogs(vscode.window.showErrorMessage)('Build failed.');
+            return;
+        }
+        const terminal = getTerminal('Lingua Franca: Run', command[0]);
+        terminal.sendText(`cd "${command[0]}"`);
+        terminal.show(true);
+        terminal.sendText(command.slice(1).join(' '));
     });
 };
 

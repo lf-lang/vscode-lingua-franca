@@ -38,7 +38,7 @@ suite('test dependency checking',  () => {
 
     const dependencies: DependencyStatus = dependency_status();
 
-    type Spy = ChaiSpies.SpyFunc1Proxy<string, Thenable<string>>;
+    type Spy = ChaiSpies.SpyFunc1Proxy<string, Thenable<string | undefined>>;
 
     function getMockMessageShower(): Spy {
         const mock: MessageDisplayHelper = (message: string, ...items: string[]) =>
@@ -49,7 +49,7 @@ suite('test dependency checking',  () => {
     };
 
     function checkBasicDependency(dependency: Dependency, depMissingMessage: string): Test {
-        return async function () {
+        return async function (this: any) {
             this.timeout(basicTimeoutMilliseconds);
             const spy = getMockMessageShower();
             switch (dependencies) {
@@ -57,13 +57,13 @@ suite('test dependency checking',  () => {
                 await expectSuccess(dependency, spy);
                 break;
             case DependencyStatus.Outdated:
-                this.test.skip();
+                this.test?.skip();
             case DependencyStatus.Missing0:
                 await expectFailure(dependency, spy);
                 expect(spy).to.have.been.called.with(depMissingMessage + " " + checkDependencies.caveat);
                 break;
             case DependencyStatus.Missing1:
-                this.test.skip();
+                this.test?.skip();
             default:
                 throw new Error('unreachable');
             }
@@ -71,11 +71,11 @@ suite('test dependency checking',  () => {
     }
 
     const expectSuccess = async (dependency: Dependency, spy: Spy) => {
-        expect(await checkDependencies.checkerFor(dependency)(spy)()).to.be.true;
+        expect(await checkDependencies.checkerFor(dependency)!(spy)()).to.be.true;
         expect(spy).not.to.have.been.called;
     };
     const expectFailure = async (dependency: Dependency, spy: Spy) => {
-        expect(await checkDependencies.checkerFor(dependency)(spy)()).to.be.false;
+        expect(await checkDependencies.checkerFor(dependency)!(spy)()).to.be.false;
         expect(spy).to.have.been.called;
     };
 
@@ -93,7 +93,7 @@ suite('test dependency checking',  () => {
             await expectSuccess(Dependency.Pylint, spy);
             break;
         case DependencyStatus.Missing0:
-            this.test.skip();
+            this.test?.skip();
         case DependencyStatus.Missing1:
             await expectFailure(Dependency.Pylint, spy);
             expect(spy).to.have.been.called.with(checkDependencies.pylintMessage + " " + checkDependencies.caveat);
@@ -138,7 +138,7 @@ suite('test dependency checking',  () => {
             await expectSuccess(Dependency.Pnpm, spy);
             break;
         case DependencyStatus.Outdated:
-            this.test.skip();
+            this.test?.skip();
         default:
             throw new Error('unreachable');
         }
@@ -161,14 +161,14 @@ suite('test dependency checking',  () => {
             expect(spy).to.have.been.called.with(checkDependencies.rustMessage + " " + checkDependencies.caveat);
             break;
         case DependencyStatus.Missing1:
-            this.test.skip();
+            this.test?.skip();
         default:
             throw new Error('unreachable');
         }
     });
 
     test('rti', async function() {
-        if (os.platform() == 'win32') this.test.skip();  // No Windows federated support.
+        if (os.platform() == 'win32') this.test?.skip();  // No Windows federated support.
         this.timeout(basicTimeoutMilliseconds);
         const spy = getMockMessageShower();
         switch (dependencies) {
@@ -177,7 +177,7 @@ suite('test dependency checking',  () => {
             break;
         case DependencyStatus.Missing0:
         case DependencyStatus.Outdated:
-            this.test.skip();
+            this.test?.skip();
         case DependencyStatus.Missing1:
             await expectFailure(Dependency.Rti, spy);
             expect(spy).to.have.been.called.with(checkDependencies.rtiMessage + " " + checkDependencies.caveat);
@@ -189,7 +189,7 @@ suite('test dependency checking',  () => {
 
     test('hyperlinks', async function() {
         this.timeout(linkCheckingTimeoutMilliseconds);
-        if (dependencies != DependencyStatus.Present) this.test.skip();
+        if (dependencies != DependencyStatus.Present) this.test?.skip();
         for (const checkset of checkDependencies.watcherConfig) {
             for (const check of checkset.checks) {
                 if (check.installLink) {
@@ -200,7 +200,7 @@ suite('test dependency checking',  () => {
                             { host: installUrl.host, path: installUrl.pathname },
                             res => {
                                 console.log(`Got status=${res.statusCode}`);
-                                resolve(res.statusCode);
+                                resolve(res.statusCode!);
                             }
                         ).end();
                     }))).to.be.lessThan(400);

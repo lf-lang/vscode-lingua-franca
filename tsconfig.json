@@ -1,15 +1,16 @@
 {
     "compilerOptions": {
-        "esModuleInterop": true,
+        // "esModuleInterop": true,
         "inlineSources": false,
         "lib": [
-            "esnext"
+            "ES2022",
+            "DOM" // hackily added to include wasm support
         ],
-        "module": "commonjs",
-        "moduleResolution": "node",
+        "module": "Node16",
+        // "moduleResolution": "node",
         "outDir": "./out",
         "sourceMap": false,
-        "target": "esnext",
+        "target": "ES2022",
         "rootDir": "./src",
         "strict": true
     },

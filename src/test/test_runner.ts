@@ -21,7 +21,7 @@ const minimalDependenciesPath = 'temporary_test_deps_please_remove';
 async function getFreshPath(): Promise<string> {
     fs.mkdirSync(minimalDependenciesPath);
     for (const d of minimalDependencies) {
-        let currentLocation: string;
+        let currentLocation: string | undefined;
         try {
             currentLocation = await which(d);
         } catch (e) { /* Do nothing */ }
