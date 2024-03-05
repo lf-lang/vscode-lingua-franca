@@ -6,3 +6,4 @@ out/*
 .gradle/*
 __pycache__/*
 lfw-pkg/
+dist/
