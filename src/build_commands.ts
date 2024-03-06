@@ -117,7 +117,9 @@ const build = (withLogs: MessageShowerTransformer, client: LanguageClient) =>
     if (!uri) return;
     const successful = vscode.workspace.saveAll();
     if (!successful) return;
-    client.sendRequest('generator/build', [uri, await getJson(uri)]).then((messageAny: any) => {
+    const args = {"uri": uri, "json": await getJson(uri)};
+    // const args = [ uri, await getJson(uri)];
+    client.sendRequest('generator/build', args).then((messageAny: any) => {
         const message: string = messageAny;
         if (message) withLogs(vscode.window.showInformationMessage)(message);
         else withLogs(vscode.window.showErrorMessage)('Build failed.');
@@ -139,7 +141,9 @@ const buildAndRun = (withLogs: MessageShowerTransformer, client: LanguageClient)
         return;
     }
     vscode.window.showInformationMessage("DEBUG: doing build and run.");
-    client.sendRequest('generator/buildAndRun', [uri, await getJson(uri)]).then((commandAny: any) => {
+    const args = {"uri": uri, "json": await getJson(uri)};
+    // const args = [ uri, await getJson(uri)];
+    client.sendRequest('generator/buildAndRun', args).then((commandAny: any) => {
         const command: string[] = commandAny;
         if (!command || !command.length) {
             withLogs(vscode.window.showErrorMessage)('Build failed.');
