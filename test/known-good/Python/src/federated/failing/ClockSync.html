@@ -432,11 +432,15 @@ startup
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-    interval_t offset = _lf_time_physical_clock_offset + _lf_time_test_physical_clock_offset;
+    // FIXME: _lf_clock_sync_constant_bias has been removed.
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-    lf_print("Clock sync error at startup is %lld ns.", offset);
+    interval_t offset = _lf_clock_sync_offset + _lf_clock_sync_constant_bias;
+</span>
+
+<span class="source-lf meta-embedded-block-py">
+    lf_print("Clock sync error at startup is " PRINTF_TIME " ns.", offset);
 </span>
 
 <span class="source-lf meta-embedded-block-py">
@@ -493,11 +497,11 @@ shutdown
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-    interval_t offset = _lf_time_physical_clock_offset + _lf_time_test_physical_clock_offset;
+    interval_t offset = _lf_clock_sync_offset + _lf_clock_sync_constant_bias;
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-    lf_print("Clock sync error at shutdown is %lld ns.", offset);
+    lf_print("Clock sync error at shutdown is " PRINTF_TIME " ns.", offset);
 </span>
 
 <span class="source-lf meta-embedded-block-py">

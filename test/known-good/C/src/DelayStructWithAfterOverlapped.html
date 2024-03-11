@@ -254,8 +254,33 @@ s
 // Dynamically allocate an output struct.
 </span>
 
+<span class="source-lf comment-line-double-dash-lflang">
+    
+</span>
+<span class="source-lf comment-line-double-dash-lflang">
+// Note that the default destructor and copy constructor are sufficient here.
+</span>
+
 <span class="source-lf">
-    SET_NEW(out);
+    hello_t
+</span>
+<span class="source-lf keyword-operator-lflang">
+*
+</span>
+<span class="source-lf">
+ hello 
+</span>
+<span class="source-lf keyword-operator-lflang">
+=
+</span>
+<span class="source-lf">
+ (hello_t
+</span>
+<span class="source-lf keyword-operator-lflang">
+*
+</span>
+<span class="source-lf">
+)malloc(sizeof(hello_t));
 </span>
 
 <span class="source-lf">
@@ -266,17 +291,11 @@ s
     
 </span>
 <span class="source-lf comment-line-double-dash-lflang">
-// Above allocates a struct, which then must be populated.
+// Populate the struct.
 </span>
 
 <span class="source-lf">
-    out
-</span>
-<span class="source-lf keyword-operator-lflang">
-->
-</span>
-<span class="source-lf">
-value
+    hello
 </span>
 <span class="source-lf keyword-operator-lflang">
 ->
@@ -304,13 +323,7 @@ Earth
 </span>
 
 <span class="source-lf">
-    out
-</span>
-<span class="source-lf keyword-operator-lflang">
-->
-</span>
-<span class="source-lf">
-value
+    hello
 </span>
 <span class="source-lf keyword-operator-lflang">
 ->
@@ -341,6 +354,21 @@ value
 </span>
 <span class="source-lf">
 s;
+</span>
+
+<span class="source-lf">
+
+</span>
+
+<span class="source-lf comment-line-double-dash-lflang">
+    
+</span>
+<span class="source-lf comment-line-double-dash-lflang">
+// Set the output.
+</span>
+
+<span class="source-lf">
+    lf_set(out, hello);
 </span>
 
 <span class="source-lf">

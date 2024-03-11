@@ -105,19 +105,37 @@ startup
 </span>
 
 <span class="source-lf">
-    SET_NEW_ARRAY(out[
+    int
 </span>
-<span class="source-lf constant-numeric-int-lflang">
-0
+<span class="source-lf keyword-operator-lflang">
+*
 </span>
 <span class="source-lf">
-], 
+ array0 
+</span>
+<span class="source-lf keyword-operator-lflang">
+=
+</span>
+<span class="source-lf">
+ (int
+</span>
+<span class="source-lf keyword-operator-lflang">
+*
+</span>
+<span class="source-lf">
+)malloc(
 </span>
 <span class="source-lf constant-numeric-int-lflang">
 3
 </span>
 <span class="source-lf">
-);
+ 
+</span>
+<span class="source-lf keyword-operator-lflang">
+*
+</span>
+<span class="source-lf">
+ sizeof(int));
 </span>
 
 <span class="source-lf">
@@ -132,19 +150,7 @@ startup
 </span>
 
 <span class="source-lf">
-    out[
-</span>
-<span class="source-lf constant-numeric-int-lflang">
-0
-</span>
-<span class="source-lf">
-]
-</span>
-<span class="source-lf keyword-operator-lflang">
-->
-</span>
-<span class="source-lf">
-value[
+    array0[
 </span>
 <span class="source-lf constant-numeric-int-lflang">
 0
@@ -166,19 +172,7 @@ value[
 </span>
 
 <span class="source-lf">
-    out[
-</span>
-<span class="source-lf constant-numeric-int-lflang">
-0
-</span>
-<span class="source-lf">
-]
-</span>
-<span class="source-lf keyword-operator-lflang">
-->
-</span>
-<span class="source-lf">
-value[
+    array0[
 </span>
 <span class="source-lf constant-numeric-int-lflang">
 1
@@ -200,19 +194,7 @@ value[
 </span>
 
 <span class="source-lf">
-    out[
-</span>
-<span class="source-lf constant-numeric-int-lflang">
-0
-</span>
-<span class="source-lf">
-]
-</span>
-<span class="source-lf keyword-operator-lflang">
-->
-</span>
-<span class="source-lf">
-value[
+    array0[
 </span>
 <span class="source-lf constant-numeric-int-lflang">
 2
@@ -231,6 +213,26 @@ value[
 </span>
 <span class="source-lf">
 ;
+</span>
+
+<span class="source-lf">
+
+</span>
+
+<span class="source-lf">
+    lf_set_array(out[
+</span>
+<span class="source-lf constant-numeric-int-lflang">
+0
+</span>
+<span class="source-lf">
+], array0, 
+</span>
+<span class="source-lf constant-numeric-int-lflang">
+3
+</span>
+<span class="source-lf">
+);
 </span>
 
 <span class="source-lf">
@@ -245,19 +247,37 @@ value[
 </span>
 
 <span class="source-lf">
-    SET_NEW_ARRAY(out[
+    int
 </span>
-<span class="source-lf constant-numeric-int-lflang">
-1
+<span class="source-lf keyword-operator-lflang">
+*
 </span>
 <span class="source-lf">
-], 
+ array1 
+</span>
+<span class="source-lf keyword-operator-lflang">
+=
+</span>
+<span class="source-lf">
+ (int
+</span>
+<span class="source-lf keyword-operator-lflang">
+*
+</span>
+<span class="source-lf">
+)malloc(
 </span>
 <span class="source-lf constant-numeric-int-lflang">
 3
 </span>
 <span class="source-lf">
-);
+ 
+</span>
+<span class="source-lf keyword-operator-lflang">
+*
+</span>
+<span class="source-lf">
+ sizeof(int));
 </span>
 
 <span class="source-lf">
@@ -272,19 +292,7 @@ value[
 </span>
 
 <span class="source-lf">
-    out[
-</span>
-<span class="source-lf constant-numeric-int-lflang">
-1
-</span>
-<span class="source-lf">
-]
-</span>
-<span class="source-lf keyword-operator-lflang">
-->
-</span>
-<span class="source-lf">
-value[
+    array1[
 </span>
 <span class="source-lf constant-numeric-int-lflang">
 0
@@ -306,19 +314,7 @@ value[
 </span>
 
 <span class="source-lf">
-    out[
-</span>
-<span class="source-lf constant-numeric-int-lflang">
-1
-</span>
-<span class="source-lf">
-]
-</span>
-<span class="source-lf keyword-operator-lflang">
-->
-</span>
-<span class="source-lf">
-value[
+    array1[
 </span>
 <span class="source-lf constant-numeric-int-lflang">
 1
@@ -340,19 +336,7 @@ value[
 </span>
 
 <span class="source-lf">
-    out[
-</span>
-<span class="source-lf constant-numeric-int-lflang">
-1
-</span>
-<span class="source-lf">
-]
-</span>
-<span class="source-lf keyword-operator-lflang">
-->
-</span>
-<span class="source-lf">
-value[
+    array1[
 </span>
 <span class="source-lf constant-numeric-int-lflang">
 2
@@ -371,6 +355,26 @@ value[
 </span>
 <span class="source-lf">
 ;
+</span>
+
+<span class="source-lf">
+
+</span>
+
+<span class="source-lf">
+    lf_set_array(out[
+</span>
+<span class="source-lf constant-numeric-int-lflang">
+1
+</span>
+<span class="source-lf">
+], array1, 
+</span>
+<span class="source-lf constant-numeric-int-lflang">
+3
+</span>
+<span class="source-lf">
+);
 </span>
 
 <span class="source-lf">

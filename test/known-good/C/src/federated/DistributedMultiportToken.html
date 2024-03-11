@@ -273,6 +273,10 @@ count)
 ;
 </span>
 
+<span class="source-lf">
+
+</span>
+
 <span class="source-lf comment-line-double-dash-lflang">
       
 </span>
@@ -281,7 +285,35 @@ count)
 </span>
 
 <span class="source-lf">
-      SET_NEW_ARRAY(out[i], length);
+      char
+</span>
+<span class="source-lf keyword-operator-lflang">
+*
+</span>
+<span class="source-lf">
+ array 
+</span>
+<span class="source-lf keyword-operator-lflang">
+=
+</span>
+<span class="source-lf">
+ (char
+</span>
+<span class="source-lf keyword-operator-lflang">
+*
+</span>
+<span class="source-lf">
+)malloc(length 
+</span>
+<span class="source-lf keyword-operator-lflang">
+*
+</span>
+<span class="source-lf">
+ sizeof(char));
+</span>
+
+<span class="source-lf">
+
 </span>
 
 <span class="source-lf comment-line-double-dash-lflang">
@@ -292,13 +324,7 @@ count)
 </span>
 
 <span class="source-lf">
-      snprintf(out[i]
-</span>
-<span class="source-lf keyword-operator-lflang">
-->
-</span>
-<span class="source-lf">
-value, length, 
+      snprintf(array, length, 
 </span>
 <span class="source-lf string-quoted-double-lflang">
 "
@@ -361,17 +387,26 @@ MessageGenerator: At time
 </span>
 
 <span class="source-lf">
-        out[i]
-</span>
-<span class="source-lf keyword-operator-lflang">
-->
-</span>
-<span class="source-lf">
-value
+        array
 </span>
 
 <span class="source-lf">
       );
+</span>
+
+<span class="source-lf">
+
+</span>
+
+<span class="source-lf comment-line-double-dash-lflang">
+      
+</span>
+<span class="source-lf comment-line-double-dash-lflang">
+// Set the output.
+</span>
+
+<span class="source-lf">
+      lf_set_array(out[i], array, length);
 </span>
 
 <span class="source-lf">

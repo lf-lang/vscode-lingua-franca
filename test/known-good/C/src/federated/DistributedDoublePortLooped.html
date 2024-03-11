@@ -176,14 +176,19 @@ t)
 <span class="source-lf keyword-operator-lflang">
 =
 </span>
+
 <span class="source-lf">
- lf_set(out, 
+    lf_set(out, 
 </span>
 <span class="source-lf constant-numeric-int-lflang">
 0
 </span>
 <span class="source-lf">
-); 
+);
+</span>
+
+<span class="source-lf">
+  
 </span>
 <span class="source-lf keyword-operator-lflang">
 =
@@ -452,8 +457,9 @@ in2, t)
 <span class="source-lf keyword-operator-lflang">
 =
 </span>
+
 <span class="source-lf">
- lf_set(out2, self
+    lf_set(out2, self
 </span>
 <span class="source-lf keyword-operator-lflang">
 ->
@@ -468,7 +474,11 @@ count
 +
 </span>
 <span class="source-lf">
-); 
+);
+</span>
+
+<span class="source-lf">
+  
 </span>
 <span class="source-lf keyword-operator-lflang">
 =
@@ -664,8 +674,9 @@ t)
 <span class="source-lf keyword-operator-lflang">
 =
 </span>
+
 <span class="source-lf">
- lf_schedule_int(act, 
+    lf_schedule_int(act, 
 </span>
 <span class="source-lf constant-numeric-int-lflang">
 0
@@ -686,7 +697,11 @@ count
 +
 </span>
 <span class="source-lf">
-); 
+);
+</span>
+
+<span class="source-lf">
+  
 </span>
 <span class="source-lf keyword-operator-lflang">
 =
@@ -720,14 +735,19 @@ act)
 <span class="source-lf keyword-operator-lflang">
 =
 </span>
+
 <span class="source-lf">
- lf_set(out, act
+    lf_set(out, act
 </span>
 <span class="source-lf keyword-operator-lflang">
 ->
 </span>
 <span class="source-lf">
-value); 
+value);
+</span>
+
+<span class="source-lf">
+  
 </span>
 <span class="source-lf keyword-operator-lflang">
 =
@@ -900,7 +920,7 @@ in1, in2, in3, t)
 </span>
 
 <span class="source-lf">
-  interval_t elapsed_time 
+    interval_t elapsed_time 
 </span>
 <span class="source-lf keyword-operator-lflang">
 =
@@ -910,13 +930,25 @@ in1, in2, in3, t)
 </span>
 
 <span class="source-lf">
-  lf_print(
+    lf_print(
 </span>
 <span class="source-lf string-quoted-double-lflang">
 "
 </span>
 <span class="source-lf string-quoted-double-lflang">
-At tag (%lld, %u), received in = %d and in2 = %d.
+At tag (
+</span>
+<span class="source-lf string-quoted-double-lflang">
+"
+</span>
+<span class="source-lf">
+ PRINTF_TIME 
+</span>
+<span class="source-lf string-quoted-double-lflang">
+"
+</span>
+<span class="source-lf string-quoted-double-lflang">
+, %u), received in = %d and in2 = %d.
 </span>
 <span class="source-lf string-quoted-double-lflang">
 "
@@ -944,7 +976,7 @@ value);
 </span>
 
 <span class="source-lf">
-  if (in1
+    if (in1
 </span>
 <span class="source-lf keyword-operator-lflang">
 ->
@@ -960,7 +992,7 @@ is_present) {
 </span>
 
 <span class="source-lf">
-    lf_print_error_and_exit(
+      lf_print_error_and_exit(
 </span>
 <span class="source-lf string-quoted-double-lflang">
 "
@@ -976,11 +1008,11 @@ ERROR: invalid logical simultaneity.
 </span>
 
 <span class="source-lf">
-  }
+    }
 </span>
 
 <span class="source-lf">
-  lf_set(out, in1
+    lf_set(out, in1
 </span>
 <span class="source-lf keyword-operator-lflang">
 ->

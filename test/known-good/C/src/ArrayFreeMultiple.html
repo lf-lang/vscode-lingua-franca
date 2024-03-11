@@ -258,34 +258,48 @@ t)
 </span>
 
 <span class="source-lf">
-    SET_NEW_ARRAY(out, 
+    int
+</span>
+<span class="source-lf keyword-operator-lflang">
+*
+</span>
+<span class="source-lf">
+ array 
+</span>
+<span class="source-lf keyword-operator-lflang">
+=
+</span>
+<span class="source-lf">
+ (int
+</span>
+<span class="source-lf keyword-operator-lflang">
+*
+</span>
+<span class="source-lf">
+)malloc(
 </span>
 <span class="source-lf constant-numeric-int-lflang">
 3
 </span>
 <span class="source-lf">
-);
+ 
 </span>
-
+<span class="source-lf keyword-operator-lflang">
+*
+</span>
 <span class="source-lf">
-
+ sizeof(int));
 </span>
 
 <span class="source-lf comment-line-double-dash-lflang">
     
 </span>
 <span class="source-lf comment-line-double-dash-lflang">
-// Above allocates the array, which then must be populated.
+// Populate the array.
 </span>
 
 <span class="source-lf">
-    out
-</span>
-<span class="source-lf keyword-operator-lflang">
-->
-</span>
-<span class="source-lf">
-value[
+    array[
 </span>
 <span class="source-lf constant-numeric-int-lflang">
 0
@@ -316,13 +330,7 @@ c
 </span>
 
 <span class="source-lf">
-    out
-</span>
-<span class="source-lf keyword-operator-lflang">
-->
-</span>
-<span class="source-lf">
-value[
+    array[
 </span>
 <span class="source-lf constant-numeric-int-lflang">
 1
@@ -353,13 +361,7 @@ c
 </span>
 
 <span class="source-lf">
-    out
-</span>
-<span class="source-lf keyword-operator-lflang">
-->
-</span>
-<span class="source-lf">
-value[
+    array[
 </span>
 <span class="source-lf constant-numeric-int-lflang">
 2
@@ -387,6 +389,23 @@ c
 </span>
 <span class="source-lf">
 ;
+</span>
+
+<span class="source-lf comment-line-double-dash-lflang">
+    
+</span>
+<span class="source-lf comment-line-double-dash-lflang">
+// Set the output, specifying the array length.
+</span>
+
+<span class="source-lf">
+    lf_set_array(out, array, 
+</span>
+<span class="source-lf constant-numeric-int-lflang">
+3
+</span>
+<span class="source-lf">
+);
 </span>
 
 <span class="source-lf">

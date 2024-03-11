@@ -7,7 +7,15 @@
 </span>
 
 <span class="source-lf comment-block-lflang">
- * request a stop.
+ * request a stop. Note that the test has no timeout because any finite timeout can, in theory,
+</span>
+
+<span class="source-lf comment-block-lflang">
+ * cause the test to fail. The first federate to request a stop does so at 50 ms, so the program
+</span>
+
+<span class="source-lf comment-block-lflang">
+ * should terminate quickly if all goes well.
 </span>
 
 <span class="source-lf comment-block-lflang">
@@ -26,29 +34,6 @@ target
 <span class="source-lf meta-targetspec-lflang constant-language-lflang">
 C
 </span>
-<span class="source-lf meta-targetspec-lflang">
- {
-</span>
-
-<span class="source-lf meta-targetspec-lflang variable-parameter-lflang">
-  timeout
-</span>
-<span class="source-lf meta-targetspec-lflang">
-: 
-</span>
-<span class="source-lf meta-targetspec-lflang constant-numeric-int-lflang">
-1
-</span>
-<span class="source-lf meta-targetspec-lflang">
- 
-</span>
-<span class="source-lf meta-targetspec-lflang constant-numeric-lflang">
-sec
-</span>
-
-<span class="source-lf meta-targetspec-lflang">
-}
-</span>
 
 <span class="source-lf">
 
@@ -64,7 +49,18 @@ reactor
 Stop
 </span>
 <span class="source-lf">
-(stop_time: 
+(
+</span>
+
+<span class="source-lf comment-line-double-dash-lflang">
+    
+</span>
+<span class="source-lf comment-line-double-dash-lflang">
+// Zero value here means "don't stop".
+</span>
+
+<span class="source-lf">
+    stop_time: 
 </span>
 <span class="source-lf storage-type-lflang">
 time
@@ -79,40 +75,10 @@ time
  
 </span>
 <span class="source-lf constant-numeric-int-lflang">
-5
+0
 </span>
 <span class="source-lf">
- s) {
-</span>
-
-<span class="source-lf">
-  
-</span>
-<span class="source-lf keyword-control-lflang">
-preamble
-</span>
-<span class="source-lf">
- {
-</span>
-<span class="source-lf keyword-operator-lflang">
-=
-</span>
-
-<span class="source-lf comment-line-double-dash-lflang">
-    
-</span>
-<span class="source-lf comment-line-double-dash-lflang">
-#include "platform.h" // Defines PRINTF_TIME
-</span>
-
-<span class="source-lf">
-  
-</span>
-<span class="source-lf keyword-operator-lflang">
-=
-</span>
-<span class="source-lf">
-}
+) {
 </span>
 
 <span class="source-lf">
@@ -146,7 +112,19 @@ t) {
 </span>
 
 <span class="source-lf">
-    lf_request_stop();
+    if (self
+</span>
+<span class="source-lf keyword-operator-lflang">
+->
+</span>
+<span class="source-lf">
+stop_time > 
+</span>
+<span class="source-lf constant-numeric-int-lflang">
+0
+</span>
+<span class="source-lf">
+) lf_request_stop();
 </span>
 
 <span class="source-lf">
@@ -307,10 +285,10 @@ time
  
 </span>
 <span class="source-lf constant-numeric-int-lflang">
-5
+0
 </span>
 <span class="source-lf">
- s) {
+) {
 </span>
 
 <span class="source-lf">

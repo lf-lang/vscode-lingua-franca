@@ -660,7 +660,7 @@ sec
 </span>
 
 <span class="source-lf">
-    lf_print_error_and_exit(
+    lf_print_warning(
 </span>
 <span class="source-lf string-quoted-double-lflang">
 "
@@ -682,7 +682,7 @@ STP violation at tag
 "
 </span>
 <span class="source-lf string-quoted-double-lflang">
-. This should not happen because the STP offset is large.
+. This should not happen because the STP offset is large. Checking value anyway.
 </span>
 <span class="source-lf string-quoted-double-lflang">
 "
@@ -717,6 +717,95 @@ microstep);
 </span>
 
 <span class="source-lf">
+    lf_print(
+</span>
+<span class="source-lf string-quoted-double-lflang">
+"
+</span>
+<span class="source-lf string-quoted-double-lflang">
+-------- Received %d
+</span>
+<span class="source-lf string-quoted-double-lflang">
+"
+</span>
+<span class="source-lf">
+, in
+</span>
+<span class="source-lf keyword-operator-lflang">
+->
+</span>
+<span class="source-lf">
+value);
+</span>
+
+<span class="source-lf">
+    if (in
+</span>
+<span class="source-lf keyword-operator-lflang">
+->
+</span>
+<span class="source-lf">
+value !
+</span>
+<span class="source-lf keyword-operator-lflang">
+=
+</span>
+<span class="source-lf">
+ self
+</span>
+<span class="source-lf keyword-operator-lflang">
+->
+</span>
+<span class="source-lf">
+c) {
+</span>
+
+<span class="source-lf">
+      lf_print_error_and_exit(
+</span>
+<span class="source-lf string-quoted-double-lflang">
+"
+</span>
+<span class="source-lf string-quoted-double-lflang">
+Expected to receive %d.
+</span>
+<span class="source-lf string-quoted-double-lflang">
+"
+</span>
+<span class="source-lf">
+, self
+</span>
+<span class="source-lf keyword-operator-lflang">
+->
+</span>
+<span class="source-lf">
+c);
+</span>
+
+<span class="source-lf">
+    }
+</span>
+
+<span class="source-lf">
+    self
+</span>
+<span class="source-lf keyword-operator-lflang">
+->
+</span>
+<span class="source-lf">
+c
+</span>
+<span class="source-lf keyword-operator-lflang">
++
+</span>
+<span class="source-lf keyword-operator-lflang">
++
+</span>
+<span class="source-lf">
+;
+</span>
+
+<span class="source-lf">
   
 </span>
 <span class="source-lf keyword-operator-lflang">
@@ -740,7 +829,13 @@ reaction
 (
 </span>
 <span class="source-lf">
-loop) {
+loop) 
+</span>
+<span class="source-lf keyword-operator-lflang">
+->
+</span>
+<span class="source-lf">
+ loop {
 </span>
 <span class="source-lf keyword-operator-lflang">
 =
@@ -753,7 +848,7 @@ loop) {
 "
 </span>
 <span class="source-lf string-quoted-double-lflang">
-checking self.checks, which is now %d...
+checking self->checks, which is now %d...
 </span>
 <span class="source-lf string-quoted-double-lflang">
 "

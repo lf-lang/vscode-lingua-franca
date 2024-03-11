@@ -136,7 +136,7 @@ x)
 </span>
 
 <span class="source-lf">
-    SET(y, 
+    lf_set(y, 
 </span>
 <span class="source-lf constant-numeric-int-lflang">
 2
@@ -411,7 +411,16 @@ ERROR: Expected result to be 84.
 "
 </span>
 <span class="source-lf string-quoted-double-lflang">
-Current logical time is: %lld
+Current logical time is: 
+</span>
+<span class="source-lf string-quoted-double-lflang">
+"
+</span>
+<span class="source-lf">
+ PRINTF_TIME 
+</span>
+<span class="source-lf string-quoted-double-lflang">
+"
 </span>
 <span class="source-lf string-quoted-double-lflang constant-character-escape">
 \n
@@ -430,7 +439,16 @@ Current logical time is: %lld
 "
 </span>
 <span class="source-lf string-quoted-double-lflang">
-Current microstep is: %lld
+Current microstep is: 
+</span>
+<span class="source-lf string-quoted-double-lflang">
+"
+</span>
+<span class="source-lf">
+ PRINTF_TIME 
+</span>
+<span class="source-lf string-quoted-double-lflang">
+"
 </span>
 <span class="source-lf string-quoted-double-lflang constant-character-escape">
 \n
@@ -455,7 +473,16 @@ microstep);
 "
 </span>
 <span class="source-lf string-quoted-double-lflang">
-Current physical time is: %lld
+Current physical time is: 
+</span>
+<span class="source-lf string-quoted-double-lflang">
+"
+</span>
+<span class="source-lf">
+ PRINTF_TIME 
+</span>
+<span class="source-lf string-quoted-double-lflang">
+"
 </span>
 <span class="source-lf string-quoted-double-lflang constant-character-escape">
 \n
@@ -490,7 +517,19 @@ expected_time) {
 "
 </span>
 <span class="source-lf string-quoted-double-lflang">
-ERROR: Expected logical time to be %lld.
+ERROR: Expected logical time to be 
+</span>
+<span class="source-lf string-quoted-double-lflang">
+"
+</span>
+<span class="source-lf">
+ PRINTF_TIME 
+</span>
+<span class="source-lf string-quoted-double-lflang">
+"
+</span>
+<span class="source-lf string-quoted-double-lflang">
+.
 </span>
 <span class="source-lf string-quoted-double-lflang constant-character-escape">
 \n
@@ -890,7 +929,7 @@ x
 </span>
 
 <span class="source-lf">
-    SET(
+    lf_set(
 </span>
 <span class="source-lf variable-other-constant-reactorinstance-lflang">
 f
