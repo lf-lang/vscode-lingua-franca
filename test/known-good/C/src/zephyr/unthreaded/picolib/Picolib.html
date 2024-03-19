@@ -1,0 +1,190 @@
+<span class="source-lf comment-line-double-dash-lflang">
+// A smoke test verifying that we can compile and run using picolibc also.
+</span>
+
+<span class="source-lf meta-targetspec-lflang keyword-control-lflang">
+target
+</span>
+<span class="source-lf meta-targetspec-lflang">
+ 
+</span>
+<span class="source-lf meta-targetspec-lflang constant-language-lflang">
+C
+</span>
+<span class="source-lf meta-targetspec-lflang">
+ {
+</span>
+
+<span class="source-lf meta-targetspec-lflang variable-parameter-lflang">
+  platform
+</span>
+<span class="source-lf meta-targetspec-lflang">
+: 
+</span>
+<span class="source-lf meta-targetspec-lflang string-quoted-double-lflang">
+"
+</span>
+<span class="source-lf meta-targetspec-lflang string-quoted-double-lflang">
+Zephyr
+</span>
+<span class="source-lf meta-targetspec-lflang string-quoted-double-lflang">
+"
+</span>
+<span class="source-lf meta-targetspec-lflang">
+,
+</span>
+
+<span class="source-lf meta-targetspec-lflang variable-parameter-lflang">
+  timeout
+</span>
+<span class="source-lf meta-targetspec-lflang">
+: 
+</span>
+<span class="source-lf meta-targetspec-lflang constant-numeric-int-lflang">
+10
+</span>
+<span class="source-lf meta-targetspec-lflang">
+ 
+</span>
+<span class="source-lf meta-targetspec-lflang constant-numeric-lflang">
+sec
+</span>
+<span class="source-lf meta-targetspec-lflang">
+,
+</span>
+
+<span class="source-lf meta-targetspec-lflang variable-parameter-lflang">
+  fast
+</span>
+<span class="source-lf meta-targetspec-lflang">
+: 
+</span>
+<span class="source-lf meta-targetspec-lflang constant-language-lflang">
+true
+</span>
+<span class="source-lf meta-targetspec-lflang">
+,
+</span>
+
+<span class="source-lf meta-targetspec-lflang variable-parameter-lflang">
+  files
+</span>
+<span class="source-lf meta-targetspec-lflang">
+: 
+</span>
+<span class="source-lf meta-targetspec-lflang string-quoted-double-lflang">
+"
+</span>
+<span class="source-lf meta-targetspec-lflang string-quoted-double-lflang">
+prj.conf
+</span>
+<span class="source-lf meta-targetspec-lflang string-quoted-double-lflang">
+"
+</span>
+
+<span class="source-lf meta-targetspec-lflang">
+}
+</span>
+
+<span class="source-lf">
+
+</span>
+
+<span class="source-lf storage-modifier-lflang">
+main
+</span>
+<span class="source-lf">
+ 
+</span>
+<span class="source-lf storage-modifier-lflang">
+reactor
+</span>
+<span class="source-lf">
+ {
+</span>
+
+<span class="source-lf">
+  
+</span>
+<span class="source-lf storage-modifier-lflang">
+timer
+</span>
+<span class="source-lf">
+ t(
+</span>
+<span class="source-lf constant-numeric-int-lflang">
+0
+</span>
+<span class="source-lf">
+, 
+</span>
+<span class="source-lf constant-numeric-int-lflang">
+1
+</span>
+<span class="source-lf">
+ 
+</span>
+<span class="source-lf constant-numeric-lflang">
+sec
+</span>
+<span class="source-lf">
+)
+</span>
+
+<span class="source-lf">
+
+</span>
+
+<span class="source-lf">
+  
+</span>
+<span class="source-lf keyword-control-lflang">
+reaction
+</span>
+<span class="source-lf">
+(
+</span>
+<span class="source-lf">
+t) {
+</span>
+<span class="source-lf keyword-operator-lflang">
+=
+</span>
+
+<span class="source-lf">
+    printf(
+</span>
+<span class="source-lf string-quoted-double-lflang">
+"
+</span>
+<span class="source-lf string-quoted-double-lflang">
+Hello
+</span>
+<span class="source-lf string-quoted-double-lflang constant-character-escape">
+\n
+</span>
+<span class="source-lf string-quoted-double-lflang">
+"
+</span>
+<span class="source-lf">
+);
+</span>
+
+<span class="source-lf">
+  
+</span>
+<span class="source-lf keyword-operator-lflang">
+=
+</span>
+<span class="source-lf">
+}
+</span>
+
+<span class="source-lf">
+}
+</span>
+
+<span class="source-lf">
+
+</span>
+

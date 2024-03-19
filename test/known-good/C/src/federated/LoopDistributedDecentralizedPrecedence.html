@@ -1,5 +1,84 @@
-<span class="source-lf comment-line-double-dash-lflang">
-// Test delaying a pointer type.
+<span class="source-lf comment-block-lflang">
+/**
+</span>
+
+<span class="source-lf comment-block-lflang">
+ * This tests that the precedence order of reaction invocation is kept when a feedback loop is
+</span>
+
+<span class="source-lf comment-block-lflang">
+ * present in decentralized coordination. The Looper reactors have the default zero STP offset, so
+</span>
+
+<span class="source-lf comment-block-lflang">
+ * they can advance their time to the timer time immediately. Their second reaction, however, has
+</span>
+
+<span class="source-lf comment-block-lflang">
+ * larger STAA offset (100 ms), so they stall to wait for input. The test ensures that their third
+</span>
+
+<span class="source-lf comment-block-lflang">
+ * reaction is not invoked before the second.
+</span>
+
+<span class="source-lf comment-block-lflang">
+ *
+</span>
+
+<span class="source-lf comment-block-lflang">
+ * To tolerate timing variability (particularly in the CI tests), if the third reaction is invoked
+</span>
+
+<span class="source-lf comment-block-lflang">
+ * at a tag without the second reaction having been invoked, then it checks that the lag is at least
+</span>
+
+<span class="source-lf comment-block-lflang">
+ * 100 ms. This means that the input was late by at least 100 ms and was therefore assumed to be
+</span>
+
+<span class="source-lf comment-block-lflang">
+ * absent, as is normal for decentralized coordination. If the input later arrives, then there will
+</span>
+
+<span class="source-lf comment-block-lflang">
+ * be an STP violation, which will result in printing a warning, but not in a test failure.
+</span>
+
+<span class="source-lf comment-block-lflang">
+ *
+</span>
+
+<span class="source-lf comment-block-lflang">
+ * This test is designed to not be flaky. The timing properties are set so that warnings are printed
+</span>
+
+<span class="source-lf comment-block-lflang">
+ * if the execution timing is wildly off, specifically if communication between federates takes more
+</span>
+
+<span class="source-lf comment-block-lflang">
+ * than 100 ms. But the test will not fail in these cases.
+</span>
+
+<span class="source-lf comment-block-lflang">
+ *
+</span>
+
+<span class="source-lf comment-block-lflang">
+ * @author Edward A. Lee
+</span>
+
+<span class="source-lf comment-block-lflang">
+ * @author Soroush Bateni
+</span>
+
+<span class="source-lf comment-block-lflang">
+ 
+</span>
+<span class="source-lf comment-block-lflang">
+*/
 </span>
 
 <span class="source-lf meta-targetspec-lflang keyword-control-lflang">
@@ -10,6 +89,42 @@ target
 </span>
 <span class="source-lf meta-targetspec-lflang constant-language-lflang">
 C
+</span>
+<span class="source-lf meta-targetspec-lflang">
+ {
+</span>
+
+<span class="source-lf meta-targetspec-lflang variable-parameter-lflang">
+  coordination
+</span>
+<span class="source-lf meta-targetspec-lflang">
+: 
+</span>
+<span class="source-lf meta-targetspec-lflang storage-type-lflang">
+decentralized
+</span>
+<span class="source-lf meta-targetspec-lflang">
+,
+</span>
+
+<span class="source-lf meta-targetspec-lflang variable-parameter-lflang">
+  timeout
+</span>
+<span class="source-lf meta-targetspec-lflang">
+: 
+</span>
+<span class="source-lf meta-targetspec-lflang constant-numeric-int-lflang">
+4900
+</span>
+<span class="source-lf meta-targetspec-lflang">
+ 
+</span>
+<span class="source-lf meta-targetspec-lflang constant-numeric-lflang">
+msec
+</span>
+
+<span class="source-lf meta-targetspec-lflang">
+}
 </span>
 
 <span class="source-lf">
@@ -23,10 +138,28 @@ reactor
  
 </span>
 <span class="source-lf entity-name-type-lflang">
-DelayPointer2
+Looper
 </span>
 <span class="source-lf">
-(delay: 
+(incr: 
+</span>
+<span class="source-lf storage-type-lflang">
+int
+</span>
+<span class="source-lf">
+ 
+</span>
+<span class="source-lf keyword-operator-lflang">
+=
+</span>
+<span class="source-lf">
+ 
+</span>
+<span class="source-lf constant-numeric-int-lflang">
+1
+</span>
+<span class="source-lf">
+, delay: 
 </span>
 <span class="source-lf storage-type-lflang">
 time
@@ -41,13 +174,31 @@ time
  
 </span>
 <span class="source-lf constant-numeric-int-lflang">
-100
+0
 </span>
 <span class="source-lf">
  
 </span>
 <span class="source-lf constant-numeric-lflang">
 msec
+</span>
+<span class="source-lf">
+, stp: 
+</span>
+<span class="source-lf storage-type-lflang">
+time
+</span>
+<span class="source-lf">
+ 
+</span>
+<span class="source-lf keyword-operator-lflang">
+=
+</span>
+<span class="source-lf">
+ 
+</span>
+<span class="source-lf constant-numeric-int-lflang">
+0
 </span>
 <span class="source-lf">
 ) {
@@ -74,9 +225,6 @@ in
 <span class="source-lf meta-embedded-block-cpp storage-type-lflang">
 int
 </span>
-<span class="source-lf meta-embedded-block-cpp">
-*
-</span>
 
 <span class="source-lf">
   
@@ -98,329 +246,6 @@ out
 </span>
 <span class="source-lf meta-embedded-block-cpp storage-type-lflang">
 int
-</span>
-<span class="source-lf meta-embedded-block-cpp">
-*
-</span>
-
-<span class="source-lf">
-  
-</span>
-<span class="source-lf storage-modifier-lflang">
-logical
-</span>
-<span class="source-lf">
- 
-</span>
-<span class="source-lf storage-modifier-lflang">
-action
-</span>
-<span class="source-lf">
- 
-</span>
-<span class="source-lf variable-other-lflang">
-a
-</span>
-<span class="source-lf">
-:
-</span>
-<span class="source-lf meta-embedded-block-cpp">
- 
-</span>
-<span class="source-lf meta-embedded-block-cpp storage-type-lflang">
-int
-</span>
-<span class="source-lf meta-embedded-block-cpp">
-*
-</span>
-
-<span class="source-lf">
-
-</span>
-
-<span class="source-lf">
-  
-</span>
-<span class="source-lf keyword-control-lflang">
-reaction
-</span>
-<span class="source-lf">
-(
-</span>
-<span class="source-lf">
-a) 
-</span>
-<span class="source-lf keyword-operator-lflang">
-->
-</span>
-<span class="source-lf">
- out {
-</span>
-<span class="source-lf keyword-operator-lflang">
-=
-</span>
-
-<span class="source-lf comment-line-double-dash-lflang">
-    
-</span>
-<span class="source-lf comment-line-double-dash-lflang">
-// Using lf_set_token delegates responsibility for
-</span>
-
-<span class="source-lf comment-line-double-dash-lflang">
-    
-</span>
-<span class="source-lf comment-line-double-dash-lflang">
-// freeing the allocated memory downstream.
-</span>
-
-<span class="source-lf">
-    lf_set_token(out, a
-</span>
-<span class="source-lf keyword-operator-lflang">
-->
-</span>
-<span class="source-lf">
-token);
-</span>
-
-<span class="source-lf">
-  
-</span>
-<span class="source-lf keyword-operator-lflang">
-=
-</span>
-<span class="source-lf">
-}
-</span>
-
-<span class="source-lf">
-
-</span>
-
-<span class="source-lf">
-  
-</span>
-<span class="source-lf keyword-control-lflang">
-reaction
-</span>
-<span class="source-lf">
-(
-</span>
-<span class="source-lf">
-in) 
-</span>
-<span class="source-lf keyword-operator-lflang">
-->
-</span>
-<span class="source-lf">
- a {
-</span>
-<span class="source-lf keyword-operator-lflang">
-=
-</span>
-
-<span class="source-lf comment-line-double-dash-lflang">
-    
-</span>
-<span class="source-lf comment-line-double-dash-lflang">
-// Schedule the actual token from the input rather than
-</span>
-
-<span class="source-lf comment-line-double-dash-lflang">
-    
-</span>
-<span class="source-lf comment-line-double-dash-lflang">
-// a new token with a copy of the input value.
-</span>
-
-<span class="source-lf">
-    lf_schedule_token(a, self
-</span>
-<span class="source-lf keyword-operator-lflang">
-->
-</span>
-<span class="source-lf">
-delay, in
-</span>
-<span class="source-lf keyword-operator-lflang">
-->
-</span>
-<span class="source-lf">
-token);
-</span>
-
-<span class="source-lf">
-  
-</span>
-<span class="source-lf keyword-operator-lflang">
-=
-</span>
-<span class="source-lf">
-}
-</span>
-
-<span class="source-lf">
-}
-</span>
-
-<span class="source-lf">
-
-</span>
-
-<span class="source-lf storage-modifier-lflang">
-reactor
-</span>
-<span class="source-lf">
- 
-</span>
-<span class="source-lf entity-name-type-lflang">
-Source
-</span>
-<span class="source-lf">
- {
-</span>
-
-<span class="source-lf">
-  
-</span>
-<span class="source-lf storage-modifier-lflang">
-output
-</span>
-<span class="source-lf">
- 
-</span>
-<span class="source-lf variable-other-lflang">
-out
-</span>
-<span class="source-lf">
-:
-</span>
-<span class="source-lf meta-embedded-block-cpp">
- 
-</span>
-<span class="source-lf meta-embedded-block-cpp storage-type-lflang">
-int
-</span>
-<span class="source-lf meta-embedded-block-cpp">
-*
-</span>
-
-<span class="source-lf">
-
-</span>
-
-<span class="source-lf">
-  
-</span>
-<span class="source-lf keyword-control-lflang">
-reaction
-</span>
-<span class="source-lf">
-(
-</span>
-<span class="source-lf support-variable-lflang">
-startup
-</span>
-<span class="source-lf">
-) 
-</span>
-<span class="source-lf keyword-operator-lflang">
-->
-</span>
-<span class="source-lf">
- out {
-</span>
-<span class="source-lf keyword-operator-lflang">
-=
-</span>
-
-<span class="source-lf">
-    SET_NEW(out);
-</span>
-
-<span class="source-lf">
-    
-</span>
-<span class="source-lf keyword-operator-lflang">
-*
-</span>
-<span class="source-lf">
-(out
-</span>
-<span class="source-lf keyword-operator-lflang">
-->
-</span>
-<span class="source-lf">
-value) 
-</span>
-<span class="source-lf keyword-operator-lflang">
-=
-</span>
-<span class="source-lf">
- 
-</span>
-<span class="source-lf constant-numeric-int-lflang">
-42
-</span>
-<span class="source-lf">
-;
-</span>
-
-<span class="source-lf">
-  
-</span>
-<span class="source-lf keyword-operator-lflang">
-=
-</span>
-<span class="source-lf">
-}
-</span>
-
-<span class="source-lf">
-}
-</span>
-
-<span class="source-lf">
-
-</span>
-
-<span class="source-lf storage-modifier-lflang">
-reactor
-</span>
-<span class="source-lf">
- 
-</span>
-<span class="source-lf entity-name-type-lflang">
-Test
-</span>
-<span class="source-lf">
- {
-</span>
-
-<span class="source-lf">
-  
-</span>
-<span class="source-lf storage-modifier-lflang">
-input
-</span>
-<span class="source-lf">
- 
-</span>
-<span class="source-lf variable-other-lflang">
-in
-</span>
-<span class="source-lf">
-:
-</span>
-<span class="source-lf meta-embedded-block-cpp">
- 
-</span>
-<span class="source-lf meta-embedded-block-cpp storage-type-lflang">
-int
-</span>
-<span class="source-lf meta-embedded-block-cpp">
-*
 </span>
 
 <span class="source-lf">
@@ -433,7 +258,7 @@ state
  
 </span>
 <span class="source-lf variable-other-lflang">
-start_time
+count
 </span>
 <span class="source-lf">
 :
@@ -442,7 +267,7 @@ start_time
  
 </span>
 <span class="source-lf meta-embedded-block-cpp storage-type-lflang">
-time
+int
 </span>
 <span class="source-lf meta-embedded-block-cpp">
  
@@ -467,7 +292,7 @@ state
  
 </span>
 <span class="source-lf variable-other-lflang">
-received_value
+received_count
 </span>
 <span class="source-lf">
 :
@@ -476,7 +301,7 @@ received_value
  
 </span>
 <span class="source-lf meta-embedded-block-cpp storage-type-lflang">
-bool
+int
 </span>
 <span class="source-lf meta-embedded-block-cpp">
  
@@ -487,8 +312,36 @@ bool
 <span class="source-lf">
  
 </span>
-<span class="source-lf constant-language-lflang">
-false
+<span class="source-lf constant-numeric-int-lflang">
+0
+</span>
+
+<span class="source-lf">
+  
+</span>
+<span class="source-lf storage-modifier-lflang">
+timer
+</span>
+<span class="source-lf">
+ t(
+</span>
+<span class="source-lf constant-numeric-int-lflang">
+0
+</span>
+<span class="source-lf">
+, 
+</span>
+<span class="source-lf constant-numeric-int-lflang">
+1
+</span>
+<span class="source-lf">
+ 
+</span>
+<span class="source-lf constant-numeric-lflang">
+sec
+</span>
+<span class="source-lf">
+)
 </span>
 
 <span class="source-lf">
@@ -504,21 +357,27 @@ reaction
 <span class="source-lf">
 (
 </span>
-<span class="source-lf support-variable-lflang">
-startup
+<span class="source-lf">
+t) 
+</span>
+<span class="source-lf keyword-operator-lflang">
+->
 </span>
 <span class="source-lf">
-) {
+ out {
 </span>
 <span class="source-lf keyword-operator-lflang">
 =
 </span>
 
-<span class="source-lf comment-line-double-dash-lflang">
-    
+<span class="source-lf">
+    lf_set(out, self
 </span>
-<span class="source-lf comment-line-double-dash-lflang">
-// Record the logical time at the start.
+<span class="source-lf keyword-operator-lflang">
+->
+</span>
+<span class="source-lf">
+count);
 </span>
 
 <span class="source-lf">
@@ -528,13 +387,22 @@ startup
 ->
 </span>
 <span class="source-lf">
-start_time 
+count 
+</span>
+<span class="source-lf keyword-operator-lflang">
++
 </span>
 <span class="source-lf keyword-operator-lflang">
 =
 </span>
 <span class="source-lf">
- lf_time_logical();
+ self
+</span>
+<span class="source-lf keyword-operator-lflang">
+->
+</span>
+<span class="source-lf">
+incr;
 </span>
 
 <span class="source-lf">
@@ -568,34 +436,49 @@ in) {
 </span>
 
 <span class="source-lf">
-    printf(
-</span>
-<span class="source-lf string-quoted-double-lflang">
-"
-</span>
-<span class="source-lf string-quoted-double-lflang">
-Received: %d.
-</span>
-<span class="source-lf string-quoted-double-lflang constant-character-escape">
-\n
-</span>
-<span class="source-lf string-quoted-double-lflang">
-"
-</span>
-<span class="source-lf">
-, 
+    instant_t time_lag 
 </span>
 <span class="source-lf keyword-operator-lflang">
-*
+=
 </span>
 <span class="source-lf">
-(in
+ lf_time_physical() 
+</span>
+<span class="source-lf keyword-operator-lflang">
+-
+</span>
+<span class="source-lf">
+ lf_time_logical();
+</span>
+
+<span class="source-lf">
+    char time_buffer[LF_TIME_BUFFER_LENGTH];
+</span>
+
+<span class="source-lf">
+    lf_readable_time(time_buffer, time_lag);
+</span>
+
+<span class="source-lf">
+    lf_print(
+</span>
+<span class="source-lf string-quoted-double-lflang">
+"
+</span>
+<span class="source-lf string-quoted-double-lflang">
+Received %d. Logical time is behind physical time by %s.
+</span>
+<span class="source-lf string-quoted-double-lflang">
+"
+</span>
+<span class="source-lf">
+, in
 </span>
 <span class="source-lf keyword-operator-lflang">
 ->
 </span>
 <span class="source-lf">
-value));
+value, time_buffer);
 </span>
 
 <span class="source-lf">
@@ -605,49 +488,10 @@ value));
 ->
 </span>
 <span class="source-lf">
-received_value 
+received_count 
 </span>
 <span class="source-lf keyword-operator-lflang">
 =
-</span>
-<span class="source-lf">
- 
-</span>
-<span class="source-lf constant-language-lflang">
-true
-</span>
-<span class="source-lf">
-;
-</span>
-
-<span class="source-lf comment-line-double-dash-lflang">
-    
-</span>
-<span class="source-lf comment-line-double-dash-lflang">
-// Check the time of the input.
-</span>
-
-<span class="source-lf">
-    instant_t current_time 
-</span>
-<span class="source-lf keyword-operator-lflang">
-=
-</span>
-<span class="source-lf">
- lf_time_logical();
-</span>
-
-<span class="source-lf">
-    interval_t elapsed 
-</span>
-<span class="source-lf keyword-operator-lflang">
-=
-</span>
-<span class="source-lf">
- current_time 
-</span>
-<span class="source-lf keyword-operator-lflang">
--
 </span>
 <span class="source-lf">
  self
@@ -656,138 +500,305 @@ true
 ->
 </span>
 <span class="source-lf">
-start_time;
+count;
 </span>
 
 <span class="source-lf">
-    printf(
-</span>
-<span class="source-lf string-quoted-double-lflang">
-"
-</span>
-<span class="source-lf string-quoted-double-lflang">
-After %lld nsec of logical time.
-</span>
-<span class="source-lf string-quoted-double-lflang constant-character-escape">
-\n
-</span>
-<span class="source-lf string-quoted-double-lflang">
-"
-</span>
-<span class="source-lf">
-, elapsed);
-</span>
-
-<span class="source-lf">
-    if (elapsed !
+  
 </span>
 <span class="source-lf keyword-operator-lflang">
 =
 </span>
 <span class="source-lf">
- 100000000LL) {
+} 
 </span>
-
-<span class="source-lf">
-      printf(
-</span>
-<span class="source-lf string-quoted-double-lflang">
-"
-</span>
-<span class="source-lf string-quoted-double-lflang">
-ERROR: Expected elapsed time to be 100000000. It was %lld.
-</span>
-<span class="source-lf string-quoted-double-lflang constant-character-escape">
-\n
-</span>
-<span class="source-lf string-quoted-double-lflang">
-"
+<span class="source-lf keyword-control-lflang">
+STP
 </span>
 <span class="source-lf">
-, elapsed);
-</span>
-
-<span class="source-lf">
-      exit(
-</span>
-<span class="source-lf constant-numeric-int-lflang">
-1
-</span>
-<span class="source-lf">
-);
-</span>
-
-<span class="source-lf">
-    }
-</span>
-
-<span class="source-lf">
-    if (
+(stp) {
 </span>
 <span class="source-lf keyword-operator-lflang">
-*
+=
+</span>
+
+<span class="source-lf">
+    instant_t time_lag 
+</span>
+<span class="source-lf keyword-operator-lflang">
+=
 </span>
 <span class="source-lf">
-(in
+ lf_time_physical() 
+</span>
+<span class="source-lf keyword-operator-lflang">
+-
+</span>
+<span class="source-lf">
+ lf_time_logical();
+</span>
+
+<span class="source-lf">
+    char time_buffer[LF_TIME_BUFFER_LENGTH];
+</span>
+
+<span class="source-lf">
+    lf_readable_time(time_buffer, time_lag);
+</span>
+
+<span class="source-lf">
+    lf_print_warning(
+</span>
+<span class="source-lf string-quoted-double-lflang">
+"
+</span>
+<span class="source-lf string-quoted-double-lflang">
+STP offset was violated. Received %d. Logical time is behind physical time by %s.
+</span>
+<span class="source-lf string-quoted-double-lflang">
+"
+</span>
+<span class="source-lf">
+,
+</span>
+
+<span class="source-lf">
+        in
 </span>
 <span class="source-lf keyword-operator-lflang">
 ->
 </span>
 <span class="source-lf">
-value) !
+value, time_buffer
+</span>
+
+<span class="source-lf">
+    );
+</span>
+
+<span class="source-lf">
+  
 </span>
 <span class="source-lf keyword-operator-lflang">
 =
+</span>
+<span class="source-lf">
+} 
+</span>
+<span class="source-lf keyword-control-lflang">
+deadline
+</span>
+<span class="source-lf">
+(
+</span>
+<span class="source-lf constant-numeric-int-lflang">
+100
 </span>
 <span class="source-lf">
  
 </span>
-<span class="source-lf constant-numeric-int-lflang">
-42
+<span class="source-lf constant-numeric-lflang">
+msec
 </span>
 <span class="source-lf">
 ) {
 </span>
+<span class="source-lf keyword-operator-lflang">
+=
+</span>
 
 <span class="source-lf">
-      printf(
-</span>
-<span class="source-lf string-quoted-double-lflang">
-"
-</span>
-<span class="source-lf string-quoted-double-lflang">
-ERROR: Expected input value to be 42. It was %d.
-</span>
-<span class="source-lf string-quoted-double-lflang constant-character-escape">
-\n
-</span>
-<span class="source-lf string-quoted-double-lflang">
-"
-</span>
-<span class="source-lf">
-, 
+    instant_t time_lag 
 </span>
 <span class="source-lf keyword-operator-lflang">
-*
+=
 </span>
 <span class="source-lf">
-(in
+ lf_time_physical() 
+</span>
+<span class="source-lf keyword-operator-lflang">
+-
+</span>
+<span class="source-lf">
+ lf_time_logical();
+</span>
+
+<span class="source-lf">
+    char time_buffer[LF_TIME_BUFFER_LENGTH];
+</span>
+
+<span class="source-lf">
+    lf_readable_time(time_buffer, time_lag);
+</span>
+
+<span class="source-lf">
+    lf_print_warning(
+</span>
+<span class="source-lf string-quoted-double-lflang">
+"
+</span>
+<span class="source-lf string-quoted-double-lflang">
+Deadline miss. Received %d. Logical time is behind physical time by %s.
+</span>
+<span class="source-lf string-quoted-double-lflang">
+"
+</span>
+<span class="source-lf">
+,
+</span>
+
+<span class="source-lf">
+        in
 </span>
 <span class="source-lf keyword-operator-lflang">
 ->
 </span>
 <span class="source-lf">
-value));
+value, time_buffer
 </span>
 
 <span class="source-lf">
-      exit(
+    );
 </span>
-<span class="source-lf constant-numeric-int-lflang">
-2
+
+<span class="source-lf">
+    self
+</span>
+<span class="source-lf keyword-operator-lflang">
+->
+</span>
+<span class="source-lf">
+received_count 
+</span>
+<span class="source-lf keyword-operator-lflang">
+=
+</span>
+<span class="source-lf">
+ self
+</span>
+<span class="source-lf keyword-operator-lflang">
+->
+</span>
+<span class="source-lf">
+count;
+</span>
+
+<span class="source-lf">
+  
+</span>
+<span class="source-lf keyword-operator-lflang">
+=
+</span>
+<span class="source-lf">
+}
+</span>
+
+<span class="source-lf">
+
+</span>
+
+<span class="source-lf">
+  
+</span>
+<span class="source-lf keyword-control-lflang">
+reaction
+</span>
+<span class="source-lf">
+(
+</span>
+<span class="source-lf">
+t) {
+</span>
+<span class="source-lf keyword-operator-lflang">
+=
+</span>
+
+<span class="source-lf">
+    if (self
+</span>
+<span class="source-lf keyword-operator-lflang">
+->
+</span>
+<span class="source-lf">
+received_count !
+</span>
+<span class="source-lf keyword-operator-lflang">
+=
+</span>
+<span class="source-lf">
+ self
+</span>
+<span class="source-lf keyword-operator-lflang">
+->
+</span>
+<span class="source-lf">
+count) {
+</span>
+
+<span class="source-lf">
+      interval_t lag 
+</span>
+<span class="source-lf keyword-operator-lflang">
+=
+</span>
+<span class="source-lf">
+ lf_time_physical() 
+</span>
+<span class="source-lf keyword-operator-lflang">
+-
+</span>
+<span class="source-lf">
+ lf_time_logical();
+</span>
+
+<span class="source-lf">
+      if (lag < self
+</span>
+<span class="source-lf keyword-operator-lflang">
+->
+</span>
+<span class="source-lf">
+stp) {
+</span>
+
+<span class="source-lf">
+        lf_print_error_and_exit(
+</span>
+<span class="source-lf string-quoted-double-lflang">
+"
+</span>
+<span class="source-lf string-quoted-double-lflang">
+reaction(t) was invoked before reaction(in). Precedence order was not kept.
+</span>
+<span class="source-lf string-quoted-double-lflang">
+"
 </span>
 <span class="source-lf">
 );
+</span>
+
+<span class="source-lf">
+      } else {
+</span>
+
+<span class="source-lf">
+        lf_print_warning(
+</span>
+<span class="source-lf string-quoted-double-lflang">
+"
+</span>
+<span class="source-lf string-quoted-double-lflang">
+Assumed input was absent because STAA expired.
+</span>
+<span class="source-lf string-quoted-double-lflang">
+"
+</span>
+<span class="source-lf">
+);
+</span>
+
+<span class="source-lf">
+      }
 </span>
 
 <span class="source-lf">
@@ -828,16 +839,13 @@ shutdown
 </span>
 
 <span class="source-lf">
-    printf(
+    lf_print(
 </span>
 <span class="source-lf string-quoted-double-lflang">
 "
 </span>
 <span class="source-lf string-quoted-double-lflang">
-Checking that communication occurred.
-</span>
-<span class="source-lf string-quoted-double-lflang constant-character-escape">
-\n
+******* Shutdown invoked.
 </span>
 <span class="source-lf string-quoted-double-lflang">
 "
@@ -847,39 +855,50 @@ Checking that communication occurred.
 </span>
 
 <span class="source-lf">
-    if (!self
+    if (self
 </span>
 <span class="source-lf keyword-operator-lflang">
 ->
 </span>
 <span class="source-lf">
-received_value) {
+count !
 </span>
-
-<span class="source-lf">
-      printf(
-</span>
-<span class="source-lf string-quoted-double-lflang">
-"
-</span>
-<span class="source-lf string-quoted-double-lflang">
-ERROR: No communication occurred!
-</span>
-<span class="source-lf string-quoted-double-lflang constant-character-escape">
-\n
-</span>
-<span class="source-lf string-quoted-double-lflang">
-"
+<span class="source-lf keyword-operator-lflang">
+=
 </span>
 <span class="source-lf">
-);
-</span>
-
-<span class="source-lf">
-      exit(
+ 
 </span>
 <span class="source-lf constant-numeric-int-lflang">
-3
+5
+</span>
+<span class="source-lf">
+ 
+</span>
+<span class="source-lf keyword-operator-lflang">
+*
+</span>
+<span class="source-lf">
+ self
+</span>
+<span class="source-lf keyword-operator-lflang">
+->
+</span>
+<span class="source-lf">
+incr) {
+</span>
+
+<span class="source-lf">
+      lf_print_error_and_exit(
+</span>
+<span class="source-lf string-quoted-double-lflang">
+"
+</span>
+<span class="source-lf string-quoted-double-lflang">
+Failed to receive all five expected inputs.
+</span>
+<span class="source-lf string-quoted-double-lflang">
+"
 </span>
 <span class="source-lf">
 );
@@ -908,7 +927,7 @@ ERROR: No communication occurred!
 </span>
 
 <span class="source-lf storage-modifier-lflang">
-main
+federated
 </span>
 <span class="source-lf">
  
@@ -917,14 +936,32 @@ main
 reactor
 </span>
 <span class="source-lf">
- {
+(delay: 
+</span>
+<span class="source-lf storage-type-lflang">
+time
+</span>
+<span class="source-lf">
+ 
+</span>
+<span class="source-lf keyword-operator-lflang">
+=
+</span>
+<span class="source-lf">
+ 
+</span>
+<span class="source-lf constant-numeric-int-lflang">
+0
+</span>
+<span class="source-lf">
+) {
 </span>
 
 <span class="source-lf">
   
 </span>
 <span class="source-lf variable-other-constant-reactorinstance-lflang">
-s
+left
 </span>
 <span class="source-lf">
  
@@ -942,17 +979,35 @@ new
  
 </span>
 <span class="source-lf entity-name-type-lflang">
-Source
+Looper
 </span>
 <span class="source-lf">
-()
+(stp 
+</span>
+<span class="source-lf keyword-operator-lflang">
+=
+</span>
+<span class="source-lf">
+ 
+</span>
+<span class="source-lf constant-numeric-int-lflang">
+50
+</span>
+<span class="source-lf">
+ 
+</span>
+<span class="source-lf constant-numeric-lflang">
+msec
+</span>
+<span class="source-lf">
+)
 </span>
 
 <span class="source-lf">
   
 </span>
 <span class="source-lf variable-other-constant-reactorinstance-lflang">
-d
+right
 </span>
 <span class="source-lf">
  
@@ -970,20 +1025,22 @@ new
  
 </span>
 <span class="source-lf entity-name-type-lflang">
-DelayPointer2
+Looper
 </span>
 <span class="source-lf">
-()
+(incr
 </span>
-
+<span class="source-lf keyword-operator-lflang">
+=
+</span>
+<span class="source-lf keyword-operator-lflang">
+-
+</span>
+<span class="source-lf constant-numeric-int-lflang">
+1
+</span>
 <span class="source-lf">
-  
-</span>
-<span class="source-lf variable-other-constant-reactorinstance-lflang">
-t
-</span>
-<span class="source-lf">
- 
+, stp 
 </span>
 <span class="source-lf keyword-operator-lflang">
 =
@@ -991,24 +1048,24 @@ t
 <span class="source-lf">
  
 </span>
-<span class="source-lf keyword-control-new-lflang">
-new
+<span class="source-lf constant-numeric-int-lflang">
+50
 </span>
 <span class="source-lf">
  
 </span>
-<span class="source-lf entity-name-type-lflang">
-Test
+<span class="source-lf constant-numeric-lflang">
+msec
 </span>
 <span class="source-lf">
-()
+)
 </span>
 
 <span class="source-lf">
   
 </span>
 <span class="source-lf variable-other-constant-reactorinstance-lflang">
-s
+left
 </span>
 <span class="source-lf keyword-operator-lflang">
 .
@@ -1026,7 +1083,7 @@ out
  
 </span>
 <span class="source-lf variable-other-constant-reactorinstance-lflang">
-d
+right
 </span>
 <span class="source-lf keyword-operator-lflang">
 .
@@ -1039,7 +1096,7 @@ in
   
 </span>
 <span class="source-lf variable-other-constant-reactorinstance-lflang">
-d
+right
 </span>
 <span class="source-lf keyword-operator-lflang">
 .
@@ -1057,7 +1114,7 @@ out
  
 </span>
 <span class="source-lf variable-other-constant-reactorinstance-lflang">
-t
+left
 </span>
 <span class="source-lf keyword-operator-lflang">
 .

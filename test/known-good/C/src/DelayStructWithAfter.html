@@ -45,6 +45,44 @@ h
 
 </span>
 
+<span class="source-lf keyword-control-import-lflang">
+import
+</span>
+<span class="source-lf">
+ 
+</span>
+<span class="source-lf entity-name-type-lflang">
+Source
+</span>
+<span class="source-lf">
+, 
+</span>
+<span class="source-lf entity-name-type-lflang">
+Print
+</span>
+<span class="source-lf">
+ 
+</span>
+<span class="source-lf keyword-control-import-lflang">
+from
+</span>
+<span class="source-lf">
+ 
+</span>
+<span class="source-lf string-quoted-double-lflang">
+"
+</span>
+<span class="source-lf string-quoted-double-lflang">
+DelayStruct.lf
+</span>
+<span class="source-lf string-quoted-double-lflang">
+"
+</span>
+
+<span class="source-lf">
+
+</span>
+
 <span class="source-lf keyword-control-lflang">
 preamble
 </span>
@@ -65,383 +103,6 @@ preamble
 <span class="source-lf keyword-operator-lflang">
 =
 </span>
-<span class="source-lf">
-}
-</span>
-
-<span class="source-lf">
-
-</span>
-
-<span class="source-lf storage-modifier-lflang">
-reactor
-</span>
-<span class="source-lf">
- 
-</span>
-<span class="source-lf entity-name-type-lflang">
-Source
-</span>
-<span class="source-lf">
- {
-</span>
-
-<span class="source-lf">
-  
-</span>
-<span class="source-lf storage-modifier-lflang">
-output
-</span>
-<span class="source-lf">
- 
-</span>
-<span class="source-lf variable-other-lflang">
-out
-</span>
-<span class="source-lf">
-:
-</span>
-<span class="source-lf meta-embedded-block-cpp">
- 
-</span>
-<span class="source-lf meta-embedded-block-cpp storage-type-lflang">
-hello_t
-</span>
-<span class="source-lf meta-embedded-block-cpp">
-*
-</span>
-
-<span class="source-lf">
-
-</span>
-
-<span class="source-lf">
-  
-</span>
-<span class="source-lf keyword-control-lflang">
-reaction
-</span>
-<span class="source-lf">
-(
-</span>
-<span class="source-lf support-variable-lflang">
-startup
-</span>
-<span class="source-lf">
-) 
-</span>
-<span class="source-lf keyword-operator-lflang">
-->
-</span>
-<span class="source-lf">
- out {
-</span>
-<span class="source-lf keyword-operator-lflang">
-=
-</span>
-
-<span class="source-lf comment-line-double-dash-lflang">
-    
-</span>
-<span class="source-lf comment-line-double-dash-lflang">
-// Dynamically allocate an output struct.
-</span>
-
-<span class="source-lf">
-    SET_NEW(out);
-</span>
-
-<span class="source-lf">
-
-</span>
-
-<span class="source-lf comment-line-double-dash-lflang">
-    
-</span>
-<span class="source-lf comment-line-double-dash-lflang">
-// Above allocates a struct, which then must be populated.
-</span>
-
-<span class="source-lf">
-    out
-</span>
-<span class="source-lf keyword-operator-lflang">
-->
-</span>
-<span class="source-lf">
-value
-</span>
-<span class="source-lf keyword-operator-lflang">
-->
-</span>
-<span class="source-lf">
-name 
-</span>
-<span class="source-lf keyword-operator-lflang">
-=
-</span>
-<span class="source-lf">
- 
-</span>
-<span class="source-lf string-quoted-double-lflang">
-"
-</span>
-<span class="source-lf string-quoted-double-lflang">
-Earth
-</span>
-<span class="source-lf string-quoted-double-lflang">
-"
-</span>
-<span class="source-lf">
-;
-</span>
-
-<span class="source-lf">
-    out
-</span>
-<span class="source-lf keyword-operator-lflang">
-->
-</span>
-<span class="source-lf">
-value
-</span>
-<span class="source-lf keyword-operator-lflang">
-->
-</span>
-<span class="source-lf">
-value 
-</span>
-<span class="source-lf keyword-operator-lflang">
-=
-</span>
-<span class="source-lf">
- 
-</span>
-<span class="source-lf constant-numeric-int-lflang">
-42
-</span>
-<span class="source-lf">
-;
-</span>
-
-<span class="source-lf">
-  
-</span>
-<span class="source-lf keyword-operator-lflang">
-=
-</span>
-<span class="source-lf">
-}
-</span>
-
-<span class="source-lf">
-}
-</span>
-
-<span class="source-lf">
-
-</span>
-
-<span class="source-lf comment-line-double-dash-lflang">
-// expected parameter is for testing.
-</span>
-
-<span class="source-lf storage-modifier-lflang">
-reactor
-</span>
-<span class="source-lf">
- 
-</span>
-<span class="source-lf entity-name-type-lflang">
-Print
-</span>
-<span class="source-lf">
-(expected: 
-</span>
-<span class="source-lf storage-type-lflang">
-int
-</span>
-<span class="source-lf">
- 
-</span>
-<span class="source-lf keyword-operator-lflang">
-=
-</span>
-<span class="source-lf">
- 
-</span>
-<span class="source-lf constant-numeric-int-lflang">
-42
-</span>
-<span class="source-lf">
-) {
-</span>
-
-<span class="source-lf">
-  
-</span>
-<span class="source-lf storage-modifier-lflang">
-input
-</span>
-<span class="source-lf">
- 
-</span>
-<span class="source-lf variable-other-lflang">
-in
-</span>
-<span class="source-lf">
-:
-</span>
-<span class="source-lf meta-embedded-block-cpp">
- 
-</span>
-<span class="source-lf meta-embedded-block-cpp storage-type-lflang">
-hello_t
-</span>
-<span class="source-lf meta-embedded-block-cpp">
-*
-</span>
-
-<span class="source-lf">
-
-</span>
-
-<span class="source-lf">
-  
-</span>
-<span class="source-lf keyword-control-lflang">
-reaction
-</span>
-<span class="source-lf">
-(
-</span>
-<span class="source-lf">
-in) {
-</span>
-<span class="source-lf keyword-operator-lflang">
-=
-</span>
-
-<span class="source-lf">
-    printf(
-</span>
-<span class="source-lf string-quoted-double-lflang">
-"
-</span>
-<span class="source-lf string-quoted-double-lflang">
-Received: name = %s, value = %d
-</span>
-<span class="source-lf string-quoted-double-lflang constant-character-escape">
-\n
-</span>
-<span class="source-lf string-quoted-double-lflang">
-"
-</span>
-<span class="source-lf">
-, in
-</span>
-<span class="source-lf keyword-operator-lflang">
-->
-</span>
-<span class="source-lf">
-value
-</span>
-<span class="source-lf keyword-operator-lflang">
-->
-</span>
-<span class="source-lf">
-name, in
-</span>
-<span class="source-lf keyword-operator-lflang">
-->
-</span>
-<span class="source-lf">
-value
-</span>
-<span class="source-lf keyword-operator-lflang">
-->
-</span>
-<span class="source-lf">
-value);
-</span>
-
-<span class="source-lf">
-    if (in
-</span>
-<span class="source-lf keyword-operator-lflang">
-->
-</span>
-<span class="source-lf">
-value
-</span>
-<span class="source-lf keyword-operator-lflang">
-->
-</span>
-<span class="source-lf">
-value !
-</span>
-<span class="source-lf keyword-operator-lflang">
-=
-</span>
-<span class="source-lf">
- self
-</span>
-<span class="source-lf keyword-operator-lflang">
-->
-</span>
-<span class="source-lf">
-expected) {
-</span>
-
-<span class="source-lf">
-      printf(
-</span>
-<span class="source-lf string-quoted-double-lflang">
-"
-</span>
-<span class="source-lf string-quoted-double-lflang">
-ERROR: Expected value to be %d.
-</span>
-<span class="source-lf string-quoted-double-lflang constant-character-escape">
-\n
-</span>
-<span class="source-lf string-quoted-double-lflang">
-"
-</span>
-<span class="source-lf">
-, self
-</span>
-<span class="source-lf keyword-operator-lflang">
-->
-</span>
-<span class="source-lf">
-expected);
-</span>
-
-<span class="source-lf">
-      exit(
-</span>
-<span class="source-lf constant-numeric-int-lflang">
-1
-</span>
-<span class="source-lf">
-);
-</span>
-
-<span class="source-lf">
-    }
-</span>
-
-<span class="source-lf">
-  
-</span>
-<span class="source-lf keyword-operator-lflang">
-=
-</span>
-<span class="source-lf">
-}
-</span>
-
 <span class="source-lf">
 }
 </span>

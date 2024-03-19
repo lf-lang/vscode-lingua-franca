@@ -403,8 +403,33 @@ startup
 // Dynamically allocate an output struct.
 </span>
 
+<span class="source-lf comment-line-double-dash-lflang">
+    
+</span>
+<span class="source-lf comment-line-double-dash-lflang">
+// Note that the default destructor and copy constructor are sufficient here.
+</span>
+
 <span class="source-lf">
-    SET_NEW(out);
+    hello_t
+</span>
+<span class="source-lf keyword-operator-lflang">
+*
+</span>
+<span class="source-lf">
+ hello 
+</span>
+<span class="source-lf keyword-operator-lflang">
+=
+</span>
+<span class="source-lf">
+ (hello_t
+</span>
+<span class="source-lf keyword-operator-lflang">
+*
+</span>
+<span class="source-lf">
+)malloc(sizeof(hello_t));
 </span>
 
 <span class="source-lf">
@@ -415,17 +440,11 @@ startup
     
 </span>
 <span class="source-lf comment-line-double-dash-lflang">
-// Above allocates a struct, which then must be populated.
+// Populate the struct.
 </span>
 
 <span class="source-lf">
-    out
-</span>
-<span class="source-lf keyword-operator-lflang">
-->
-</span>
-<span class="source-lf">
-value
+    hello
 </span>
 <span class="source-lf keyword-operator-lflang">
 ->
@@ -453,13 +472,7 @@ Earth
 </span>
 
 <span class="source-lf">
-    out
-</span>
-<span class="source-lf keyword-operator-lflang">
-->
-</span>
-<span class="source-lf">
-value
+    hello
 </span>
 <span class="source-lf keyword-operator-lflang">
 ->
@@ -478,6 +491,21 @@ value
 </span>
 <span class="source-lf">
 ;
+</span>
+
+<span class="source-lf">
+
+</span>
+
+<span class="source-lf comment-line-double-dash-lflang">
+    
+</span>
+<span class="source-lf comment-line-double-dash-lflang">
+// Set the output.
+</span>
+
+<span class="source-lf">
+    lf_set(out, hello);
 </span>
 
 <span class="source-lf">
@@ -559,6 +587,40 @@ hello_t
 </span>
 
 <span class="source-lf">
+  
+</span>
+<span class="source-lf storage-modifier-lflang">
+state
+</span>
+<span class="source-lf">
+ 
+</span>
+<span class="source-lf variable-other-lflang">
+invoked
+</span>
+<span class="source-lf">
+:
+</span>
+<span class="source-lf meta-embedded-block-cpp">
+ 
+</span>
+<span class="source-lf meta-embedded-block-cpp storage-type-lflang">
+bool
+</span>
+<span class="source-lf meta-embedded-block-cpp">
+ 
+</span>
+<span class="source-lf">
+=
+</span>
+<span class="source-lf">
+ 
+</span>
+<span class="source-lf constant-language-lflang">
+false
+</span>
+
+<span class="source-lf">
 
 </span>
 
@@ -576,6 +638,28 @@ in) {
 </span>
 <span class="source-lf keyword-operator-lflang">
 =
+</span>
+
+<span class="source-lf">
+    self
+</span>
+<span class="source-lf keyword-operator-lflang">
+->
+</span>
+<span class="source-lf">
+invoked 
+</span>
+<span class="source-lf keyword-operator-lflang">
+=
+</span>
+<span class="source-lf">
+ 
+</span>
+<span class="source-lf constant-language-lflang">
+true
+</span>
+<span class="source-lf">
+;
 </span>
 
 <span class="source-lf">
@@ -679,6 +763,97 @@ expected);
 </span>
 <span class="source-lf constant-numeric-int-lflang">
 1
+</span>
+<span class="source-lf">
+);
+</span>
+
+<span class="source-lf">
+    }
+</span>
+
+<span class="source-lf">
+  
+</span>
+<span class="source-lf keyword-operator-lflang">
+=
+</span>
+<span class="source-lf">
+}
+</span>
+
+<span class="source-lf">
+
+</span>
+
+<span class="source-lf">
+  
+</span>
+<span class="source-lf keyword-control-lflang">
+reaction
+</span>
+<span class="source-lf">
+(
+</span>
+<span class="source-lf support-variable-lflang">
+shutdown
+</span>
+<span class="source-lf">
+) {
+</span>
+<span class="source-lf keyword-operator-lflang">
+=
+</span>
+
+<span class="source-lf">
+    if (self
+</span>
+<span class="source-lf keyword-operator-lflang">
+->
+</span>
+<span class="source-lf">
+invoked 
+</span>
+<span class="source-lf keyword-operator-lflang">
+=
+</span>
+<span class="source-lf keyword-operator-lflang">
+=
+</span>
+<span class="source-lf">
+ 
+</span>
+<span class="source-lf constant-language-lflang">
+false
+</span>
+<span class="source-lf">
+) {
+</span>
+
+<span class="source-lf">
+      fprintf(stderr, 
+</span>
+<span class="source-lf string-quoted-double-lflang">
+"
+</span>
+<span class="source-lf string-quoted-double-lflang">
+ERROR: No data received.
+</span>
+<span class="source-lf string-quoted-double-lflang constant-character-escape">
+\n
+</span>
+<span class="source-lf string-quoted-double-lflang">
+"
+</span>
+<span class="source-lf">
+);
+</span>
+
+<span class="source-lf">
+      exit(
+</span>
+<span class="source-lf constant-numeric-int-lflang">
+2
 </span>
 <span class="source-lf">
 );

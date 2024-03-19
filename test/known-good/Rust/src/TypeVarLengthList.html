@@ -16,10 +16,6 @@ Rust
 // this thing must compile needs to be modified when
 </span>
 
-<span class="source-lf comment-line-double-dash-lflang">
-// https://github.com/lf-lang/lingua-franca/discussions/492 is implemented
-</span>
-
 <span class="source-lf storage-modifier-lflang">
 main
 </span>
@@ -57,11 +53,17 @@ l0
 <span class="source-lf">
  
 </span>
+<span class="source-lf entity-name-type-lflang">
+Vec
+</span>
+<span class="source-lf">
+<
+</span>
 <span class="source-lf storage-type-lflang">
 i32
 </span>
 <span class="source-lf">
-[] 
+> 
 </span>
 <span class="source-lf keyword-operator-lflang">
 =
@@ -97,43 +99,6 @@ new
 // generates l0: Vec::new()
 </span>
 
-<span class="source-lf comment-line-double-dash-lflang">
-  
-</span>
-<span class="source-lf comment-line-double-dash-lflang">
-// generates l1: vec![1, 2]
-</span>
-
-<span class="source-lf">
-  
-</span>
-<span class="source-lf comment-block-lflang">
-/**
-</span>
-
-<span class="source-lf comment-block-lflang">
-   * - state l2: i32[](1); // generates l2: 1 // doesn't compile...
-</span>
-
-<span class="source-lf comment-block-lflang">
-   * - state l3: i32[](); // doesn't parse...
-</span>
-
-<span class="source-lf comment-block-lflang">
-   *
-</span>
-
-<span class="source-lf comment-block-lflang">
-   * - state l1: Vec<i32>(1, 2); // does not compile...
-</span>
-
-<span class="source-lf comment-block-lflang">
-   
-</span>
-<span class="source-lf comment-block-lflang">
-*/
-</span>
-
 <span class="source-lf">
   
 </span>
@@ -152,14 +117,29 @@ l1
 <span class="source-lf">
  
 </span>
+<span class="source-lf entity-name-type-lflang">
+Vec
+</span>
+<span class="source-lf">
+<
+</span>
 <span class="source-lf storage-type-lflang">
 i32
 </span>
 <span class="source-lf">
-[]
+> 
+</span>
+<span class="source-lf keyword-operator-lflang">
+=
 </span>
 <span class="source-lf">
-(
+ {
+</span>
+<span class="source-lf keyword-operator-lflang">
+=
+</span>
+<span class="source-lf">
+ vec![
 </span>
 <span class="source-lf constant-numeric-int-lflang">
 1
@@ -171,7 +151,71 @@ i32
 2
 </span>
 <span class="source-lf">
-)
+] 
+</span>
+<span class="source-lf keyword-operator-lflang">
+=
+</span>
+<span class="source-lf">
+}
+</span>
+
+<span class="source-lf">
+  
+</span>
+<span class="source-lf storage-modifier-lflang">
+state
+</span>
+<span class="source-lf">
+ 
+</span>
+<span class="source-lf variable-other-lflang">
+l2
+</span>
+<span class="source-lf">
+:
+</span>
+<span class="source-lf">
+ 
+</span>
+<span class="source-lf">
+{
+</span>
+<span class="source-lf keyword-operator-lflang">
+=
+</span>
+<span class="source-lf">
+ [i32; 
+</span>
+<span class="source-lf constant-numeric-int-lflang">
+2
+</span>
+<span class="source-lf">
+] 
+</span>
+<span class="source-lf keyword-operator-lflang">
+=
+</span>
+<span class="source-lf">
+} 
+</span>
+<span class="source-lf keyword-operator-lflang">
+=
+</span>
+<span class="source-lf">
+ [
+</span>
+<span class="source-lf constant-numeric-int-lflang">
+1
+</span>
+<span class="source-lf">
+, 
+</span>
+<span class="source-lf constant-numeric-int-lflang">
+2
+</span>
+<span class="source-lf">
+]
 </span>
 
 <span class="source-lf">

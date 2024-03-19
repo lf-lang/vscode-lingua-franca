@@ -3,19 +3,31 @@
 </span>
 
 <span class="source-lf comment-block-lflang">
- * This program tests clock synchronization. It checks the clock synchronization error and fails if
+ * This program tests clock synchronization. It sets an initial clock sync error of 2 s and checks
 </span>
 
 <span class="source-lf comment-block-lflang">
- * it exceeds a threshold. Note that failures could occur here intermittently because clock
+ * that the clock synchronization error at startup and at shutdown is no larger than 10x this. This
 </span>
 
 <span class="source-lf comment-block-lflang">
- * synchronization accuracy depends on many conditions. But the threshold is quite high, so failures
+ * is, of course, extremely pessimistic, but the test is mainly ensuring the clock sync compiles and
 </span>
 
 <span class="source-lf comment-block-lflang">
- * should be rare.
+ * runs correctly. The pessimistic threshold is designed to ensure the test does not fail even with
+</span>
+
+<span class="source-lf comment-block-lflang">
+ * the extreme timing anomalies of GitHub testing, particularly on macOS. On a normal Mac, the clock
+</span>
+
+<span class="source-lf comment-block-lflang">
+ * sync algorithm brings the offset to within a few microseconds.
+</span>
+
+<span class="source-lf comment-block-lflang">
+ *
 </span>
 
 <span class="source-lf comment-block-lflang">
@@ -98,7 +110,7 @@ on
 </span>
 
 <span class="source-lf meta-targetspec-lflang variable-parameter-lflang">
-  local-federates-on
+    local-federates-on
 </span>
 <span class="source-lf meta-targetspec-lflang">
 : 
@@ -114,35 +126,35 @@ true
 </span>
 
 <span class="source-lf meta-targetspec-lflang comment-line-double-dash-lflang">
-  
+    
 </span>
 <span class="source-lf meta-targetspec-lflang comment-line-double-dash-lflang">
 // Collect useful statistics like average network delay and the standard deviation for the
 </span>
 
 <span class="source-lf meta-targetspec-lflang comment-line-double-dash-lflang">
-  
+    
 </span>
 <span class="source-lf meta-targetspec-lflang comment-line-double-dash-lflang">
 // network delay over one clock synchronization cycle. Generates a warning if the standard
 </span>
 
 <span class="source-lf meta-targetspec-lflang comment-line-double-dash-lflang">
-  
+    
 </span>
 <span class="source-lf meta-targetspec-lflang comment-line-double-dash-lflang">
 // deviation is higher than the clock sync guard. Artificially offsets clocks by multiples of
 </span>
 
 <span class="source-lf meta-targetspec-lflang comment-line-double-dash-lflang">
-  
+    
 </span>
 <span class="source-lf meta-targetspec-lflang comment-line-double-dash-lflang">
 // 200 msec.
 </span>
 
 <span class="source-lf meta-targetspec-lflang variable-parameter-lflang">
-  collect-stats
+    collect-stats
 </span>
 <span class="source-lf meta-targetspec-lflang">
 : 
@@ -155,26 +167,20 @@ true
 </span>
 
 <span class="source-lf meta-targetspec-lflang variable-parameter-lflang">
-  test-offset
+    test-offset
 </span>
 <span class="source-lf meta-targetspec-lflang">
 : 
 </span>
 <span class="source-lf meta-targetspec-lflang constant-numeric-int-lflang">
-200
+2
 </span>
 <span class="source-lf meta-targetspec-lflang">
- 
-</span>
-<span class="source-lf meta-targetspec-lflang constant-numeric-lflang">
-msec
-</span>
-<span class="source-lf meta-targetspec-lflang">
-,
+ s,
 </span>
 
 <span class="source-lf meta-targetspec-lflang variable-parameter-lflang">
-  period
+    period
 </span>
 <span class="source-lf meta-targetspec-lflang">
 : 
@@ -196,7 +202,7 @@ msec
 </span>
 
 <span class="source-lf meta-targetspec-lflang variable-parameter-lflang">
-  trials
+    trials
 </span>
 <span class="source-lf meta-targetspec-lflang">
 : 
@@ -212,7 +218,7 @@ msec
 </span>
 
 <span class="source-lf meta-targetspec-lflang variable-parameter-lflang">
-  attenuation
+    attenuation
 </span>
 <span class="source-lf meta-targetspec-lflang">
 : 
@@ -231,6 +237,35 @@ msec
   }
 </span>
 
+<span class="source-lf">
+}
+</span>
+
+<span class="source-lf">
+
+</span>
+
+<span class="source-lf keyword-control-lflang">
+preamble
+</span>
+<span class="source-lf">
+ {
+</span>
+<span class="source-lf keyword-operator-lflang">
+=
+</span>
+
+<span class="source-lf">
+  extern interval_t _lf_clock_sync_offset;
+</span>
+
+<span class="source-lf">
+  extern interval_t _lf_clock_sync_constant_bias;
+</span>
+
+<span class="source-lf keyword-operator-lflang">
+=
+</span>
 <span class="source-lf">
 }
 </span>
@@ -353,14 +388,19 @@ tick)
 <span class="source-lf keyword-operator-lflang">
 =
 </span>
+
 <span class="source-lf">
- lf_set(out, 
+    lf_set(out, 
 </span>
 <span class="source-lf constant-numeric-int-lflang">
 42
 </span>
 <span class="source-lf">
-); 
+);
+</span>
+
+<span class="source-lf">
+  
 </span>
 <span class="source-lf keyword-operator-lflang">
 =
@@ -446,35 +486,96 @@ startup
 </span>
 
 <span class="source-lf">
-  interval_t offset 
+    interval_t offset 
 </span>
 <span class="source-lf keyword-operator-lflang">
 =
 </span>
 <span class="source-lf">
- _lf_time_physical_clock_offset 
+ _lf_clock_sync_offset 
 </span>
 <span class="source-lf keyword-operator-lflang">
 +
 </span>
 <span class="source-lf">
- _lf_time_test_physical_clock_offset;
+ _lf_clock_sync_constant_bias;
 </span>
 
 <span class="source-lf">
-  lf_print(
+    lf_print(
 </span>
 <span class="source-lf string-quoted-double-lflang">
 "
 </span>
 <span class="source-lf string-quoted-double-lflang">
-Clock sync error at startup is %lld ns.
+Clock sync error at startup is 
+</span>
+<span class="source-lf string-quoted-double-lflang">
+"
+</span>
+<span class="source-lf">
+ PRINTF_TIME 
+</span>
+<span class="source-lf string-quoted-double-lflang">
+"
+</span>
+<span class="source-lf string-quoted-double-lflang">
+ ns.
 </span>
 <span class="source-lf string-quoted-double-lflang">
 "
 </span>
 <span class="source-lf">
 , offset);
+</span>
+
+<span class="source-lf comment-line-double-dash-lflang">
+    
+</span>
+<span class="source-lf comment-line-double-dash-lflang">
+// Error out if the offset is bigger than 20 s.
+</span>
+
+<span class="source-lf">
+    if (offset > SEC(
+</span>
+<span class="source-lf constant-numeric-int-lflang">
+20
+</span>
+<span class="source-lf">
+) || 
+</span>
+<span class="source-lf keyword-operator-lflang">
+-
+</span>
+<span class="source-lf">
+offset > SEC(
+</span>
+<span class="source-lf constant-numeric-int-lflang">
+20
+</span>
+<span class="source-lf">
+)) {
+</span>
+
+<span class="source-lf">
+      lf_print_error_and_exit(
+</span>
+<span class="source-lf string-quoted-double-lflang">
+"
+</span>
+<span class="source-lf string-quoted-double-lflang">
+Clock sync error at startup exceeds initial test offset of 20 s.
+</span>
+<span class="source-lf string-quoted-double-lflang">
+"
+</span>
+<span class="source-lf">
+);
+</span>
+
+<span class="source-lf">
+    }
 </span>
 
 <span class="source-lf">
@@ -506,8 +607,9 @@ in) {
 <span class="source-lf keyword-operator-lflang">
 =
 </span>
+
 <span class="source-lf">
- lf_print(
+    lf_print(
 </span>
 <span class="source-lf string-quoted-double-lflang">
 "
@@ -525,7 +627,11 @@ Received %d.
 ->
 </span>
 <span class="source-lf">
-value); 
+value);
+</span>
+
+<span class="source-lf">
+  
 </span>
 <span class="source-lf keyword-operator-lflang">
 =
@@ -558,29 +664,41 @@ shutdown
 </span>
 
 <span class="source-lf">
-  interval_t offset 
+    interval_t offset 
 </span>
 <span class="source-lf keyword-operator-lflang">
 =
 </span>
 <span class="source-lf">
- _lf_time_physical_clock_offset 
+ _lf_clock_sync_offset 
 </span>
 <span class="source-lf keyword-operator-lflang">
 +
 </span>
 <span class="source-lf">
- _lf_time_test_physical_clock_offset;
+ _lf_clock_sync_constant_bias;
 </span>
 
 <span class="source-lf">
-  lf_print(
+    lf_print(
 </span>
 <span class="source-lf string-quoted-double-lflang">
 "
 </span>
 <span class="source-lf string-quoted-double-lflang">
-Clock sync error at shutdown is %lld ns.
+Clock sync error at shutdown is 
+</span>
+<span class="source-lf string-quoted-double-lflang">
+"
+</span>
+<span class="source-lf">
+ PRINTF_TIME 
+</span>
+<span class="source-lf string-quoted-double-lflang">
+"
+</span>
+<span class="source-lf string-quoted-double-lflang">
+ ns.
 </span>
 <span class="source-lf string-quoted-double-lflang">
 "
@@ -590,30 +708,42 @@ Clock sync error at shutdown is %lld ns.
 </span>
 
 <span class="source-lf comment-line-double-dash-lflang">
-  
+    
 </span>
 <span class="source-lf comment-line-double-dash-lflang">
-// Error out if the offset is bigger than 100 msec.
+// Error out if the offset is bigger than 20 s.
 </span>
 
 <span class="source-lf">
-  if (offset > MSEC(
+    if (offset > SEC(
 </span>
 <span class="source-lf constant-numeric-int-lflang">
-100
+20
+</span>
+<span class="source-lf">
+) || 
+</span>
+<span class="source-lf keyword-operator-lflang">
+-
+</span>
+<span class="source-lf">
+offset > SEC(
+</span>
+<span class="source-lf constant-numeric-int-lflang">
+20
 </span>
 <span class="source-lf">
 )) {
 </span>
 
 <span class="source-lf">
-    lf_print_error(
+      lf_print_error_and_exit(
 </span>
 <span class="source-lf string-quoted-double-lflang">
 "
 </span>
 <span class="source-lf string-quoted-double-lflang">
-Offset exceeds test threshold of 100 msec.
+Clock sync error at shutdown exceeds initial test offset of 20 s.
 </span>
 <span class="source-lf string-quoted-double-lflang">
 "
@@ -623,17 +753,7 @@ Offset exceeds test threshold of 100 msec.
 </span>
 
 <span class="source-lf">
-    exit(
-</span>
-<span class="source-lf constant-numeric-int-lflang">
-1
-</span>
-<span class="source-lf">
-);
-</span>
-
-<span class="source-lf">
-  }
+    }
 </span>
 
 <span class="source-lf">

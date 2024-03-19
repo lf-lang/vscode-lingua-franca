@@ -70,7 +70,7 @@ time
 0
 </span>
 <span class="source-lf">
-,  
+,                   
 </span>
 <span class="source-lf comment-line-double-dash-lflang">
 // Units are missing but not required
@@ -95,20 +95,38 @@ time
 msec
 </span>
 <span class="source-lf">
-,  
+,                    
 </span>
 <span class="source-lf comment-line-double-dash-lflang">
 // Type is missing but not required
 </span>
 
 <span class="source-lf">
-    p: 
+    p: {
 </span>
-<span class="source-lf storage-type-lflang">
-i32
+<span class="source-lf keyword-operator-lflang">
+=
 </span>
 <span class="source-lf">
-[](
+ [i32; 
+</span>
+<span class="source-lf constant-numeric-int-lflang">
+4
+</span>
+<span class="source-lf">
+] 
+</span>
+<span class="source-lf keyword-operator-lflang">
+=
+</span>
+<span class="source-lf">
+} 
+</span>
+<span class="source-lf keyword-operator-lflang">
+=
+</span>
+<span class="source-lf">
+ [
 </span>
 <span class="source-lf constant-numeric-int-lflang">
 1
@@ -132,20 +150,20 @@ i32
 4
 </span>
 <span class="source-lf">
-),  
+],  
 </span>
 <span class="source-lf comment-line-double-dash-lflang">
-// List of integers
+// array  of integers
 </span>
 
 <span class="source-lf">
     p2: 
 </span>
 <span class="source-lf storage-type-lflang">
-i32
+Vec
 </span>
 <span class="source-lf">
-[] 
+<i32> 
 </span>
 <span class="source-lf keyword-operator-lflang">
 =
@@ -175,20 +193,6 @@ i32
 // List of integers with single element
 </span>
 
-<span class="source-lf comment-line-double-dash-lflang">
-    
-</span>
-<span class="source-lf comment-line-double-dash-lflang">
-// todo // p2: i32[](1), // List of integers with single element p3: i32[](), // Empty list of
-</span>
-
-<span class="source-lf comment-line-double-dash-lflang">
-    
-</span>
-<span class="source-lf comment-line-double-dash-lflang">
-// integers List of time values
-</span>
-
 <span class="source-lf">
     q: 
 </span>
@@ -196,7 +200,19 @@ i32
 Vec
 </span>
 <span class="source-lf">
-<Duration>(
+<Duration> 
+</span>
+<span class="source-lf keyword-operator-lflang">
+=
+</span>
+<span class="source-lf">
+ {
+</span>
+<span class="source-lf keyword-operator-lflang">
+=
+</span>
+<span class="source-lf">
+ vec![delay!(
 </span>
 <span class="source-lf constant-numeric-int-lflang">
 1
@@ -208,7 +224,7 @@ Vec
 msec
 </span>
 <span class="source-lf">
-, 
+), delay!(
 </span>
 <span class="source-lf constant-numeric-int-lflang">
 2
@@ -220,7 +236,7 @@ msec
 msec
 </span>
 <span class="source-lf">
-, 
+), delay!(
 </span>
 <span class="source-lf constant-numeric-int-lflang">
 3
@@ -232,24 +248,48 @@ msec
 msec
 </span>
 <span class="source-lf">
-),
+)] 
+</span>
+<span class="source-lf keyword-operator-lflang">
+=
+</span>
+<span class="source-lf">
+},
 </span>
 
 <span class="source-lf comment-line-double-dash-lflang">
     
 </span>
 <span class="source-lf comment-line-double-dash-lflang">
-// List of time values
+// Array of time values
 </span>
 
 <span class="source-lf">
-    g: 
+    g: {
 </span>
-<span class="source-lf storage-type-lflang">
-time
+<span class="source-lf keyword-operator-lflang">
+=
 </span>
 <span class="source-lf">
-[](
+ [Duration; 
+</span>
+<span class="source-lf constant-numeric-int-lflang">
+2
+</span>
+<span class="source-lf">
+] 
+</span>
+<span class="source-lf keyword-operator-lflang">
+=
+</span>
+<span class="source-lf">
+} 
+</span>
+<span class="source-lf keyword-operator-lflang">
+=
+</span>
+<span class="source-lf">
+ [
 </span>
 <span class="source-lf constant-numeric-int-lflang">
 1
@@ -273,7 +313,7 @@ msec
 msec
 </span>
 <span class="source-lf">
-)) {
+]) {
 </span>
 
 <span class="source-lf">
@@ -493,44 +533,6 @@ timer
 // Implicit type time
 </span>
 
-<span class="source-lf">
-  
-</span>
-<span class="source-lf comment-block-lflang">
-/**
-</span>
-
-<span class="source-lf comment-block-lflang">
-   * fixme following should be equivalent:
-</span>
-
-<span class="source-lf comment-block-lflang">
-   * - state baz(p);
-</span>
-
-<span class="source-lf comment-block-lflang">
-   * - state baz: i32[4](p);
-</span>
-
-<span class="source-lf comment-block-lflang">
-   * - state baz: i32[4]({=p=});
-</span>
-
-<span class="source-lf comment-block-lflang">
-   *
-</span>
-
-<span class="source-lf comment-block-lflang">
-   * because the initializer is the same modulo fat braces
-</span>
-
-<span class="source-lf comment-block-lflang">
-   
-</span>
-<span class="source-lf comment-block-lflang">
-*/
-</span>
-
 <span class="source-lf comment-line-double-dash-lflang">
   
 </span>
@@ -610,7 +612,37 @@ Vec
 =
 </span>
 <span class="source-lf">
-}>>(q, g)  
+}>> 
+</span>
+<span class="source-lf keyword-operator-lflang">
+=
+</span>
+<span class="source-lf">
+ {
+</span>
+<span class="source-lf keyword-operator-lflang">
+=
+</span>
+<span class="source-lf">
+ vec![q, 
+</span>
+<span class="source-lf variable-other-constant-reactorinstance-lflang">
+g
+</span>
+<span class="source-lf keyword-operator-lflang">
+.
+</span>
+<span class="source-lf variable-other-lflang">
+to_vec
+</span>
+<span class="source-lf">
+() ] 
+</span>
+<span class="source-lf keyword-operator-lflang">
+=
+</span>
+<span class="source-lf">
+}  
 </span>
 <span class="source-lf comment-line-double-dash-lflang">
 // a list of lists

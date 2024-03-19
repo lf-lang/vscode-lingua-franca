@@ -197,13 +197,7 @@ t)
 0
 </span>
 <span class="source-lf">
-; i < 
-</span>
-<span class="source-lf constant-numeric-int-lflang">
-2
-</span>
-<span class="source-lf">
-; i
+; i < out_width; i
 </span>
 <span class="source-lf keyword-operator-lflang">
 +
@@ -223,13 +217,37 @@ t)
 </span>
 
 <span class="source-lf">
-      SET_NEW_ARRAY(out[i], 
+      int
+</span>
+<span class="source-lf keyword-operator-lflang">
+*
+</span>
+<span class="source-lf">
+ array 
+</span>
+<span class="source-lf keyword-operator-lflang">
+=
+</span>
+<span class="source-lf">
+ (int
+</span>
+<span class="source-lf keyword-operator-lflang">
+*
+</span>
+<span class="source-lf">
+)malloc(
 </span>
 <span class="source-lf constant-numeric-int-lflang">
 3
 </span>
 <span class="source-lf">
-);
+ 
+</span>
+<span class="source-lf keyword-operator-lflang">
+*
+</span>
+<span class="source-lf">
+ sizeof(int));
 </span>
 
 <span class="source-lf">
@@ -244,13 +262,7 @@ t)
 </span>
 
 <span class="source-lf">
-      out[i]
-</span>
-<span class="source-lf keyword-operator-lflang">
-->
-</span>
-<span class="source-lf">
-value[
+      array[
 </span>
 <span class="source-lf constant-numeric-int-lflang">
 0
@@ -281,13 +293,7 @@ s
 </span>
 
 <span class="source-lf">
-      out[i]
-</span>
-<span class="source-lf keyword-operator-lflang">
-->
-</span>
-<span class="source-lf">
-value[
+      array[
 </span>
 <span class="source-lf constant-numeric-int-lflang">
 1
@@ -318,13 +324,7 @@ s
 </span>
 
 <span class="source-lf">
-      out[i]
-</span>
-<span class="source-lf keyword-operator-lflang">
-->
-</span>
-<span class="source-lf">
-value[
+      array[
 </span>
 <span class="source-lf constant-numeric-int-lflang">
 2
@@ -352,6 +352,27 @@ s
 </span>
 <span class="source-lf">
 ;
+</span>
+
+<span class="source-lf">
+
+</span>
+
+<span class="source-lf comment-line-double-dash-lflang">
+      
+</span>
+<span class="source-lf comment-line-double-dash-lflang">
+// Set the output
+</span>
+
+<span class="source-lf">
+      lf_set_array(out[i], array, 
+</span>
+<span class="source-lf constant-numeric-int-lflang">
+3
+</span>
+<span class="source-lf">
+);
 </span>
 
 <span class="source-lf">
@@ -514,6 +535,31 @@ is_present) {
 </span>
 
 <span class="source-lf">
+        printf(
+</span>
+<span class="source-lf string-quoted-double-lflang">
+"
+</span>
+<span class="source-lf string-quoted-double-lflang">
+Array length is %zu.
+</span>
+<span class="source-lf string-quoted-double-lflang constant-character-escape">
+\n
+</span>
+<span class="source-lf string-quoted-double-lflang">
+"
+</span>
+<span class="source-lf">
+, in[i]
+</span>
+<span class="source-lf keyword-operator-lflang">
+->
+</span>
+<span class="source-lf">
+length);
+</span>
+
+<span class="source-lf">
         for (int j 
 </span>
 <span class="source-lf keyword-operator-lflang">
@@ -545,6 +591,31 @@ length; j
 </span>
 
 <span class="source-lf">
+          printf(
+</span>
+<span class="source-lf string-quoted-double-lflang">
+"
+</span>
+<span class="source-lf string-quoted-double-lflang">
+Adding value %d.
+</span>
+<span class="source-lf string-quoted-double-lflang constant-character-escape">
+\n
+</span>
+<span class="source-lf string-quoted-double-lflang">
+"
+</span>
+<span class="source-lf">
+, in[i]
+</span>
+<span class="source-lf keyword-operator-lflang">
+->
+</span>
+<span class="source-lf">
+value[j]);
+</span>
+
+<span class="source-lf">
           sum 
 </span>
 <span class="source-lf keyword-operator-lflang">
@@ -565,6 +636,39 @@ value[j];
 
 <span class="source-lf">
         }
+</span>
+
+<span class="source-lf">
+      } else {
+</span>
+
+<span class="source-lf">
+        printf(
+</span>
+<span class="source-lf string-quoted-double-lflang">
+"
+</span>
+<span class="source-lf string-quoted-double-lflang">
+ERROR: Expected input to be present.
+</span>
+<span class="source-lf string-quoted-double-lflang constant-character-escape">
+\n
+</span>
+<span class="source-lf string-quoted-double-lflang">
+"
+</span>
+<span class="source-lf">
+);
+</span>
+
+<span class="source-lf">
+        exit(
+</span>
+<span class="source-lf constant-numeric-int-lflang">
+1
+</span>
+<span class="source-lf">
+);
 </span>
 
 <span class="source-lf">

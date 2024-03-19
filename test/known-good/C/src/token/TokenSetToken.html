@@ -1,0 +1,604 @@
+<span class="source-lf comment-block-lflang">
+/**
+</span>
+
+<span class="source-lf comment-block-lflang">
+ * Test using a token for setting an output and scheduling an action.
+</span>
+
+<span class="source-lf comment-block-lflang">
+ * @author Edward A. Lee (eal@berkeley.edu)
+</span>
+
+<span class="source-lf comment-block-lflang">
+ 
+</span>
+<span class="source-lf comment-block-lflang">
+*/
+</span>
+
+<span class="source-lf meta-targetspec-lflang keyword-control-lflang">
+target
+</span>
+<span class="source-lf meta-targetspec-lflang">
+ 
+</span>
+<span class="source-lf meta-targetspec-lflang constant-language-lflang">
+C
+</span>
+<span class="source-lf meta-targetspec-lflang">
+ {
+</span>
+
+<span class="source-lf meta-targetspec-lflang variable-parameter-lflang">
+  build-type
+</span>
+<span class="source-lf meta-targetspec-lflang">
+: 
+</span>
+<span class="source-lf meta-targetspec-lflang storage-type-lflang">
+Debug
+</span>
+<span class="source-lf meta-targetspec-lflang">
+,
+</span>
+
+<span class="source-lf meta-targetspec-lflang variable-parameter-lflang">
+  timeout
+</span>
+<span class="source-lf meta-targetspec-lflang">
+: 
+</span>
+<span class="source-lf meta-targetspec-lflang constant-numeric-int-lflang">
+2
+</span>
+<span class="source-lf meta-targetspec-lflang">
+ ms
+</span>
+
+<span class="source-lf meta-targetspec-lflang">
+}
+</span>
+
+<span class="source-lf">
+
+</span>
+
+<span class="source-lf keyword-control-import-lflang">
+import
+</span>
+<span class="source-lf">
+ 
+</span>
+<span class="source-lf entity-name-type-lflang">
+TokenPrint
+</span>
+<span class="source-lf">
+ 
+</span>
+<span class="source-lf keyword-control-import-lflang">
+from
+</span>
+<span class="source-lf">
+ 
+</span>
+<span class="source-lf string-quoted-double-lflang">
+"
+</span>
+<span class="source-lf string-quoted-double-lflang">
+lib/Token.lf
+</span>
+<span class="source-lf string-quoted-double-lflang">
+"
+</span>
+
+<span class="source-lf">
+
+</span>
+
+<span class="source-lf keyword-control-lflang">
+preamble
+</span>
+<span class="source-lf">
+ {
+</span>
+<span class="source-lf keyword-operator-lflang">
+=
+</span>
+
+<span class="source-lf comment-line-double-dash-lflang">
+  
+</span>
+<span class="source-lf comment-line-double-dash-lflang">
+// NOTE: array.h will get included in the generated directories because
+</span>
+
+<span class="source-lf comment-line-double-dash-lflang">
+  
+</span>
+<span class="source-lf comment-line-double-dash-lflang">
+// it is in the file properties of lib/Token.lf.  However, we still need
+</span>
+
+<span class="source-lf comment-line-double-dash-lflang">
+  
+</span>
+<span class="source-lf comment-line-double-dash-lflang">
+// this #include for the source file for TokenSource2.
+</span>
+
+<span class="source-lf comment-line-double-dash-lflang">
+  
+</span>
+<span class="source-lf comment-line-double-dash-lflang">
+#include "array.h"
+</span>
+
+<span class="source-lf keyword-operator-lflang">
+=
+</span>
+<span class="source-lf">
+}
+</span>
+
+<span class="source-lf">
+
+</span>
+
+<span class="source-lf storage-modifier-lflang">
+reactor
+</span>
+<span class="source-lf">
+ 
+</span>
+<span class="source-lf entity-name-type-lflang">
+TokenSource2
+</span>
+<span class="source-lf">
+ {
+</span>
+
+<span class="source-lf">
+  
+</span>
+<span class="source-lf storage-modifier-lflang">
+output
+</span>
+<span class="source-lf">
+ 
+</span>
+<span class="source-lf variable-other-lflang">
+out
+</span>
+<span class="source-lf">
+:
+</span>
+<span class="source-lf meta-embedded-block-cpp">
+ 
+</span>
+<span class="source-lf meta-embedded-block-cpp storage-type-lflang">
+int_array_t
+</span>
+<span class="source-lf meta-embedded-block-cpp">
+*
+</span>
+
+<span class="source-lf">
+  
+</span>
+<span class="source-lf storage-modifier-lflang">
+state
+</span>
+<span class="source-lf">
+ 
+</span>
+<span class="source-lf variable-other-lflang">
+count
+</span>
+<span class="source-lf">
+:
+</span>
+<span class="source-lf meta-embedded-block-cpp">
+ 
+</span>
+<span class="source-lf meta-embedded-block-cpp storage-type-lflang">
+int
+</span>
+<span class="source-lf meta-embedded-block-cpp">
+ 
+</span>
+<span class="source-lf">
+=
+</span>
+<span class="source-lf">
+ 
+</span>
+<span class="source-lf constant-numeric-int-lflang">
+0
+</span>
+
+<span class="source-lf">
+  
+</span>
+<span class="source-lf storage-modifier-lflang">
+timer
+</span>
+<span class="source-lf">
+ t(
+</span>
+<span class="source-lf constant-numeric-int-lflang">
+0
+</span>
+<span class="source-lf">
+, 
+</span>
+<span class="source-lf constant-numeric-int-lflang">
+2
+</span>
+<span class="source-lf">
+ ms)
+</span>
+
+<span class="source-lf">
+  
+</span>
+<span class="source-lf storage-modifier-lflang">
+logical
+</span>
+<span class="source-lf">
+ 
+</span>
+<span class="source-lf storage-modifier-lflang">
+action
+</span>
+<span class="source-lf">
+ 
+</span>
+<span class="source-lf variable-other-lflang">
+a
+</span>
+<span class="source-lf">
+(
+</span>
+<span class="source-lf constant-numeric-int-lflang">
+1
+</span>
+<span class="source-lf">
+ ms): 
+</span>
+<span class="source-lf storage-type-lflang">
+int_array_t
+</span>
+<span class="source-lf keyword-operator-lflang">
+*
+</span>
+
+<span class="source-lf">
+
+</span>
+
+<span class="source-lf">
+  
+</span>
+<span class="source-lf keyword-control-lflang">
+reaction
+</span>
+<span class="source-lf">
+(
+</span>
+<span class="source-lf support-variable-lflang">
+startup
+</span>
+<span class="source-lf">
+) 
+</span>
+<span class="source-lf keyword-operator-lflang">
+->
+</span>
+<span class="source-lf">
+ out {
+</span>
+<span class="source-lf keyword-operator-lflang">
+=
+</span>
+
+<span class="source-lf">
+    lf_set_destructor(out, int_array_destructor);
+</span>
+
+<span class="source-lf">
+    lf_set_copy_constructor(out, int_array_copy_constructor);
+</span>
+
+<span class="source-lf">
+  
+</span>
+<span class="source-lf keyword-operator-lflang">
+=
+</span>
+<span class="source-lf">
+}
+</span>
+
+<span class="source-lf">
+
+</span>
+
+<span class="source-lf">
+  
+</span>
+<span class="source-lf keyword-control-lflang">
+reaction
+</span>
+<span class="source-lf">
+(
+</span>
+<span class="source-lf">
+t, a) 
+</span>
+<span class="source-lf keyword-operator-lflang">
+->
+</span>
+<span class="source-lf">
+ out, a {
+</span>
+<span class="source-lf keyword-operator-lflang">
+=
+</span>
+
+<span class="source-lf">
+    int_array_t
+</span>
+<span class="source-lf keyword-operator-lflang">
+*
+</span>
+<span class="source-lf">
+ array 
+</span>
+<span class="source-lf keyword-operator-lflang">
+=
+</span>
+<span class="source-lf">
+  int_array_constructor(
+</span>
+<span class="source-lf constant-numeric-int-lflang">
+3
+</span>
+<span class="source-lf">
+);
+</span>
+
+<span class="source-lf">
+    for (size_t i 
+</span>
+<span class="source-lf keyword-operator-lflang">
+=
+</span>
+<span class="source-lf">
+ 
+</span>
+<span class="source-lf constant-numeric-int-lflang">
+0
+</span>
+<span class="source-lf">
+; i < array
+</span>
+<span class="source-lf keyword-operator-lflang">
+->
+</span>
+<span class="source-lf">
+length; i
+</span>
+<span class="source-lf keyword-operator-lflang">
++
+</span>
+<span class="source-lf keyword-operator-lflang">
++
+</span>
+<span class="source-lf">
+) {
+</span>
+
+<span class="source-lf">
+      array
+</span>
+<span class="source-lf keyword-operator-lflang">
+->
+</span>
+<span class="source-lf">
+data[i] 
+</span>
+<span class="source-lf keyword-operator-lflang">
+=
+</span>
+<span class="source-lf">
+ self
+</span>
+<span class="source-lf keyword-operator-lflang">
+->
+</span>
+<span class="source-lf">
+count
+</span>
+<span class="source-lf keyword-operator-lflang">
++
+</span>
+<span class="source-lf keyword-operator-lflang">
++
+</span>
+<span class="source-lf">
+;
+</span>
+
+<span class="source-lf">
+    }
+</span>
+
+<span class="source-lf">
+    lf_token_t
+</span>
+<span class="source-lf keyword-operator-lflang">
+*
+</span>
+<span class="source-lf">
+ token 
+</span>
+<span class="source-lf keyword-operator-lflang">
+=
+</span>
+<span class="source-lf">
+ lf_new_token((lf_port_base_t
+</span>
+<span class="source-lf keyword-operator-lflang">
+*
+</span>
+<span class="source-lf">
+)out, array, 
+</span>
+<span class="source-lf constant-numeric-int-lflang">
+1
+</span>
+<span class="source-lf">
+);
+</span>
+
+<span class="source-lf">
+    lf_set_token(out, token);
+</span>
+
+<span class="source-lf">
+    lf_schedule_token(a, 
+</span>
+<span class="source-lf constant-numeric-int-lflang">
+0
+</span>
+<span class="source-lf">
+, token);
+</span>
+
+<span class="source-lf">
+  
+</span>
+<span class="source-lf keyword-operator-lflang">
+=
+</span>
+<span class="source-lf">
+}
+</span>
+
+<span class="source-lf">
+}
+</span>
+
+<span class="source-lf">
+
+</span>
+
+<span class="source-lf storage-modifier-lflang">
+main
+</span>
+<span class="source-lf">
+ 
+</span>
+<span class="source-lf storage-modifier-lflang">
+reactor
+</span>
+<span class="source-lf">
+ {
+</span>
+
+<span class="source-lf">
+  
+</span>
+<span class="source-lf variable-other-constant-reactorinstance-lflang">
+s
+</span>
+<span class="source-lf">
+ 
+</span>
+<span class="source-lf keyword-operator-lflang">
+=
+</span>
+<span class="source-lf">
+ 
+</span>
+<span class="source-lf keyword-control-new-lflang">
+new
+</span>
+<span class="source-lf">
+ 
+</span>
+<span class="source-lf entity-name-type-lflang">
+TokenSource2
+</span>
+<span class="source-lf">
+()
+</span>
+
+<span class="source-lf">
+  
+</span>
+<span class="source-lf variable-other-constant-reactorinstance-lflang">
+p
+</span>
+<span class="source-lf">
+ 
+</span>
+<span class="source-lf keyword-operator-lflang">
+=
+</span>
+<span class="source-lf">
+ 
+</span>
+<span class="source-lf keyword-control-new-lflang">
+new
+</span>
+<span class="source-lf">
+ 
+</span>
+<span class="source-lf entity-name-type-lflang">
+TokenPrint
+</span>
+<span class="source-lf">
+()
+</span>
+
+<span class="source-lf">
+  
+</span>
+<span class="source-lf variable-other-constant-reactorinstance-lflang">
+s
+</span>
+<span class="source-lf keyword-operator-lflang">
+.
+</span>
+<span class="source-lf variable-other-lflang">
+out
+</span>
+<span class="source-lf">
+ 
+</span>
+<span class="source-lf keyword-operator-lflang">
+->
+</span>
+<span class="source-lf">
+ 
+</span>
+<span class="source-lf variable-other-constant-reactorinstance-lflang">
+p
+</span>
+<span class="source-lf keyword-operator-lflang">
+.
+</span>
+<span class="source-lf variable-other-lflang">
+in
+</span>
+
+<span class="source-lf">
+}
+</span>
+
+<span class="source-lf">
+
+</span>
+

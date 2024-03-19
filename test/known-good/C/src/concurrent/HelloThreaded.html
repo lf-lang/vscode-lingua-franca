@@ -381,7 +381,16 @@ BILLION;
 "
 </span>
 <span class="source-lf string-quoted-double-lflang">
-Current time is %lld
+Current time is 
+</span>
+<span class="source-lf string-quoted-double-lflang">
+"
+</span>
+<span class="source-lf">
+ PRINTF_TIME 
+</span>
+<span class="source-lf string-quoted-double-lflang">
+"
 </span>
 <span class="source-lf string-quoted-double-lflang constant-character-escape">
 \n
@@ -406,7 +415,19 @@ previous_time);
 "
 </span>
 <span class="source-lf string-quoted-double-lflang">
-Which is %sPlus %lld nanoseconds.
+Which is %sPlus 
+</span>
+<span class="source-lf string-quoted-double-lflang">
+"
+</span>
+<span class="source-lf">
+ PRINTF_TIME 
+</span>
+<span class="source-lf string-quoted-double-lflang">
+"
+</span>
+<span class="source-lf string-quoted-double-lflang">
+ nanoseconds.
 </span>
 <span class="source-lf string-quoted-double-lflang constant-character-escape">
 \n
@@ -492,7 +513,16 @@ count)
 "
 </span>
 <span class="source-lf string-quoted-double-lflang">
-***** action %d at time %lld
+***** action %d at time 
+</span>
+<span class="source-lf string-quoted-double-lflang">
+"
+</span>
+<span class="source-lf">
+ PRINTF_TIME 
+</span>
+<span class="source-lf string-quoted-double-lflang">
+"
 </span>
 <span class="source-lf string-quoted-double-lflang constant-character-escape">
 \n
@@ -561,7 +591,7 @@ FAILURE: Expected a->has_value to be false, but it was true.
 </span>
 
 <span class="source-lf">
-    long long 
+    instant_t 
 </span>
 <span class="source-lf storage-type-lflang">
 time
@@ -611,7 +641,19 @@ previous_time !
 "
 </span>
 <span class="source-lf string-quoted-double-lflang">
-FAILURE: Expected 200ms of logical time to elapse but got %lld nanoseconds.
+FAILURE: Expected 200ms of logical time to elapse but got 
+</span>
+<span class="source-lf string-quoted-double-lflang">
+"
+</span>
+<span class="source-lf">
+ PRINTF_TIME 
+</span>
+<span class="source-lf string-quoted-double-lflang">
+"
+</span>
+<span class="source-lf string-quoted-double-lflang">
+ nanoseconds.
 </span>
 <span class="source-lf string-quoted-double-lflang constant-character-escape">
 \n
