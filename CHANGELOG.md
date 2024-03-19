@@ -1,5 +1,15 @@
 # Changelog
  
+## [v0.7.0](https://github.com/lf-lang/vscode-lingua-franca/tree/v0.7.0) (2024-03-19)
+
+To change this text, edit notes/vscode-lingua-franca/v0.7.0.md in the release-notes repo.
+
+**⬆️ Updated Dependencies**
+
+- Dependency `get-func-name` bumped to 2.0.2 [\#149](https://github.com/lf-lang/vscode-lingua-franca/pull/149) (@lhstrh)
+
+
+ 
 ## [v0.6.0](https://github.com/lf-lang/vscode-lingua-franca/tree/v0.6.0) (2024-01-26)
 
 **Highlights**
