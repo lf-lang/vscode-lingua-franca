@@ -6,7 +6,7 @@
         "module": "commonjs",
         "moduleResolution": "node",
         "outDir": "./out",
-        "sourceMap": false,
+        "sourceMap": true,
         "target": "esnext",
         "rootDir": "./src",
     },
