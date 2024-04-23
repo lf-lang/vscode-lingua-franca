@@ -75,7 +75,8 @@
             },
             {
                 "command": "linguafranca.buildAndRun",
-                "title": "Lingua Franca: Build and Run"
+                "title": "Lingua Franca: Build and Run",
+                "icon": "$(play)"
             },
             {
                 "command": "linguafranca.createNewFile",
@@ -104,6 +105,11 @@
                     "when": "resourceLangId == lflang",
                     "command": "klighd-vscode.diagram.open",
                     "group": "navigation"
+                },
+                {
+                    "when": "resourceLangId == lflang",
+                    "command": "linguafranca.buildAndRun",
+                    "group": "navigation"
                 }
             ],
             "editor/context": [
@@ -123,6 +129,24 @@
             "file/newFile": [
                 {
                     "command": "linguafranca.createNewFile"
+                }
+            ]
+        },
+        "viewsContainers": {
+            "activitybar": [
+                {
+                    "id": "lf-lang",
+                    "title": "Lingua Franca",
+                    "icon": "$(flame)"
+                }
+            ]
+        },
+        "views": {
+            "lf-lang": [
+                {
+                    "type": "tree",
+                    "id": "lf-lang-explorer",
+                    "name": "Lingua Franca Explorer"
                 }
             ]
         }
