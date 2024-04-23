@@ -8,6 +8,11 @@ export class LFDataProvider implements vscode.TreeDataProvider<LFDataProviderNod
         private context: vscode.ExtensionContext
     ) {
         // vscode.workspace.onDidChangeWorkspaceFolders(()
+        client.onReady().then(() => {
+            client.onNotification('update/example', (message) => {
+                console.log("*******" + message + "*******")
+            })
+        })
     }
     onDidChangeTreeData?: vscode.Event<void | LFDataProviderNode | LFDataProviderNode[]>
     getTreeItem(element: LFDataProviderNode): vscode.TreeItem | Thenable<vscode.TreeItem> {
