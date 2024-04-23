@@ -15,9 +15,10 @@ export class LFDataProvider implements vscode.TreeDataProvider<LFDataProviderNod
     }
     getChildren(element?: LFDataProviderNode): vscode.ProviderResult<LFDataProviderNode[]> {
         if (!element) {
-            this.client.sendRequest('generator/getLibraryReactors').then(message => {
-
-                console.log("+++++++++++++++++++++++++" + message)
+            this.client.onReady().then(() => {
+                this.client.sendRequest('generator/getLibraryReactors').then(message => {
+                    console.log("+++++++++++++++++++++++++" + message)
+                })
             })
             let result = []
             return vscode.workspace.findFiles('**/lib/*.lf').then(files => {
