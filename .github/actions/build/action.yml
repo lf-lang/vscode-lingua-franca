@@ -52,7 +52,10 @@ runs:
       shell: bash
       if: ${{ inputs.package == 'true' && inputs.pre-release == 'true'}}
     - name: Install pylint
-      run: python3 -m pip install pylint
+      run: |
+        python3 -m venv .venv
+        source .venv/bin/activate
+        python3 -m pip install pylint
       shell: bash
       if: ${{ inputs.partial == 'false' }}
     - name: Install pnpm
