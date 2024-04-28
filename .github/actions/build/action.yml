@@ -53,7 +53,8 @@ runs:
       if: ${{ inputs.package == 'true' && inputs.pre-release == 'true'}}
     - name: Install pylint
       run: |
-        sudo pip3 install pylint --break-system-packages
+        sudo python -m pip install --upgrade pip
+        sudo pip install pylint --break-system-packages
       shell: bash
       if: ${{ inputs.partial == 'false' }}
     - name: Install pnpm
