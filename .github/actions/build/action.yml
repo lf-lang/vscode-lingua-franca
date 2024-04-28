@@ -54,7 +54,7 @@ runs:
     - name: Install pylint
       run: |
         sudo python -m pip install --upgrade pip
-        sudo pip install pylint --break-system-packages
+        sudo pip3 install pylint --break-system-packages
       shell: bash
       if: ${{ inputs.partial == 'false' }}
     - name: Install pnpm
