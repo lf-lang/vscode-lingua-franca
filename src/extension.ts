@@ -11,7 +11,7 @@ import { legend, semanticTokensProvider } from './highlight';
 import * as config from './config';
 import { registerBuildCommands, registerNewFileCommand } from './build_commands';
 import * as checkDependencies from './check_dependencies';
-import { LFDataProvider } from './lfview/lf-data-provider';
+import { LFDataProvider, registerGoToFileCommand } from './lfview/lf-data-provider';
 
 let client: LanguageClient;
 let socket: Socket
@@ -59,8 +59,15 @@ export async function activate(context: vscode.ExtensionContext) {
     registerNewFileCommand(context);
 
     const lfDataProvider = new LFDataProvider(client, context);
-    vscode.window.registerTreeDataProvider('lf-lang-explorer', lfDataProvider);
-    vscode.window.createTreeView('lf-lang-explorer', {treeDataProvider: lfDataProvider});
+    vscode.window.registerTreeDataProvider('lf-lang-local', lfDataProvider);
+    vscode.window.createTreeView('lf-lang-local', {treeDataProvider: lfDataProvider});
+    await lfDataProvider.refreshTree();
+    registerGoToFileCommand(context)
+
+    // vscode.window.registerTreeDataProvider('lf-lang-remote', lfDataProvider);
+    // vscode.window.createTreeView('lf-lang-remote', {treeDataProvider: lfDataProvider});
+
+    // lfDataProvider.refreshTree();
 }
 
 /**

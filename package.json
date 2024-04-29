@@ -82,7 +82,18 @@
                 "command": "linguafranca.createNewFile",
                 "title": "New Lingua Franca File",
                 "shortTitle": "Lingua Franca File"
+            },
+            {
+                "command": "linguafranca.refreshEntry",
+                "title": "Refresh Tree View",
+                "icon": "$(refresh)"
+            },
+            {
+                "command": "linguafranca.goToFile",
+                "title": "Go To Selected File",
+                "icon": "$(go-to-file)"
             }
+
         ],
         "configuration": {
             "title": "LinguaFranca",
@@ -130,14 +141,27 @@
                 {
                     "command": "linguafranca.createNewFile"
                 }
+            ],
+            "view/title": [
+                {
+                    "command": "linguafranca.refreshEntry",
+                    "group": "navigation"
+                }
+            ],
+            "view/item/context" : [
+                {
+                    "command": "linguafranca.goToFile",
+                    "group": "inline",
+                    "when": "viewItem != root"
+                }
             ]
         },
         "viewsContainers": {
             "activitybar": [
                 {
                     "id": "lf-lang",
-                    "title": "Lingua Franca",
-                    "icon": "$(flame)"
+                    "title": "Lingua Franca Package Explorer",
+                    "icon": "images/logo/lf-logo-dark.svg"
                 }
             ]
         },
@@ -145,8 +169,13 @@
             "lf-lang": [
                 {
                     "type": "tree",
-                    "id": "lf-lang-explorer",
-                    "name": "Lingua Franca Explorer"
+                    "id": "lf-lang-local",
+                    "name": "Local"
+                },
+                {
+                    "type": "tree",
+                    "id": "lf-lang-remote",
+                    "name": "Remote"
                 }
             ]
         }
