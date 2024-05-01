@@ -1,5 +1,25 @@
 # Changelog
  
+## [v0.7.0](https://github.com/lf-lang/vscode-lingua-franca/tree/v0.7.0) (2024-05-01)
+
+**Highlights**
+
+This release includes an updated Lingua Franca compiler and updates of several tests and dependencies.
+
+**✨ Enhancements**
+
+- Launch configuration for the LF extension on a socket without a locally developed klighd extension [\#157](https://github.com/lf-lang/vscode-lingua-franca/pull/157) (@soerendomroes)
+
+**🧪 Tests**
+
+- Update lingua-franca and known-good [\#154](https://github.com/lf-lang/vscode-lingua-franca/pull/154) (@petervdonovan)
+
+**⬆️ Updated Dependencies**
+
+- Dependency `get-func-name` bumped to 2.0.2 [\#149](https://github.com/lf-lang/vscode-lingua-franca/pull/149) (@lhstrh)
+
+
+ 
 ## [v0.6.0](https://github.com/lf-lang/vscode-lingua-franca/tree/v0.6.0) (2024-01-26)
 
 **Highlights**
