@@ -11,7 +11,7 @@ import { legend, semanticTokensProvider } from './highlight';
 import * as config from './config';
 import { registerBuildCommands, registerNewFileCommand } from './build_commands';
 import * as checkDependencies from './check_dependencies';
-import { LFDataProvider, registerGoToFileCommand } from './lfview/lf-data-provider';
+import { LFDataProvider} from './lfview/lf-data-provider';
 
 let client: LanguageClient;
 let socket: Socket
@@ -58,11 +58,15 @@ export async function activate(context: vscode.ExtensionContext) {
     registerBuildCommands(context, client);
     registerNewFileCommand(context);
 
+    /**
+    * Registers a tree data provider and creates a tree view for the 'lf-lang-local' view in the Visual Studio Code extension.
+    * The `LFDataProvider` instance is responsible for providing the data for the tree view.
+    * The `refreshTree()` method is called to update the contents of the tree view.
+    */
     const lfDataProvider = new LFDataProvider(client, context);
     vscode.window.registerTreeDataProvider('lf-lang-local', lfDataProvider);
-    vscode.window.createTreeView('lf-lang-local', {treeDataProvider: lfDataProvider});
-    await lfDataProvider.refreshTree();
-    registerGoToFileCommand(context)
+    vscode.window.createTreeView('lf-lang-local', { treeDataProvider: lfDataProvider });
+    lfDataProvider.refreshTree();
 
     // vscode.window.registerTreeDataProvider('lf-lang-remote', lfDataProvider);
     // vscode.window.createTreeView('lf-lang-remote', {treeDataProvider: lfDataProvider});

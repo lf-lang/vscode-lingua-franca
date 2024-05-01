@@ -84,7 +84,7 @@
                 "shortTitle": "Lingua Franca File"
             },
             {
-                "command": "linguafranca.refreshEntry",
+                "command": "linguafranca.refreshEntries",
                 "title": "Refresh Tree View",
                 "icon": "$(refresh)"
             },
@@ -92,6 +92,16 @@
                 "command": "linguafranca.goToFile",
                 "title": "Go To Selected File",
                 "icon": "$(go-to-file)"
+            },
+            {
+                "command": "linguafranca.importReactor",
+                "title": "Import Selected Reactor",
+                "icon": "$(insert)"
+            },
+            {
+                "command": "linguafranca.openInSplitView",
+                "title": "Open in Split View",
+                "icon": "$(split-horizontal)"
             }
 
         ],
@@ -144,7 +154,7 @@
             ],
             "view/title": [
                 {
-                    "command": "linguafranca.refreshEntry",
+                    "command": "linguafranca.refreshEntries",
                     "group": "navigation"
                 }
             ],
@@ -153,6 +163,16 @@
                     "command": "linguafranca.goToFile",
                     "group": "inline",
                     "when": "viewItem != root"
+                },
+                {
+                    "command": "linguafranca.openInSplitView",
+                    "group": "inline",
+                    "when": "viewItem == file"
+                },
+                {
+                    "command": "linguafranca.importReactor",
+                    "group": "inline",
+                    "when": "viewItem == reactor"
                 }
             ]
         },
