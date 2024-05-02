@@ -89,7 +89,17 @@
                 "icon": "$(refresh)"
             },
             {
+                "command": "linguafranca.refreshRemoteEntries",
+                "title": "Refresh Tree View",
+                "icon": "$(refresh)"
+            },
+            {
                 "command": "linguafranca.goToFile",
+                "title": "Go To Selected File",
+                "icon": "$(go-to-file)"
+            },
+            {
+                "command": "linguafranca.goToRemoteFile",
                 "title": "Go To Selected File",
                 "icon": "$(go-to-file)"
             },
@@ -99,9 +109,29 @@
                 "icon": "$(insert)"
             },
             {
+                "command": "linguafranca.importRemoteReactor",
+                "title": "Import Selected Reactor",
+                "icon": "$(insert)"
+            },
+            {
                 "command": "linguafranca.openInSplitView",
                 "title": "Open in Split View",
                 "icon": "$(split-horizontal)"
+            },
+            {
+                "command": "linguafranca.openRemoteInSplitView",
+                "title": "Open in Split View",
+                "icon": "$(split-horizontal)"
+            },
+            {
+                "command": "linguafranca.collapseAll",
+                "title": "Collapse All",
+                "icon": "$(collapse-all)"
+            },
+            {
+                "command": "linguafranca.collapseAllRemote",
+                "title": "Collapse All",
+                "icon": "$(collapse-all)"
             }
 
         ],
@@ -155,24 +185,56 @@
             "view/title": [
                 {
                     "command": "linguafranca.refreshEntries",
-                    "group": "navigation"
+                    "group": "navigation@1",
+                    "when": "view == lf-lang-local"
+                },
+                {
+                    "command": "linguafranca.refreshRemoteEntries",
+                    "group": "navigation@1",
+                    "when": "view == lf-lang-remote"
+                },
+                {
+                    "command": "linguafranca.collapseAll",
+                    "group": "navigation@2",
+                    "when": "view == lf-lang-local"
+                },
+                {
+                    "command": "linguafranca.collapseAllRemote",
+                    "group": "navigation@2",
+                    "when": "view == lf-lang-remote"
                 }
+
             ],
             "view/item/context" : [
                 {
                     "command": "linguafranca.goToFile",
                     "group": "inline",
-                    "when": "viewItem != root"
+                    "when": "view == lf-lang-local && viewItem == file"
+                },
+                {
+                    "command": "linguafranca.goToRemoteFile",
+                    "group": "inline",
+                    "when": "view == lf-lang-remote && viewItem == file"
                 },
                 {
                     "command": "linguafranca.openInSplitView",
                     "group": "inline",
-                    "when": "viewItem == file"
+                    "when": "view == lf-lang-local && viewItem != root"
+                },
+                {
+                    "command": "linguafranca.openRemoteInSplitView",
+                    "group": "inline",
+                    "when": "view == lf-lang-remote && viewItem != root"
                 },
                 {
                     "command": "linguafranca.importReactor",
                     "group": "inline",
-                    "when": "viewItem == reactor"
+                    "when": "view == lf-lang-local && viewItem == reactor"
+                },
+                {
+                    "command": "linguafranca.importRemoteReactor",
+                    "group": "inline",
+                    "when": "view == lf-lang-remote && viewItem == reactor"
                 }
             ]
         },
@@ -188,12 +250,10 @@
         "views": {
             "lf-lang": [
                 {
-                    "type": "tree",
                     "id": "lf-lang-local",
                     "name": "Local"
                 },
                 {
-                    "type": "tree",
                     "id": "lf-lang-remote",
                     "name": "Remote"
                 }

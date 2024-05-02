@@ -11,7 +11,8 @@ import { legend, semanticTokensProvider } from './highlight';
 import * as config from './config';
 import { registerBuildCommands, registerNewFileCommand } from './build_commands';
 import * as checkDependencies from './check_dependencies';
-import { LFDataProvider} from './lfview/lf-data-provider';
+import { LFDataProvider, LFDataProviderNodeType} from './lfview/lf-data-provider';
+import { registerCollapseAllCommand, registerCollapseAllRemoteCommand, registerGoToFileCommand, registerGoToRemoteFileCommand, registerImportReactorCommand, registerImportRemoteReactorCommand, registerOpenInSplitViewCommand, registerOpenRemoteInSplitViewCommand, registerRefreshCommand, registerRefreshRemoteCommand } from './lfview/lf-data-provider-commands';
 
 let client: LanguageClient;
 let socket: Socket
@@ -63,15 +64,26 @@ export async function activate(context: vscode.ExtensionContext) {
     * The `LFDataProvider` instance is responsible for providing the data for the tree view.
     * The `refreshTree()` method is called to update the contents of the tree view.
     */
-    const lfDataProvider = new LFDataProvider(client, context);
-    vscode.window.registerTreeDataProvider('lf-lang-local', lfDataProvider);
-    vscode.window.createTreeView('lf-lang-local', { treeDataProvider: lfDataProvider });
-    lfDataProvider.refreshTree();
+    const lfDataProviderLocal = new LFDataProvider(LFDataProviderNodeType.LOCAL, client, context);
+    context.subscriptions.push(vscode.window.registerTreeDataProvider('lf-lang-local', lfDataProviderLocal));
+    context.subscriptions.push(vscode.window.createTreeView('lf-lang-local', { treeDataProvider: lfDataProviderLocal }));
 
-    // vscode.window.registerTreeDataProvider('lf-lang-remote', lfDataProvider);
-    // vscode.window.createTreeView('lf-lang-remote', {treeDataProvider: lfDataProvider});
+    const lfDataProviderRemote = new LFDataProvider(LFDataProviderNodeType.REMOTE, client, context);
+    context.subscriptions.push(vscode.window.registerTreeDataProvider('lf-lang-remote', lfDataProviderRemote));
+    context.subscriptions.push(vscode.window.createTreeView('lf-lang-remote', { treeDataProvider: lfDataProviderRemote }));
 
-    // lfDataProvider.refreshTree();
+    // Register all teh commands
+    registerRefreshCommand(context, lfDataProviderLocal);
+    registerRefreshRemoteCommand(context, lfDataProviderRemote);
+    registerGoToFileCommand(context, lfDataProviderLocal);
+    registerGoToRemoteFileCommand(context, lfDataProviderRemote);
+    registerOpenInSplitViewCommand(context, lfDataProviderLocal);
+    registerOpenRemoteInSplitViewCommand(context, lfDataProviderRemote);
+    registerImportReactorCommand(context, lfDataProviderLocal);
+    registerImportRemoteReactorCommand(context, lfDataProviderRemote);
+    registerCollapseAllCommand(context);
+    registerCollapseAllRemoteCommand(context);
+    
 }
 
 /**
