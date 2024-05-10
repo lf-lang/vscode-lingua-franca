@@ -11,22 +11,40 @@ import { legend, semanticTokensProvider } from './highlight';
 import * as config from './config';
 import { registerBuildCommands, registerNewFileCommand } from './build_commands';
 import * as checkDependencies from './check_dependencies';
-import { LFDataProvider, LFDataProviderNodeType} from './lfview/lf-data-provider';
-import { registerCollapseAllCommand, registerCollapseAllRemoteCommand, registerGoToFileCommand, registerGoToRemoteFileCommand, registerImportReactorCommand, registerImportRemoteReactorCommand, registerOpenInSplitViewCommand, registerOpenRemoteInSplitViewCommand, registerRefreshCommand, registerRefreshRemoteCommand } from './lfview/lf-data-provider-commands';
+import { LFDataProvider, LFDataProviderNode, LFDataProviderNodeType} from './lfview/lf-data-provider';
+import { registerCollapseAllCommand, 
+    registerCollapseAllLibraryCommand, 
+    registerGoToFileCommand, 
+    registerGoToLibraryFileCommand, 
+    registerImportReactorCommand, 
+    registerImportLibraryReactorCommand, 
+    registerOpenInSplitViewCommand, 
+    registerOpenLibraryInSplitViewCommand, 
+    registerRefreshCommand, 
+    registerRefreshLibraryCommand } from './lfview/lf-data-provider-commands';
 
 let client: LanguageClient;
 let socket: Socket
 
+/**
+ * Activates the LF Language extension.
+ * Registers semantic tokens provider, checks dependencies, sets up language client,
+ * registers commands, and creates tree views for local and library components.
+ * @param context The extension context.
+ */
 export async function activate(context: vscode.ExtensionContext) {
 
+    // Register semantic tokens provider
     context.subscriptions.push(vscode.languages.registerDocumentSemanticTokensProvider(
         { language: 'lflang', scheme: 'file' },
         semanticTokensProvider,
         legend
     ));
 
+    // Check dependencies and register dependency watcher
     checkDependencies.registerDependencyWatcher();
 
+    // Check Java dependency
     if (!(
         await checkDependencies.checkerFor
         (checkDependencies.Dependency.Java)
@@ -34,15 +52,14 @@ export async function activate(context: vscode.ExtensionContext) {
         ()
     )) return;
 
+    // Set up language client
     const serverOptions: ServerOptions = createServerOptions(context);
-
     const clientOptions: LanguageClientOptions = {
         documentSelector: ['lflang'],
         synchronize: {
             fileEvents: vscode.workspace.createFileSystemWatcher('**/*.*')
         }
     };
-
     client = new LanguageClient('LF Language Server', serverOptions, clientOptions);
     // enable tracing (.Off, .Messages, Verbose)
     client.trace = Trace.Verbose;
@@ -56,33 +73,77 @@ export async function activate(context: vscode.ExtensionContext) {
 
     client.start();
 
+    // Register build commands and new file command
     registerBuildCommands(context, client);
     registerNewFileCommand(context);
 
-    /**
-    * Registers a tree data provider and creates a tree view for the 'lf-lang-local' view in the Visual Studio Code extension.
-    * The `LFDataProvider` instance is responsible for providing the data for the tree view.
-    * The `refreshTree()` method is called to update the contents of the tree view.
-    */
+    // Registers a tree data provider and creates a tree view for the 'lf-lang-local' view
     const lfDataProviderLocal = new LFDataProvider(LFDataProviderNodeType.LOCAL, client, context);
     context.subscriptions.push(vscode.window.registerTreeDataProvider('lf-lang-local', lfDataProviderLocal));
-    context.subscriptions.push(vscode.window.createTreeView('lf-lang-local', { treeDataProvider: lfDataProviderLocal }));
+    const localTreeView = vscode.window.createTreeView('lf-lang-local', { treeDataProvider: lfDataProviderLocal });
+    context.subscriptions.push(localTreeView);
+    localTreeView.onDidExpandElement(element => {
+        lfDataProviderLocal.onExpandEvent(element.element);
+    });
+    localTreeView.onDidCollapseElement(element => {
+        lfDataProviderLocal.onCollapseEvent(element.element);
+    });
 
-    const lfDataProviderRemote = new LFDataProvider(LFDataProviderNodeType.REMOTE, client, context);
-    context.subscriptions.push(vscode.window.registerTreeDataProvider('lf-lang-remote', lfDataProviderRemote));
-    context.subscriptions.push(vscode.window.createTreeView('lf-lang-remote', { treeDataProvider: lfDataProviderRemote }));
+    // Registers a tree data provider and creates a tree view for the 'lf-lang-library' view
+    const lfDataProviderLibrary = new LFDataProvider(LFDataProviderNodeType.LIBRARY, client, context);
+    context.subscriptions.push(vscode.window.registerTreeDataProvider('lf-lang-library', lfDataProviderLibrary));
+    const libraryTreeView = vscode.window.createTreeView('lf-lang-library', { treeDataProvider: lfDataProviderLibrary });
+    context.subscriptions.push(libraryTreeView);
+    libraryTreeView.onDidExpandElement(element => {
+        lfDataProviderLibrary.onExpandEvent(element.element);
+    });
+    libraryTreeView.onDidCollapseElement(element => {
+        lfDataProviderLibrary.onCollapseEvent(element.element);
+    });
 
-    // Register all teh commands
+    // Register all the commands
     registerRefreshCommand(context, lfDataProviderLocal);
-    registerRefreshRemoteCommand(context, lfDataProviderRemote);
+    registerRefreshLibraryCommand(context, lfDataProviderLibrary);
     registerGoToFileCommand(context, lfDataProviderLocal);
-    registerGoToRemoteFileCommand(context, lfDataProviderRemote);
+    registerGoToLibraryFileCommand(context, lfDataProviderLibrary);
     registerOpenInSplitViewCommand(context, lfDataProviderLocal);
-    registerOpenRemoteInSplitViewCommand(context, lfDataProviderRemote);
+    registerOpenLibraryInSplitViewCommand(context, lfDataProviderLibrary);
     registerImportReactorCommand(context, lfDataProviderLocal);
-    registerImportRemoteReactorCommand(context, lfDataProviderRemote);
+    registerImportLibraryReactorCommand(context, lfDataProviderLibrary);
     registerCollapseAllCommand(context);
-    registerCollapseAllRemoteCommand(context);
+    registerCollapseAllLibraryCommand(context);
+
+    // context.subscriptions.push(
+    //     vscode.workspace.onDidDeleteFiles(async (e) => {
+    //         if (e.files.length > 0) {
+    //             e.files.forEach( (file) => {
+    //                 if (file.path.endsWith('.lf')) {
+    //                     lfDataProviderLocal.refreshTree();
+    //                     lfDataProviderLibrary.refreshTree();
+    //                 }
+    //             });
+    //         }
+    //     }),
+    //     vscode.workspace.onDidRenameFiles((e) => {
+    //         if (e.files.length > 0) {
+    //             e.files.forEach(async (file) => {
+    //                 if (file.newUri.path.endsWith('.lf')) {
+    //                     lfDataProviderLocal.refreshTree();
+    //                     lfDataProviderLibrary.refreshTree();
+    //                 }
+    //             });
+    //         }
+    //     }),
+    //     vscode.workspace.onDidCreateFiles((e) => {
+    //         if (e.files.length > 0) {
+    //             e.files.forEach(async (file) => {
+    //                 if (file.path.endsWith('.lf')) {
+    //                     lfDataProviderLibrary.refreshTree();
+    //                 }
+    //             });
+    //         }
+    //     })
+    // );
     
 }
 

@@ -89,7 +89,7 @@
                 "icon": "$(refresh)"
             },
             {
-                "command": "linguafranca.refreshRemoteEntries",
+                "command": "linguafranca.refreshLibraryEntries",
                 "title": "Refresh Tree View",
                 "icon": "$(refresh)"
             },
@@ -99,7 +99,7 @@
                 "icon": "$(go-to-file)"
             },
             {
-                "command": "linguafranca.goToRemoteFile",
+                "command": "linguafranca.goToLibraryFile",
                 "title": "Go To Selected File",
                 "icon": "$(go-to-file)"
             },
@@ -109,7 +109,7 @@
                 "icon": "$(insert)"
             },
             {
-                "command": "linguafranca.importRemoteReactor",
+                "command": "linguafranca.importLibraryReactor",
                 "title": "Import Selected Reactor",
                 "icon": "$(insert)"
             },
@@ -119,7 +119,7 @@
                 "icon": "$(split-horizontal)"
             },
             {
-                "command": "linguafranca.openRemoteInSplitView",
+                "command": "linguafranca.openLibraryInSplitView",
                 "title": "Open in Split View",
                 "icon": "$(split-horizontal)"
             },
@@ -129,7 +129,7 @@
                 "icon": "$(collapse-all)"
             },
             {
-                "command": "linguafranca.collapseAllRemote",
+                "command": "linguafranca.collapseAllLibrary",
                 "title": "Collapse All",
                 "icon": "$(collapse-all)"
             }
@@ -189,9 +189,9 @@
                     "when": "view == lf-lang-local"
                 },
                 {
-                    "command": "linguafranca.refreshRemoteEntries",
+                    "command": "linguafranca.refreshLibraryEntries",
                     "group": "navigation@1",
-                    "when": "view == lf-lang-remote"
+                    "when": "view == lf-lang-library"
                 },
                 {
                     "command": "linguafranca.collapseAll",
@@ -199,9 +199,9 @@
                     "when": "view == lf-lang-local"
                 },
                 {
-                    "command": "linguafranca.collapseAllRemote",
+                    "command": "linguafranca.collapseAllLibrary",
                     "group": "navigation@2",
-                    "when": "view == lf-lang-remote"
+                    "when": "view == lf-lang-library"
                 }
 
             ],
@@ -212,9 +212,9 @@
                     "when": "view == lf-lang-local && viewItem == file"
                 },
                 {
-                    "command": "linguafranca.goToRemoteFile",
+                    "command": "linguafranca.goToLibraryFile",
                     "group": "inline",
-                    "when": "view == lf-lang-remote && viewItem == file"
+                    "when": "view == lf-lang-library && viewItem == file"
                 },
                 {
                     "command": "linguafranca.openInSplitView",
@@ -222,9 +222,9 @@
                     "when": "view == lf-lang-local && viewItem != root"
                 },
                 {
-                    "command": "linguafranca.openRemoteInSplitView",
+                    "command": "linguafranca.openLibraryInSplitView",
                     "group": "inline",
-                    "when": "view == lf-lang-remote && viewItem != root"
+                    "when": "view == lf-lang-library && viewItem != root"
                 },
                 {
                     "command": "linguafranca.importReactor",
@@ -232,9 +232,9 @@
                     "when": "view == lf-lang-local && viewItem == reactor"
                 },
                 {
-                    "command": "linguafranca.importRemoteReactor",
+                    "command": "linguafranca.importLibraryReactor",
                     "group": "inline",
-                    "when": "view == lf-lang-remote && viewItem == reactor"
+                    "when": "view == lf-lang-library && viewItem == reactor"
                 }
             ]
         },
@@ -251,11 +251,11 @@
             "lf-lang": [
                 {
                     "id": "lf-lang-local",
-                    "name": "Local"
+                    "name": "Local Libraries"
                 },
                 {
-                    "id": "lf-lang-remote",
-                    "name": "Remote"
+                    "id": "lf-lang-library",
+                    "name": "Lingo Libraries"
                 }
             ]
         }

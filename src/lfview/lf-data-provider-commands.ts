@@ -14,15 +14,16 @@ export function registerRefreshCommand(context: vscode.ExtensionContext, local: 
     ));
 }
 
+
 /**
- * Registers a command to refresh the remote LF libraries tree view.
- * @param context - The extension context.
- * @param remote - The LFDataProvider instance managing remote LF libraries.
- */
-export function registerRefreshRemoteCommand(context: vscode.ExtensionContext, remote: LFDataProvider) {
+* Registers a command to refresh the Lingo downloaded LF libraries tree view.
+* @param context - The extension context.
+* @param library - The LFDataProvider instance managing Lingo downloaded LF libraries.
+*/
+export function registerRefreshLibraryCommand(context: vscode.ExtensionContext, library: LFDataProvider) {
     context.subscriptions.push(vscode.commands.registerCommand(
-        'linguafranca.refreshRemoteEntries', () => {
-            remote.refreshTree();
+        'linguafranca.refreshLibraryEntries', () => {
+            library.refreshTree();
         }
     ));
 }
@@ -35,20 +36,20 @@ export function registerRefreshRemoteCommand(context: vscode.ExtensionContext, r
 export function registerGoToFileCommand(context: vscode.ExtensionContext, local: LFDataProvider) {
     context.subscriptions.push(vscode.commands.registerCommand(
         'linguafranca.goToFile', (node: LFDataProviderNode) => {
-            local.goToFileCommand(node,false);
+            local.goToFileCommand(node, false);
         }
     ));
 }
 
 /**
- * Registers a command to navigate to a file in the remote LF libraries tree view.
+ * Registers a command to navigate to a file in the Lingo downloaded LF libraries tree view.
  * @param context - The extension context.
- * @param remote - The LFDataProvider instance managing remote LF libraries.
+ * @param library - The LFDataProvider instance managing Lingo downloaded LF libraries.
  */
-export function registerGoToRemoteFileCommand(context: vscode.ExtensionContext, remote: LFDataProvider) {
+export function registerGoToLibraryFileCommand(context: vscode.ExtensionContext, library: LFDataProvider) {
     context.subscriptions.push(vscode.commands.registerCommand(
-        'linguafranca.goToRemoteFile', (node: LFDataProviderNode) => {
-            remote.goToFileCommand(node,false);
+        'linguafranca.goToLibraryFile', (node: LFDataProviderNode) => {
+            library.goToFileCommand(node, false);
         }
     ));
 }
@@ -61,21 +62,21 @@ export function registerGoToRemoteFileCommand(context: vscode.ExtensionContext, 
 export function registerOpenInSplitViewCommand(context: vscode.ExtensionContext, local: LFDataProvider) {
     context.subscriptions.push(vscode.commands.registerCommand(
         'linguafranca.openInSplitView', (node: LFDataProviderNode) => {
-            local.goToFileCommand(node,true);
-        } 
+            local.goToFileCommand(node, true);
+        }
     ));
 }
 
 /**
- * Registers a command to open a file in split view in the remote LF libraries tree view.
+ * Registers a command to open a file in split view in the Lingo downloaded LF libraries tree view.
  * @param context - The extension context.
- * @param remote - The LFDataProvider instance managing remote LF libraries.
+ * @param library - The LFDataProvider instance managing Lingo downloaded LF libraries.
  */
-export function registerOpenRemoteInSplitViewCommand(context: vscode.ExtensionContext, remote: LFDataProvider) {
+export function registerOpenLibraryInSplitViewCommand(context: vscode.ExtensionContext, library: LFDataProvider) {
     context.subscriptions.push(vscode.commands.registerCommand(
-        'linguafranca.openRemoteInSplitView', (node: LFDataProviderNode) => {
-            remote.goToFileCommand(node,true);
-        } 
+        'linguafranca.openLibraryInSplitView', (node: LFDataProviderNode) => {
+            library.goToFileCommand(node, true);
+        }
     ));
 }
 
@@ -93,14 +94,14 @@ export function registerImportReactorCommand(context: vscode.ExtensionContext, l
 }
 
 /**
- * Registers a command to import a reactor from the remote LF libraries into the active LF program.
+ * Registers a command to import a reactor from the Lingo downloaded LF libraries into the active LF program.
  * @param context - The extension context.
- * @param remote - The LFDataProvider instance managing remote LF libraries.
+ * @param library - The LFDataProvider instance managing Lingo downloaded LF libraries.
  */
-export function registerImportRemoteReactorCommand(context: vscode.ExtensionContext, remote: LFDataProvider) {
+export function registerImportLibraryReactorCommand(context: vscode.ExtensionContext, library: LFDataProvider) {
     context.subscriptions.push(vscode.commands.registerCommand(
-        'linguafranca.importRemoteReactor', async (node: LFDataProviderNode) => {
-            await remote.importReactorCommand(node);
+        'linguafranca.importLibraryReactor', async (node: LFDataProviderNode) => {
+            await library.importReactorCommand(node);
         }
     ));
 }
@@ -119,14 +120,14 @@ export function registerCollapseAllCommand(context: vscode.ExtensionContext) {
 }
 
 /**
- * Registers a command to collapse all nodes in the remote LF libraries tree view.
+ * Registers a command to collapse all nodes in the Lingo downloaded LF libraries tree view.
  * @param context - The extension context.
- * @param remote - The LFDataProvider instance managing remote LF libraries.
  */
-export function registerCollapseAllRemoteCommand(context: vscode.ExtensionContext) {
+export function registerCollapseAllLibraryCommand(context: vscode.ExtensionContext) {
     context.subscriptions.push(vscode.commands.registerCommand(
-        'linguafranca.collapseAllRemote', () => {
-            vscode.commands.executeCommand('workbench.actions.treeView.lf-lang-remote.collapseAll');
+        'linguafranca.collapseAllLibrary', () => {
+            vscode.commands.executeCommand('workbench.actions.treeView.lf-lang-library.collapseAll');
         }
     ));
 }
+
