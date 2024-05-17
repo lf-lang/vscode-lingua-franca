@@ -1,5 +1,11 @@
 # Changelog
  
+## [v0.7.1](https://github.com/lf-lang/vscode-lingua-franca/tree/v0.7.1) (2024-05-17)
+
+**Highlights**
+
+This patch release includes bugfixes that address imports, tracing plugins, clock synchronization, and code generation issues.
+ 
 ## [v0.7.0](https://github.com/lf-lang/vscode-lingua-franca/tree/v0.7.0) (2024-05-01)
 
 **Highlights**
