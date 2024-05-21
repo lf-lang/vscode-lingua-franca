@@ -1,5 +1,11 @@
 # Changelog
  
+## [v0.7.2](https://github.com/lf-lang/vscode-lingua-franca/tree/v0.7.2) (2024-05-20)
+
+**Highlights**
+
+This release includes patches of the C runtime only.
+ 
 ## [v0.7.1](https://github.com/lf-lang/vscode-lingua-franca/tree/v0.7.1) (2024-05-17)
 
 **Highlights**
