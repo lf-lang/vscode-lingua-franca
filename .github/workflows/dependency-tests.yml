@@ -35,7 +35,7 @@ jobs:
           partial: true
       - name: Uninstall dependencies
         run: |
-          python3 -m pip uninstall -y pylint
+          python3 -m pip uninstall -y pylint --break-system-packages
       - name: Downgrade dependencies
         run: |
           pip install -I pylint==2.10.0
@@ -63,7 +63,7 @@ jobs:
           partial: true
       - name: Uninstall dependencies
         run: |
-          python3 -m pip uninstall -y pylint
+          python3 -m pip uninstall -y pylint --break-system-packages
       - name: Run tests (Linux)
         run: xvfb-run --auto-servernum --server-args="-screen 0 1280x960x24" -- npm run test-dependencies-missing-extended
         if: ${{ runner.os == 'Linux' }}

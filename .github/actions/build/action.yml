@@ -32,14 +32,14 @@ runs:
         echo $JAVA_HOME
       working-directory: lingua-franca
       shell: bash
-    - name: Install the wasm-pack dev dependency globally
-      run: npm install -g wasm-pack
-      shell: bash
     - name: Setup Rust
       uses: actions-rs/toolchain@v1
       with:
         toolchain: stable
         components: clippy
+    - name: Install the wasm-pack dev dependency globally
+      run: cargo install wasm-pack
+      shell: bash
     - name: Build the VS Code extension
       run: npm install --ignore-scripts && npm run compile
       shell: bash
