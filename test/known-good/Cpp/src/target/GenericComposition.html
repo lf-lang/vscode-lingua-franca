@@ -1,0 +1,520 @@
+<span class="source-lf meta-targetspec-lflang keyword-control-lflang">
+target
+</span>
+<span class="source-lf meta-targetspec-lflang">
+ 
+</span>
+<span class="source-lf meta-targetspec-lflang constant-language-lflang">
+Cpp
+</span>
+<span class="source-lf meta-targetspec-lflang">
+ {
+</span>
+
+<span class="source-lf meta-targetspec-lflang variable-parameter-lflang">
+  timeout
+</span>
+<span class="source-lf meta-targetspec-lflang">
+: 
+</span>
+<span class="source-lf meta-targetspec-lflang constant-numeric-int-lflang">
+1
+</span>
+<span class="source-lf meta-targetspec-lflang">
+ 
+</span>
+<span class="source-lf meta-targetspec-lflang constant-numeric-lflang">
+sec
+</span>
+
+<span class="source-lf meta-targetspec-lflang">
+}
+</span>
+
+<span class="source-lf">
+
+</span>
+
+<span class="source-lf storage-modifier-lflang">
+reactor
+</span>
+<span class="source-lf">
+ 
+</span>
+<span class="source-lf entity-name-type-lflang">
+Counter
+</span>
+<span class="source-lf">
+<T> {
+</span>
+
+<span class="source-lf">
+  
+</span>
+<span class="source-lf storage-modifier-lflang">
+state
+</span>
+<span class="source-lf">
+ 
+</span>
+<span class="source-lf variable-other-lflang">
+count
+</span>
+<span class="source-lf">
+:
+</span>
+<span class="source-lf meta-embedded-block-cpp">
+ 
+</span>
+<span class="source-lf meta-embedded-block-cpp entity-name-type-lflang">
+T
+</span>
+<span class="source-lf">
+(
+</span>
+<span class="source-lf constant-numeric-int-lflang">
+0
+</span>
+<span class="source-lf">
+)
+</span>
+
+<span class="source-lf">
+  
+</span>
+<span class="source-lf storage-modifier-lflang">
+timer
+</span>
+<span class="source-lf">
+ t(
+</span>
+<span class="source-lf constant-numeric-int-lflang">
+0
+</span>
+<span class="source-lf">
+, 
+</span>
+<span class="source-lf constant-numeric-int-lflang">
+1
+</span>
+<span class="source-lf">
+ 
+</span>
+<span class="source-lf constant-numeric-lflang">
+sec
+</span>
+<span class="source-lf">
+)
+</span>
+
+<span class="source-lf">
+  
+</span>
+<span class="source-lf storage-modifier-lflang">
+output
+</span>
+<span class="source-lf">
+ 
+</span>
+<span class="source-lf variable-other-lflang">
+out
+</span>
+<span class="source-lf">
+:
+</span>
+<span class="source-lf meta-embedded-block-cpp">
+ 
+</span>
+<span class="source-lf meta-embedded-block-cpp entity-name-type-lflang">
+T
+</span>
+
+<span class="source-lf">
+
+</span>
+
+<span class="source-lf">
+  
+</span>
+<span class="source-lf keyword-control-lflang">
+reaction
+</span>
+<span class="source-lf">
+(
+</span>
+<span class="source-lf">
+t) 
+</span>
+<span class="source-lf keyword-operator-lflang">
+->
+</span>
+<span class="source-lf">
+ out {
+</span>
+<span class="source-lf keyword-operator-lflang">
+=
+</span>
+
+<span class="source-lf">
+    
+</span>
+<span class="source-lf variable-other-constant-reactorinstance-lflang">
+out
+</span>
+<span class="source-lf keyword-operator-lflang">
+.
+</span>
+<span class="source-lf variable-other-lflang">
+set
+</span>
+<span class="source-lf">
+(count);
+</span>
+
+<span class="source-lf">
+    count 
+</span>
+<span class="source-lf keyword-operator-lflang">
++
+</span>
+<span class="source-lf keyword-operator-lflang">
+=
+</span>
+<span class="source-lf">
+ 
+</span>
+<span class="source-lf constant-numeric-int-lflang">
+1
+</span>
+<span class="source-lf">
+;
+</span>
+
+<span class="source-lf">
+  
+</span>
+<span class="source-lf keyword-operator-lflang">
+=
+</span>
+<span class="source-lf">
+}
+</span>
+
+<span class="source-lf">
+}
+</span>
+
+<span class="source-lf">
+
+</span>
+
+<span class="source-lf storage-modifier-lflang">
+reactor
+</span>
+<span class="source-lf">
+ 
+</span>
+<span class="source-lf entity-name-type-lflang">
+Printer
+</span>
+<span class="source-lf">
+<T> {
+</span>
+
+<span class="source-lf">
+  
+</span>
+<span class="source-lf storage-modifier-lflang">
+input
+</span>
+<span class="source-lf">
+ 
+</span>
+<span class="source-lf variable-other-lflang">
+in
+</span>
+<span class="source-lf">
+:
+</span>
+<span class="source-lf meta-embedded-block-cpp">
+ 
+</span>
+<span class="source-lf meta-embedded-block-cpp entity-name-type-lflang">
+T
+</span>
+
+<span class="source-lf">
+
+</span>
+
+<span class="source-lf">
+  
+</span>
+<span class="source-lf keyword-control-lflang">
+reaction
+</span>
+<span class="source-lf">
+(
+</span>
+<span class="source-lf">
+in) {
+</span>
+<span class="source-lf keyword-operator-lflang">
+=
+</span>
+
+<span class="source-lf">
+    auto msg 
+</span>
+<span class="source-lf keyword-operator-lflang">
+=
+</span>
+<span class="source-lf">
+ 
+</span>
+<span class="source-lf keyword-operator-lflang">
+*
+</span>
+<span class="source-lf variable-other-constant-reactorinstance-lflang">
+in
+</span>
+<span class="source-lf keyword-operator-lflang">
+.
+</span>
+<span class="source-lf variable-other-lflang">
+get
+</span>
+<span class="source-lf">
+();
+</span>
+
+<span class="source-lf">
+    
+</span>
+<span class="source-lf variable-other-constant-reactorinstance-lflang">
+std
+</span>
+<span class="source-lf keyword-operator-lflang">
+::
+</span>
+<span class="source-lf variable-other-lflang">
+cout
+</span>
+<span class="source-lf">
+ << msg << 
+</span>
+<span class="source-lf variable-other-constant-reactorinstance-lflang">
+std
+</span>
+<span class="source-lf keyword-operator-lflang">
+::
+</span>
+<span class="source-lf variable-other-lflang">
+endl
+</span>
+<span class="source-lf">
+;
+</span>
+
+<span class="source-lf">
+  
+</span>
+<span class="source-lf keyword-operator-lflang">
+=
+</span>
+<span class="source-lf">
+}
+</span>
+
+<span class="source-lf">
+}
+</span>
+
+<span class="source-lf">
+
+</span>
+
+<span class="source-lf storage-modifier-lflang">
+reactor
+</span>
+<span class="source-lf">
+ 
+</span>
+<span class="source-lf entity-name-type-lflang">
+MyWrapper
+</span>
+<span class="source-lf">
+<T> {
+</span>
+
+<span class="source-lf">
+  
+</span>
+<span class="source-lf variable-other-constant-reactorinstance-lflang">
+c
+</span>
+<span class="source-lf">
+ 
+</span>
+<span class="source-lf keyword-operator-lflang">
+=
+</span>
+<span class="source-lf">
+ 
+</span>
+<span class="source-lf keyword-control-new-lflang">
+new
+</span>
+<span class="source-lf">
+ 
+</span>
+<span class="source-lf entity-name-type-lflang">
+Counter
+</span>
+<span class="source-lf">
+<
+</span>
+<span class="source-lf entity-name-type-lflang">
+T
+</span>
+<span class="source-lf">
+>
+</span>
+<span class="source-lf">
+()
+</span>
+
+<span class="source-lf">
+  
+</span>
+<span class="source-lf variable-other-constant-reactorinstance-lflang">
+p
+</span>
+<span class="source-lf">
+ 
+</span>
+<span class="source-lf keyword-operator-lflang">
+=
+</span>
+<span class="source-lf">
+ 
+</span>
+<span class="source-lf keyword-control-new-lflang">
+new
+</span>
+<span class="source-lf">
+ 
+</span>
+<span class="source-lf entity-name-type-lflang">
+Printer
+</span>
+<span class="source-lf">
+<
+</span>
+<span class="source-lf entity-name-type-lflang">
+T
+</span>
+<span class="source-lf">
+>
+</span>
+<span class="source-lf">
+()
+</span>
+
+<span class="source-lf">
+  
+</span>
+<span class="source-lf variable-other-constant-reactorinstance-lflang">
+c
+</span>
+<span class="source-lf keyword-operator-lflang">
+.
+</span>
+<span class="source-lf variable-other-lflang">
+out
+</span>
+<span class="source-lf">
+ 
+</span>
+<span class="source-lf keyword-operator-lflang">
+->
+</span>
+<span class="source-lf">
+ 
+</span>
+<span class="source-lf variable-other-constant-reactorinstance-lflang">
+p
+</span>
+<span class="source-lf keyword-operator-lflang">
+.
+</span>
+<span class="source-lf variable-other-lflang">
+in
+</span>
+
+<span class="source-lf">
+}
+</span>
+
+<span class="source-lf">
+
+</span>
+
+<span class="source-lf storage-modifier-lflang">
+main
+</span>
+<span class="source-lf">
+ 
+</span>
+<span class="source-lf storage-modifier-lflang">
+reactor
+</span>
+<span class="source-lf">
+ {
+</span>
+
+<span class="source-lf">
+  
+</span>
+<span class="source-lf variable-other-constant-reactorinstance-lflang">
+m
+</span>
+<span class="source-lf">
+ 
+</span>
+<span class="source-lf keyword-operator-lflang">
+=
+</span>
+<span class="source-lf">
+ 
+</span>
+<span class="source-lf keyword-control-new-lflang">
+new
+</span>
+<span class="source-lf">
+ 
+</span>
+<span class="source-lf entity-name-type-lflang">
+MyWrapper
+</span>
+<span class="source-lf">
+<
+</span>
+<span class="source-lf storage-type-lflang">
+int
+</span>
+<span class="source-lf">
+>
+</span>
+<span class="source-lf">
+()
+</span>
+
+<span class="source-lf">
+}
+</span>
+
+<span class="source-lf">
+
+</span>
+

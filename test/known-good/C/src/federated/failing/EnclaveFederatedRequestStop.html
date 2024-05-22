@@ -1,0 +1,476 @@
+<span class="source-lf comment-block-lflang">
+/**
+</span>
+
+<span class="source-lf comment-block-lflang">
+ * Test that enclaves within federates all stop at the time requested by the first enclave to
+</span>
+
+<span class="source-lf comment-block-lflang">
+ * request a stop. Note that the test has no timeout because any finite timeout can, in theory,
+</span>
+
+<span class="source-lf comment-block-lflang">
+ * cause the test to fail. The first federate to request a stop does so at 50 ms, so the program
+</span>
+
+<span class="source-lf comment-block-lflang">
+ * should terminate quickly if all goes well.
+</span>
+
+<span class="source-lf comment-block-lflang">
+ * Placed in failing as we do not have full support for scheduling enclaves yet.
+</span>
+
+<span class="source-lf comment-block-lflang">
+ 
+</span>
+<span class="source-lf comment-block-lflang">
+*/
+</span>
+
+<span class="source-lf meta-targetspec-lflang keyword-control-lflang">
+target
+</span>
+<span class="source-lf meta-targetspec-lflang">
+ 
+</span>
+<span class="source-lf meta-targetspec-lflang constant-language-lflang">
+C
+</span>
+
+<span class="source-lf">
+
+</span>
+
+<span class="source-lf storage-modifier-lflang">
+reactor
+</span>
+<span class="source-lf">
+ 
+</span>
+<span class="source-lf entity-name-type-lflang">
+Stop
+</span>
+<span class="source-lf">
+(
+</span>
+
+<span class="source-lf comment-line-double-dash-lflang">
+    
+</span>
+<span class="source-lf comment-line-double-dash-lflang">
+// Zero value here means "don't stop".
+</span>
+
+<span class="source-lf">
+    stop_time: 
+</span>
+<span class="source-lf storage-type-lflang">
+time
+</span>
+<span class="source-lf">
+ 
+</span>
+<span class="source-lf keyword-operator-lflang">
+=
+</span>
+<span class="source-lf">
+ 
+</span>
+<span class="source-lf constant-numeric-int-lflang">
+0
+</span>
+<span class="source-lf">
+) {
+</span>
+
+<span class="source-lf">
+  
+</span>
+<span class="source-lf storage-modifier-lflang">
+timer
+</span>
+<span class="source-lf">
+ t(stop_time)
+</span>
+
+<span class="source-lf">
+
+</span>
+
+<span class="source-lf">
+  
+</span>
+<span class="source-lf keyword-control-lflang">
+reaction
+</span>
+<span class="source-lf">
+(
+</span>
+<span class="source-lf">
+t) {
+</span>
+<span class="source-lf keyword-operator-lflang">
+=
+</span>
+
+<span class="source-lf">
+    if (self
+</span>
+<span class="source-lf keyword-operator-lflang">
+->
+</span>
+<span class="source-lf">
+stop_time > 
+</span>
+<span class="source-lf constant-numeric-int-lflang">
+0
+</span>
+<span class="source-lf">
+) lf_request_stop();
+</span>
+
+<span class="source-lf">
+  
+</span>
+<span class="source-lf keyword-operator-lflang">
+=
+</span>
+<span class="source-lf">
+}
+</span>
+
+<span class="source-lf">
+
+</span>
+
+<span class="source-lf">
+  
+</span>
+<span class="source-lf keyword-control-lflang">
+reaction
+</span>
+<span class="source-lf">
+(
+</span>
+<span class="source-lf support-variable-lflang">
+shutdown
+</span>
+<span class="source-lf">
+) {
+</span>
+<span class="source-lf keyword-operator-lflang">
+=
+</span>
+
+<span class="source-lf">
+    lf_print(
+</span>
+<span class="source-lf string-quoted-double-lflang">
+"
+</span>
+<span class="source-lf string-quoted-double-lflang">
+Stopped at tag (
+</span>
+<span class="source-lf string-quoted-double-lflang">
+"
+</span>
+<span class="source-lf">
+ PRINTF_TIME 
+</span>
+<span class="source-lf string-quoted-double-lflang">
+"
+</span>
+<span class="source-lf string-quoted-double-lflang">
+, %d)
+</span>
+<span class="source-lf string-quoted-double-lflang">
+"
+</span>
+<span class="source-lf">
+, lf_time_logical_elapsed(), lf_tag()
+</span>
+<span class="source-lf keyword-operator-lflang">
+.
+</span>
+<span class="source-lf">
+microstep);
+</span>
+
+<span class="source-lf">
+    if (lf_time_logical_elapsed() !
+</span>
+<span class="source-lf keyword-operator-lflang">
+=
+</span>
+<span class="source-lf">
+ 50000000LL || lf_tag()
+</span>
+<span class="source-lf keyword-operator-lflang">
+.
+</span>
+<span class="source-lf">
+microstep !
+</span>
+<span class="source-lf keyword-operator-lflang">
+=
+</span>
+<span class="source-lf">
+ 
+</span>
+<span class="source-lf constant-numeric-int-lflang">
+1
+</span>
+<span class="source-lf">
+) {
+</span>
+
+<span class="source-lf">
+        lf_print_error_and_exit(
+</span>
+<span class="source-lf string-quoted-double-lflang">
+"
+</span>
+<span class="source-lf string-quoted-double-lflang">
+Expected stop tag to be (50ms, 1).
+</span>
+<span class="source-lf string-quoted-double-lflang">
+"
+</span>
+<span class="source-lf">
+);
+</span>
+
+<span class="source-lf">
+    }
+</span>
+
+<span class="source-lf">
+  
+</span>
+<span class="source-lf keyword-operator-lflang">
+=
+</span>
+<span class="source-lf">
+}
+</span>
+
+<span class="source-lf">
+}
+</span>
+
+<span class="source-lf">
+
+</span>
+
+<span class="source-lf storage-modifier-lflang">
+reactor
+</span>
+<span class="source-lf">
+ 
+</span>
+<span class="source-lf entity-name-type-lflang">
+Fed
+</span>
+<span class="source-lf">
+(least_stop_time: 
+</span>
+<span class="source-lf storage-type-lflang">
+time
+</span>
+<span class="source-lf">
+ 
+</span>
+<span class="source-lf keyword-operator-lflang">
+=
+</span>
+<span class="source-lf">
+ 
+</span>
+<span class="source-lf constant-numeric-int-lflang">
+0
+</span>
+<span class="source-lf">
+) {
+</span>
+
+<span class="source-lf">
+  
+</span>
+<span class="source-lf keyword-operator-lflang">
+@
+</span>
+<span class="source-lf">
+enclave
+</span>
+
+<span class="source-lf">
+  
+</span>
+<span class="source-lf variable-other-constant-reactorinstance-lflang">
+s1
+</span>
+<span class="source-lf">
+ 
+</span>
+<span class="source-lf keyword-operator-lflang">
+=
+</span>
+<span class="source-lf">
+ 
+</span>
+<span class="source-lf keyword-control-new-lflang">
+new
+</span>
+<span class="source-lf">
+ 
+</span>
+<span class="source-lf entity-name-type-lflang">
+Stop
+</span>
+<span class="source-lf">
+()
+</span>
+
+<span class="source-lf">
+  
+</span>
+<span class="source-lf keyword-operator-lflang">
+@
+</span>
+<span class="source-lf">
+enclave
+</span>
+
+<span class="source-lf">
+  
+</span>
+<span class="source-lf variable-other-constant-reactorinstance-lflang">
+s2
+</span>
+<span class="source-lf">
+ 
+</span>
+<span class="source-lf keyword-operator-lflang">
+=
+</span>
+<span class="source-lf">
+ 
+</span>
+<span class="source-lf keyword-control-new-lflang">
+new
+</span>
+<span class="source-lf">
+ 
+</span>
+<span class="source-lf entity-name-type-lflang">
+Stop
+</span>
+<span class="source-lf">
+(stop_time
+</span>
+<span class="source-lf keyword-operator-lflang">
+=
+</span>
+<span class="source-lf">
+least_stop_time)
+</span>
+
+<span class="source-lf">
+}
+</span>
+
+<span class="source-lf">
+
+</span>
+
+<span class="source-lf storage-modifier-lflang">
+federated
+</span>
+<span class="source-lf">
+ 
+</span>
+<span class="source-lf storage-modifier-lflang">
+reactor
+</span>
+<span class="source-lf">
+ {
+</span>
+
+<span class="source-lf">
+  
+</span>
+<span class="source-lf variable-other-constant-reactorinstance-lflang">
+f1
+</span>
+<span class="source-lf">
+ 
+</span>
+<span class="source-lf keyword-operator-lflang">
+=
+</span>
+<span class="source-lf">
+ 
+</span>
+<span class="source-lf keyword-control-new-lflang">
+new
+</span>
+<span class="source-lf">
+ 
+</span>
+<span class="source-lf entity-name-type-lflang">
+Fed
+</span>
+<span class="source-lf">
+()
+</span>
+
+<span class="source-lf">
+  
+</span>
+<span class="source-lf variable-other-constant-reactorinstance-lflang">
+f2
+</span>
+<span class="source-lf">
+ 
+</span>
+<span class="source-lf keyword-operator-lflang">
+=
+</span>
+<span class="source-lf">
+ 
+</span>
+<span class="source-lf keyword-control-new-lflang">
+new
+</span>
+<span class="source-lf">
+ 
+</span>
+<span class="source-lf entity-name-type-lflang">
+Fed
+</span>
+<span class="source-lf">
+(least_stop_time 
+</span>
+<span class="source-lf keyword-operator-lflang">
+=
+</span>
+<span class="source-lf">
+ 
+</span>
+<span class="source-lf constant-numeric-int-lflang">
+50
+</span>
+<span class="source-lf">
+ ms)
+</span>
+
+<span class="source-lf">
+}
+</span>
+
+<span class="source-lf">
+
+</span>
+
