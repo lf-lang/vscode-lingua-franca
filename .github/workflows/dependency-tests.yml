@@ -64,6 +64,7 @@ jobs:
       - name: Uninstall dependencies
         run: |
           python3 -m pip uninstall -y pylint
+          rustup self uninstall -y
       - name: Run tests (Linux)
         run: xvfb-run --auto-servernum --server-args="-screen 0 1280x960x24" -- npm run test-dependencies-missing-extended
         if: ${{ runner.os == 'Linux' }}
@@ -84,6 +85,9 @@ jobs:
       - uses: lf-lang/vscode-lingua-franca/.github/actions/build@main
         with:
           partial: "true"
+      - name: Uninstall dependencies
+        run: |
+          rustup self uninstall -y
       - name: Run tests (Linux)
         run: xvfb-run --auto-servernum --server-args="-screen 0 1280x960x24" -- npm run test-dependencies-missing-basic
         if: ${{ runner.os == 'Linux' }}

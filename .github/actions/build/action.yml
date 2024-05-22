@@ -35,8 +35,13 @@ runs:
     - name: Install the wasm-pack dev dependency globally
       run: npm install -g wasm-pack
       shell: bash
+    - name: Setup Rust
+      uses: actions-rs/toolchain@v1
+      with:
+        toolchain: stable
+        components: clippy
     - name: Build the VS Code extension
-      run: npm install --ignore-scripts
+      run: npm install --ignore-scripts && npm run compile
       shell: bash
     - name: Install Code
       run: |
@@ -63,12 +68,6 @@ runs:
     - name: Install pnpm
       run: npm i -g pnpm
       shell: bash
-      if: ${{ inputs.partial == 'false' }}
-    - name: Setup Rust
-      uses: actions-rs/toolchain@v1
-      with:
-        toolchain: stable
-        components: clippy
       if: ${{ inputs.partial == 'false' }}
     - name: Install RTI
       run: |
