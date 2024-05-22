@@ -76,6 +76,11 @@ jobs:
         platform: [ubuntu-latest, macos-latest, windows-latest]
     runs-on: ${{ matrix.platform }}
     steps:
+      - name: Check out vscode-lingua-franca repository
+        uses: actions/checkout@v3
+        with:
+          submodules: recursive
+          fetch-depth: 1
       - uses: lf-lang/vscode-lingua-franca/.github/actions/build@main
         with:
           partial: "true"
