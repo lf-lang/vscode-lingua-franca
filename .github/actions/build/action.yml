@@ -32,6 +32,9 @@ runs:
         echo $JAVA_HOME
       working-directory: lingua-franca
       shell: bash
+    - name: Install the wasm-pack dev dependency globally
+      run: npm install -g wasm-pack
+      shell: bash
     - name: Build the VS Code extension
       run: npm install --ignore-scripts
       shell: bash

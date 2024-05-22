@@ -1,13 +1,11 @@
 {
     "compilerOptions": {
-        // "esModuleInterop": true,
         "inlineSources": false,
         "lib": [
             "ES2022",
             "DOM" // hackily added to include wasm support
         ],
         "module": "Node16",
-        // "moduleResolution": "node",
         "outDir": "./out",
         "sourceMap": false,
         "target": "ES2022",
