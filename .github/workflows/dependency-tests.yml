@@ -35,7 +35,7 @@ jobs:
           partial: true
       - name: Uninstall dependencies
         run: |
-          python3 -m pip uninstall -y pylint --break-system-packages
+          PIP_BREAK_SYSTEM_PACKAGES=1 python3 -m pip uninstall -y pylint
       - name: Downgrade dependencies
         run: |
           pip install -I pylint==2.10.0
@@ -63,7 +63,7 @@ jobs:
           partial: true
       - name: Uninstall dependencies
         run: |
-          python3 -m pip uninstall -y pylint --break-system-packages
+          PIP_BREAK_SYSTEM_PACKAGES=1 python3 -m pip uninstall -y pylint
       - name: Run tests (Linux)
         run: xvfb-run --auto-servernum --server-args="-screen 0 1280x960x24" -- npm run test-dependencies-missing-extended
         if: ${{ runner.os == 'Linux' }}
@@ -81,9 +81,10 @@ jobs:
         with:
           submodules: recursive
           fetch-depth: 1
-      - uses: lf-lang/vscode-lingua-franca/.github/actions/build@main
+      - name: Build the extension
+        uses: ./.github/actions/build
         with:
-          partial: "true"
+          partial: true
       - name: Run tests (Linux)
         run: xvfb-run --auto-servernum --server-args="-screen 0 1280x960x24" -- npm run test-dependencies-missing-basic
         if: ${{ runner.os == 'Linux' }}
