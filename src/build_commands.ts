@@ -28,7 +28,6 @@ type MessageShowerTransformer = (MessageDisplayHelper: MessageDisplayHelper) => 
 const getAst =
   (withLogs: MessageShowerTransformer, client: LanguageClient) =>
   async () => {
-    // vscode.window.showInformationMessage("Getting AST...");
     const current_file = vscode.window.activeTextEditor?.document;
     if (!current_file) {
         return "There is no currently active file, so it is not clear which AST to return.";
@@ -42,14 +41,12 @@ const getAst =
       withLogs(vscode.window.showErrorMessage)("Failed to get AST.");
       return;
     }
-    vscode.window.showInformationMessage("AST received: " + ret);
     return ret;
   };
 
 const getWorkspace =
   (withLogs: MessageShowerTransformer, client: LanguageClient) =>
   async () => {
-    // vscode.window.showInformationMessage("Getting workspace...");
     const roots = vscode.workspace.workspaceFolders;
     let lf_files: vscode.Uri[] = [];
     let lingo_tomls: vscode.Uri[] = [];
@@ -73,7 +70,6 @@ const getWorkspace =
     for (const lf_file of lf_files) {
       await client.onReady();
       const ast = await client.sendRequest("parser/ast", lf_file.fsPath);
-    //   vscode.window.showInformationMessage("ast: " + JSON.stringify(ast));
       lf_asts.push(ast);
     }
     let toml_contents = [];
@@ -85,7 +81,6 @@ const getWorkspace =
         lf: lf_asts,
         config: toml_contents
     };
-    // vscode.window.showInformationMessage("Workspace received: " + ret);
     return ret;
   };
 
@@ -140,7 +135,6 @@ const buildAndRun = (withLogs: MessageShowerTransformer, client: LanguageClient)
     if (!successful) {
         return;
     }
-    vscode.window.showInformationMessage("DEBUG: doing build and run.");
     const args = {"uri": uri, "json": await getJson(uri)};
     // const args = [ uri, await getJson(uri)];
     client.sendRequest('generator/buildAndRun', args).then((commandAny: any) => {
