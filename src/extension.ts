@@ -11,9 +11,10 @@ import { legend, semanticTokensProvider } from './highlight';
 import * as config from './config';
 import { registerBuildCommands, registerNewFileCommand } from './build_commands';
 import * as checkDependencies from './check_dependencies';
+import * as extensionVersion from './extension_version';
 
 let client: LanguageClient;
-let socket: Socket
+let socket: Socket;
 
 export async function activate(context: vscode.ExtensionContext) {
 
@@ -27,10 +28,12 @@ export async function activate(context: vscode.ExtensionContext) {
 
     if (!(
         await checkDependencies.checkerFor
-        (checkDependencies.Dependency.Java)
+        (checkDependencies.Dependency.Java)!
         (vscode.window.showErrorMessage)
         ()
-    )) return;
+    )) {
+        return;
+    }
 
     const serverOptions: ServerOptions = createServerOptions(context);
 
@@ -56,6 +59,12 @@ export async function activate(context: vscode.ExtensionContext) {
 
     registerBuildCommands(context, client);
     registerNewFileCommand(context);
+    context.subscriptions.push(vscode.commands.registerCommand(
+        "linguafranca.checkDocker", checkDependencies.checkDocker
+    ));
+    context.subscriptions.push(vscode.commands.registerCommand(
+        "linguafranca.getVersion", () => extensionVersion.version
+    ));
 }
 
 /**

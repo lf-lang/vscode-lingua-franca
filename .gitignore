@@ -2,6 +2,8 @@
 *.vsix
 .vscode-test
 node_modules/*
-out/*
+out/
 .gradle/*
 __pycache__/*
+lfw-pkg/
+dist/

@@ -9,7 +9,7 @@ export default () => {
     const dependenciesString = process.env.dependencies.toLowerCase();
     for (const v in DependencyStatus) {
         if (v === undefined) return DependencyStatus.Present
-        if (v.toLowerCase() === dependenciesString) return DependencyStatus[v];
+        if (v.toLowerCase() === dependenciesString) return (DependencyStatus as any)[v];
     }
     throw new Error(
         `"${dependenciesString}" is not a valid dependency state.

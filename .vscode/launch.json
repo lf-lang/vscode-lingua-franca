@@ -5,12 +5,13 @@
             "args": [
                 "--extensionDevelopmentPath=${workspaceFolder}"
             ],
-            "name": "Launch Extension",
+            "name": "Launch LF Extension",
             "outFiles": [
                 "${workspaceFolder}/out/**/*.js"
             ],
             "request": "launch",
-            "type": "extensionHost"
+            "type": "extensionHost",
+            "preLaunchTask": "${defaultBuildTask}"
         },
         {
             "name": "Launch VS Code Extension (Socket) LF with Klighd Extension",
@@ -18,14 +19,14 @@
             "request": "launch",
             "args": [
                 "--disable-extensions",
-				"--extensionDevelopmentPath=${workspaceFolder}/../klighd-vscode/applications/klighd-vscode",
+                "--extensionDevelopmentPath=${workspaceFolder}/../klighd-vscode/applications/klighd-vscode",
                 "--extensionDevelopmentPath=${workspaceFolder}/",
             ],
             "env": {
                 "LF_LS_PORT": "7670"
             },
             "skipFiles": [
-              "<node_internals>/**"
+                "<node_internals>/**"
             ],
             "sourceMaps": true,
             "smartStep": true,
@@ -49,7 +50,7 @@
                 "LF_LS_PORT": "7670"
             },
             "skipFiles": [
-              "<node_internals>/**"
+                "<node_internals>/**"
             ],
             "sourceMaps": true,
             "smartStep": true,

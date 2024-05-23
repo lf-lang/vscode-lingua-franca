@@ -42,7 +42,7 @@ const basicChecker: VersionCheckerMaker = (
     desiredVersion: Version,
     command: string,
     sameMajor: boolean,
-    permissive: boolean
+    permissive?: boolean
 ) => async () => {
     const nullResult = { version: new Version('0.0.0'), isCorrect: null };
     let stdout: string;
@@ -88,7 +88,7 @@ export const python3VersionChecker = theBetterOfEither(
     pythonAliasVersionChecker
 );
 export const nodeVersionChecker = basicChecker(config.nodeVersion, 'node -v', false);
-export const pylintVersionChecker = basicChecker(config.pylintVersion, 'pip3 show pylint', false);
+export const pylintVersionChecker = basicChecker(config.pylintVersion, 'pylint --version', false);
 export const npmVersionChecker = basicChecker(config.npmVersion, 'npm --version', false);
 export const pnpmVersionChecker = basicChecker(config.pnpmVersion, 'pnpm --version', false);
 export const brewVersionChecker = basicChecker(new Version('0.0.0'), 'brew -v', false);
@@ -110,3 +110,4 @@ export const rtiVersionChecker = async () => {
     }
     return { version: new Version('0.0.0'), isCorrect: exists };
 };
+export const dockerVersionChecker = basicChecker(config.dockerVersion, 'docker -v', false);

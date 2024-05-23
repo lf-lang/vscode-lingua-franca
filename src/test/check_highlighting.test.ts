@@ -73,7 +73,7 @@ suite('test syntax highlighting', () => {
         let files = glob.sync(`lingua-franca/test/**/**.lf`, { cwd: root, ignore: "**/*-gen/**" })
         for (const file of files.map(it => path.resolve(root, it))) {
             const code = fs.readFileSync(file).toString()
-            const annotated = annotateCode(code, grammar)
+            const annotated = annotateCode(code, grammar!)
             const relPath = path.relative(path.join(root, "lingua-franca", "test"), file)
             const testPath = path.resolve(root, "test", "known-good", relPath.replace(".lf", ".html"))
             if (fs.existsSync(testPath)) {
