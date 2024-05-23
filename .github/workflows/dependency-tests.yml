@@ -62,7 +62,7 @@ jobs:
           partial: true
       - name: Uninstall dependencies
         run: |
-          PIP_BREAK_SYSTEM_PACKAGES=1 python3 -m pip uninstall -y pylint
+          npx --yes cross-env PIP_BREAK_SYSTEM_PACKAGES=1 python3 -m pip uninstall -y pylint
       - name: Run tests (Linux)
         run: xvfb-run --auto-servernum --server-args="-screen 0 1280x960x24" -- npx --yes cross-env LF_VS_CODE_ALLOW_GLOBAL_UNINSTALLS=OK npm run test-dependencies-missing-extended
         if: ${{ runner.os == 'Linux' }}
