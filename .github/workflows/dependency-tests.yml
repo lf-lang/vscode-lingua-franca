@@ -40,7 +40,7 @@ jobs:
         run: |
           pip install -I pylint==2.10.0
       - name: Run tests (Linux)
-        run: xvfb-run --auto-servernum --server-args="-screen 0 1280x960x24" -- npm run test-dependencies-outdated
+        run: xvfb-run --auto-servernum --server-args="-screen 0 1280x960x24" -- npx --yes cross-env LF_VS_CODE_ALLOW_GLOBAL_UNINSTALLS=OK npm run test-dependencies-outdated
         if: ${{ runner.os == 'Linux' }}
       - name: Run tests (non-Linux)
         run: npm run test-dependencies-outdated
@@ -67,7 +67,7 @@ jobs:
         run: xvfb-run --auto-servernum --server-args="-screen 0 1280x960x24" -- npm run test-dependencies-missing-extended
         if: ${{ runner.os == 'Linux' }}
       - name: Run tests (non-Linux)
-        run: npx --yes cross-env LF_VS_CODE_ALLOW_GLOBAL_UNINSTALLS=OK npm run test-dependencies-missing-extended
+        run: npx --yes cross-env LF_VS_CODE_ALLOW_GLOBAL_UNINSTALLS=OK npx --yes cross-env LF_VS_CODE_ALLOW_GLOBAL_UNINSTALLS=OK npm run test-dependencies-missing-extended
         if: ${{ runner.os != 'Linux' }}
   test-dependencies-missing-basic:
     strategy:
@@ -85,7 +85,7 @@ jobs:
         with:
           partial: true
       - name: Run tests (Linux)
-        run: xvfb-run --auto-servernum --server-args="-screen 0 1280x960x24" -- npm run test-dependencies-missing-basic
+        run: xvfb-run --auto-servernum --server-args="-screen 0 1280x960x24" -- npx --yes cross-env LF_VS_CODE_ALLOW_GLOBAL_UNINSTALLS=OK npm run test-dependencies-missing-basic
         if: ${{ runner.os == 'Linux' }}
       - name: Run tests (non-Linux)
         run: npx --yes cross-env LF_VS_CODE_ALLOW_GLOBAL_UNINSTALLS=OK npm run test-dependencies-missing-basic
