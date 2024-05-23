@@ -88,7 +88,7 @@ export const python3VersionChecker = theBetterOfEither(
     pythonAliasVersionChecker
 );
 export const nodeVersionChecker = basicChecker(config.nodeVersion, 'node -v', false);
-export const pylintVersionChecker = basicChecker(config.pylintVersion, 'pip3 show pylint', false);
+export const pylintVersionChecker = basicChecker(config.pylintVersion, 'pylint --version', false);
 export const npmVersionChecker = basicChecker(config.npmVersion, 'npm --version', false);
 export const pnpmVersionChecker = basicChecker(config.pnpmVersion, 'pnpm --version', false);
 export const brewVersionChecker = basicChecker(new Version('0.0.0'), 'brew -v', false);
