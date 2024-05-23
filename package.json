@@ -178,7 +178,7 @@
         "url-exist": "^3.0.0",
         "vscode-oniguruma": "^1.7.0",
         "vscode-textmate": "^9.0.0",
-        "webpack": "^5.90.0",
+        "webpack": "^5.91.0",
         "webpack-cli": "^5.1.4",
         "which": "^2.0.2"
     },
@@ -190,7 +190,7 @@
         "clean": "rimraf out && rimraf lib && rimraf vscode-lingua-franca-*.vsix",
         "transpile": "webpack",
         "vscode:prepublish": "npm run transpile",
-        "compile": "cd ./editor-support/lfwasm && make && cd - && rm -rf ./lfw-pkg && cp -r ./editor-support/lfwasm/pkg ./lfw-pkg && ./write-version-to-file.sh src/extension_version.ts && npm run transpile",
+        "compile": "cd ./editor-support/lfwasm && make && cd ../.. && rm -rf ./lfw-pkg && move-cli ./editor-support/lfwasm/pkg ./lfw-pkg && ./write-version-to-file.sh src/extension_version.ts && npm run transpile",
         "watch": "npm run transpile --watch",
         "build": "npx ts-node src/build_lds.ts",
         "compile-tests": "npm run compile && npx tsc --lib \"dom\" --outDir out/test --inlineSourceMap",
