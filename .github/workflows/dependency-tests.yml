@@ -67,7 +67,7 @@ jobs:
         run: xvfb-run --auto-servernum --server-args="-screen 0 1280x960x24" -- npm run test-dependencies-missing-extended
         if: ${{ runner.os == 'Linux' }}
       - name: Run tests (non-Linux)
-        run: export LF_VS_CODE_ALLOW_GLOBAL_UNINSTALLS=OK && npm run test-dependencies-missing-extended
+        run: npx --yes cross-env LF_VS_CODE_ALLOW_GLOBAL_UNINSTALLS=OK npm run test-dependencies-missing-extended
         if: ${{ runner.os != 'Linux' }}
   test-dependencies-missing-basic:
     strategy:
@@ -88,5 +88,5 @@ jobs:
         run: xvfb-run --auto-servernum --server-args="-screen 0 1280x960x24" -- npm run test-dependencies-missing-basic
         if: ${{ runner.os == 'Linux' }}
       - name: Run tests (non-Linux)
-        run: export LF_VS_CODE_ALLOW_GLOBAL_UNINSTALLS=OK && npm run test-dependencies-missing-basic
+        run: npx --yes cross-env LF_VS_CODE_ALLOW_GLOBAL_UNINSTALLS=OK npm run test-dependencies-missing-basic
         if: ${{ runner.os != 'Linux' }}
