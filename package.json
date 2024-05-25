@@ -189,7 +189,7 @@
     "scripts": {
         "clean": "rimraf out && rimraf lib && rimraf vscode-lingua-franca-*.vsix",
         "transpile": "webpack",
-        "vscode:prepublish": "npm run transpile",
+        "vscode:prepublish": "npm run compile",
         "compile": "cd ./editor-support/lfwasm && make && cd ../.. && rimraf ./lfw-pkg && move-cli ./editor-support/lfwasm/pkg ./lfw-pkg && bash ./write-version-to-file.sh src/extension_version.ts && npm run transpile",
         "watch": "npm run transpile --watch",
         "build": "npx ts-node src/build_lds.ts",
