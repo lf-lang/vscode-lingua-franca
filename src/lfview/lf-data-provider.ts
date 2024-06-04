@@ -108,6 +108,7 @@ export class LFDataProvider implements vscode.TreeDataProvider<LFDataProviderNod
     // Utility properties
     private searchPath: string;
     private path_offset: number;
+    private exclude_path: vscode.GlobPattern = null;
 
     // Event emitter for tree data change
     private _onDidChangeTreeData: vscode.EventEmitter<LFDataProviderNode | undefined | null | void> = new vscode.EventEmitter<LFDataProviderNode | undefined | null | void>();
@@ -134,7 +135,8 @@ export class LFDataProvider implements vscode.TreeDataProvider<LFDataProviderNod
 
         this.type = type;
         this.path_offset = type === LFDataProviderNodeType.LOCAL ? 3 : 6;
-        this.searchPath = type === LFDataProviderNodeType.LOCAL ? '**/lib/*.lf' : '**/target/lfc_include/**/src/*.lf';
+        this.searchPath = type === LFDataProviderNodeType.LOCAL ? '**/lib/*.lf' : '**/target/lfc_include/**/lib/*.lf';
+        this.exclude_path = type === LFDataProviderNodeType.LOCAL ? '**/target/**' : null;
         this.watcher = vscode.workspace.createFileSystemWatcher(this.searchPath);
 
         // Register to file system changes: Create, Delete, Rename, Change
@@ -236,7 +238,7 @@ export class LFDataProvider implements vscode.TreeDataProvider<LFDataProviderNod
         this.data = [];
         if (vscode.workspace.workspaceFolders) {
             this.client.onReady().then(() => {
-                vscode.workspace.findFiles(this.searchPath).then(uris => {
+                vscode.workspace.findFiles(this.searchPath, this.exclude_path ? this.exclude_path : null).then(uris => {
                     uris.forEach(uri => {
                         this.client.sendRequest('generator/getLibraryReactors', uri.toString()).then(node => {
                             this.addDataItem(node);
