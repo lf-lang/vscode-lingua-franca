@@ -1,5 +1,9 @@
 # Changelog
  
+## [v0.8.0](https://github.com/lf-lang/vscode-lingua-franca/tree/v0.8.0) (2024-07-02)
+
+To change this text, edit notes/vscode-lingua-franca/v0.8.0.md in the release-notes repo.
+ 
 ## [v0.7.3](https://github.com/lf-lang/vscode-lingua-franca/tree/v0.7.3) (2024-05-26)
 
 **Highlights**
