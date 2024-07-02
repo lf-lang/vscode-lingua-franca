@@ -1,7 +1,6 @@
 import * as vscode from 'vscode';
 import { LanguageClient } from 'vscode-languageclient';
 import { getTerminal, MessageDisplayHelper } from './utils';
-import * as lfw from 'lfwasm';
 
 /**
  * Return the URI of the given document, if the document is a Lingua Franca file; else, return
