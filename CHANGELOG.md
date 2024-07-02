@@ -1,5 +1,11 @@
 # Changelog
  
+## [v0.8.0](https://github.com/lf-lang/vscode-lingua-franca/tree/v0.8.0) (2024-07-02)
+
+**Highlights**
+
+This release includes [Lingua Franca 0.8.0](https://github.com/lf-lang/lingua-franca/releases/tag/v0.8.0).
+ 
 ## [v0.7.3](https://github.com/lf-lang/vscode-lingua-franca/tree/v0.7.3) (2024-05-26)
 
 **Highlights**
