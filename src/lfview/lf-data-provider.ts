@@ -269,7 +269,7 @@ export class LFDataProvider implements vscode.TreeDataProvider<LFDataProviderNod
     addDataItemLocal(dataNode: any) {
         const root = this.buildRoot(dataNode.uri);
         let node = new LFDataProviderNode(dataNode.label, dataNode.uri, LFDataProviderNodeRole.FILE, this.type, []);
-        root.children.push(node);
+        root.children!.push(node);
         if (dataNode.children.length > 0) {
             dataNode.children.forEach(child => {
                 node.children.push(new LFDataProviderNode(child.label,
