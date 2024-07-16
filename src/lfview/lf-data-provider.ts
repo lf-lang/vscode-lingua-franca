@@ -108,7 +108,7 @@ export class LFDataProvider implements vscode.TreeDataProvider<LFDataProviderNod
     // Utility properties
     private searchPath: string;
     private path_offset: number;
-    private exclude_path: vscode.GlobPattern = null;
+    private exclude_path: vscode.GlobPattern | null = null;
 
     // Event emitter for tree data change
     private _onDidChangeTreeData: vscode.EventEmitter<LFDataProviderNode | undefined | null | void> = new vscode.EventEmitter<LFDataProviderNode | undefined | null | void>();
