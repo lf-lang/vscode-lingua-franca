@@ -1,3 +1,6 @@
 [submodule "lingua-franca"]
 	path = lingua-franca
 	url = https://github.com/lf-lang/lingua-franca.git
+[submodule "editor-support"]
+	path = editor-support
+	url = https://github.com/xronos-inc/editor-support.git

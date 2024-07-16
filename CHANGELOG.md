@@ -1,5 +1,59 @@
 # Changelog
  
+## [v0.8.1](https://github.com/lf-lang/vscode-lingua-franca/tree/v0.8.1) (2024-07-14)
+
+**Highlights**
+
+This patch release includes several minor bugfixes and enhancements, improving Docker support for the C++ target and providing a more complete implementation of watchdogs.
+ 
+## [v0.8.0](https://github.com/lf-lang/vscode-lingua-franca/tree/v0.8.0) (2024-07-02)
+
+**Highlights**
+
+This release includes [Lingua Franca 0.8.0](https://github.com/lf-lang/lingua-franca/releases/tag/v0.8.0).
+ 
+## [v0.7.3](https://github.com/lf-lang/vscode-lingua-franca/tree/v0.7.3) (2024-05-26)
+
+**Highlights**
+
+This release fixes an issue that rendered it unresponsive to commands.
+
+- Proprietary extension support [\#162](https://github.com/lf-lang/vscode-lingua-franca/pull/162) (@petervdonovan)
+- Handle case when wasm-pack is not installed [\#165](https://github.com/lf-lang/vscode-lingua-franca/pull/165) (@petervdonovan)
+
+ 
+## [v0.7.2](https://github.com/lf-lang/vscode-lingua-franca/tree/v0.7.2) (2024-05-20)
+
+**Highlights**
+
+This release includes patches of the C runtime only.
+ 
+## [v0.7.1](https://github.com/lf-lang/vscode-lingua-franca/tree/v0.7.1) (2024-05-17)
+
+**Highlights**
+
+This patch release includes bugfixes that address imports, tracing plugins, clock synchronization, and code generation issues.
+ 
+## [v0.7.0](https://github.com/lf-lang/vscode-lingua-franca/tree/v0.7.0) (2024-05-01)
+
+**Highlights**
+
+This release includes an updated Lingua Franca compiler and updates of several tests and dependencies.
+
+**✨ Enhancements**
+
+- Launch configuration for the LF extension on a socket without a locally developed klighd extension [\#157](https://github.com/lf-lang/vscode-lingua-franca/pull/157) (@soerendomroes)
+
+**🧪 Tests**
+
+- Update lingua-franca and known-good [\#154](https://github.com/lf-lang/vscode-lingua-franca/pull/154) (@petervdonovan)
+
+**⬆️ Updated Dependencies**
+
+- Dependency `get-func-name` bumped to 2.0.2 [\#149](https://github.com/lf-lang/vscode-lingua-franca/pull/149) (@lhstrh)
+
+
+ 
 ## [v0.6.0](https://github.com/lf-lang/vscode-lingua-franca/tree/v0.6.0) (2024-01-26)
 
 **Highlights**

@@ -26,8 +26,9 @@ export const rustMessage = 'The Rust compiler is required for compiling LF progr
     + 'target.';
 export const cmakeMessage = `CMake version ${config.cmakeVersion} or higher is recommended for `
     + `compiling LF programs with the C or C++ target.`;
+export const dockerMessage = 'Docker is required for running LF programs in a container.';
 
-export enum Dependency { Pylint, Java, Python3, Node, Rti, Pnpm, Rust, Cmake }
+export enum Dependency { Pylint, Java, Python3, Node, Rti, Docker, Pnpm, Rust, Cmake }
 
 const wrongVersionMessageOf = (originalMessage: string) =>
     (badResult: versionChecker.VersionCheckResult) =>
@@ -49,7 +50,7 @@ type DependencyInfo = {
     wrongVersionMessage?: (v: versionChecker.VersionCheckResult) => string,
     requiredVersion: Version,
     installLink: string | null,
-    installCommand: (v: versionChecker.VersionCheckResult) => Promise<InstallCommand> | null,
+    installCommand: (v: versionChecker.VersionCheckResult) => Promise<InstallCommand | null> | null,
     isEssential: boolean,
     alreadyChecked?: boolean,
     satisfied?: boolean
@@ -266,6 +267,20 @@ export const watcherConfig: CheckSet[] = [
             },
         ]
     },
+    {
+        regexp: /docker\s*:/,
+        checks: [
+            {
+                name: Dependency.Docker,
+                checker: versionChecker.dockerVersionChecker,
+                message: () => dockerMessage,
+                requiredVersion: config.dockerVersion,
+                installLink: 'https://docs.docker.com/engine/install/',
+                installCommand: () => null,
+                isEssential: true
+            },
+        ]
+    }
 ];
 
 export const caveat = 'If this dependency is already on your system, start VS Code from a terminal emulator so that VS Code sees the same value of your PATH that you see in your terminal.'
@@ -283,7 +298,7 @@ const checkDependency: UserFacingVersionCheckerMaker = (dependency: DependencyIn
         dependency.wrongVersionMessage?.(checkerResult)
         ?? dependency.message(checkerResult)
     ) : dependency.message(checkerResult))) + ' ' + caveat;
-    const installCommand: InstallCommand = await dependency.installCommand?.(checkerResult);
+    const installCommand: InstallCommand | null = await dependency.installCommand?.(checkerResult);
     if (!installCommand && !dependency.installLink) {
         MessageDisplayHelper(message);
         return false;
@@ -310,7 +325,7 @@ ${installCommand.description}`
     return false;
 };
 
-type CheckerGetter = (name: Dependency) => UserFacingVersionChecker;
+type CheckerGetter = (name: Dependency) => UserFacingVersionChecker | undefined;
 
 export const checkerFor: CheckerGetter = (name: Dependency) => {
     for (const cs of watcherConfig) {
@@ -335,6 +350,18 @@ const doDependencyCheck = (document: vscode.TextDocument) => {
         }
     }
 };
+
+export async function checkDocker(message: string): Promise<boolean> {
+    return await checkDependency({
+        name: Dependency.Docker,
+        checker: versionChecker.dockerVersionChecker,
+        message: () => message || dockerMessage,
+        requiredVersion: config.dockerVersion,
+        installLink: 'https://docs.docker.com/engine/install/',
+        installCommand: () => null,
+        isEssential: true
+    })(vscode.window.showErrorMessage)();
+}
 
 export function registerDependencyWatcher() {
     vscode.workspace.onDidOpenTextDocument(doDependencyCheck);

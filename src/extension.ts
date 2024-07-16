@@ -22,9 +22,10 @@ import { registerCollapseAllCommand,
     registerOpenLibraryInSplitViewCommand, 
     registerRefreshCommand, 
     registerRefreshLibraryCommand } from './lfview/lf-data-provider-commands';
+import * as extensionVersion from './extension_version';
 
 let client: LanguageClient;
-let socket: Socket
+let socket: Socket;
 
 /**
  * Activates the LF Language extension.
@@ -47,10 +48,12 @@ export async function activate(context: vscode.ExtensionContext) {
     // Check Java dependency
     if (!(
         await checkDependencies.checkerFor
-        (checkDependencies.Dependency.Java)
+        (checkDependencies.Dependency.Java)!
         (vscode.window.showErrorMessage)
         ()
-    )) return;
+    )) {
+        return;
+    }
 
     // Set up language client
     const serverOptions: ServerOptions = createServerOptions(context);
@@ -145,6 +148,12 @@ export async function activate(context: vscode.ExtensionContext) {
     //     })
     // );
     
+    context.subscriptions.push(vscode.commands.registerCommand(
+        "linguafranca.checkDocker", checkDependencies.checkDocker
+    ));
+    context.subscriptions.push(vscode.commands.registerCommand(
+        "linguafranca.getVersion", () => extensionVersion.version
+    ));
 }
 
 /**

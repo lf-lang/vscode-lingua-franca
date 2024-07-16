@@ -307,6 +307,28 @@ value;
 </span>
 
 <span class="source-lf">
+    lf_print(
+</span>
+<span class="source-lf string-quoted-double-lflang">
+"
+</span>
+<span class="source-lf string-quoted-double-lflang">
+Balance updated to %d.
+</span>
+<span class="source-lf string-quoted-double-lflang">
+"
+</span>
+<span class="source-lf">
+, self
+</span>
+<span class="source-lf keyword-operator-lflang">
+->
+</span>
+<span class="source-lf">
+balance);
+</span>
+
+<span class="source-lf">
   
 </span>
 <span class="source-lf keyword-operator-lflang">
@@ -344,6 +366,28 @@ query)
 
 <span class="source-lf">
     lf_set(response, self
+</span>
+<span class="source-lf keyword-operator-lflang">
+->
+</span>
+<span class="source-lf">
+balance);
+</span>
+
+<span class="source-lf">
+    lf_print(
+</span>
+<span class="source-lf string-quoted-double-lflang">
+"
+</span>
+<span class="source-lf string-quoted-double-lflang">
+Sending balance of %d.
+</span>
+<span class="source-lf string-quoted-double-lflang">
+"
+</span>
+<span class="source-lf">
+, self
 </span>
 <span class="source-lf keyword-operator-lflang">
 ->
@@ -479,6 +523,22 @@ startup
 </span>
 <span class="source-lf constant-numeric-int-lflang">
 100
+</span>
+<span class="source-lf">
+);
+</span>
+
+<span class="source-lf">
+    lf_print(
+</span>
+<span class="source-lf string-quoted-double-lflang">
+"
+</span>
+<span class="source-lf string-quoted-double-lflang">
+Sending deposit of 100.
+</span>
+<span class="source-lf string-quoted-double-lflang">
+"
 </span>
 <span class="source-lf">
 );

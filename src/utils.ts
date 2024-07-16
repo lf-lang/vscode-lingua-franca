@@ -1,7 +1,7 @@
 import * as vscode from 'vscode';
 
 export function getTerminal(name: string, cwd?: string) {
-    let terminal: vscode.Terminal = vscode.window.terminals.find(
+    let terminal: vscode.Terminal | undefined = vscode.window.terminals.find(
         t => t.name === name
     );
     if (!terminal) {

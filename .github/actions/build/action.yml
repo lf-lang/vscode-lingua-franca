@@ -32,8 +32,16 @@ runs:
         echo $JAVA_HOME
       working-directory: lingua-franca
       shell: bash
+    - name: Setup Rust
+      uses: actions-rs/toolchain@v1
+      with:
+        toolchain: stable
+        components: clippy
+    - name: Install the wasm-pack dev dependency globally
+      run: cargo install wasm-pack
+      shell: bash
     - name: Build the VS Code extension
-      run: npm install --ignore-scripts
+      run: npm install --ignore-scripts && npm run compile
       shell: bash
     - name: Install Code
       run: |
@@ -52,18 +60,14 @@ runs:
       shell: bash
       if: ${{ inputs.package == 'true' && inputs.pre-release == 'true'}}
     - name: Install pylint
-      run: python3 -m pip install pylint
+      run: |
+        python -m pip install --upgrade pip
+        PIP_BREAK_SYSTEM_PACKAGES=1 pip3 install pylint
       shell: bash
       if: ${{ inputs.partial == 'false' }}
     - name: Install pnpm
       run: npm i -g pnpm
       shell: bash
-      if: ${{ inputs.partial == 'false' }}
-    - name: Setup Rust
-      uses: actions-rust-lang/setup-rust-toolchain@v1
-      with:
-        toolchain: stable
-        components: clippy
       if: ${{ inputs.partial == 'false' }}
     - name: Install RTI
       run: |

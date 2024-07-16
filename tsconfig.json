@@ -1,15 +1,23 @@
 {
     "compilerOptions": {
-        "esModuleInterop": true,
         "inlineSources": false,
-        "lib": ["esnext"],
-        "module": "commonjs",
-        "moduleResolution": "node",
+        "lib": [
+            "ES2022",
+            "DOM" // hackily added to include wasm support
+        ],
+        "module": "Node16",
         "outDir": "./out",
-        "sourceMap": true,
-        "target": "esnext",
+        "sourceMap": false,
+        "target": "ES2022",
         "rootDir": "./src",
+        "strict": true
     },
-    "exclude": ["node_modules", ".vscode-test", ".gradle"],
-    "include": ["./src"]
+    "exclude": [
+        "node_modules",
+        ".vscode-test",
+        ".gradle"
+    ],
+    "include": [
+        "./src"
+    ]
 }
