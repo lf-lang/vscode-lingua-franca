@@ -13,7 +13,7 @@ This extension adds language support for [Lingua Franca (LF)](https://www.lf-lan
 * target code validation upon build or file save
 * user-triggered build (<kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>P</kbd>, then `Lingua Franca: Build`) 
 * user-triggered build and run (<kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>P</kbd>, then `Lingua Franca: Build and Run`) 
-* Lingua Franca Package Explorer (click on the LF icon in the Activity Bar on the left), which features two distinct tree-view sections:
+* [Lingua Franca Package Explorer](LF_PACKAGE_EXPLORER.md) (click on the LF icon in the Activity Bar on the left), which features two distinct tree-view sections:
    * **Local Libraries:** This section showcases a catalog of Local Libraries, which are libraries personally defined by the programmer.
    * **Lingo Libraries:** Here, you'll find a catalog of all libraries downloaded in the personal workspace using the Lingo package manager.
 
