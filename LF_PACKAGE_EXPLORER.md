@@ -27,6 +27,8 @@ The view's hierarchy is structured as follows:
 
 The image below illustrates the Local view. In this depiction, the "root folder" icon represents the LF Project folder. The "code file" icon symbolizes the LF Program, and the "bracket" icon denotes individual reactors within the LF Program.
 
+<img width="271" alt="Screenshot 2024-07-16 alle 12 36 19" src="https://github.com/user-attachments/assets/f159322b-a05a-4010-ad47-5203a275f269">
+
 Within the hierarchy, Tree Items can be classified into three types:
 
 1. **`root`**: Represents the LF Project folder.
@@ -91,6 +93,8 @@ After being downloaded into the local workspace, the Lingo Libraries view is res
 In this structure, the **`LF Project`** serves as the root LF Project, while **`library_x`** refer to the libraries the developer has inserted in the **`[dependencies]`** section of the **`.toml`** file. Each library functions as a conventional LF Project containing one or more LF Programs intended as libraries, i.e., they encompass lists of reactors that developers could include (Refer to the [RFC](https://github.com/lf-lang/rfcs/pull/11) to review the proposed LF project structure, including the libraries). 
 
 The image below illustrates the Lingo Libraries view: the 'root folder' icon represents the LF Project folder and downloaded libraries (in the picture, the 'edgeai' library). The 'code file' icon symbolizes the LF Program within the downloaded library, while the 'bracket' icon denotes individual reactors within the LF Program.
+
+<img width="307" alt="Screenshot 2024-07-16 alle 12 26 39" src="https://github.com/user-attachments/assets/ba0f8ec6-c9b8-4ac3-9bc2-f500b0c11265">
 
 Within the hierarchy, similar to the Local View, Tree Items can be categorized into three types:
 
