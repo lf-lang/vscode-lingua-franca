@@ -12,15 +12,15 @@ import * as config from './config';
 import { registerBuildCommands, registerNewFileCommand } from './build_commands';
 import * as checkDependencies from './check_dependencies';
 import { LFDataProvider, LFDataProviderNode, LFDataProviderNodeType} from './lfview/lf-data-provider';
-import { registerCollapseAllCommand, 
-    registerCollapseAllLibraryCommand, 
-    registerGoToFileCommand, 
-    registerGoToLibraryFileCommand, 
-    registerImportReactorCommand, 
-    registerImportLibraryReactorCommand, 
-    registerOpenInSplitViewCommand, 
-    registerOpenLibraryInSplitViewCommand, 
-    registerRefreshCommand, 
+import { registerCollapseAllCommand,
+    registerCollapseAllLibraryCommand,
+    registerGoToFileCommand,
+    registerGoToLibraryFileCommand,
+    registerImportReactorCommand,
+    registerImportLibraryReactorCommand,
+    registerOpenInSplitViewCommand,
+    registerOpenLibraryInSplitViewCommand,
+    registerRefreshCommand,
     registerRefreshLibraryCommand } from './lfview/lf-data-provider-commands';
 import * as extensionVersion from './extension_version';
 
