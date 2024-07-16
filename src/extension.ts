@@ -116,38 +116,6 @@ export async function activate(context: vscode.ExtensionContext) {
     registerCollapseAllCommand(context);
     registerCollapseAllLibraryCommand(context);
 
-    // context.subscriptions.push(
-    //     vscode.workspace.onDidDeleteFiles(async (e) => {
-    //         if (e.files.length > 0) {
-    //             e.files.forEach( (file) => {
-    //                 if (file.path.endsWith('.lf')) {
-    //                     lfDataProviderLocal.refreshTree();
-    //                     lfDataProviderLibrary.refreshTree();
-    //                 }
-    //             });
-    //         }
-    //     }),
-    //     vscode.workspace.onDidRenameFiles((e) => {
-    //         if (e.files.length > 0) {
-    //             e.files.forEach(async (file) => {
-    //                 if (file.newUri.path.endsWith('.lf')) {
-    //                     lfDataProviderLocal.refreshTree();
-    //                     lfDataProviderLibrary.refreshTree();
-    //                 }
-    //             });
-    //         }
-    //     }),
-    //     vscode.workspace.onDidCreateFiles((e) => {
-    //         if (e.files.length > 0) {
-    //             e.files.forEach(async (file) => {
-    //                 if (file.path.endsWith('.lf')) {
-    //                     lfDataProviderLibrary.refreshTree();
-    //                 }
-    //             });
-    //         }
-    //     })
-    // );
-    
     context.subscriptions.push(vscode.commands.registerCommand(
         "linguafranca.checkDocker", checkDependencies.checkDocker
     ));
