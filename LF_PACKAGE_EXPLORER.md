@@ -47,7 +47,7 @@ To effectively utilize Lingo for downloading a remote LF Project (GitHub repo), 
 
 Once Lingo has been properly initialized on the local side, programmers will discover a **`Lingo.toml`** file within its folder. An example of this file is the following:
 
-```makefile
+```toml
 [package]
 name = "firstproject"
 version = "0.1.0"
