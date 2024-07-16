@@ -209,22 +209,30 @@
                 {
                     "command": "linguafranca.goToFile",
                     "group": "inline",
-                    "when": "view == lf-lang-local && viewItem == file"
+                    "when": "view == lf-lang-local && viewItem != root"
                 },
                 {
                     "command": "linguafranca.goToLibraryFile",
+                    "group": "inline",
+                    "when": "view == lf-lang-library && viewItem != root"
+                },
+                {
+                    "command": "linguafranca.openInSplitView",
+                    "group": "inline",
+                    "when": "view == lf-lang-local && viewItem == file"
+                },
+                {
+                    "command": "linguafranca.openLibraryInSplitView",
                     "group": "inline",
                     "when": "view == lf-lang-library && viewItem == file"
                 },
                 {
                     "command": "linguafranca.openInSplitView",
-                    "group": "inline",
-                    "when": "view == lf-lang-local && viewItem != root"
+                    "when": "view == lf-lang-local && viewItem == reactor"
                 },
                 {
                     "command": "linguafranca.openLibraryInSplitView",
-                    "group": "inline",
-                    "when": "view == lf-lang-library && viewItem != root"
+                    "when": "view == lf-lang-library && viewItem == reactor"
                 },
                 {
                     "command": "linguafranca.importReactor",

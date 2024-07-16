@@ -60,7 +60,7 @@ export class LFDataProviderNode extends vscode.TreeItem {
         this.contextValue = role;
         if (position) { this.position = position; }
 
-        this.registerNodeCommand();
+        // this.registerNodeCommand();
 
     }
 
