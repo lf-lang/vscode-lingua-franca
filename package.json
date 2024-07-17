@@ -281,14 +281,14 @@
                     "id": "lf-lang-library",
                     "name": "Lingo Libraries"
                 }
-              ],
-            "commandPalette": [
+              ]
+        },
+        "commandPalette": [
                 {
                     "command": "linguafranca.getVersion",
                     "when": "false"
                 }
             ]
-        }
     },
     "devDependencies": {
         "@types/chai": "^4.3.1",

@@ -271,8 +271,8 @@ export class LFDataProvider implements vscode.TreeDataProvider<LFDataProviderNod
         let node = new LFDataProviderNode(dataNode.label, dataNode.uri, LFDataProviderNodeRole.FILE, this.type, []);
         root.children!.push(node);
         if (dataNode.children.length > 0) {
-            dataNode.children.forEach(child => {
-                node.children.push(new LFDataProviderNode(child.label,
+            dataNode.children.forEach((child: any) => {
+                node.children!.push(new LFDataProviderNode(child.label,
                     child.uri,
                     LFDataProviderNodeRole.REACTOR,
                     this.type, [],
@@ -292,8 +292,8 @@ export class LFDataProvider implements vscode.TreeDataProvider<LFDataProviderNod
         const library_root = this.buildLibraryRoot(dataNode.uri, root);
         let node = new LFDataProviderNode(dataNode.label, dataNode.uri, LFDataProviderNodeRole.FILE, this.type, []);
         if (dataNode.children.length > 0) {
-            dataNode.children.forEach(child => {
-                node.children.push(new LFDataProviderNode(child.label,
+            dataNode.children.forEach((child: any) => {
+                node.children!.push(new LFDataProviderNode(child.label,
                     child.uri,
                     LFDataProviderNodeRole.REACTOR,
                     this.type, [],
@@ -301,8 +301,8 @@ export class LFDataProvider implements vscode.TreeDataProvider<LFDataProviderNod
                 ));
             });
         }
-        if (library_root.children.find(n => n.label === node.label) === undefined) {
-            library_root.children.push(node);
+        if (library_root.children!.find(n => n.label === node.label) === undefined) {
+            library_root.children!.push(node);
         }
         this.sortData();
     }
@@ -327,13 +327,13 @@ export class LFDataProvider implements vscode.TreeDataProvider<LFDataProviderNod
      * @param node - The node whose children need to be sorted.
      */
     sortNodes(node: LFDataProviderNode) {
-        if (node.children.length > 0) {
-            node.children.sort((a, b) => {
+        if (node.children!.length > 0) {
+            node.children!.sort((a, b) => {
                 const labelA = typeof a.label === 'string' ? a.label : a.uri.fsPath.split('/').pop() || '';
                 const labelB = typeof b.label === 'string' ? b.label : b.uri.fsPath.split('/').pop() || '';
                 return labelA.localeCompare(labelB);
             });
-            node.children.forEach(n => this.sortNodes(n));
+            node.children!.forEach(n => this.sortNodes(n));
         }
     }
 
@@ -366,11 +366,11 @@ export class LFDataProvider implements vscode.TreeDataProvider<LFDataProviderNod
         const splittedUri = uri.split('/');
         const projectLabel = splittedUri[splittedUri.length - this.path_offset + 3];
 
-        const existingLibraryRoot = root.children.find(item => item.label === projectLabel);
+        const existingLibraryRoot = root.children!.find(item => item.label === projectLabel);
         if (!existingLibraryRoot) {
             const projectUri = splittedUri.slice(0, - this.path_offset + 3).join('/') + '/';
             const library_root = new LFDataProviderNode(projectLabel, projectUri, LFDataProviderNodeRole.ROOT, this.type, []);
-            root.children.push(library_root);
+            root.children!.push(library_root);
             return library_root;
         }
         return existingLibraryRoot;
@@ -410,9 +410,9 @@ export class LFDataProvider implements vscode.TreeDataProvider<LFDataProviderNod
                 return;
             }
             const relativePath = this.getRelativePath(editor.document.uri.fsPath, node.uri.fsPath);
-            const importText = `import ${node.label.toString()} from "${relativePath}"\n`;
+            const importText = `import ${node.label!.toString()} from "${relativePath}"\n`;
             const position = await this.getTargetPosition(editor.document.uri);
-            this.addTextOnActiveEditor(editor, position.end, importText);
+            this.addTextOnActiveEditor(editor, position!.end, importText);
         }
     }
 
@@ -424,14 +424,14 @@ export class LFDataProvider implements vscode.TreeDataProvider<LFDataProviderNod
     getHighlightSelection(node: LFDataProviderNode): vscode.Selection {
         const editor = vscode.window.activeTextEditor;
         if (editor) {
-            const sel = new vscode.Selection(node.position.start - 1, 0, node.position.start - 1, this.HIGHLIGHT_OFFSET);
+            const sel = new vscode.Selection(node.position!.start - 1, 0, node.position!.start - 1, this.HIGHLIGHT_OFFSET);
             const selectionRange = new vscode.Range(sel.start.line, sel.start.character, sel.end.line, sel.end.character);
             const highlighted = editor.document.getText(selectionRange);
-            const idx = highlighted.indexOf(node.label.toString());
-            const endIdx = idx + node.label.toString().length;
-            return new vscode.Selection(node.position.start - 1, idx, node.position.start - 1, endIdx);
+            const idx = highlighted.indexOf(node.label!.toString());
+            const endIdx = idx + node.label!.toString().length;
+            return new vscode.Selection(node.position!.start - 1, idx, node.position!.start - 1, endIdx);
         }
-        return new vscode.Selection(node.position.start - 1, 0, node.position.start - 1, this.HIGHLIGHT_OFFSET);
+        return new vscode.Selection(node.position!.start - 1, 0, node.position!.start - 1, this.HIGHLIGHT_OFFSET);
     }
 
     /**
