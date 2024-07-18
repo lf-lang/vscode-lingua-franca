@@ -198,6 +198,12 @@
                     "command": "linguafranca.createNewFile"
                 }
             ],
+            "commandPalette": [
+                {
+                    "command": "linguafranca.getVersion",
+                    "when": "false"
+                }
+            ],
             "view/title": [
                 {
                     "command": "linguafranca.refreshEntries",
@@ -282,13 +288,7 @@
                     "name": "Lingo Libraries"
                 }
               ]
-        },
-        "commandPalette": [
-                {
-                    "command": "linguafranca.getVersion",
-                    "when": "false"
-                }
-            ]
+        }
     },
     "devDependencies": {
         "@types/chai": "^4.3.1",

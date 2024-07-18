@@ -59,20 +59,6 @@ export class LFDataProviderNode extends vscode.TreeItem {
         this.iconPath = new vscode.ThemeIcon(icon);
         this.contextValue = role;
         if (position) { this.position = position; }
-
-        // this.registerNodeCommand();
-
-    }
-
-    /**
-     * Registers a command for the node based on its role and type.
-     */
-    registerNodeCommand(): void {
-        this.command = this.role === LFDataProviderNodeRole.REACTOR ? {
-            title: "",
-            command: this.type == LFDataProviderNodeType.LOCAL ? "linguafranca.goToFile" : "linguafranca.goToLibraryFile",
-            arguments: [this]
-        } : undefined;
     }
 }
 
@@ -241,7 +227,9 @@ export class LFDataProvider implements vscode.TreeDataProvider<LFDataProviderNod
                 vscode.workspace.findFiles(this.searchPath, this.exclude_path ? this.exclude_path : null).then(uris => {
                     uris.forEach(uri => {
                         this.client.sendRequest('generator/getLibraryReactors', uri.toString()).then(node => {
-                            this.addDataItem(node);
+                            if (node) {
+                                this.addDataItem(node as LFDataProviderNode);
+                            }
                         });
                     });
                 });
@@ -254,7 +242,7 @@ export class LFDataProvider implements vscode.TreeDataProvider<LFDataProviderNod
      * Adds a new data item to the LFDataProvider tree.
      * @param dataNode - The data node to add to the tree.
      */
-    addDataItem(dataNode: any) {
+    addDataItem(dataNode: LFDataProviderNode) {
         if (this.type === LFDataProviderNodeType.LOCAL) {
             this.addDataItemLocal(dataNode);
         } else {
@@ -266,14 +254,14 @@ export class LFDataProvider implements vscode.TreeDataProvider<LFDataProviderNod
      * Adds a data item to the Local Libraries view.
      * @param dataNode - The data node to add.
      */
-    addDataItemLocal(dataNode: any) {
-        const root = this.buildRoot(dataNode.uri);
-        let node = new LFDataProviderNode(dataNode.label, dataNode.uri, LFDataProviderNodeRole.FILE, this.type, []);
+    addDataItemLocal(dataNode: LFDataProviderNode) {
+        const root = this.buildRoot(dataNode.uri.toString());
+        let node = new LFDataProviderNode(dataNode.label!.toString(), dataNode.uri.toString(), LFDataProviderNodeRole.FILE, this.type, []);
         root.children!.push(node);
-        if (dataNode.children.length > 0) {
-            dataNode.children.forEach((child: any) => {
-                node.children!.push(new LFDataProviderNode(child.label,
-                    child.uri,
+        if (dataNode.children!.length > 0) {
+            dataNode.children!.forEach((child: LFDataProviderNode) => {
+                node.children!.push(new LFDataProviderNode(child.label!.toString(),
+                    child.uri.toString(),
                     LFDataProviderNodeRole.REACTOR,
                     this.type, [],
                     child.position
@@ -287,14 +275,14 @@ export class LFDataProvider implements vscode.TreeDataProvider<LFDataProviderNod
      * Adds a data item to the Lingo Libraries view.
      * @param dataNode - The data node to add.
      */
-    addDataItemLibrary(dataNode: any) {
-        const root = this.buildRoot(dataNode.uri);
-        const library_root = this.buildLibraryRoot(dataNode.uri, root);
-        let node = new LFDataProviderNode(dataNode.label, dataNode.uri, LFDataProviderNodeRole.FILE, this.type, []);
-        if (dataNode.children.length > 0) {
-            dataNode.children.forEach((child: any) => {
-                node.children!.push(new LFDataProviderNode(child.label,
-                    child.uri,
+    addDataItemLibrary(dataNode: LFDataProviderNode) {
+        const root = this.buildRoot(dataNode.uri.toString());
+        const library_root = this.buildLibraryRoot(dataNode.uri.toString(), root);
+        let node = new LFDataProviderNode(dataNode.label!.toString(), dataNode.uri.toString(), LFDataProviderNodeRole.FILE, this.type, []);
+        if (dataNode.children!.length > 0) {
+            dataNode.children!.forEach((child: LFDataProviderNode) => {
+                node.children!.push(new LFDataProviderNode(child.label!.toString(),
+                    child.uri.toString(),
                     LFDataProviderNodeRole.REACTOR,
                     this.type, [],
                     child.position
