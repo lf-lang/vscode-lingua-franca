@@ -212,7 +212,9 @@ export class LFDataProvider implements vscode.TreeDataProvider<LFDataProviderNod
         ) {
             element.collapsibleState = vscode.TreeItemCollapsibleState.Collapsed;
             element.iconPath = new vscode.ThemeIcon('root-folder');
-            this._onDidChangeTreeData.fire(element);
+            element.children?.forEach( (element: LFDataProviderNode) => {
+                this._onDidChangeTreeData.fire(element);
+            })
         }
     }
 
@@ -410,16 +412,7 @@ export class LFDataProvider implements vscode.TreeDataProvider<LFDataProviderNod
      * @returns The selection to highlight.
      */
     getHighlightSelection(node: LFDataProviderNode): vscode.Selection {
-        const editor = vscode.window.activeTextEditor;
-        if (editor) {
-            const sel = new vscode.Selection(node.position!.start - 1, 0, node.position!.start - 1, this.HIGHLIGHT_OFFSET);
-            const selectionRange = new vscode.Range(sel.start.line, sel.start.character, sel.end.line, sel.end.character);
-            const highlighted = editor.document.getText(selectionRange);
-            const idx = highlighted.indexOf(node.label!.toString());
-            const endIdx = idx + node.label!.toString().length;
-            return new vscode.Selection(node.position!.start - 1, idx, node.position!.start - 1, endIdx);
-        }
-        return new vscode.Selection(node.position!.start - 1, 0, node.position!.start - 1, this.HIGHLIGHT_OFFSET);
+        return new vscode.Selection(node.position!.start - 1, 0, node.position!.end, 0);
     }
 
     /**
@@ -433,31 +426,25 @@ export class LFDataProvider implements vscode.TreeDataProvider<LFDataProviderNod
     }
 
     /**
-     * Adds text to the active editor at the specified position.
+     * Adds the specified text to the active text editor at the given index.
+     * If the text is added successfully, the document is saved.
+     *
      * @param editor - The active text editor.
-     * @param end - The position to start searching for the next empty line from.
+     * @param idx - The index at which to insert the text.
      * @param importText - The text to insert.
+     * @returns A Promise that resolves when the text has been added and the document saved.
      */
-    addTextOnActiveEditor(editor: vscode.TextEditor, end: number, importText: string): void {
+    async addTextOnActiveEditor(editor: vscode.TextEditor, idx: number, importText: string): Promise<void> {
         const document = editor.document;
-        const totalLines = document.lineCount;
-
-        let startIndex = end;
-        let foundEmptyLine = false;
-
-        while (startIndex < totalLines) {
-            const line = document.lineAt(startIndex);
-            if (line.isEmptyOrWhitespace) {
-                foundEmptyLine = true;
-                break;
-            }
-            startIndex++;
-        }
-
-        if (foundEmptyLine) {
-            editor.edit(editBuilder => {
-                editBuilder.insert(new vscode.Position(startIndex, 0), importText);
+        try {
+            const success = await editor.edit(editBuilder => {
+                editBuilder.insert(new vscode.Position(idx, 0), importText);
             });
+            if (success) {
+                await document.save();
+            }
+        } catch (error) {
+            console.error('Failed to add text or save document:', error);
         }
     }
 
