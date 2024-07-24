@@ -11,10 +11,15 @@ from the VSCode marketplace. See
 
 ## Getting started
 
-To check out the repository, build from source, and install the VS Code plugin, run the following command:
+To check out the repository, build from source, and install the VS Code plugin, make sure you have the following dependencies:
+
+- `rust`. Rust versions preceding 1.76.0 are not guaranteed to work. See [this web page](https://www.rust-lang.org/tools/install) for instructions on installing Rust.
+- `npm`. `npm` versions preceding 10.4.0 are not guaranteed to work.
+
+Then, run the following command:
 
 ```
-git clone git@github.com:lf-lang/vscode-lingua-franca.git \
+git clone --recurse-submodules git@github.com:lf-lang/vscode-lingua-franca.git \
 && cd vscode-lingua-franca \
 && npm install
 ```
@@ -22,12 +27,10 @@ git clone git@github.com:lf-lang/vscode-lingua-franca.git \
 If you do not have a public key set up for authentication with GitHub, you can also use HTTPS:
 
 ```
-git clone https://github.com/lf-lang/vscode-lingua-franca.git \
+git clone --recurse-submodules https://github.com/lf-lang/vscode-lingua-franca.git \
 && cd vscode-lingua-franca \
 && npm install
 ```
-
-Note that this assumes that you have the WASM dependency somewhere on your system. Eventually, the WASM will probably be published; however, that hasn't been done yet, and it isn't currently possible to build it from source from this open-source repo because it is closed-source.
 
 ### Trouble Shooting
 
