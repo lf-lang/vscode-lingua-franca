@@ -1,0 +1,614 @@
+<span class="source-lf comment-line-double-dash-lflang">
+# To run this test, the `pickle_serializer` package must be installed in the Python environment.
+</span>
+
+<span class="source-lf comment-line-double-dash-lflang">
+# Run `pip3 install -e ./test/Python/src/serialization/pickle_serializer` in the project root directory to install the pickle_serializer.
+</span>
+
+<span class="source-lf meta-targetspec-lflang keyword-control-lflang">
+target
+</span>
+<span class="source-lf meta-targetspec-lflang">
+ 
+</span>
+<span class="source-lf meta-targetspec-lflang constant-language-lflang">
+Python
+</span>
+<span class="source-lf meta-targetspec-lflang">
+ {
+</span>
+
+<span class="source-lf meta-targetspec-lflang variable-parameter-lflang">
+  coordination
+</span>
+<span class="source-lf meta-targetspec-lflang">
+: 
+</span>
+<span class="source-lf meta-targetspec-lflang storage-type-lflang">
+decentralized
+</span>
+
+<span class="source-lf meta-targetspec-lflang">
+}
+</span>
+
+<span class="source-lf">
+
+</span>
+
+<span class="source-lf keyword-control-lflang">
+preamble
+</span>
+<span class="source-lf">
+ 
+</span>
+<span class="source-lf meta-embedded-block-py">
+{=
+</span>
+
+<span class="source-lf meta-embedded-block-py">
+  os.system("pip install ./src/serialization/pickle_serializer/ --user")
+</span>
+
+<span class="source-lf meta-embedded-block-py">
+=}
+</span>
+
+<span class="source-lf">
+
+</span>
+
+<span class="source-lf storage-modifier-lflang">
+reactor
+</span>
+<span class="source-lf">
+ 
+</span>
+<span class="source-lf entity-name-type-lflang">
+Client
+</span>
+<span class="source-lf">
+ {
+</span>
+
+<span class="source-lf">
+  
+</span>
+<span class="source-lf storage-modifier-lflang">
+input
+</span>
+<span class="source-lf">
+ 
+</span>
+<span class="source-lf variable-other-lflang">
+server_message
+</span>
+
+<span class="source-lf">
+  
+</span>
+<span class="source-lf storage-modifier-lflang">
+output
+</span>
+<span class="source-lf">
+ 
+</span>
+<span class="source-lf variable-other-lflang">
+client_message
+</span>
+
+<span class="source-lf">
+  
+</span>
+<span class="source-lf storage-modifier-lflang">
+state
+</span>
+<span class="source-lf">
+ 
+</span>
+<span class="source-lf variable-other-lflang">
+count
+</span>
+
+<span class="source-lf">
+
+</span>
+
+<span class="source-lf">
+  
+</span>
+<span class="source-lf keyword-control-lflang">
+reaction
+</span>
+<span class="source-lf">
+(
+</span>
+<span class="source-lf support-variable-lflang">
+startup
+</span>
+<span class="source-lf">
+) 
+</span>
+<span class="source-lf meta-embedded-block-py">
+{=
+</span>
+
+<span class="source-lf meta-embedded-block-py">
+    self.count = 0
+</span>
+
+<span class="source-lf meta-embedded-block-py">
+    print("Client Startup!")
+</span>
+
+<span class="source-lf meta-embedded-block-py">
+  
+</span>
+<span class="source-lf meta-embedded-block-py">
+=}
+</span>
+
+<span class="source-lf">
+
+</span>
+
+<span class="source-lf">
+  
+</span>
+<span class="source-lf keyword-control-lflang">
+reaction
+</span>
+<span class="source-lf">
+(server_message) 
+</span>
+<span class="source-lf keyword-operator-lflang">
+->
+</span>
+<span class="source-lf">
+ client_message 
+</span>
+<span class="source-lf meta-embedded-block-py">
+{=
+</span>
+
+<span class="source-lf meta-embedded-block-py">
+    val = server_message.value
+</span>
+
+<span class="source-lf meta-embedded-block-py">
+    if val != self.count:
+</span>
+
+<span class="source-lf meta-embedded-block-py">
+        print("client: out of order", val, self.count)
+</span>
+
+<span class="source-lf meta-embedded-block-py">
+        exit(1)
+</span>
+
+<span class="source-lf meta-embedded-block-py">
+    self.count+=2
+</span>
+
+<span class="source-lf meta-embedded-block-py">
+    val += 1
+</span>
+
+<span class="source-lf meta-embedded-block-py">
+    print("client:", val)
+</span>
+
+<span class="source-lf meta-embedded-block-py">
+    if val==23:
+</span>
+
+<span class="source-lf meta-embedded-block-py">
+        print("client done")
+</span>
+
+<span class="source-lf meta-embedded-block-py">
+        request_stop()
+</span>
+
+<span class="source-lf meta-embedded-block-py">
+    if val<23:
+</span>
+
+<span class="source-lf meta-embedded-block-py">
+        client_message.set(val)
+</span>
+
+<span class="source-lf meta-embedded-block-py">
+  
+</span>
+<span class="source-lf meta-embedded-block-py">
+=}
+</span>
+
+<span class="source-lf">
+}
+</span>
+
+<span class="source-lf">
+
+</span>
+
+<span class="source-lf storage-modifier-lflang">
+reactor
+</span>
+<span class="source-lf">
+ 
+</span>
+<span class="source-lf entity-name-type-lflang">
+Server
+</span>
+<span class="source-lf">
+ {
+</span>
+
+<span class="source-lf">
+  
+</span>
+<span class="source-lf storage-modifier-lflang">
+output
+</span>
+<span class="source-lf">
+ 
+</span>
+<span class="source-lf variable-other-lflang">
+server_message
+</span>
+
+<span class="source-lf">
+  
+</span>
+<span class="source-lf storage-modifier-lflang">
+input
+</span>
+<span class="source-lf">
+ 
+</span>
+<span class="source-lf variable-other-lflang">
+client_message
+</span>
+
+<span class="source-lf">
+  
+</span>
+<span class="source-lf storage-modifier-lflang">
+state
+</span>
+<span class="source-lf">
+ 
+</span>
+<span class="source-lf variable-other-lflang">
+count
+</span>
+
+<span class="source-lf">
+
+</span>
+
+<span class="source-lf">
+  
+</span>
+<span class="source-lf keyword-control-lflang">
+reaction
+</span>
+<span class="source-lf">
+(
+</span>
+<span class="source-lf support-variable-lflang">
+startup
+</span>
+<span class="source-lf">
+) 
+</span>
+<span class="source-lf keyword-operator-lflang">
+->
+</span>
+<span class="source-lf">
+ server_message 
+</span>
+<span class="source-lf meta-embedded-block-py">
+{=
+</span>
+
+<span class="source-lf meta-embedded-block-py">
+    self.count = 1
+</span>
+
+<span class="source-lf meta-embedded-block-py">
+    print("Server Startup!")
+</span>
+
+<span class="source-lf meta-embedded-block-py">
+    server_message.set(0)
+</span>
+
+<span class="source-lf meta-embedded-block-py">
+  
+</span>
+<span class="source-lf meta-embedded-block-py">
+=}
+</span>
+
+<span class="source-lf">
+
+</span>
+
+<span class="source-lf">
+  
+</span>
+<span class="source-lf keyword-control-lflang">
+reaction
+</span>
+<span class="source-lf">
+(client_message) 
+</span>
+<span class="source-lf keyword-operator-lflang">
+->
+</span>
+<span class="source-lf">
+ server_message 
+</span>
+<span class="source-lf meta-embedded-block-py">
+{=
+</span>
+
+<span class="source-lf meta-embedded-block-py">
+    val = client_message.value
+</span>
+
+<span class="source-lf meta-embedded-block-py">
+    if val != self.count:
+</span>
+
+<span class="source-lf meta-embedded-block-py">
+        print("server: out of order", val, self.count)
+</span>
+
+<span class="source-lf meta-embedded-block-py">
+        exit(1)
+</span>
+
+<span class="source-lf meta-embedded-block-py">
+    self.count+=2
+</span>
+
+<span class="source-lf meta-embedded-block-py">
+    val += 1
+</span>
+
+<span class="source-lf meta-embedded-block-py">
+    print("server:", val)
+</span>
+
+<span class="source-lf meta-embedded-block-py">
+    if val==22:
+</span>
+
+<span class="source-lf meta-embedded-block-py">
+        print("server done")
+</span>
+
+<span class="source-lf meta-embedded-block-py">
+        server_message.set(val)
+</span>
+
+<span class="source-lf meta-embedded-block-py">
+        request_stop()
+</span>
+
+<span class="source-lf meta-embedded-block-py">
+    if val<22:
+</span>
+
+<span class="source-lf meta-embedded-block-py">
+        server_message.set(val)
+</span>
+
+<span class="source-lf meta-embedded-block-py">
+  
+</span>
+<span class="source-lf meta-embedded-block-py">
+=}
+</span>
+
+<span class="source-lf">
+}
+</span>
+
+<span class="source-lf">
+
+</span>
+
+<span class="source-lf storage-modifier-lflang">
+federated
+</span>
+<span class="source-lf">
+ 
+</span>
+<span class="source-lf storage-modifier-lflang">
+reactor
+</span>
+<span class="source-lf">
+ {
+</span>
+
+<span class="source-lf">
+  
+</span>
+<span class="source-lf variable-other-constant-reactorinstance-lflang">
+client
+</span>
+<span class="source-lf">
+ 
+</span>
+<span class="source-lf keyword-operator-lflang">
+=
+</span>
+<span class="source-lf">
+ 
+</span>
+<span class="source-lf keyword-control-new-lflang">
+new
+</span>
+<span class="source-lf">
+ 
+</span>
+<span class="source-lf entity-name-type-lflang">
+Client
+</span>
+<span class="source-lf">
+()
+</span>
+
+<span class="source-lf">
+  
+</span>
+<span class="source-lf variable-other-constant-reactorinstance-lflang">
+server
+</span>
+<span class="source-lf">
+ 
+</span>
+<span class="source-lf keyword-operator-lflang">
+=
+</span>
+<span class="source-lf">
+ 
+</span>
+<span class="source-lf keyword-control-new-lflang">
+new
+</span>
+<span class="source-lf">
+ 
+</span>
+<span class="source-lf entity-name-type-lflang">
+Server
+</span>
+<span class="source-lf">
+()
+</span>
+
+<span class="source-lf">
+  
+</span>
+<span class="source-lf variable-other-constant-reactorinstance-lflang">
+server
+</span>
+<span class="source-lf keyword-operator-lflang">
+.
+</span>
+<span class="source-lf variable-other-lflang">
+server_message
+</span>
+<span class="source-lf">
+ 
+</span>
+<span class="source-lf keyword-operator-lflang">
+->
+</span>
+<span class="source-lf">
+ 
+</span>
+<span class="source-lf variable-other-constant-reactorinstance-lflang">
+client
+</span>
+<span class="source-lf keyword-operator-lflang">
+.
+</span>
+<span class="source-lf variable-other-lflang">
+server_message
+</span>
+<span class="source-lf">
+ 
+</span>
+<span class="source-lf keyword-control-lflang">
+after
+</span>
+<span class="source-lf">
+ 
+</span>
+<span class="source-lf constant-numeric-int-lflang">
+100
+</span>
+<span class="source-lf">
+ ms 
+</span>
+<span class="source-lf keyword-control-lflang">
+serializer
+</span>
+<span class="source-lf">
+ 
+</span>
+<span class="source-lf string-quoted-double-lflang">
+"
+</span>
+<span class="source-lf string-quoted-double-lflang">
+pickle_serializer
+</span>
+<span class="source-lf string-quoted-double-lflang">
+"
+</span>
+
+<span class="source-lf">
+  
+</span>
+<span class="source-lf variable-other-constant-reactorinstance-lflang">
+client
+</span>
+<span class="source-lf keyword-operator-lflang">
+.
+</span>
+<span class="source-lf variable-other-lflang">
+client_message
+</span>
+<span class="source-lf">
+ 
+</span>
+<span class="source-lf keyword-operator-lflang">
+->
+</span>
+<span class="source-lf">
+ 
+</span>
+<span class="source-lf variable-other-constant-reactorinstance-lflang">
+server
+</span>
+<span class="source-lf keyword-operator-lflang">
+.
+</span>
+<span class="source-lf variable-other-lflang">
+client_message
+</span>
+<span class="source-lf">
+ 
+</span>
+<span class="source-lf keyword-control-lflang">
+serializer
+</span>
+<span class="source-lf">
+ 
+</span>
+<span class="source-lf string-quoted-double-lflang">
+"
+</span>
+<span class="source-lf string-quoted-double-lflang">
+pickle_serializer
+</span>
+<span class="source-lf string-quoted-double-lflang">
+"
+</span>
+
+<span class="source-lf">
+}
+</span>
+
+<span class="source-lf">
+
+</span>
+

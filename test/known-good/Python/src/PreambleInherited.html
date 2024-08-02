@@ -7,35 +7,50 @@ target
 <span class="source-lf meta-targetspec-lflang constant-language-lflang">
 Python
 </span>
-<span class="source-lf meta-targetspec-lflang">
+
+<span class="source-lf">
+
+</span>
+
+<span class="source-lf storage-modifier-lflang">
+reactor
+</span>
+<span class="source-lf">
+ 
+</span>
+<span class="source-lf entity-name-type-lflang">
+Base
+</span>
+<span class="source-lf">
  {
 </span>
 
-<span class="source-lf meta-targetspec-lflang variable-parameter-lflang">
-  docker
+<span class="source-lf">
+  
 </span>
-<span class="source-lf meta-targetspec-lflang">
-: {
+<span class="source-lf keyword-control-lflang">
+preamble
 </span>
-
-<span class="source-lf meta-targetspec-lflang variable-parameter-lflang">
-    rti-image
+<span class="source-lf">
+ 
 </span>
-<span class="source-lf meta-targetspec-lflang">
-: 
-</span>
-<span class="source-lf meta-targetspec-lflang string-quoted-double-lflang">
-"
-</span>
-<span class="source-lf meta-targetspec-lflang string-quoted-double-lflang">
-rti:local
-</span>
-<span class="source-lf meta-targetspec-lflang string-quoted-double-lflang">
-"
+<span class="source-lf meta-embedded-block-py">
+{=
 </span>
 
-<span class="source-lf meta-targetspec-lflang">
-  }
+<span class="source-lf meta-embedded-block-py">
+    def initiation(self):
+</span>
+
+<span class="source-lf meta-embedded-block-py">
+      print("Hello World\n")
+</span>
+
+<span class="source-lf meta-embedded-block-py">
+  
+</span>
+<span class="source-lf meta-embedded-block-py">
+=}
 </span>
 
 <span class="source-lf">
@@ -46,32 +61,57 @@ rti:local
 
 </span>
 
-<span class="source-lf keyword-control-import-lflang">
-import
+<span class="source-lf storage-modifier-lflang">
+reactor
 </span>
 <span class="source-lf">
  
 </span>
 <span class="source-lf entity-name-type-lflang">
-HelloWorld2
+Extended
 </span>
 <span class="source-lf">
  
 </span>
-<span class="source-lf keyword-control-import-lflang">
-from
+<span class="source-lf storage-modifier-lflang">
+extends
 </span>
 <span class="source-lf">
- 
+ Base {
 </span>
-<span class="source-lf string-quoted-double-lflang">
-"
+
+<span class="source-lf">
+  
 </span>
-<span class="source-lf string-quoted-double-lflang">
-../HelloWorld.lf
+<span class="source-lf keyword-control-lflang">
+reaction
 </span>
-<span class="source-lf string-quoted-double-lflang">
-"
+<span class="source-lf">
+(
+</span>
+<span class="source-lf support-variable-lflang">
+startup
+</span>
+<span class="source-lf">
+) 
+</span>
+<span class="source-lf meta-embedded-block-py">
+{=
+</span>
+
+<span class="source-lf meta-embedded-block-py">
+    self.initiation()
+</span>
+
+<span class="source-lf meta-embedded-block-py">
+  
+</span>
+<span class="source-lf meta-embedded-block-py">
+=}
+</span>
+
+<span class="source-lf">
+}
 </span>
 
 <span class="source-lf">
@@ -95,7 +135,7 @@ reactor
   
 </span>
 <span class="source-lf variable-other-constant-reactorinstance-lflang">
-a
+e
 </span>
 <span class="source-lf">
  
@@ -113,7 +153,7 @@ new
  
 </span>
 <span class="source-lf entity-name-type-lflang">
-HelloWorld2
+Extended
 </span>
 <span class="source-lf">
 ()

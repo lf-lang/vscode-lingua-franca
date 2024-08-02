@@ -5,10 +5,49 @@ target
  
 </span>
 <span class="source-lf meta-targetspec-lflang constant-language-lflang">
-Python
+C
 </span>
 <span class="source-lf meta-targetspec-lflang">
  {
+</span>
+
+<span class="source-lf meta-targetspec-lflang variable-parameter-lflang">
+  logging
+</span>
+<span class="source-lf meta-targetspec-lflang">
+: 
+</span>
+<span class="source-lf meta-targetspec-lflang storage-type-lflang">
+DEBUG
+</span>
+<span class="source-lf meta-targetspec-lflang">
+,
+</span>
+
+<span class="source-lf meta-targetspec-lflang variable-parameter-lflang">
+  timeout
+</span>
+<span class="source-lf meta-targetspec-lflang">
+: 
+</span>
+<span class="source-lf meta-targetspec-lflang constant-numeric-int-lflang">
+1
+</span>
+<span class="source-lf meta-targetspec-lflang">
+ s,
+</span>
+
+<span class="source-lf meta-targetspec-lflang variable-parameter-lflang">
+  coordination
+</span>
+<span class="source-lf meta-targetspec-lflang">
+: 
+</span>
+<span class="source-lf meta-targetspec-lflang storage-type-lflang">
+centralized
+</span>
+<span class="source-lf meta-targetspec-lflang">
+,
 </span>
 
 <span class="source-lf meta-targetspec-lflang variable-parameter-lflang">
@@ -33,6 +72,25 @@ rti:local
 <span class="source-lf meta-targetspec-lflang string-quoted-double-lflang">
 "
 </span>
+<span class="source-lf meta-targetspec-lflang">
+,
+</span>
+
+<span class="source-lf meta-targetspec-lflang variable-parameter-lflang">
+    pre-build-script
+</span>
+<span class="source-lf meta-targetspec-lflang">
+: 
+</span>
+<span class="source-lf meta-targetspec-lflang string-quoted-double-lflang">
+"
+</span>
+<span class="source-lf meta-targetspec-lflang string-quoted-double-lflang">
+foo ish.sh
+</span>
+<span class="source-lf meta-targetspec-lflang string-quoted-double-lflang">
+"
+</span>
 
 <span class="source-lf meta-targetspec-lflang">
   }
@@ -46,32 +104,69 @@ rti:local
 
 </span>
 
-<span class="source-lf keyword-control-import-lflang">
-import
+<span class="source-lf storage-modifier-lflang">
+reactor
 </span>
 <span class="source-lf">
  
 </span>
 <span class="source-lf entity-name-type-lflang">
-HelloWorld2
+Hello
 </span>
 <span class="source-lf">
- 
+ {
 </span>
-<span class="source-lf keyword-control-import-lflang">
-from
+
+<span class="source-lf">
+  
+</span>
+<span class="source-lf keyword-control-lflang">
+reaction
 </span>
 <span class="source-lf">
- 
+(
+</span>
+<span class="source-lf support-variable-lflang">
+startup
+</span>
+<span class="source-lf">
+) {
+</span>
+<span class="source-lf keyword-operator-lflang">
+=
+</span>
+
+<span class="source-lf">
+    printf(
 </span>
 <span class="source-lf string-quoted-double-lflang">
 "
 </span>
 <span class="source-lf string-quoted-double-lflang">
-../HelloWorld.lf
+Hello World!
+</span>
+<span class="source-lf string-quoted-double-lflang constant-character-escape">
+\n
 </span>
 <span class="source-lf string-quoted-double-lflang">
 "
+</span>
+<span class="source-lf">
+);
+</span>
+
+<span class="source-lf">
+  
+</span>
+<span class="source-lf keyword-operator-lflang">
+=
+</span>
+<span class="source-lf">
+}
+</span>
+
+<span class="source-lf">
+}
 </span>
 
 <span class="source-lf">
@@ -79,7 +174,7 @@ from
 </span>
 
 <span class="source-lf storage-modifier-lflang">
-main
+federated
 </span>
 <span class="source-lf">
  
@@ -113,7 +208,7 @@ new
  
 </span>
 <span class="source-lf entity-name-type-lflang">
-HelloWorld2
+Hello
 </span>
 <span class="source-lf">
 ()

@@ -1,0 +1,759 @@
+<span class="source-lf meta-targetspec-lflang keyword-control-lflang">
+target
+</span>
+<span class="source-lf meta-targetspec-lflang">
+ 
+</span>
+<span class="source-lf meta-targetspec-lflang constant-language-lflang">
+Python
+</span>
+<span class="source-lf meta-targetspec-lflang">
+ {
+</span>
+
+<span class="source-lf meta-targetspec-lflang variable-parameter-lflang">
+  coordination
+</span>
+<span class="source-lf meta-targetspec-lflang">
+: 
+</span>
+<span class="source-lf meta-targetspec-lflang storage-type-lflang">
+decentralized
+</span>
+<span class="source-lf meta-targetspec-lflang">
+  
+</span>
+<span class="source-lf meta-targetspec-lflang comment-line-double-dash-lflang">
+# logging: debug
+</span>
+
+<span class="source-lf meta-targetspec-lflang">
+}
+</span>
+
+<span class="source-lf">
+
+</span>
+
+<span class="source-lf keyword-control-lflang">
+preamble
+</span>
+<span class="source-lf">
+ 
+</span>
+<span class="source-lf meta-embedded-block-py">
+{=
+</span>
+
+<span class="source-lf meta-embedded-block-py">
+  
+</span>
+<span class="source-lf meta-embedded-block-py keyword-control-import-python">
+import
+</span>
+<span class="source-lf meta-embedded-block-py">
+ time
+</span>
+
+<span class="source-lf meta-embedded-block-py">
+=}
+</span>
+
+<span class="source-lf">
+
+</span>
+
+<span class="source-lf storage-modifier-lflang">
+reactor
+</span>
+<span class="source-lf">
+ 
+</span>
+<span class="source-lf entity-name-type-lflang">
+Client
+</span>
+<span class="source-lf">
+(STP_offset 
+</span>
+<span class="source-lf keyword-operator-lflang">
+=
+</span>
+<span class="source-lf">
+ 
+</span>
+<span class="source-lf meta-embedded-block-py">
+{=
+</span>
+<span class="source-lf meta-embedded-block-py">
+ FOREVER 
+</span>
+<span class="source-lf meta-embedded-block-py">
+=}
+</span>
+<span class="source-lf">
+) {
+</span>
+
+<span class="source-lf">
+  
+</span>
+<span class="source-lf storage-modifier-lflang">
+input
+</span>
+<span class="source-lf">
+ 
+</span>
+<span class="source-lf variable-other-lflang">
+server_message
+</span>
+
+<span class="source-lf">
+  
+</span>
+<span class="source-lf storage-modifier-lflang">
+output
+</span>
+<span class="source-lf">
+ 
+</span>
+<span class="source-lf variable-other-lflang">
+client_message
+</span>
+
+<span class="source-lf">
+
+</span>
+
+<span class="source-lf">
+  
+</span>
+<span class="source-lf keyword-control-lflang">
+reaction
+</span>
+<span class="source-lf">
+(
+</span>
+<span class="source-lf support-variable-lflang">
+startup
+</span>
+<span class="source-lf">
+) 
+</span>
+<span class="source-lf meta-embedded-block-py">
+{=
+</span>
+
+<span class="source-lf meta-embedded-block-py">
+    print("Client Startup!")
+</span>
+
+<span class="source-lf meta-embedded-block-py">
+  
+</span>
+<span class="source-lf meta-embedded-block-py">
+=}
+</span>
+
+<span class="source-lf">
+
+</span>
+
+<span class="source-lf">
+  
+</span>
+<span class="source-lf keyword-control-lflang">
+reaction
+</span>
+<span class="source-lf">
+(server_message) 
+</span>
+<span class="source-lf keyword-operator-lflang">
+->
+</span>
+<span class="source-lf">
+ client_message 
+</span>
+<span class="source-lf meta-embedded-block-py">
+{=
+</span>
+
+<span class="source-lf meta-embedded-block-py">
+    val = server_message.value
+</span>
+
+<span class="source-lf meta-embedded-block-py">
+    time.sleep(0.1)
+</span>
+
+<span class="source-lf meta-embedded-block-py">
+    val += 1
+</span>
+
+<span class="source-lf meta-embedded-block-py">
+    print("client:", val)
+</span>
+
+<span class="source-lf meta-embedded-block-py">
+    if val==49:
+</span>
+
+<span class="source-lf meta-embedded-block-py">
+        print("client done")
+</span>
+
+<span class="source-lf meta-embedded-block-py">
+        request_stop()
+</span>
+
+<span class="source-lf meta-embedded-block-py">
+    if val<49:
+</span>
+
+<span class="source-lf meta-embedded-block-py">
+        client_message.set(val)
+</span>
+
+<span class="source-lf meta-embedded-block-py">
+  
+</span>
+<span class="source-lf meta-embedded-block-py">
+=}
+</span>
+<span class="source-lf">
+ 
+</span>
+<span class="source-lf keyword-control-lflang">
+STP
+</span>
+<span class="source-lf">
+(
+</span>
+<span class="source-lf constant-numeric-int-lflang">
+10
+</span>
+<span class="source-lf">
+ s) 
+</span>
+<span class="source-lf meta-embedded-block-py">
+{=
+</span>
+
+<span class="source-lf meta-embedded-block-py">
+    print("Client STP Violated!")
+</span>
+
+<span class="source-lf meta-embedded-block-py">
+    exit(1)
+</span>
+
+<span class="source-lf meta-embedded-block-py">
+  
+</span>
+<span class="source-lf meta-embedded-block-py">
+=}
+</span>
+
+<span class="source-lf">
+}
+</span>
+
+<span class="source-lf">
+
+</span>
+
+<span class="source-lf storage-modifier-lflang">
+reactor
+</span>
+<span class="source-lf">
+ 
+</span>
+<span class="source-lf entity-name-type-lflang">
+Server
+</span>
+<span class="source-lf">
+(STP_offset 
+</span>
+<span class="source-lf keyword-operator-lflang">
+=
+</span>
+<span class="source-lf">
+ 
+</span>
+<span class="source-lf meta-embedded-block-py">
+{=
+</span>
+<span class="source-lf meta-embedded-block-py">
+ FOREVER 
+</span>
+<span class="source-lf meta-embedded-block-py">
+=}
+</span>
+<span class="source-lf">
+) {
+</span>
+
+<span class="source-lf">
+  
+</span>
+<span class="source-lf storage-modifier-lflang">
+output
+</span>
+<span class="source-lf">
+ 
+</span>
+<span class="source-lf variable-other-lflang">
+server_message
+</span>
+
+<span class="source-lf">
+  
+</span>
+<span class="source-lf storage-modifier-lflang">
+input
+</span>
+<span class="source-lf">
+ 
+</span>
+<span class="source-lf variable-other-lflang">
+client_message1
+</span>
+
+<span class="source-lf">
+  
+</span>
+<span class="source-lf storage-modifier-lflang">
+input
+</span>
+<span class="source-lf">
+ 
+</span>
+<span class="source-lf variable-other-lflang">
+client_message2
+</span>
+
+<span class="source-lf">
+
+</span>
+
+<span class="source-lf">
+  
+</span>
+<span class="source-lf keyword-control-lflang">
+reaction
+</span>
+<span class="source-lf">
+(
+</span>
+<span class="source-lf support-variable-lflang">
+startup
+</span>
+<span class="source-lf">
+) 
+</span>
+<span class="source-lf keyword-operator-lflang">
+->
+</span>
+<span class="source-lf">
+ server_message 
+</span>
+<span class="source-lf meta-embedded-block-py">
+{=
+</span>
+
+<span class="source-lf meta-embedded-block-py">
+    print("Server Startup!")
+</span>
+
+<span class="source-lf meta-embedded-block-py">
+    server_message.set(0)
+</span>
+
+<span class="source-lf meta-embedded-block-py">
+  
+</span>
+<span class="source-lf meta-embedded-block-py">
+=}
+</span>
+
+<span class="source-lf">
+
+</span>
+
+<span class="source-lf">
+  
+</span>
+<span class="source-lf keyword-control-lflang">
+reaction
+</span>
+<span class="source-lf">
+(client_message1, client_message2) 
+</span>
+<span class="source-lf keyword-operator-lflang">
+->
+</span>
+<span class="source-lf">
+ server_message 
+</span>
+<span class="source-lf meta-embedded-block-py">
+{=
+</span>
+
+<span class="source-lf meta-embedded-block-py">
+    val = max(client_message1.value, client_message2.value)
+</span>
+
+<span class="source-lf meta-embedded-block-py">
+    time.sleep(0.1)
+</span>
+
+<span class="source-lf meta-embedded-block-py">
+    val += 1
+</span>
+
+<span class="source-lf meta-embedded-block-py">
+    print("server:", val)
+</span>
+
+<span class="source-lf meta-embedded-block-py">
+    if val==48:
+</span>
+
+<span class="source-lf meta-embedded-block-py">
+        print("server done")
+</span>
+
+<span class="source-lf meta-embedded-block-py">
+        server_message.set(val)
+</span>
+
+<span class="source-lf meta-embedded-block-py">
+        request_stop()
+</span>
+
+<span class="source-lf meta-embedded-block-py">
+    if val<48:
+</span>
+
+<span class="source-lf meta-embedded-block-py">
+        server_message.set(val)
+</span>
+
+<span class="source-lf meta-embedded-block-py">
+  
+</span>
+<span class="source-lf meta-embedded-block-py">
+=}
+</span>
+<span class="source-lf">
+ 
+</span>
+<span class="source-lf keyword-control-lflang">
+STP
+</span>
+<span class="source-lf">
+(
+</span>
+<span class="source-lf constant-numeric-int-lflang">
+10
+</span>
+<span class="source-lf">
+ s) 
+</span>
+<span class="source-lf meta-embedded-block-py">
+{=
+</span>
+
+<span class="source-lf meta-embedded-block-py">
+    print("Server STP Violated!")
+</span>
+
+<span class="source-lf meta-embedded-block-py">
+    exit(1)
+</span>
+
+<span class="source-lf meta-embedded-block-py">
+  
+</span>
+<span class="source-lf meta-embedded-block-py">
+=}
+</span>
+
+<span class="source-lf">
+}
+</span>
+
+<span class="source-lf">
+
+</span>
+
+<span class="source-lf storage-modifier-lflang">
+federated
+</span>
+<span class="source-lf">
+ 
+</span>
+<span class="source-lf storage-modifier-lflang">
+reactor
+</span>
+<span class="source-lf">
+(STP_offset 
+</span>
+<span class="source-lf keyword-operator-lflang">
+=
+</span>
+<span class="source-lf">
+ 
+</span>
+<span class="source-lf meta-embedded-block-py">
+{=
+</span>
+<span class="source-lf meta-embedded-block-py">
+ FOREVER 
+</span>
+<span class="source-lf meta-embedded-block-py">
+=}
+</span>
+<span class="source-lf">
+) {
+</span>
+
+<span class="source-lf">
+  
+</span>
+<span class="source-lf variable-other-constant-reactorinstance-lflang">
+client1
+</span>
+<span class="source-lf">
+ 
+</span>
+<span class="source-lf keyword-operator-lflang">
+=
+</span>
+<span class="source-lf">
+ 
+</span>
+<span class="source-lf keyword-control-new-lflang">
+new
+</span>
+<span class="source-lf">
+ 
+</span>
+<span class="source-lf entity-name-type-lflang">
+Client
+</span>
+<span class="source-lf">
+()
+</span>
+
+<span class="source-lf">
+  
+</span>
+<span class="source-lf variable-other-constant-reactorinstance-lflang">
+client2
+</span>
+<span class="source-lf">
+ 
+</span>
+<span class="source-lf keyword-operator-lflang">
+=
+</span>
+<span class="source-lf">
+ 
+</span>
+<span class="source-lf keyword-control-new-lflang">
+new
+</span>
+<span class="source-lf">
+ 
+</span>
+<span class="source-lf entity-name-type-lflang">
+Client
+</span>
+<span class="source-lf">
+()
+</span>
+
+<span class="source-lf">
+  
+</span>
+<span class="source-lf variable-other-constant-reactorinstance-lflang">
+server
+</span>
+<span class="source-lf">
+ 
+</span>
+<span class="source-lf keyword-operator-lflang">
+=
+</span>
+<span class="source-lf">
+ 
+</span>
+<span class="source-lf keyword-control-new-lflang">
+new
+</span>
+<span class="source-lf">
+ 
+</span>
+<span class="source-lf entity-name-type-lflang">
+Server
+</span>
+<span class="source-lf">
+()
+</span>
+
+<span class="source-lf">
+  
+</span>
+<span class="source-lf variable-other-constant-reactorinstance-lflang">
+server
+</span>
+<span class="source-lf keyword-operator-lflang">
+.
+</span>
+<span class="source-lf variable-other-lflang">
+server_message
+</span>
+<span class="source-lf">
+ 
+</span>
+<span class="source-lf keyword-operator-lflang">
+->
+</span>
+<span class="source-lf">
+ 
+</span>
+<span class="source-lf variable-other-constant-reactorinstance-lflang">
+client1
+</span>
+<span class="source-lf keyword-operator-lflang">
+.
+</span>
+<span class="source-lf variable-other-lflang">
+server_message
+</span>
+
+<span class="source-lf">
+  
+</span>
+<span class="source-lf variable-other-constant-reactorinstance-lflang">
+client1
+</span>
+<span class="source-lf keyword-operator-lflang">
+.
+</span>
+<span class="source-lf variable-other-lflang">
+client_message
+</span>
+<span class="source-lf">
+ 
+</span>
+<span class="source-lf keyword-operator-lflang">
+->
+</span>
+<span class="source-lf">
+ 
+</span>
+<span class="source-lf variable-other-constant-reactorinstance-lflang">
+server
+</span>
+<span class="source-lf keyword-operator-lflang">
+.
+</span>
+<span class="source-lf variable-other-lflang">
+client_message1
+</span>
+<span class="source-lf">
+ 
+</span>
+<span class="source-lf keyword-control-lflang">
+after
+</span>
+<span class="source-lf">
+ 
+</span>
+<span class="source-lf constant-numeric-int-lflang">
+0
+</span>
+
+<span class="source-lf">
+  
+</span>
+<span class="source-lf variable-other-constant-reactorinstance-lflang">
+server
+</span>
+<span class="source-lf keyword-operator-lflang">
+.
+</span>
+<span class="source-lf variable-other-lflang">
+server_message
+</span>
+<span class="source-lf">
+ 
+</span>
+<span class="source-lf keyword-operator-lflang">
+->
+</span>
+<span class="source-lf">
+ 
+</span>
+<span class="source-lf variable-other-constant-reactorinstance-lflang">
+client2
+</span>
+<span class="source-lf keyword-operator-lflang">
+.
+</span>
+<span class="source-lf variable-other-lflang">
+server_message
+</span>
+
+<span class="source-lf">
+  
+</span>
+<span class="source-lf variable-other-constant-reactorinstance-lflang">
+client2
+</span>
+<span class="source-lf keyword-operator-lflang">
+.
+</span>
+<span class="source-lf variable-other-lflang">
+client_message
+</span>
+<span class="source-lf">
+ 
+</span>
+<span class="source-lf keyword-operator-lflang">
+->
+</span>
+<span class="source-lf">
+ 
+</span>
+<span class="source-lf variable-other-constant-reactorinstance-lflang">
+server
+</span>
+<span class="source-lf keyword-operator-lflang">
+.
+</span>
+<span class="source-lf variable-other-lflang">
+client_message2
+</span>
+<span class="source-lf">
+ 
+</span>
+<span class="source-lf keyword-control-lflang">
+after
+</span>
+<span class="source-lf">
+ 
+</span>
+<span class="source-lf constant-numeric-int-lflang">
+0
+</span>
+
+<span class="source-lf">
+}
+</span>
+
+<span class="source-lf">
+
+</span>
+
