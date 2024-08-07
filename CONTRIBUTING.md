@@ -16,7 +16,7 @@ To check out the repository, build from source, and install the VS Code plugin, 
 - `rust`. Rust versions preceding 1.76.0 are not guaranteed to work. See [this web page](https://www.rust-lang.org/tools/install) for instructions on installing Rust.
 - `npm`. `npm` versions preceding 10.4.0 are not guaranteed to work. We are currently using npm v18.17.0.
 
-Then, run the following command to install all necessary dependencies:
+Then, run the following command to install the required NPM packages:
 
 ```
 git clone --recurse-submodules git@github.com:lf-lang/vscode-lingua-franca.git \
@@ -32,7 +32,7 @@ git clone --recurse-submodules https://github.com/lf-lang/vscode-lingua-franca.g
 && npm install
 ```
 
-Install the VS Code extension by calling `npm run installExtension`.
+Install the VS Code extension by calling `npm run install-extension`.
 If you want to debug the extension with the language server bundled in a jar see [here](#suggested-debugging-workflow).
 If you want to debug the extension together with the language server see [below](#debugging-interactions-between-the-language-server-and-vs-code).
 
