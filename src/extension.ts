@@ -11,21 +11,41 @@ import { legend, semanticTokensProvider } from './highlight';
 import * as config from './config';
 import { registerBuildCommands, registerNewFileCommand } from './build_commands';
 import * as checkDependencies from './check_dependencies';
+import { LFDataProvider, LFDataProviderNode, LFDataProviderNodeType} from './lfview/lf-data-provider';
+import { registerCollapseAllCommand,
+    registerCollapseAllLibraryCommand,
+    registerGoToFileCommand,
+    registerGoToLibraryFileCommand,
+    registerImportReactorCommand,
+    registerImportLibraryReactorCommand,
+    registerOpenInSplitViewCommand,
+    registerOpenLibraryInSplitViewCommand,
+    registerRefreshCommand,
+    registerRefreshLibraryCommand } from './lfview/lf-data-provider-commands';
 import * as extensionVersion from './extension_version';
 
 let client: LanguageClient;
 let socket: Socket;
 
+/**
+ * Activates the LF Language extension.
+ * Registers semantic tokens provider, checks dependencies, sets up language client,
+ * registers commands, and creates tree views for local and library components.
+ * @param context The extension context.
+ */
 export async function activate(context: vscode.ExtensionContext) {
 
+    // Register semantic tokens provider
     context.subscriptions.push(vscode.languages.registerDocumentSemanticTokensProvider(
         { language: 'lflang', scheme: 'file' },
         semanticTokensProvider,
         legend
     ));
 
+    // Check dependencies and register dependency watcher
     checkDependencies.registerDependencyWatcher();
 
+    // Check Java dependency
     if (!(
         await checkDependencies.checkerFor
         (checkDependencies.Dependency.Java)!
@@ -35,15 +55,14 @@ export async function activate(context: vscode.ExtensionContext) {
         return;
     }
 
+    // Set up language client
     const serverOptions: ServerOptions = createServerOptions(context);
-
     const clientOptions: LanguageClientOptions = {
         documentSelector: ['lflang'],
         synchronize: {
             fileEvents: vscode.workspace.createFileSystemWatcher('**/*.*')
         }
     };
-
     client = new LanguageClient('LF Language Server', serverOptions, clientOptions);
     // enable tracing (.Off, .Messages, Verbose)
     client.trace = Trace.Verbose;
@@ -57,8 +76,46 @@ export async function activate(context: vscode.ExtensionContext) {
 
     client.start();
 
+    // Register build commands and new file command
     registerBuildCommands(context, client);
     registerNewFileCommand(context);
+
+    // Registers a tree data provider and creates a tree view for the 'lf-lang-local' view
+    const lfDataProviderLocal = new LFDataProvider(LFDataProviderNodeType.LOCAL, client, context);
+    context.subscriptions.push(vscode.window.registerTreeDataProvider('lf-lang-local', lfDataProviderLocal));
+    const localTreeView = vscode.window.createTreeView('lf-lang-local', { treeDataProvider: lfDataProviderLocal });
+    context.subscriptions.push(localTreeView);
+    localTreeView.onDidExpandElement(element => {
+        lfDataProviderLocal.onExpandEvent(element.element);
+    });
+    localTreeView.onDidCollapseElement(element => {
+        lfDataProviderLocal.onCollapseEvent(element.element);
+    });
+
+    // Registers a tree data provider and creates a tree view for the 'lf-lang-library' view
+    const lfDataProviderLibrary = new LFDataProvider(LFDataProviderNodeType.LIBRARY, client, context);
+    context.subscriptions.push(vscode.window.registerTreeDataProvider('lf-lang-library', lfDataProviderLibrary));
+    const libraryTreeView = vscode.window.createTreeView('lf-lang-library', { treeDataProvider: lfDataProviderLibrary });
+    context.subscriptions.push(libraryTreeView);
+    libraryTreeView.onDidExpandElement(element => {
+        lfDataProviderLibrary.onExpandEvent(element.element);
+    });
+    libraryTreeView.onDidCollapseElement(element => {
+        lfDataProviderLibrary.onCollapseEvent(element.element);
+    });
+
+    // Register all the commands
+    registerRefreshCommand(context, lfDataProviderLocal);
+    registerRefreshLibraryCommand(context, lfDataProviderLibrary);
+    registerGoToFileCommand(context, lfDataProviderLocal);
+    registerGoToLibraryFileCommand(context, lfDataProviderLibrary);
+    registerOpenInSplitViewCommand(context, lfDataProviderLocal);
+    registerOpenLibraryInSplitViewCommand(context, lfDataProviderLibrary);
+    registerImportReactorCommand(context, lfDataProviderLocal);
+    registerImportLibraryReactorCommand(context, lfDataProviderLibrary);
+    registerCollapseAllCommand(context);
+    registerCollapseAllLibraryCommand(context);
+
     context.subscriptions.push(vscode.commands.registerCommand(
         "linguafranca.checkDocker", checkDependencies.checkDocker
     ));

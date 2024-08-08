@@ -5,5 +5,6 @@ node_modules/*
 out/
 .gradle/*
 __pycache__/*
+.DS_Store
 lfw-pkg/
 dist/
