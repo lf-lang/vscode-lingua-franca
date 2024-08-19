@@ -11,10 +11,15 @@ from the VSCode marketplace. See
 
 ## Getting started
 
-To check out the repository, build from source, and install the VS Code plugin, run the following command:
+To check out the repository, build from source, and install the VS Code plugin, make sure you have the following dependencies:
+
+- `rust`. Rust versions preceding 1.76.0 are not guaranteed to work. See [this web page](https://www.rust-lang.org/tools/install) for instructions on installing Rust.
+- `npm`. `npm` versions preceding 10.4.0 are not guaranteed to work. We are currently using npm v18.17.0.
+
+Then, run the following command to install the required NPM packages:
 
 ```
-git clone git@github.com:lf-lang/vscode-lingua-franca.git \
+git clone --recurse-submodules git@github.com:lf-lang/vscode-lingua-franca.git \
 && cd vscode-lingua-franca \
 && npm install
 ```
@@ -22,12 +27,14 @@ git clone git@github.com:lf-lang/vscode-lingua-franca.git \
 If you do not have a public key set up for authentication with GitHub, you can also use HTTPS:
 
 ```
-git clone https://github.com/lf-lang/vscode-lingua-franca.git \
+git clone --recurse-submodules https://github.com/lf-lang/vscode-lingua-franca.git \
 && cd vscode-lingua-franca \
 && npm install
 ```
 
-Note that this assumes that you have the WASM dependency somewhere on your system. Eventually, the WASM will probably be published; however, that hasn't been done yet, and it isn't currently possible to build it from source from this open-source repo because it is closed-source.
+Install the VS Code extension by calling `npm run install-extension`.
+If you want to debug the extension with the language server bundled in a jar see [here](#suggested-debugging-workflow).
+If you want to debug the extension together with the language server see [below](#debugging-interactions-between-the-language-server-and-vs-code).
 
 ### Trouble Shooting
 
@@ -108,4 +115,8 @@ We suggest the following workflow for debugging the language server (implemented
 
 ## Debugging interactions between the language server and VS Code
 
-To debug interactions between the language server and VS code, start the language server using the VM option `-Dport=7670`. This can be done in IntelliJ by opening `Modify run configuration` > `Add VM options` and typing `-Dport=7670` into the VM options field. Then start the extension using the "Launch VS Code Extension (Socket) LF" launch configuration. This allows to set breakpoints in the language server as it interacts with VS Code.
+1. Run the command `npm run compile` to generate JavaScript together with a source map (in the `out` directory). The source map is necessary for breakpoints to work. You can also use `npm run watch` if you expect to change the VS Code extension code quite often as part of your development.
+2. Start the language server as detailed [here](https://www.lf-lang.org/docs/next/developer/developer-intellij-setup/#starting-and-debugging-the-language-server) with VM option `-Dport=7670` (this is the default behavior).
+3. Go to the `Run and Debug` view and select the `"Launch VS Code Extension (Socket) LF` launch configuration and run it. If you need to update the launch configuration, you can find it in `.vscode/launch.config`. Here the launch configuration also defines the port the extension and the server will connect.
+4. A new VS Code instance will open with the locally build Lingua Franca VS Code extension installed. Once a `.lf` files is opened, the language server will connect and you can debug normally.
+5. All TypeScript files that are not directly started by the `extension.ts` everything in a webview, e.g. the diagram or other webviews cannot be debugged by setting breakpoints in the development VS Code. You have to do that in the development tools of your runtime VS Code.

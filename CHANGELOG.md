@@ -1,5 +1,14 @@
 # Changelog
  
+## [v0.8.2](https://github.com/lf-lang/vscode-lingua-franca/tree/v0.8.2) (2024-08-02)
+
+**Highlights**
+
+This patch release includes minor bugfixes and several enhancements of our Docker support. It also adds custom serialization for the Python target and support for the use of target code expressions to specify time values in C++.
+
+- Updates and cleanups for building the extension [\#171](https://github.com/lf-lang/vscode-lingua-franca/pull/171) (@petervdonovan)
+
+ 
 ## [v0.8.1](https://github.com/lf-lang/vscode-lingua-franca/tree/v0.8.1) (2024-07-14)
 
 **Highlights**

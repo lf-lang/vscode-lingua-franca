@@ -5,40 +5,23 @@ target
  
 </span>
 <span class="source-lf meta-targetspec-lflang constant-language-lflang">
-Python
+C
 </span>
 <span class="source-lf meta-targetspec-lflang">
  {
 </span>
 
 <span class="source-lf meta-targetspec-lflang variable-parameter-lflang">
-  docker
-</span>
-<span class="source-lf meta-targetspec-lflang">
-: {
-</span>
-
-<span class="source-lf meta-targetspec-lflang variable-parameter-lflang">
-    rti-image
+  auth
 </span>
 <span class="source-lf meta-targetspec-lflang">
 : 
 </span>
-<span class="source-lf meta-targetspec-lflang string-quoted-double-lflang">
-"
-</span>
-<span class="source-lf meta-targetspec-lflang string-quoted-double-lflang">
-rti:local
-</span>
-<span class="source-lf meta-targetspec-lflang string-quoted-double-lflang">
-"
+<span class="source-lf meta-targetspec-lflang constant-language-lflang">
+true
 </span>
 
 <span class="source-lf meta-targetspec-lflang">
-  }
-</span>
-
-<span class="source-lf">
 }
 </span>
 
@@ -46,46 +29,14 @@ rti:local
 
 </span>
 
-<span class="source-lf keyword-control-import-lflang">
-import
+<span class="source-lf storage-modifier-lflang">
+reactor
 </span>
 <span class="source-lf">
  
 </span>
 <span class="source-lf entity-name-type-lflang">
-HelloWorld2
-</span>
-<span class="source-lf">
- 
-</span>
-<span class="source-lf keyword-control-import-lflang">
-from
-</span>
-<span class="source-lf">
- 
-</span>
-<span class="source-lf string-quoted-double-lflang">
-"
-</span>
-<span class="source-lf string-quoted-double-lflang">
-../HelloWorld.lf
-</span>
-<span class="source-lf string-quoted-double-lflang">
-"
-</span>
-
-<span class="source-lf">
-
-</span>
-
-<span class="source-lf storage-modifier-lflang">
-main
-</span>
-<span class="source-lf">
- 
-</span>
-<span class="source-lf storage-modifier-lflang">
-reactor
+R1
 </span>
 <span class="source-lf">
  {
@@ -94,29 +45,75 @@ reactor
 <span class="source-lf">
   
 </span>
-<span class="source-lf variable-other-constant-reactorinstance-lflang">
-a
+<span class="source-lf storage-modifier-lflang">
+input
 </span>
 <span class="source-lf">
  
+</span>
+<span class="source-lf variable-other-lflang">
+in
+</span>
+<span class="source-lf">
+:
+</span>
+<span class="source-lf meta-embedded-block-cpp">
+ 
+</span>
+<span class="source-lf meta-embedded-block-cpp storage-type-lflang">
+int
+</span>
+
+<span class="source-lf">
+
+</span>
+
+<span class="source-lf">
+  
+</span>
+<span class="source-lf keyword-control-lflang">
+reaction
+</span>
+<span class="source-lf">
+(
+</span>
+<span class="source-lf">
+in) {
+</span>
+<span class="source-lf keyword-operator-lflang">
+=
+</span>
+
+<span class="source-lf">
+    lf_print(
+</span>
+<span class="source-lf string-quoted-double-lflang">
+"
+</span>
+<span class="source-lf string-quoted-double-lflang">
+R1 reacted to input %d
+</span>
+<span class="source-lf string-quoted-double-lflang">
+"
+</span>
+<span class="source-lf">
+, in
+</span>
+<span class="source-lf keyword-operator-lflang">
+->
+</span>
+<span class="source-lf">
+value);
+</span>
+
+<span class="source-lf">
+  
 </span>
 <span class="source-lf keyword-operator-lflang">
 =
 </span>
 <span class="source-lf">
- 
-</span>
-<span class="source-lf keyword-control-new-lflang">
-new
-</span>
-<span class="source-lf">
- 
-</span>
-<span class="source-lf entity-name-type-lflang">
-HelloWorld2
-</span>
-<span class="source-lf">
-()
+}
 </span>
 
 <span class="source-lf">
