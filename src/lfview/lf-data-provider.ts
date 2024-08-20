@@ -120,8 +120,8 @@ export class LFDataProvider implements vscode.TreeDataProvider<LFDataProviderNod
     ) {
 
         this.type = type;
-        this.path_offset = type === LFDataProviderNodeType.LOCAL ? 3 : 6;
-        this.searchPath = type === LFDataProviderNodeType.LOCAL ? '**/lib/*.lf' : '**/target/lfc_include/**/lib/*.lf';
+        this.path_offset = type === LFDataProviderNodeType.LOCAL ? 4 : 7;
+        this.searchPath = type === LFDataProviderNodeType.LOCAL ? '**/src/lib/*.lf' : '**/target/lfc_include/**/src/lib/*.lf';
         this.exclude_path = type === LFDataProviderNodeType.LOCAL ? '**/target/**' : null;
         this.watcher = vscode.workspace.createFileSystemWatcher(this.searchPath);
 
@@ -212,9 +212,7 @@ export class LFDataProvider implements vscode.TreeDataProvider<LFDataProviderNod
         ) {
             element.collapsibleState = vscode.TreeItemCollapsibleState.Collapsed;
             element.iconPath = new vscode.ThemeIcon('root-folder');
-            element.children?.forEach( (element: LFDataProviderNode) => {
-                this._onDidChangeTreeData.fire(element);
-            })
+            this._onDidChangeTreeData.fire(element);
         }
     }
 
@@ -229,8 +227,16 @@ export class LFDataProvider implements vscode.TreeDataProvider<LFDataProviderNod
                 vscode.workspace.findFiles(this.searchPath, this.exclude_path ? this.exclude_path : null).then(uris => {
                     uris.forEach(uri => {
                         this.client.sendRequest('generator/getLibraryReactors', uri.toString()).then(node => {
-                            if (node) {
+                            if(node){
                                 this.addDataItem(node as LFDataProviderNode);
+                            }
+                            else if(node === null){
+                                vscode.window.showErrorMessage('Error retrieving data from the Language Server', ...['Try again', 'Cancel']).then(selection => {
+                                    if(selection === 'Try again'){
+                                        this.refreshTree();
+                                    }
+                                });
+                                return;
                             }
                         });
                     });
@@ -455,7 +461,17 @@ export class LFDataProvider implements vscode.TreeDataProvider<LFDataProviderNod
      */
     async getTargetPosition(uri: vscode.Uri): Promise<NodePosition | undefined> {
         return this.client.onReady().then(() => {
-            return this.client.sendRequest('generator/getTargetPosition', uri.toString());
+            return this.client.sendRequest('generator/getTargetPosition', uri.toString()).then(position => {
+                if (!position) {
+                    vscode.window.showErrorMessage('Error retrieving data from the Language Server', ...['Try Again', 'Cancel']).then(selection => {
+                        if (selection == 'Try Again') {
+                            return this.getTargetPosition(uri);
+                        }
+                    });
+                    return undefined;
+                }
+                return position as NodePosition;
+            });
         });
     }
 
