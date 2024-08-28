@@ -11,7 +11,7 @@ The Tree View is organized within a view container named the 'Lingua Franca Pack
 
 ## Local Libraries View
 
-The Local Libraries view exclusively presents a listing of LF programs defined by the user and positioned within the designated path. After creating a LF Project, developers can incorporate LF Programs, akin to libraries of reactors, into a folder located at `{project_name}/lib/.` The Local Libraries view will then enumerate all LF Programs within this directory, typically represented by the pattern `/{project_name}/lib/*.lf` (though the path specification may vary).
+The Local Libraries view exclusively presents a listing of LF programs defined by the user and positioned within the designated path. After creating a LF Project, developers can incorporate LF Programs, akin to libraries of reactors, into a folder located at `{project_name}/src/lib/.` The Local Libraries view will then enumerate all LF Programs within this directory, typically represented by the pattern `/{project_name}/src/lib/*.lf` (though the path specification may vary).
 
 The view's hierarchy is structured as follows:
 
