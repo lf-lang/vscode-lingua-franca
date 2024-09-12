@@ -118,15 +118,19 @@
         },
         "c-target": {
             "begin": "(?=\\btarget\\s+C\\b)",
-            "patterns": [{
-                "include": "#c-or-cpp-target"
-            }]
+            "patterns": [
+                {
+                    "include": "#c-or-cpp-target"
+                }
+            ]
         },
         "cpp-target": {
             "begin": "(?=\\btarget\\s+C?Cpp\\b)",
-            "patterns": [{
-                "include": "#c-or-cpp-target"
-            }]
+            "patterns": [
+                {
+                    "include": "#c-or-cpp-target"
+                }
+            ]
         },
         "c-or-cpp-target": {
             "patterns": [
@@ -181,9 +185,11 @@
                     "begin": "\\{=",
                     "end": "(([<>]?[<>+\\-*/%&\\^|]?=\\}))",
                     "name": "meta.embedded.block.cpp",
-                    "patterns": [{
-                        "include": "source.cpp"
-                    }]
+                    "patterns": [
+                        {
+                            "include": "source.cpp"
+                        }
+                    ]
                 }
             ]
         },
@@ -197,9 +203,11 @@
                     "begin": "\\{=(?!=\\})",
                     "end": "([<>]?[<>+\\-*/%&\\^|]?=\\})",
                     "name": "meta.embedded.block.ts",
-                    "patterns": [{
-                        "include": "source.ts"
-                    }]
+                    "patterns": [
+                        {
+                            "include": "source.ts"
+                        }
+                    ]
                 }
             ]
         },
@@ -217,10 +225,12 @@
                         {
                             "begin": "\\b(?=import\\b)",
                             "end": "(?==\\})",
-                            "patterns": [{
-                                "name": "keyword.control.import.python",
-                                "match": "\\b(import|as)\\b"
-                            }]
+                            "patterns": [
+                                {
+                                    "name": "keyword.control.import.python",
+                                    "match": "\\b(import|as)\\b"
+                                }
+                            ]
                         },
                         {
                             "include": "source.python"
@@ -239,9 +249,11 @@
                     "begin": "\\{=(?!=\\})",
                     "end": "([<>]?[<>+\\-*/%&\\^|]?=\\})",
                     "name": "meta.embedded.block.rs",
-                    "patterns": [{
-                        "include": "source.rust"
-                    }]
+                    "patterns": [
+                        {
+                            "include": "source.rust"
+                        }
+                    ]
                 }
             ]
         },
@@ -269,7 +281,7 @@
         },
         "import-statement": {
             "begin": "(?=^\\s*import\\b)",
-            "end": ";|(?<=\")\\s*$",
+            "end": ";|(?<=\")\\s*$|(?<=>)\\s*$",
             "patterns": [
                 {
                     "include": "#context-insensitive"
@@ -285,6 +297,20 @@
                         {
                             "name": "entity.name.type.lflang",
                             "match": "\\b\\w+\\b"
+                        }
+                    ]
+                },
+                {
+                    "begin": "(?<=from)\\s*(\"|<)",
+                    "end": "(\"|>)",
+                    "patterns": [
+                        {
+                            "name": "string.quoted.double.lflang",
+                            "match": "(?<=\").*?(?=\")"
+                        },
+                        {
+                            "name": "string.quoted.angle.lflang",
+                            "match": "(?<=<).*?(?=>)"
                         }
                     ]
                 }
@@ -401,21 +427,27 @@
             ]
         },
         "nested-member-id": {
-            "patterns": [{
-                "begin": "(?<=(\\binput\\b |\\boutput\\b|\\baction\\b|\\bstate\\b ))",
-                "end": "(?=[:\\(\\{;=\\n])",
-                "patterns": [{
-                    "name": "variable.other.lflang",
-                    "match": "\\b(\\w+)\\b"
-                }]
-            }]
+            "patterns": [
+                {
+                    "begin": "(?<=(\\binput\\b |\\boutput\\b|\\baction\\b|\\bstate\\b ))",
+                    "end": "(?=[:\\(\\{;=\\n])",
+                    "patterns": [
+                        {
+                            "name": "variable.other.lflang",
+                            "match": "\\b(\\w+)\\b"
+                        }
+                    ]
+                }
+            ]
         },
         "nested-member-type": {
             "begin": "(?<=:)",
             "end": "(?=[\\(\\{;=\\n])",
-            "patterns": [{
-                "include": "#type"
-            }]
+            "patterns": [
+                {
+                    "include": "#type"
+                }
+            ]
         },
         "type": {
             "patterns": [
@@ -447,33 +479,41 @@
                     "name": "string.quoted.triple.lflang",
                     "begin": "'''",
                     "end": "'''",
-                    "patterns": [{
-                        "include": "#string-helper"
-                    }]
+                    "patterns": [
+                        {
+                            "include": "#string-helper"
+                        }
+                    ]
                 },
                 {
                     "name": "string.quoted.triple.lflang",
                     "begin": "\"\"\"",
                     "end": "\"\"\"",
-                    "patterns": [{
-                        "include": "#string-helper"
-                    }]
+                    "patterns": [
+                        {
+                            "include": "#string-helper"
+                        }
+                    ]
                 },
                 {
                     "name": "string.quoted.double.lflang",
                     "begin": "\"",
                     "end": "(\"|$)",
-                    "patterns": [{
-                        "include": "#string-helper"
-                    }]
+                    "patterns": [
+                        {
+                            "include": "#string-helper"
+                        }
+                    ]
                 },
                 {
                     "name": "string.quoted.single.lflang",
                     "begin": "'",
                     "end": "('|$)",
-                    "patterns": [{
-                        "include": "#string-helper"
-                    }]
+                    "patterns": [
+                        {
+                            "include": "#string-helper"
+                        }
+                    ]
                 }
             ]
         },
@@ -522,9 +562,11 @@
                 {
                     "begin": "(?<=\\s*=\\s*new\\s*(\\[[^\\]]*\\])?\\s+\\w+\\s*)<",
                     "end": ">",
-                    "patterns": [{
-                        "include": "#type"
-                    }]
+                    "patterns": [
+                        {
+                            "include": "#type"
+                        }
+                    ]
                 }
             ]
         },
