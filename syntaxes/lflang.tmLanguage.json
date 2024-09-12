@@ -281,7 +281,7 @@
         },
         "import-statement": {
             "begin": "(?=^\\s*import\\b)",
-            "end": ";|(?<=\")\\s*$|(?<=>)\\s*$",
+            "end": ";|(?<=\")\\s*$",
             "patterns": [
                 {
                     "include": "#context-insensitive"
