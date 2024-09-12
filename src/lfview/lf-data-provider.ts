@@ -406,7 +406,7 @@ export class LFDataProvider implements vscode.TreeDataProvider<LFDataProviderNod
                 return;
             }
             const relativePath = this.getRelativePath(editor.document.uri.fsPath, node.uri.fsPath);
-            const importText = `import ${node.label!.toString()} from "${relativePath}"\n`;
+            const importText = `import ${node.label!.toString()} from <${relativePath}>\n`;
             const position = await this.getTargetPosition(editor.document.uri);
             this.addTextOnActiveEditor(editor, position!.end, importText);
         }

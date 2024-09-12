@@ -281,7 +281,7 @@
         },
         "import-statement": {
             "begin": "(?=^\\s*import\\b)",
-            "end": ";|(?<=\")\\s*$",
+            "end": ";|(?<=\")\\s*$|(?<=>)\\s*$",
             "patterns": [
                 {
                     "include": "#context-insensitive"
@@ -301,13 +301,9 @@
                     ]
                 },
                 {
-                    "begin": "(?<=from)\\s*(\"|<)",
-                    "end": "(\"|>)",
+                    "begin": "(?<=from)\\s*(<)",
+                    "end": "(>)",
                     "patterns": [
-                        {
-                            "name": "string.quoted.double.lflang",
-                            "match": "(?<=\").*?(?=\")"
-                        },
                         {
                             "name": "string.quoted.angle.lflang",
                             "match": "(?<=<).*?(?=>)"
