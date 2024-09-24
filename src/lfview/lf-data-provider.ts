@@ -395,8 +395,11 @@ export class LFDataProvider implements vscode.TreeDataProvider<LFDataProviderNod
     }
 
     /**
-     * Imports the reactor associated with the selected LFDataProviderNode.
+     * Imports the reactor from the locally defined libraries associated with the selected LFDataProviderNode 
+     * into the active Lingua Franca program.
+     *
      * @param node - The node representing the reactor to import.
+     * @returns A Promise that resolves when the import text has been added to the active editor and the document saved.
      */
     async importReactorCommand(node: LFDataProviderNode) {
         const editor = vscode.window.activeTextEditor;
@@ -406,6 +409,27 @@ export class LFDataProvider implements vscode.TreeDataProvider<LFDataProviderNod
                 return;
             }
             const relativePath = this.getRelativePath(editor.document.uri.fsPath, node.uri.fsPath);
+            const importText = `import ${node.label!.toString()} from "${relativePath}"\n`;
+            const position = await this.getTargetPosition(editor.document.uri);
+            this.addTextOnActiveEditor(editor, position!.end, importText);
+        }
+    }
+
+    /**
+     * Imports the reactor downloaded via Lingo, associated with the selected LFDataProviderNode into the active 
+     * Lingua Franca program.
+     *
+     * @param node - The node representing the reactor to import.
+     * @returns A Promise that resolves when the import text has been added to the active editor and the document saved.
+     */
+    async importLibraryReactorCommand(node: LFDataProviderNode) {
+        const editor = vscode.window.activeTextEditor;
+        if (editor) {
+            if (!editor.document.uri.fsPath.endsWith('.lf')) {
+                vscode.window.showErrorMessage('The active editor must be a Ligua Franca program.');
+                return;
+            }
+            const relativePath = this.getLibraryPath(node.uri.fsPath);
             const importText = `import ${node.label!.toString()} from <${relativePath}>\n`;
             const position = await this.getTargetPosition(editor.document.uri);
             this.addTextOnActiveEditor(editor, position!.end, importText);
@@ -429,6 +453,29 @@ export class LFDataProvider implements vscode.TreeDataProvider<LFDataProviderNod
      */
     getRelativePath(source: string, target: string) {
         return path.relative(path.dirname(source), target);
+    }
+
+    /**
+     * Gets the path to a library file from the provided path.
+     * 
+     * @param path - The path to the library file.
+     * @returns The path to the library file, or an empty string if the path is invalid.
+     */
+    getLibraryPath(path: string) {
+        const segments = path.split('/');
+        const srcIndex = segments.indexOf('src');
+
+        // Check if the 'src' directory was found and there's at least one segment before it
+        if (srcIndex === -1 || srcIndex === 0) {
+            vscode.window.showErrorMessage('Invalid path or src directory not found');
+            return '';
+        }
+
+        // The project name is the segment before 'src'
+        const libraryName = segments[srcIndex - 1];
+        // The file name is the last segment of the path
+        const fileName = segments[segments.length - 1];
+        return `${libraryName}/${fileName}`;
     }
 
     /**

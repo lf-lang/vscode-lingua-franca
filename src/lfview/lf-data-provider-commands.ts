@@ -101,7 +101,7 @@ export function registerImportReactorCommand(context: vscode.ExtensionContext, l
 export function registerImportLibraryReactorCommand(context: vscode.ExtensionContext, library: LFDataProvider) {
     context.subscriptions.push(vscode.commands.registerCommand(
         'linguafranca.importLibraryReactor', async (node: LFDataProviderNode) => {
-            await library.importReactorCommand(node);
+            await library.importLibraryReactorCommand(node);
         }
     ));
 }
