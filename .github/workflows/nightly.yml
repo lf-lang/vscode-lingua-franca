@@ -64,7 +64,7 @@ jobs:
             vscode-lingua-franca-*.vsix
         if: ${{ github.event.inputs.dry-run != 'true' }}
       - name: Upload build artifact (dry run only)
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v4
         with:
           name: Nightly VS Code extension
           path: vscode-lingua-franca-${{ env.version }}.vsix
