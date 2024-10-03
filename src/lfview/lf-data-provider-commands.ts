@@ -1,29 +1,16 @@
 import * as vscode from 'vscode';
 import { LFDataProvider, LFDataProviderNode, LFDataProviderNodeType } from './lf-data-provider';
+import { getTerminal } from '../utils';
 
 /**
  * Registers a command to refresh the local LF libraries tree view.
  * @param context - The extension context.
- * @param local - The LFDataProvider instance managing local LF libraries.
+ * @param provider - The LFDataProvider instance.
  */
-export function registerRefreshCommand(context: vscode.ExtensionContext, local: LFDataProvider) {
+export function registerRefreshCommand(context: vscode.ExtensionContext, provider: LFDataProvider) {
     context.subscriptions.push(vscode.commands.registerCommand(
         'linguafranca.refreshEntries', () => {
-            local.refreshTree();
-        }
-    ));
-}
-
-
-/**
-* Registers a command to refresh the Lingo downloaded LF libraries tree view.
-* @param context - The extension context.
-* @param library - The LFDataProvider instance managing Lingo downloaded LF libraries.
-*/
-export function registerRefreshLibraryCommand(context: vscode.ExtensionContext, library: LFDataProvider) {
-    context.subscriptions.push(vscode.commands.registerCommand(
-        'linguafranca.refreshLibraryEntries', () => {
-            library.refreshTree();
+            provider.refreshTree();
         }
     ));
 }
@@ -31,25 +18,12 @@ export function registerRefreshLibraryCommand(context: vscode.ExtensionContext, 
 /**
  * Registers a command to navigate to a file in the local LF libraries tree view.
  * @param context - The extension context.
- * @param local - The LFDataProvider instance managing local LF libraries.
+ * @param provider - The LFDataProvider instance.
  */
-export function registerGoToFileCommand(context: vscode.ExtensionContext, local: LFDataProvider) {
+export function registerGoToFileCommand(context: vscode.ExtensionContext, provider: LFDataProvider) {
     context.subscriptions.push(vscode.commands.registerCommand(
         'linguafranca.goToFile', (node: LFDataProviderNode) => {
-            local.goToFileCommand(node, false);
-        }
-    ));
-}
-
-/**
- * Registers a command to navigate to a file in the Lingo downloaded LF libraries tree view.
- * @param context - The extension context.
- * @param library - The LFDataProvider instance managing Lingo downloaded LF libraries.
- */
-export function registerGoToLibraryFileCommand(context: vscode.ExtensionContext, library: LFDataProvider) {
-    context.subscriptions.push(vscode.commands.registerCommand(
-        'linguafranca.goToLibraryFile', (node: LFDataProviderNode) => {
-            library.goToFileCommand(node, false);
+            provider.goToFileCommand(node, false);
         }
     ));
 }
@@ -57,25 +31,12 @@ export function registerGoToLibraryFileCommand(context: vscode.ExtensionContext,
 /**
  * Registers a command to open a file in split view in the local LF libraries tree view.
  * @param context - The extension context.
- * @param local - The LFDataProvider instance managing local LF libraries.
+ * @param provider - The LFDataProvider instance.
  */
-export function registerOpenInSplitViewCommand(context: vscode.ExtensionContext, local: LFDataProvider) {
+export function registerOpenInSplitViewCommand(context: vscode.ExtensionContext, provider: LFDataProvider) {
     context.subscriptions.push(vscode.commands.registerCommand(
         'linguafranca.openInSplitView', (node: LFDataProviderNode) => {
-            local.goToFileCommand(node, true);
-        }
-    ));
-}
-
-/**
- * Registers a command to open a file in split view in the Lingo downloaded LF libraries tree view.
- * @param context - The extension context.
- * @param library - The LFDataProvider instance managing Lingo downloaded LF libraries.
- */
-export function registerOpenLibraryInSplitViewCommand(context: vscode.ExtensionContext, library: LFDataProvider) {
-    context.subscriptions.push(vscode.commands.registerCommand(
-        'linguafranca.openLibraryInSplitView', (node: LFDataProviderNode) => {
-            library.goToFileCommand(node, true);
+            provider.goToFileCommand(node, true);
         }
     ));
 }
@@ -83,25 +44,17 @@ export function registerOpenLibraryInSplitViewCommand(context: vscode.ExtensionC
 /**
  * Registers a command to import a reactor from the local LF libraries into the active LF program.
  * @param context - The extension context.
- * @param local - The LFDataProvider instance managing local LF libraries.
+ * @param provider - The LFDataProvider instance.
  */
-export function registerImportReactorCommand(context: vscode.ExtensionContext, local: LFDataProvider) {
+export function registerImportReactorCommand(context: vscode.ExtensionContext, provider: LFDataProvider) {
     context.subscriptions.push(vscode.commands.registerCommand(
         'linguafranca.importReactor', async (node: LFDataProviderNode) => {
-            await local.importReactorCommand(node);
-        }
-    ));
-}
-
-/**
- * Registers a command to import a reactor from the Lingo downloaded LF libraries into the active LF program.
- * @param context - The extension context.
- * @param library - The LFDataProvider instance managing Lingo downloaded LF libraries.
- */
-export function registerImportLibraryReactorCommand(context: vscode.ExtensionContext, library: LFDataProvider) {
-    context.subscriptions.push(vscode.commands.registerCommand(
-        'linguafranca.importLibraryReactor', async (node: LFDataProviderNode) => {
-            await library.importLibraryReactorCommand(node);
+            if(node.type === LFDataProviderNodeType.LOCAL) {
+                await provider.importReactorCommand(node);
+            }
+            else {
+                await provider.importLibraryReactorCommand(node);
+            }
         }
     ));
 }
@@ -109,24 +62,43 @@ export function registerImportLibraryReactorCommand(context: vscode.ExtensionCon
 /**
  * Registers a command to collapse all nodes in the local LF libraries tree view.
  * @param context - The extension context.
- * @param local - The LFDataProvider instance managing local LF libraries.
  */
 export function registerCollapseAllCommand(context: vscode.ExtensionContext) {
     context.subscriptions.push(vscode.commands.registerCommand(
         'linguafranca.collapseAll', () => {
-            vscode.commands.executeCommand('workbench.actions.treeView.lf-lang-local.collapseAll');
+            vscode.commands.executeCommand('workbench.actions.treeView.lf-lang-projects.collapseAll');
         }
     ));
 }
 
-/**
- * Registers a command to collapse all nodes in the Lingo downloaded LF libraries tree view.
- * @param context - The extension context.
- */
-export function registerCollapseAllLibraryCommand(context: vscode.ExtensionContext) {
+export function registerGoToLingoTomlCommand(context: vscode.ExtensionContext, provider: LFDataProvider) {
     context.subscriptions.push(vscode.commands.registerCommand(
-        'linguafranca.collapseAllLibrary', () => {
-            vscode.commands.executeCommand('workbench.actions.treeView.lf-lang-library.collapseAll');
+        'linguafranca.goToLingoToml', (node: LFDataProviderNode) => {
+            provider.goToLingoTomlCommand(node);
+        }
+    ));
+}
+
+export function registerIncludeProjectCommand(context: vscode.ExtensionContext, provider: LFDataProvider) {
+    context.subscriptions.push(vscode.commands.registerCommand(
+        'linguafranca.includeProject', (node: LFDataProviderNode) => {
+            vscode.window.showInformationMessage('The "Include Project" feature is not implemented yet.', 'Details').then(selection => {
+                if (selection === "Details") {
+                vscode.window.showInformationMessage('Please use the Lingo command line to include the selected library in your current project. Once included, the library will appear under the "Lingo Packages" section.');
+                }
+            });
+        }
+    ));
+}
+
+export function registerOpenInTerminalCommand(context: vscode.ExtensionContext) {
+    context.subscriptions.push(vscode.commands.registerCommand(
+        'linguafranca.openInTerminal', (node: LFDataProviderNode) => {
+            const terminal = getTerminal("Lingua Franca")
+            if (terminal) {
+                terminal.show(true);
+                terminal.sendText(`cd ${node.uri.fsPath} && clear`);
+            }
         }
     ));
 }

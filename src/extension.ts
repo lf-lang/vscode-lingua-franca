@@ -13,15 +13,13 @@ import { registerBuildCommands, registerNewFileCommand } from './build_commands'
 import * as checkDependencies from './check_dependencies';
 import { LFDataProvider, LFDataProviderNode, LFDataProviderNodeType} from './lfview/lf-data-provider';
 import { registerCollapseAllCommand,
-    registerCollapseAllLibraryCommand,
     registerGoToFileCommand,
-    registerGoToLibraryFileCommand,
+    registerGoToLingoTomlCommand,
     registerImportReactorCommand,
-    registerImportLibraryReactorCommand,
+    registerIncludeProjectCommand,
     registerOpenInSplitViewCommand,
-    registerOpenLibraryInSplitViewCommand,
-    registerRefreshCommand,
-    registerRefreshLibraryCommand } from './lfview/lf-data-provider-commands';
+    registerOpenInTerminalCommand,
+    registerRefreshCommand} from './lfview/lf-data-provider-commands';
 import * as extensionVersion from './extension_version';
 
 let client: LanguageClient;
@@ -81,40 +79,26 @@ export async function activate(context: vscode.ExtensionContext) {
     registerNewFileCommand(context);
 
     // Registers a tree data provider and creates a tree view for the 'lf-lang-local' view
-    const lfDataProviderLocal = new LFDataProvider(LFDataProviderNodeType.LOCAL, client, context);
-    context.subscriptions.push(vscode.window.registerTreeDataProvider('lf-lang-local', lfDataProviderLocal));
-    const localTreeView = vscode.window.createTreeView('lf-lang-local', { treeDataProvider: lfDataProviderLocal });
-    context.subscriptions.push(localTreeView);
-    localTreeView.onDidExpandElement(element => {
-        lfDataProviderLocal.onExpandEvent(element.element);
+    const lfDataProvider = new LFDataProvider(client, context);
+    context.subscriptions.push(vscode.window.registerTreeDataProvider('lf-lang-projects', lfDataProvider));
+    const projectsTreeView = vscode.window.createTreeView('lf-lang-projects', { treeDataProvider: lfDataProvider });
+    context.subscriptions.push(projectsTreeView);
+    projectsTreeView.onDidExpandElement(element => {
+        lfDataProvider.onExpandEvent(element.element);
     });
-    localTreeView.onDidCollapseElement(element => {
-        lfDataProviderLocal.onCollapseEvent(element.element);
-    });
-
-    // Registers a tree data provider and creates a tree view for the 'lf-lang-library' view
-    const lfDataProviderLibrary = new LFDataProvider(LFDataProviderNodeType.LIBRARY, client, context);
-    context.subscriptions.push(vscode.window.registerTreeDataProvider('lf-lang-library', lfDataProviderLibrary));
-    const libraryTreeView = vscode.window.createTreeView('lf-lang-library', { treeDataProvider: lfDataProviderLibrary });
-    context.subscriptions.push(libraryTreeView);
-    libraryTreeView.onDidExpandElement(element => {
-        lfDataProviderLibrary.onExpandEvent(element.element);
-    });
-    libraryTreeView.onDidCollapseElement(element => {
-        lfDataProviderLibrary.onCollapseEvent(element.element);
+    projectsTreeView.onDidCollapseElement(element => {
+        lfDataProvider.onCollapseEvent(element.element);
     });
 
-    // Register all the commands
-    registerRefreshCommand(context, lfDataProviderLocal);
-    registerRefreshLibraryCommand(context, lfDataProviderLibrary);
-    registerGoToFileCommand(context, lfDataProviderLocal);
-    registerGoToLibraryFileCommand(context, lfDataProviderLibrary);
-    registerOpenInSplitViewCommand(context, lfDataProviderLocal);
-    registerOpenLibraryInSplitViewCommand(context, lfDataProviderLibrary);
-    registerImportReactorCommand(context, lfDataProviderLocal);
-    registerImportLibraryReactorCommand(context, lfDataProviderLibrary);
+    // // Register all the commands
+    registerRefreshCommand(context, lfDataProvider);
+    registerGoToFileCommand(context, lfDataProvider);
+    registerOpenInSplitViewCommand(context, lfDataProvider);
+    registerImportReactorCommand(context, lfDataProvider);
     registerCollapseAllCommand(context);
-    registerCollapseAllLibraryCommand(context);
+    registerGoToLingoTomlCommand(context, lfDataProvider);
+    registerIncludeProjectCommand(context, lfDataProvider);
+    registerOpenInTerminalCommand(context);
 
     context.subscriptions.push(vscode.commands.registerCommand(
         "linguafranca.checkDocker", checkDependencies.checkDocker
@@ -122,6 +106,12 @@ export async function activate(context: vscode.ExtensionContext) {
     context.subscriptions.push(vscode.commands.registerCommand(
         "linguafranca.getVersion", () => extensionVersion.version
     ));
+
+    vscode.window.onDidChangeActiveTextEditor( editor => {
+        if (editor){
+            lfDataProvider.onChangeActiveEditor();
+        }
+    })
 }
 
 /**

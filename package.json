@@ -59,6 +59,24 @@
                 }
             }
         ],
+        "colors": [
+            {
+                "id": "editorIcon.currentProject",
+                "description": "Color for a TreeIteem label",
+                "defaults": {
+                    "dark": "#57cc99",
+                    "light": "#57cc99"
+                }
+            },
+            {
+                "id": "editorIcon.notCurrentProject",
+                "description": "Color for a TreeIteem label",
+                "defaults": {
+                    "dark": "#fcbf49",
+                    "light": "#fcbf49"
+                }
+            }
+        ],
         "semanticTokenScopes": [
             {
                 "scopes": {
@@ -101,17 +119,7 @@
                 "icon": "$(refresh)"
             },
             {
-                "command": "linguafranca.refreshLibraryEntries",
-                "title": "Refresh Tree View",
-                "icon": "$(refresh)"
-            },
-            {
                 "command": "linguafranca.goToFile",
-                "title": "Go To Selected File",
-                "icon": "$(go-to-file)"
-            },
-            {
-                "command": "linguafranca.goToLibraryFile",
                 "title": "Go To Selected File",
                 "icon": "$(go-to-file)"
             },
@@ -121,17 +129,7 @@
                 "icon": "$(insert)"
             },
             {
-                "command": "linguafranca.importLibraryReactor",
-                "title": "Import Selected Reactor",
-                "icon": "$(insert)"
-            },
-            {
                 "command": "linguafranca.openInSplitView",
-                "title": "Open in Split View",
-                "icon": "$(split-horizontal)"
-            },
-            {
-                "command": "linguafranca.openLibraryInSplitView",
                 "title": "Open in Split View",
                 "icon": "$(split-horizontal)"
             },
@@ -141,13 +139,23 @@
                 "icon": "$(collapse-all)"
             },
             {
-                "command": "linguafranca.collapseAllLibrary",
-                "title": "Collapse All",
-                "icon": "$(collapse-all)"
-            },
-            {
                 "command": "linguafranca.getVersion",
                 "title": "Lingua Franca: Get Version"
+            },
+            {
+                "command": "linguafranca.includeProject",
+                "title": "Include in current project",
+                "icon": "$(desktop-download)"
+            },
+            {
+                "command": "linguafranca.goToLingoToml",
+                "title": "Go to Lingo.toml",
+                "icon": "$(edit)"
+            },
+            {
+                "command": "linguafranca.openInTerminal",
+                "title": "Open in Terminal",
+                "icon": "$(terminal)"
             }
 
         ],
@@ -208,63 +216,49 @@
                 {
                     "command": "linguafranca.refreshEntries",
                     "group": "navigation@1",
-                    "when": "view == lf-lang-local"
-                },
-                {
-                    "command": "linguafranca.refreshLibraryEntries",
-                    "group": "navigation@1",
-                    "when": "view == lf-lang-library"
+                    "when": "view == lf-lang-projects"
                 },
                 {
                     "command": "linguafranca.collapseAll",
                     "group": "navigation@2",
-                    "when": "view == lf-lang-local"
-                },
-                {
-                    "command": "linguafranca.collapseAllLibrary",
-                    "group": "navigation@2",
-                    "when": "view == lf-lang-library"
+                    "when": "view == lf-lang-projects"
                 }
 
             ],
             "view/item/context" : [
                 {
+                    "command": "linguafranca.openInTerminal",
+                    "group": "inline@1",
+                    "when": "viewItem == project"
+                },
+                {
+                    "command": "linguafranca.includeProject",
+                    "group": "inline@1",
+                    "when": "viewItem == root || viewItem == file-local"
+                },
+                {
                     "command": "linguafranca.goToFile",
-                    "group": "inline",
-                    "when": "view == lf-lang-local && viewItem != root"
-                },
-                {
-                    "command": "linguafranca.goToLibraryFile",
-                    "group": "inline",
-                    "when": "view == lf-lang-library && viewItem != root"
+                    "group": "inline@2",
+                    "when": "viewItem == file-local || viewItem == file-lingo || viewItem == file-local-included || viewItem == reactor || viewItem == reactor-included"
                 },
                 {
                     "command": "linguafranca.openInSplitView",
-                    "group": "inline",
-                    "when": "view == lf-lang-local && viewItem == file"
-                },
-                {
-                    "command": "linguafranca.openLibraryInSplitView",
-                    "group": "inline",
-                    "when": "view == lf-lang-library && viewItem == file"
+                    "group": "inline@3",
+                    "when": "viewItem == file-local || viewItem == file-lingo || viewItem == file-local-included"
                 },
                 {
                     "command": "linguafranca.openInSplitView",
-                    "when": "view == lf-lang-local && viewItem == reactor"
-                },
-                {
-                    "command": "linguafranca.openLibraryInSplitView",
-                    "when": "view == lf-lang-library && viewItem == reactor"
+                    "when": "viewItem == reactor || viewItem == reactor-included"
                 },
                 {
                     "command": "linguafranca.importReactor",
-                    "group": "inline",
-                    "when": "view == lf-lang-local && viewItem == reactor"
+                    "group": "inline@3",
+                    "when": "viewItem == reactor-included"
                 },
                 {
-                    "command": "linguafranca.importLibraryReactor",
+                    "command": "linguafranca.goToLingoToml",
                     "group": "inline",
-                    "when": "view == lf-lang-library && viewItem == reactor"
+                    "when": "viewItem == lingo"
                 }
             ]
         },
@@ -272,7 +266,7 @@
             "activitybar": [
                 {
                     "id": "lf-lang",
-                    "title": "Lingua Franca Package Explorer",
+                    "title": "Lingua Franca Projects",
                     "icon": "images/logo/lf-logo-dark.svg"
                 }
             ]
@@ -280,12 +274,8 @@
         "views": {
             "lf-lang": [
                 {
-                    "id": "lf-lang-local",
-                    "name": "Local Libraries"
-                },
-                {
-                    "id": "lf-lang-library",
-                    "name": "Lingo Libraries"
+                    "id": "lf-lang-projects",
+                    "name": ""
                 }
               ]
         }

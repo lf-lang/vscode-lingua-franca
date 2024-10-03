@@ -4,25 +4,34 @@ import { LanguageClient } from 'vscode-languageclient';
 
 /**
  * Defines the different roles of nodes that can be displayed in the LFDataProvider tree view.
- * {@code ROOT}: Represents the root node of the tree view.
- * {@code FILE}: Represents a file node in the tree view.
- * {@code REACTOR}: Represents a reactor node in the tree view.
+ * 
+ * @property PROJECT - Represents the project node of the tree view.
+ * @property ROOT - Represents the root node of a lingo library
+ * @property SUB - Represents a sub-directory within the project, which may contain local libraries, Lingo packages, or source files.
+ * @property SRC - Represents a Lingua Franca file located in the project’s `src` directory.
+ * @property FILE - Represents a file node in the tree view.
+ * @property REACTOR - Represents a reactor node in the tree view.
  */
 export enum LFDataProviderNodeRole {
+    PROJECT = 'project',
     ROOT = 'root',
+    SUB = 'sub',
+    SRC = 'src',
     FILE = 'file',
     REACTOR = 'reactor'
 }
 
 /**
- * Defines the types of the displayed data provider tree view.
+ * Defines the different types of nodes that can be displayed in the LFDataProvider tree view.
  * 
- * {@code LOCAL} represents nodes for local LF libraries.
- * {@code LIBRARY} represents nodes for LF libraries downloaded using Lingo.
+ * @property LOCAL - Represents a local library node.
+ * @property LIBRARY - Represents a library node.
+ * @property SOURCE - Represents a source file node.
  */
 export enum LFDataProviderNodeType {
     LOCAL = 1,
-    LIBRARY = 2
+    LIBRARY = 2, 
+    SOURCE = 3
 }
 
 /**
@@ -39,7 +48,7 @@ export class LFDataProviderNode extends vscode.TreeItem {
     children: LFDataProviderNode[] | undefined;
     role: string;
     position: NodePosition | undefined;
-    type: LFDataProviderNodeType;
+    type: LFDataProviderNodeType | undefined;
 
     /**
      * Represents the URI of the data provider node.
@@ -47,18 +56,141 @@ export class LFDataProviderNode extends vscode.TreeItem {
      */
     uri: vscode.Uri;
 
-    constructor(label: string, uri: string, role: string, type: LFDataProviderNodeType,
-        children?: LFDataProviderNode[] | undefined, position?: NodePosition | undefined) {
-        let newLabel = label.replace('.lf', '');
-        super(newLabel, role === LFDataProviderNodeRole.REACTOR ? vscode.TreeItemCollapsibleState.None : vscode.TreeItemCollapsibleState.Collapsed);
+    constructor(label: string, uri: string, role: string,
+        type?: LFDataProviderNodeType | undefined,
+        children?: LFDataProviderNode[] | undefined, 
+        position?: NodePosition | undefined) {
+        let newLabel = type === LFDataProviderNodeType.SOURCE ? label : label.replace('.lf', '');
+        super(newLabel, role === LFDataProviderNodeRole.REACTOR || 
+            (role === LFDataProviderNodeRole.FILE && type === LFDataProviderNodeType.SOURCE) 
+        ? vscode.TreeItemCollapsibleState.None : vscode.TreeItemCollapsibleState.Collapsed);
         this.uri = vscode.Uri.parse(uri);
         this.children = children;
         this.role = role;
         this.type = type;
-        let icon = role === LFDataProviderNodeRole.ROOT ? 'root-folder' : role === LFDataProviderNodeRole.FILE ? 'file-code' : 'json';
-        this.iconPath = new vscode.ThemeIcon(icon);
-        this.contextValue = role;
+        this.updateIcon(role, type);
+        this.updateContextValue(role, type);
         if (position) { this.position = position; }
+        if(role === LFDataProviderNodeRole.FILE && type === LFDataProviderNodeType.SOURCE){
+            this.command = {
+                title: "Go to File",
+                command: "vscode.open",
+                arguments: [this.uri]
+            }
+        }
+    }
+
+    /**
+     * Determines the appropriate icon to display for a node in the LFDataProvider tree based on its role and type.
+     *
+     * @param role - The role of the node (e.g. project, root, file, reactor, sub).
+     * @param type - The type of the node (e.g. local, library, source).
+     * @returns The name of the icon to display for the node.
+     */
+    updateIcon(role: string, type?: LFDataProviderNodeType): void {
+        const sameRootAsEditor = this.haveSameRootWithActiveEditor();
+        let newIcon = '';
+    
+        switch (role) {
+            case LFDataProviderNodeRole.PROJECT:
+                newIcon = 'project';
+                break;
+            case LFDataProviderNodeRole.ROOT:
+                newIcon = 'root-folder';
+                break;
+            case LFDataProviderNodeRole.FILE:
+                newIcon = 'file-code';
+                break;
+            case LFDataProviderNodeRole.REACTOR:
+                newIcon = 'json';
+                break;
+            case LFDataProviderNodeRole.SUB:
+                switch (type) {
+                    case LFDataProviderNodeType.LOCAL:
+                        newIcon = 'book';
+                        break;
+                    case LFDataProviderNodeType.LIBRARY:
+                        newIcon = 'library';
+                        break;
+                    case LFDataProviderNodeType.SOURCE:
+                        newIcon = 'circuit-board';
+                        break;
+                    default:
+                        newIcon = 'default-icon'; // fallback for unknown types
+                }
+                break;
+            default:
+                newIcon = 'default-icon'; // fallback for unknown roles
+        }
+    
+        this.iconPath = new vscode.ThemeIcon(
+            newIcon, 
+            sameRootAsEditor 
+                ? new vscode.ThemeColor('editorIcon.currentProject') 
+                : new vscode.ThemeColor('editorIcon.notCurrentProject')
+        );
+    }
+    
+    /**
+     * Updates the context value of the LFDataProviderNode based on its role and type.
+     * The context value is used to determine the appropriate visual representation of the node in the tree view.
+     *
+     * @param role - The role of the node (e.g. project, root, file, reactor, sub).
+     * @param type - The type of the node (e.g. local, library, source).
+     */
+    updateContextValue(role: string, type?: LFDataProviderNodeType): void {
+        const sameRootAsEditor = this.haveSameRootWithActiveEditor();
+    
+        let value: string = role;
+    
+        switch (role) {
+            case LFDataProviderNodeRole.ROOT:
+                value = sameRootAsEditor ? 'root-included' : 'root';
+                break;
+            case LFDataProviderNodeRole.SUB:
+                if (type === LFDataProviderNodeType.LIBRARY) {
+                    value = 'lingo';
+                }
+                break;
+            case LFDataProviderNodeRole.FILE:
+                if (type === LFDataProviderNodeType.LOCAL) {
+                    value = sameRootAsEditor ? 'file-local-included' : 'file-local';
+                } else if (type === LFDataProviderNodeType.LIBRARY) {
+                    value = 'file-lingo';
+                }
+                break;
+            case LFDataProviderNodeRole.REACTOR:
+                value = sameRootAsEditor ? 'reactor-included' : 'reactor';
+                break;
+        }
+    
+        this.contextValue = value;
+    }
+    
+    /**
+     * Determines whether the current node's root path is the same as the active editor's root path.
+     * This is used to determine the appropriate context value for the node in the tree view.
+     *
+     * @returns `true` if the current node's root path is the same as the active editor's root path, `false` otherwise.
+     */
+    haveSameRootWithActiveEditor(): boolean {
+        const editor = vscode.window.activeTextEditor;
+    
+        if (!editor || !editor.document) {
+            return false;
+        }
+        if(this.role === LFDataProviderNodeRole.PROJECT){
+            return editor.document.uri.fsPath.startsWith(this.uri.fsPath);
+        }
+        const pathSegments = this.uri.fsPath.split('/');
+        const srcOrBuildIndex = pathSegments.indexOf(this.type === LFDataProviderNodeType.LIBRARY ? 'build' : 'src');
+        
+        if (srcOrBuildIndex === -1) {
+            return false;
+        }
+    
+        const rootPath = pathSegments.slice(0, srcOrBuildIndex).join('/');
+        return editor.document.uri.fsPath.startsWith(rootPath);
     }
 }
 
@@ -83,25 +215,22 @@ export class NodePosition {
  */
 export class LFDataProvider implements vscode.TreeDataProvider<LFDataProviderNode> {
 
-    // Offset used to highlight text in goToFile Command
-    private HIGHLIGHT_OFFSET = 100;
-
     // LF libraries data
     private data: LFDataProviderNode[] = [];
-    // Type of the data provider
-    private type: LFDataProviderNodeType;
 
     // Utility properties
-    private searchPath: string;
-    private path_offset: number;
-    private exclude_path: vscode.GlobPattern | null = null;
+    private searchSourceFiles: string = '**/src/*.lf';
+    private searchPathLocal: string = '**/src/lib/*.lf';
+    private searchPathLibrary: vscode.GlobPattern  = '**/build/lfc_include/**/src/lib/*.lf';
+    private exclude_path_local: vscode.GlobPattern = '**/build/**'; // only for local LF libraries
+    private exclude_path_src: vscode.GlobPattern = `{${this.exclude_path_local},**/fed-gen/**,**/src-gen/***}`
 
     // Event emitter for tree data change
     private _onDidChangeTreeData: vscode.EventEmitter<LFDataProviderNode | undefined | null | void> = new vscode.EventEmitter<LFDataProviderNode | undefined | null | void>();
     readonly onDidChangeTreeData: vscode.Event<LFDataProviderNode | undefined | null | void> = this._onDidChangeTreeData.event;
 
     // Watches for changes to .lf files
-    private watcher: vscode.FileSystemWatcher;
+    private watcher: vscode.FileSystemWatcher | undefined;
 
     /**
      * Constructs a new LFDataProvider instance with the given type, client, and extension context.
@@ -109,24 +238,16 @@ export class LFDataProvider implements vscode.TreeDataProvider<LFDataProviderNod
      * refreshing the tree view when changes are detected. It also initializes the search path and
      * path offset based on the provided data provider type.
      *
-     * @param type - The type of the LFDataProvider instance.
      * @param client - The LanguageClient instance used by the LFDataProvider.
      * @param context - The extension context used to manage the subscriptions.
      */
     constructor(
-        type: LFDataProviderNodeType,
         private client: LanguageClient,
         private context: vscode.ExtensionContext,
     ) {
 
-        this.type = type;
-        this.path_offset = type === LFDataProviderNodeType.LOCAL ? 4 : 7;
-        this.searchPath = type === LFDataProviderNodeType.LOCAL ? '**/src/lib/*.lf' : '**/target/lfc_include/**/src/lib/*.lf';
-        this.exclude_path = type === LFDataProviderNodeType.LOCAL ? '**/target/**' : null;
-        this.watcher = vscode.workspace.createFileSystemWatcher(this.searchPath);
-
         // Register to file system changes: Create, Delete, Rename, Change
-        this.onLFFileChanges(this.context);
+        this.watchFileChanges(this.context);
 
         // Refresh the tree view
         this.refreshTree();
@@ -159,29 +280,22 @@ export class LFDataProvider implements vscode.TreeDataProvider<LFDataProviderNod
     }
 
     /**
-     * Gets the type of the data provider.
-     */
-    getType(): LFDataProviderNodeType {
-        return this.type;
-    }
-
-    /**
      * Subscribes to various file change events (delete, rename, create) and refreshes the LF data provider tree when an .lf file is affected.
      * Also subscribes to changes in the LF watcher and refreshes the tree when a change is detected.
      * @param context - The extension context, used to manage the subscriptions.
      */
-    onLFFileChanges(context: vscode.ExtensionContext): void {
-        context.subscriptions.push(
-            this.watcher.onDidChange(() => {
-                this.refreshTree();
-            }),
-            this.watcher.onDidCreate(() => {
-                this.refreshTree();
-            }),
-            this.watcher.onDidDelete(() => {
-                this.refreshTree();
-            })
-        );
+    watchFileChanges(context: vscode.ExtensionContext): void {
+        this.watcher = vscode.workspace.createFileSystemWatcher(`**/*.lf`, false, false, false);
+        this.watcher.onDidChange(() => {
+            this.refreshTree();
+        }),
+        this.watcher.onDidCreate(() => {
+            this.refreshTree();
+        }),
+        this.watcher.onDidDelete(() => {
+            this.refreshTree();
+        })
+        context.subscriptions.push(this.watcher);
     }
 
     /**
@@ -195,11 +309,14 @@ export class LFDataProvider implements vscode.TreeDataProvider<LFDataProviderNod
             element.role === LFDataProviderNodeRole.ROOT
         ) {
             element.collapsibleState = vscode.TreeItemCollapsibleState.Expanded;
-            element.iconPath = new vscode.ThemeIcon('root-folder-opened');
+            if (element.iconPath instanceof vscode.ThemeIcon) {
+                element.iconPath = new vscode.ThemeIcon('root-folder-opened', element.iconPath.color);
+            } else {
+                element.iconPath = new vscode.ThemeIcon('root-folder-opened');
+            }
             this._onDidChangeTreeData.fire(element);
         }
     }
-
     /**
      * Handles the collapse event for a node in the LFDataProvider tree.
      * When the root node is collapsed, its collapsible state is set to Collapsed,
@@ -211,9 +328,59 @@ export class LFDataProvider implements vscode.TreeDataProvider<LFDataProviderNod
             element.role === LFDataProviderNodeRole.ROOT
         ) {
             element.collapsibleState = vscode.TreeItemCollapsibleState.Collapsed;
-            element.iconPath = new vscode.ThemeIcon('root-folder');
+            if (element.iconPath instanceof vscode.ThemeIcon) {
+                element.iconPath = new vscode.ThemeIcon('root-folder', element.iconPath.color);
+            } else {
+                element.iconPath = new vscode.ThemeIcon('root-folder');
+            }
             this._onDidChangeTreeData.fire(element);
         }
+    }
+
+    /**
+     * Updates the context value for the active editor's LF data provider nodes.
+     * This method iterates through the root nodes and updates the context value
+     * for any sub-nodes of type LOCAL or LIBRARY that have children.
+     * After the updates, it fires the onDidChangeTreeData event to notify
+     * the tree view of the changes.
+     */
+    onChangeActiveEditor(): void {
+        this.data.forEach((root: LFDataProviderNode) => {
+            if (root.children?.length) {
+                root.updateIcon(root.role, root.type);
+                const updateIfExists = (type: LFDataProviderNodeType) => {
+                    const node = root.children?.find(n => n.role === LFDataProviderNodeRole.SUB && n.type === type);
+                    node?.updateIcon(node.role, node.type);
+                    if (node?.children?.length) {
+                        this.updateContextValueAndIcon(node.children);
+                    }
+                };
+    
+                updateIfExists(LFDataProviderNodeType.LOCAL);
+                updateIfExists(LFDataProviderNodeType.LIBRARY);
+                updateIfExists(LFDataProviderNodeType.SOURCE);
+            }
+        });
+    
+        this._onDidChangeTreeData.fire(undefined);
+    }
+    
+    /**
+     * Recursively updates the context value for the given LFDataProviderNode elements.
+     * This method iterates through the provided elements and updates the context value
+     * for each node based on its role and type. If a node has children, the method
+     * is called recursively to update the context value for the child nodes as well.
+     *
+     * @param elements - An array of LFDataProviderNode elements to update.
+     */
+    updateContextValueAndIcon(elements: LFDataProviderNode[]): void {
+        elements.forEach((node: LFDataProviderNode) => {
+            node.updateContextValue(node.role, node.type);
+            node.updateIcon(node.role, node.type);
+            if (node.children?.length) {
+                this.updateContextValueAndIcon(node.children);
+            }
+        });
     }
 
     /**
@@ -224,83 +391,153 @@ export class LFDataProvider implements vscode.TreeDataProvider<LFDataProviderNod
         this.data = [];
         if (vscode.workspace.workspaceFolders) {
             this.client.onReady().then(() => {
-                vscode.workspace.findFiles(this.searchPath, this.exclude_path ? this.exclude_path : null).then(uris => {
-                    uris.forEach(uri => {
-                        this.client.sendRequest('generator/getLibraryReactors', uri.toString()).then(node => {
-                            if(node){
-                                this.addDataItem(node as LFDataProviderNode);
-                            }
-                            else if(node === null){
-                                vscode.window.showErrorMessage('Error retrieving data from the Language Server', ...['Try again', 'Cancel']).then(selection => {
-                                    if(selection === 'Try again'){
-                                        this.refreshTree();
-                                    }
-                                });
-                                return;
-                            }
-                        });
-                    });
-                });
+                // Find all source files
+                this.findFiles(this.searchSourceFiles, this.exclude_path_src, LFDataProviderNodeType.SOURCE);
+                // Find all local reusable reactor libraries
+                this.findFiles(this.searchPathLocal, this.exclude_path_local, LFDataProviderNodeType.LOCAL);
+                // Find all lingo downloaded reactor libraries
+                this.findFiles(this.searchPathLibrary, null, LFDataProviderNodeType.LIBRARY);
             });
         }
         this._onDidChangeTreeData.fire(undefined);
     }
 
+    findFiles(searchPath: string | vscode.GlobPattern, exclude_path: vscode.GlobPattern | null, type: LFDataProviderNodeType): void {
+        vscode.workspace.findFiles(searchPath, exclude_path ? exclude_path : null).then(uris => {
+            uris.forEach(uri => {
+                this.client.sendRequest('generator/getLibraryReactors', uri.toString()).then(node => {
+                    if(node){
+                        this.addDataItem(node as LFDataProviderNode, type);
+                    }
+                    else if(node === null){
+                        vscode.window.showErrorMessage('Error retrieving data from the Language Server');
+                        return;
+                    }
+                });
+            });
+        });
+    }
+
     /**
      * Adds a new data item to the LFDataProvider tree.
      * @param dataNode - The data node to add to the tree.
+     * @param type - The type of the node (e.g., LOCAL, LIBRARY, SOURCE).
      */
-    addDataItem(dataNode: LFDataProviderNode) {
-        if (this.type === LFDataProviderNodeType.LOCAL) {
-            this.addDataItemLocal(dataNode);
-        } else {
-            this.addDataItemLibrary(dataNode);
-        }
-    }
+    addDataItem(dataNode: LFDataProviderNode, type: LFDataProviderNodeType) {
+        const root = this.buildRoot(dataNode.uri.toString(), type);
+        const node = this.createNode(dataNode, type, LFDataProviderNodeRole.FILE);
 
-    /**
-     * Adds a data item to the Local Libraries view.
-     * @param dataNode - The data node to add.
-     */
-    addDataItemLocal(dataNode: LFDataProviderNode) {
-        const root = this.buildRoot(dataNode.uri.toString());
-        let node = new LFDataProviderNode(dataNode.label!.toString(), dataNode.uri.toString(), LFDataProviderNodeRole.FILE, this.type, []);
-        root.children!.push(node);
-        if (dataNode.children!.length > 0) {
-            dataNode.children!.forEach((child: LFDataProviderNode) => {
-                node.children!.push(new LFDataProviderNode(child.label!.toString(),
-                    child.uri.toString(),
-                    LFDataProviderNodeRole.REACTOR,
-                    this.type, [],
-                    child.position
-                ));
-            });
+        // Add child nodes if applicable
+        this.addChildNodes(dataNode, node, type);
+
+        switch (type) {
+            case LFDataProviderNodeType.LIBRARY:
+                this.handleLibraryNode(root, node, dataNode);
+                break;
+            case LFDataProviderNodeType.LOCAL:
+                this.handleLocalNode(root, node, dataNode);
+                break;
+            case LFDataProviderNodeType.SOURCE:
+                this.handleSourceNode(root, node, dataNode);
+                break;
         }
+
+        // Sort data after adding the new node
         this.sortData();
     }
 
     /**
-     * Adds a data item to the Lingo Libraries view.
-     * @param dataNode - The data node to add.
+     * Creates a new LFDataProviderNode.
+     * @param dataNode - The data node to create.
+     * @param type - The type of the node.
+     * @param role - The role of the node (e.g., FILE, REACTOR).
      */
-    addDataItemLibrary(dataNode: LFDataProviderNode) {
-        const root = this.buildRoot(dataNode.uri.toString());
-        const library_root = this.buildLibraryRoot(dataNode.uri.toString(), root);
-        let node = new LFDataProviderNode(dataNode.label!.toString(), dataNode.uri.toString(), LFDataProviderNodeRole.FILE, this.type, []);
-        if (dataNode.children!.length > 0) {
-            dataNode.children!.forEach((child: LFDataProviderNode) => {
-                node.children!.push(new LFDataProviderNode(child.label!.toString(),
-                    child.uri.toString(),
-                    LFDataProviderNodeRole.REACTOR,
-                    this.type, [],
-                    child.position
-                ));
+    createNode(dataNode: LFDataProviderNode, type: LFDataProviderNodeType, role: LFDataProviderNodeRole): LFDataProviderNode {
+        return new LFDataProviderNode(
+            dataNode.label!.toString(),
+            dataNode.uri.toString(),
+            role,
+            type,
+            [],
+            dataNode.position
+        );
+    }
+
+    /**
+     * Adds child nodes to a given node if applicable.
+     * @param dataNode - The parent data node.
+     * @param node - The node to which children will be added.
+     * @param type - The type of the parent node.
+     */
+    addChildNodes(dataNode: LFDataProviderNode, node: LFDataProviderNode, type: LFDataProviderNodeType) {
+        if (type !== LFDataProviderNodeType.SOURCE && dataNode.children?.length) {
+            dataNode.children.forEach((child: LFDataProviderNode) => {
+                node.children!.push(this.createNode(child, type, LFDataProviderNodeRole.REACTOR));
             });
         }
-        if (library_root.children!.find(n => n.label === node.label) === undefined) {
-            library_root.children!.push(node);
+    }
+
+    /**
+     * Handles the addition of a LIBRARY type node.
+     * @param root - The root node of the tree.
+     * @param node - The node to add to the tree.
+     * @param dataNode - The data node being added.
+     */
+    handleLibraryNode(root: LFDataProviderNode, node: LFDataProviderNode, dataNode: LFDataProviderNode) {
+        const libraryRoot = this.buildLibraryRoot(dataNode.uri.toString(), root, dataNode);
+        if (!libraryRoot.children?.some(n => n.label === node.label)) {
+            libraryRoot.children!.push(node);
         }
-        this.sortData();
+    }
+
+    /**
+     * Handles the addition of a LOCAL type node.
+     * @param root - The root node of the tree.
+     * @param node - The node to add to the tree.
+     * @param dataNode - The data node being added.
+     */
+    handleLocalNode(root: LFDataProviderNode, node: LFDataProviderNode, dataNode: LFDataProviderNode) {
+        let localNode = this.findOrCreateSubNode(root, "Local Libraries", LFDataProviderNodeRole.SUB, LFDataProviderNodeType.LOCAL, dataNode);
+        if(!localNode.children?.some(n => n.label === node.label))
+            localNode.children!.push(node);
+    }
+
+    /**
+     * Handles the addition of a SOURCE type node.
+     * @param root - The root node of the tree.
+     * @param node - The node to add to the tree.
+     * @param dataNode - The data node being added.
+     */
+    handleSourceNode(root: LFDataProviderNode, node: LFDataProviderNode, dataNode: LFDataProviderNode) {
+        let srcNode = this.findOrCreateSubNode(root, "Source Files", LFDataProviderNodeRole.SUB, LFDataProviderNodeType.SOURCE, dataNode);
+        if(!srcNode.children?.some(n => n.label === node.label))
+            srcNode.children!.push(node);
+    }
+
+    /**
+     * Finds or creates a sub-node with a given label, role, and type.
+     * @param root - The root node to search in.
+     * @param label - The label of the sub-node to find or create.
+     * @param role - The role of the sub-node.
+     * @param type - The type of the sub-node.
+     * @param dataNode - The data node associated with the sub-node.
+     * @returns The found or newly created sub-node.
+     */
+    findOrCreateSubNode(root: LFDataProviderNode, label: string, role: LFDataProviderNodeRole, type: LFDataProviderNodeType, dataNode: LFDataProviderNode): LFDataProviderNode {
+        let subNode = root.children?.find(n => n.role === role && n.type === type);
+
+        if (!subNode) {
+            subNode = new LFDataProviderNode(
+                label,
+                dataNode.uri.toString(),
+                role,
+                type,
+                []
+            );
+            root.children!.push(subNode);
+        }
+
+        return subNode;
     }
 
     /**
@@ -338,38 +575,41 @@ export class LFDataProvider implements vscode.TreeDataProvider<LFDataProviderNod
      * @param uri The URI of the project to build the root node for.
      * @returns The root `LFDataProviderNode` for the project.
      */
-    buildRoot(uri: string): LFDataProviderNode {
+    buildRoot(uri: string, type: LFDataProviderNodeType | null): LFDataProviderNode {
         const splittedUri = uri.split('/');
-        const projectLabel = splittedUri[splittedUri.length - this.path_offset];
+            const srcIdx = splittedUri.indexOf(!type || type == LFDataProviderNodeType.LIBRARY ? 'build' : 'src');
+            const projectLabel = splittedUri[srcIdx - 1];
 
-        const existingProject = this.data.find(item => item.label === projectLabel);
+            const existingProject = this.data.find(item => item.label === projectLabel);
+            if (!existingProject) {
+                const projectUri = splittedUri.slice(0, srcIdx).join('/') + '/';
+                const root = new LFDataProviderNode(projectLabel, projectUri, LFDataProviderNodeRole.PROJECT, type!, []);
+                this.data.push(root);
+                return root;
+            }
+            return existingProject;
+    }
+    
+    /**
+     * Builds or retrieves the root node for a library project based on the URI.
+     * @param uri - The URI of the data node.
+     * @param root - The root node of the tree.
+     * @returns The root node for the library project.
+     */
+    buildLibraryRoot(uri: string, root: LFDataProviderNode, dataNode: LFDataProviderNode): LFDataProviderNode {
+        const splittedUri = uri.split('/');
+        const srcIdx = splittedUri.indexOf('src');
+        const projectLabel = splittedUri[srcIdx - 1];
+
+        let lingo = this.findOrCreateSubNode(root, "Lingo Packages", LFDataProviderNodeRole.SUB, LFDataProviderNodeType.LIBRARY, dataNode);
+        const existingProject = lingo.children!.find(item => item.label === projectLabel);
         if (!existingProject) {
-            const projectUri = splittedUri.slice(0, - this.path_offset).join('/') + '/';
-            const root = new LFDataProviderNode(projectLabel, projectUri, LFDataProviderNodeRole.ROOT, this.type, []);
-            this.data.push(root);
+            const projectUri = splittedUri.slice(0, srcIdx).join('/') + '/';
+            const root = new LFDataProviderNode(projectLabel, projectUri, LFDataProviderNodeRole.ROOT, LFDataProviderNodeType.LIBRARY, []);
+            lingo.children!.push(root);
             return root;
         }
         return existingProject;
-    }
-
-    /**
-     * Builds the root node of the Lingo Library tree for the given URI.
-     * @param uri - The URI of the item to build.
-     * @param root - The root node of the library tree.
-     * @returns The root node of the library tree, either a new node or an existing one.
-     */
-    buildLibraryRoot(uri: string, root: LFDataProviderNode): LFDataProviderNode {
-        const splittedUri = uri.split('/');
-        const projectLabel = splittedUri[splittedUri.length - this.path_offset + 3];
-
-        const existingLibraryRoot = root.children!.find(item => item.label === projectLabel);
-        if (!existingLibraryRoot) {
-            const projectUri = splittedUri.slice(0, - this.path_offset + 3).join('/') + '/';
-            const library_root = new LFDataProviderNode(projectLabel, projectUri, LFDataProviderNodeRole.ROOT, this.type, []);
-            root.children!.push(library_root);
-            return library_root;
-        }
-        return existingLibraryRoot;
     }
 
     /**
@@ -519,6 +759,20 @@ export class LFDataProvider implements vscode.TreeDataProvider<LFDataProviderNod
                 }
                 return position as NodePosition;
             });
+        });
+    }
+
+    /**
+     * Opens the Lingo.toml file associated with the given LFDataProviderNode.
+     *
+     * @param node - The LFDataProviderNode for which to open the Lingo.toml file.
+     */
+    goToLingoTomlCommand(node: LFDataProviderNode) {
+        const segments = node.uri.fsPath.split('/');
+        const srcIdx = segments.indexOf('build');
+        let newUri = segments.slice(0, srcIdx).join('/').concat('/Lingo.toml');
+        vscode.workspace.openTextDocument(vscode.Uri.parse(newUri)).then(doc => {
+            vscode.window.showTextDocument(doc);
         });
     }
 
