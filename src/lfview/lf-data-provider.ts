@@ -720,7 +720,6 @@ export class LFDataProvider implements vscode.TreeDataProvider<LFDataProviderNod
 
     /**
      * Adds the specified text to the active text editor at the given index.
-     * If the text is added successfully, the document is saved.
      *
      * @param editor - The active text editor.
      * @param idx - The index at which to insert the text.
@@ -728,14 +727,10 @@ export class LFDataProvider implements vscode.TreeDataProvider<LFDataProviderNod
      * @returns A Promise that resolves when the text has been added and the document saved.
      */
     async addTextOnActiveEditor(editor: vscode.TextEditor, idx: number, importText: string): Promise<void> {
-        const document = editor.document;
         try {
-            const success = await editor.edit(editBuilder => {
+            await editor.edit(editBuilder => {
                 editBuilder.insert(new vscode.Position(idx, 0), importText);
             });
-            if (success) {
-                await document.save();
-            }
         } catch (error) {
             console.error('Failed to add text or save document:', error);
         }
