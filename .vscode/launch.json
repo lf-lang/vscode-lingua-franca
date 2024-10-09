@@ -9,6 +9,7 @@
             "outFiles": [
                 "${workspaceFolder}/out/**/*.js"
             ],
+            "sourceMaps": true,
             "request": "launch",
             "type": "extensionHost",
             "preLaunchTask": "${defaultBuildTask}"
@@ -56,6 +57,25 @@
             "smartStep": true,
             "outFiles": [
                 "${workspaceFolder}/out/**/*.js"
+            ],
+        },
+        {
+            "name": "Launch VS Code Extension (Socket) LF",
+            "type": "extensionHost",
+            "request": "launch",
+            "args": [
+                "--extensionDevelopmentPath=${workspaceFolder}/",
+            ],
+            "env": {
+                "LF_LS_PORT": "7670"
+            },
+            "skipFiles": [
+              "<node_internals>/**"
+            ],
+            "sourceMaps": true,
+            "smartStep": true,
+            "outFiles": [
+                "${workspaceFolder}/out/**/*.js",
             ],
         },
         {
