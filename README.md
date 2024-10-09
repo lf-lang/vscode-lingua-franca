@@ -16,8 +16,8 @@ This extension adds language support for [Lingua Franca (LF)](https://www.lf-lan
 * user-triggered build (<kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>P</kbd>, then `Lingua Franca: Build`) 
 * user-triggered build and run (<kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>P</kbd>, then `Lingua Franca: Build and Run`) 
 * Lingua Franca Package Explorer (click on the LF icon in the Activity Bar on the left), which features two distinct tree-view sections:
-   * **Local Libraries:** This section showcases a catalog of Local Libraries, which are libraries personally defined by the programmer.
-   * **Lingo Libraries:** Here, you'll find a catalog of all libraries downloaded in the personal workspace using the Lingo package manager.
+   * **Local Libraries:** Unpublished libraries found in the local filesystem under `./src/lib`;
+   * **Lingo Libraries:** Published libraries downloaded into the workspace using the Lingo package manager.
 
 ## Quick Start
  1. Install this plugin from the [VSCode
