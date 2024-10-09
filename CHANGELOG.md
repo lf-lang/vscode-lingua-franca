@@ -1,5 +1,19 @@
 # Changelog
  
+## [v0.9.0](https://github.com/lf-lang/vscode-lingua-franca/tree/v0.9.0) (2024-10-08)
+
+To change this text, edit notes/vscode-lingua-franca/v0.9.0.md in the release-notes repo.
+
+**🚀 New Features**
+
+- Lingua Franca Package Explorer: extensions to UI in VScode plugin [\#156](https://github.com/lf-lang/vscode-lingua-franca/pull/156) (@edwardalee)
+
+**📖 Documentation**
+
+- Updated contributing guide to include the debugging workflow. [\#177](https://github.com/lf-lang/vscode-lingua-franca/pull/177) (@soerendomroes)
+
+
+ 
 ## [v0.8.2](https://github.com/lf-lang/vscode-lingua-franca/tree/v0.8.2) (2024-08-02)
 
 **Highlights**
