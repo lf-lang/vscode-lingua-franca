@@ -3,15 +3,7 @@
 </span>
 
 <span class="source-lf comment-block-lflang">
- * Test a source-destination scenario where the source falls behind real-time, and reaches the
-</span>
-
-<span class="source-lf comment-block-lflang">
- * timeout much later than the destination. In this test, the destination closes the connection
-</span>
-
-<span class="source-lf comment-block-lflang">
- * early, causing the transmission to fail. Warnings will be printed.
+ * @brief A federated system with a decentralized coordinator that has large STA and STAA offsets.
 </span>
 
 <span class="source-lf comment-block-lflang">
@@ -19,11 +11,23 @@
 </span>
 
 <span class="source-lf comment-block-lflang">
- * The test fails if the federation does not exit normally. This variant has a physical connection
+ * This test verifies that a large STA and STAA offset can be used when the data flow is predictable
 </span>
 
 <span class="source-lf comment-block-lflang">
- * between source and destination.
+ * even if the the program is lagging behind physical time. This version uses microsteps and never
+</span>
+
+<span class="source-lf comment-block-lflang">
+ * advances past the start time. It also uses lf_request_stop() to stop the execution.
+</span>
+
+<span class="source-lf comment-block-lflang">
+ *
+</span>
+
+<span class="source-lf comment-block-lflang">
+ * @author Edward A. Lee
 </span>
 
 <span class="source-lf comment-block-lflang">
@@ -47,25 +51,6 @@ C
 </span>
 
 <span class="source-lf meta-targetspec-lflang variable-parameter-lflang">
-  timeout
-</span>
-<span class="source-lf meta-targetspec-lflang">
-: 
-</span>
-<span class="source-lf meta-targetspec-lflang constant-numeric-int-lflang">
-1
-</span>
-<span class="source-lf meta-targetspec-lflang">
- 
-</span>
-<span class="source-lf meta-targetspec-lflang constant-numeric-lflang">
-msec
-</span>
-<span class="source-lf meta-targetspec-lflang">
-,
-</span>
-
-<span class="source-lf meta-targetspec-lflang variable-parameter-lflang">
   coordination
 </span>
 <span class="source-lf meta-targetspec-lflang">
@@ -83,6 +68,10 @@ decentralized
 
 </span>
 
+<span class="source-lf comment-line-double-dash-lflang">
+// Pi needs an STP_offset because it's event queue is usually empty and otherwise it will advance to the stop time.
+</span>
+
 <span class="source-lf storage-modifier-lflang">
 reactor
 </span>
@@ -90,10 +79,10 @@ reactor
  
 </span>
 <span class="source-lf entity-name-type-lflang">
-Clock
+Pi
 </span>
 <span class="source-lf">
-(offset: 
+(STP_offset: 
 </span>
 <span class="source-lf storage-type-lflang">
 time
@@ -108,34 +97,32 @@ time
  
 </span>
 <span class="source-lf constant-numeric-int-lflang">
-0
+30
 </span>
 <span class="source-lf">
-, period: 
+ s) {
 </span>
-<span class="source-lf storage-type-lflang">
-time
-</span>
+
 <span class="source-lf">
- 
+  
 </span>
-<span class="source-lf keyword-operator-lflang">
-=
+<span class="source-lf storage-modifier-lflang">
+input
 </span>
 <span class="source-lf">
  
 </span>
-<span class="source-lf constant-numeric-int-lflang">
-1
+<span class="source-lf variable-other-lflang">
+trigger
 </span>
 <span class="source-lf">
+:
+</span>
+<span class="source-lf meta-embedded-block-cpp">
  
 </span>
-<span class="source-lf constant-numeric-lflang">
-sec
-</span>
-<span class="source-lf">
-) {
+<span class="source-lf meta-embedded-block-cpp storage-type-lflang">
+bool
 </span>
 
 <span class="source-lf">
@@ -148,7 +135,7 @@ output
  
 </span>
 <span class="source-lf variable-other-lflang">
-y
+out
 </span>
 <span class="source-lf">
 :
@@ -161,13 +148,268 @@ int
 </span>
 
 <span class="source-lf">
+
+</span>
+
+<span class="source-lf">
+  
+</span>
+<span class="source-lf keyword-control-lflang">
+reaction
+</span>
+<span class="source-lf">
+(
+</span>
+<span class="source-lf">
+trigger) 
+</span>
+<span class="source-lf keyword-operator-lflang">
+->
+</span>
+<span class="source-lf">
+ out {
+</span>
+<span class="source-lf keyword-operator-lflang">
+=
+</span>
+
+<span class="source-lf">
+    tag_t now 
+</span>
+<span class="source-lf keyword-operator-lflang">
+=
+</span>
+<span class="source-lf">
+ lf_tag();
+</span>
+
+<span class="source-lf">
+    lf_print(
+</span>
+<span class="source-lf string-quoted-double-lflang">
+"
+</span>
+<span class="source-lf string-quoted-double-lflang">
+***** at tag 
+</span>
+<span class="source-lf string-quoted-double-lflang">
+"
+</span>
+<span class="source-lf">
+ PRINTF_TAG, 
+</span>
+<span class="source-lf variable-other-constant-reactorinstance-lflang">
+now
+</span>
+<span class="source-lf keyword-operator-lflang">
+.
+</span>
+<span class="source-lf storage-type-lflang">
+time
+</span>
+<span class="source-lf">
+ 
+</span>
+<span class="source-lf keyword-operator-lflang">
+-
+</span>
+<span class="source-lf">
+ lf_time_start(), 
+</span>
+<span class="source-lf variable-other-constant-reactorinstance-lflang">
+now
+</span>
+<span class="source-lf keyword-operator-lflang">
+.
+</span>
+<span class="source-lf variable-other-lflang">
+microstep
+</span>
+<span class="source-lf">
+);
+</span>
+
+<span class="source-lf">
+    lf_set(out, 
+</span>
+<span class="source-lf constant-numeric-int-lflang">
+42
+</span>
+<span class="source-lf">
+);
+</span>
+
+<span class="source-lf">
+  
+</span>
+<span class="source-lf keyword-operator-lflang">
+=
+</span>
+<span class="source-lf">
+} 
+</span>
+<span class="source-lf keyword-control-lflang">
+STP
+</span>
+<span class="source-lf">
+(
+</span>
+<span class="source-lf constant-numeric-int-lflang">
+30
+</span>
+<span class="source-lf">
+ s) {
+</span>
+<span class="source-lf keyword-operator-lflang">
+=
+</span>
+
+<span class="source-lf">
+    tag_t now 
+</span>
+<span class="source-lf keyword-operator-lflang">
+=
+</span>
+<span class="source-lf">
+ lf_tag();
+</span>
+
+<span class="source-lf">
+    lf_print_error_and_exit(
+</span>
+<span class="source-lf string-quoted-double-lflang">
+"
+</span>
+<span class="source-lf string-quoted-double-lflang">
+STP violation at Pi at tag 
+</span>
+<span class="source-lf string-quoted-double-lflang">
+"
+</span>
+<span class="source-lf">
+ PRINTF_TAG, 
+</span>
+<span class="source-lf variable-other-constant-reactorinstance-lflang">
+now
+</span>
+<span class="source-lf keyword-operator-lflang">
+.
+</span>
+<span class="source-lf storage-type-lflang">
+time
+</span>
+<span class="source-lf">
+ 
+</span>
+<span class="source-lf keyword-operator-lflang">
+-
+</span>
+<span class="source-lf">
+ lf_time_start(), 
+</span>
+<span class="source-lf variable-other-constant-reactorinstance-lflang">
+now
+</span>
+<span class="source-lf keyword-operator-lflang">
+.
+</span>
+<span class="source-lf variable-other-lflang">
+microstep
+</span>
+<span class="source-lf">
+);
+</span>
+
+<span class="source-lf">
+  
+</span>
+<span class="source-lf keyword-operator-lflang">
+=
+</span>
+<span class="source-lf">
+}
+</span>
+
+<span class="source-lf">
+}
+</span>
+
+<span class="source-lf">
+
+</span>
+
+<span class="source-lf comment-line-double-dash-lflang">
+// Gather doesn't need an STP_offset because its event queue is never empty.
+</span>
+
+<span class="source-lf storage-modifier-lflang">
+reactor
+</span>
+<span class="source-lf">
+ 
+</span>
+<span class="source-lf entity-name-type-lflang">
+Gather
+</span>
+<span class="source-lf">
+ {
+</span>
+
+<span class="source-lf">
   
 </span>
 <span class="source-lf storage-modifier-lflang">
-timer
+input
 </span>
 <span class="source-lf">
- t(offset, period)
+[4] in:
+</span>
+<span class="source-lf meta-embedded-block-cpp">
+ 
+</span>
+<span class="source-lf meta-embedded-block-cpp storage-type-lflang">
+int
+</span>
+
+<span class="source-lf">
+  
+</span>
+<span class="source-lf storage-modifier-lflang">
+output
+</span>
+<span class="source-lf">
+ 
+</span>
+<span class="source-lf variable-other-lflang">
+next
+</span>
+<span class="source-lf">
+:
+</span>
+<span class="source-lf meta-embedded-block-cpp">
+ 
+</span>
+<span class="source-lf meta-embedded-block-cpp storage-type-lflang">
+bool
+</span>
+
+<span class="source-lf">
+  
+</span>
+<span class="source-lf storage-modifier-lflang">
+logical
+</span>
+<span class="source-lf">
+ 
+</span>
+<span class="source-lf storage-modifier-lflang">
+action
+</span>
+<span class="source-lf">
+ 
+</span>
+<span class="source-lf variable-other-lflang">
+a
 </span>
 
 <span class="source-lf">
@@ -217,27 +459,237 @@ reaction
 <span class="source-lf">
 (
 </span>
+<span class="source-lf support-variable-lflang">
+startup
+</span>
 <span class="source-lf">
-t) 
+, a) 
 </span>
 <span class="source-lf keyword-operator-lflang">
 ->
 </span>
 <span class="source-lf">
- y {
+ next {
 </span>
 <span class="source-lf keyword-operator-lflang">
 =
 </span>
 
 <span class="source-lf">
-    (self
+    lf_set(next, 
+</span>
+<span class="source-lf constant-language-lflang">
+true
+</span>
+<span class="source-lf">
+);
+</span>
+
+<span class="source-lf">
+  
+</span>
+<span class="source-lf keyword-operator-lflang">
+=
+</span>
+<span class="source-lf">
+}
+</span>
+
+<span class="source-lf">
+
+</span>
+
+<span class="source-lf">
+  
+</span>
+<span class="source-lf keyword-control-lflang">
+reaction
+</span>
+<span class="source-lf">
+(
+</span>
+<span class="source-lf">
+in) 
 </span>
 <span class="source-lf keyword-operator-lflang">
 ->
 </span>
 <span class="source-lf">
-count)
+ a {
+</span>
+<span class="source-lf keyword-operator-lflang">
+=
+</span>
+
+<span class="source-lf">
+    tag_t now 
+</span>
+<span class="source-lf keyword-operator-lflang">
+=
+</span>
+<span class="source-lf">
+ lf_tag();
+</span>
+
+<span class="source-lf">
+    for (int i 
+</span>
+<span class="source-lf keyword-operator-lflang">
+=
+</span>
+<span class="source-lf">
+ 
+</span>
+<span class="source-lf constant-numeric-int-lflang">
+0
+</span>
+<span class="source-lf">
+; i < 
+</span>
+<span class="source-lf constant-numeric-int-lflang">
+4
+</span>
+<span class="source-lf">
+; i
+</span>
+<span class="source-lf keyword-operator-lflang">
++
+</span>
+<span class="source-lf keyword-operator-lflang">
++
+</span>
+<span class="source-lf">
+) {
+</span>
+
+<span class="source-lf">
+      if (!in[i]
+</span>
+<span class="source-lf keyword-operator-lflang">
+->
+</span>
+<span class="source-lf">
+is_present) {
+</span>
+
+<span class="source-lf">
+        lf_print_error_and_exit(
+</span>
+<span class="source-lf string-quoted-double-lflang">
+"
+</span>
+<span class="source-lf string-quoted-double-lflang">
+Missing input %d in Gather at tag 
+</span>
+<span class="source-lf string-quoted-double-lflang">
+"
+</span>
+<span class="source-lf">
+ PRINTF_TAG,
+</span>
+
+<span class="source-lf">
+            i, 
+</span>
+<span class="source-lf variable-other-constant-reactorinstance-lflang">
+now
+</span>
+<span class="source-lf keyword-operator-lflang">
+.
+</span>
+<span class="source-lf storage-type-lflang">
+time
+</span>
+<span class="source-lf">
+ 
+</span>
+<span class="source-lf keyword-operator-lflang">
+-
+</span>
+<span class="source-lf">
+ lf_time_start(), 
+</span>
+<span class="source-lf variable-other-constant-reactorinstance-lflang">
+now
+</span>
+<span class="source-lf keyword-operator-lflang">
+.
+</span>
+<span class="source-lf variable-other-lflang">
+microstep
+</span>
+<span class="source-lf">
+);
+</span>
+
+<span class="source-lf">
+      }
+</span>
+
+<span class="source-lf">
+    }
+</span>
+
+<span class="source-lf">
+    lf_print(
+</span>
+<span class="source-lf string-quoted-double-lflang">
+"
+</span>
+<span class="source-lf string-quoted-double-lflang">
+%d: at tag 
+</span>
+<span class="source-lf string-quoted-double-lflang">
+"
+</span>
+<span class="source-lf">
+ PRINTF_TAG, self
+</span>
+<span class="source-lf keyword-operator-lflang">
+->
+</span>
+<span class="source-lf">
+count, 
+</span>
+<span class="source-lf variable-other-constant-reactorinstance-lflang">
+now
+</span>
+<span class="source-lf keyword-operator-lflang">
+.
+</span>
+<span class="source-lf storage-type-lflang">
+time
+</span>
+<span class="source-lf">
+ 
+</span>
+<span class="source-lf keyword-operator-lflang">
+-
+</span>
+<span class="source-lf">
+ lf_time_start(), 
+</span>
+<span class="source-lf variable-other-constant-reactorinstance-lflang">
+now
+</span>
+<span class="source-lf keyword-operator-lflang">
+.
+</span>
+<span class="source-lf variable-other-lflang">
+microstep
+</span>
+<span class="source-lf">
+);
+</span>
+
+<span class="source-lf">
+    self
+</span>
+<span class="source-lf keyword-operator-lflang">
+->
+</span>
+<span class="source-lf">
+count
 </span>
 <span class="source-lf keyword-operator-lflang">
 +
@@ -249,21 +701,125 @@ count)
 ;
 </span>
 
-<span class="source-lf comment-line-double-dash-lflang">
-    
-</span>
-<span class="source-lf comment-line-double-dash-lflang">
-//printf("Reacting at time " PRINTF_TIME ".\n", lf_time_logical_elapsed());
-</span>
-
 <span class="source-lf">
-    lf_set(y, self
+    if (self
 </span>
 <span class="source-lf keyword-operator-lflang">
 ->
 </span>
 <span class="source-lf">
-count);
+count >
+</span>
+<span class="source-lf keyword-operator-lflang">
+=
+</span>
+<span class="source-lf">
+ 
+</span>
+<span class="source-lf constant-numeric-int-lflang">
+4
+</span>
+<span class="source-lf">
+) {
+</span>
+
+<span class="source-lf">
+      lf_request_stop();
+</span>
+
+<span class="source-lf">
+    }
+</span>
+
+<span class="source-lf">
+    lf_schedule(a, 
+</span>
+<span class="source-lf constant-numeric-int-lflang">
+0
+</span>
+<span class="source-lf">
+);
+</span>
+
+<span class="source-lf">
+  
+</span>
+<span class="source-lf keyword-operator-lflang">
+=
+</span>
+<span class="source-lf">
+} 
+</span>
+<span class="source-lf keyword-control-lflang">
+STP
+</span>
+<span class="source-lf">
+(
+</span>
+<span class="source-lf constant-numeric-int-lflang">
+30
+</span>
+<span class="source-lf">
+ s) {
+</span>
+<span class="source-lf keyword-operator-lflang">
+=
+</span>
+
+<span class="source-lf">
+    tag_t now 
+</span>
+<span class="source-lf keyword-operator-lflang">
+=
+</span>
+<span class="source-lf">
+ lf_tag();
+</span>
+
+<span class="source-lf">
+    lf_print_error_and_exit(
+</span>
+<span class="source-lf string-quoted-double-lflang">
+"
+</span>
+<span class="source-lf string-quoted-double-lflang">
+STP violation at Gather at tag 
+</span>
+<span class="source-lf string-quoted-double-lflang">
+"
+</span>
+<span class="source-lf">
+ PRINTF_TAG, 
+</span>
+<span class="source-lf variable-other-constant-reactorinstance-lflang">
+now
+</span>
+<span class="source-lf keyword-operator-lflang">
+.
+</span>
+<span class="source-lf storage-type-lflang">
+time
+</span>
+<span class="source-lf">
+ 
+</span>
+<span class="source-lf keyword-operator-lflang">
+-
+</span>
+<span class="source-lf">
+ lf_time_start(), 
+</span>
+<span class="source-lf variable-other-constant-reactorinstance-lflang">
+now
+</span>
+<span class="source-lf keyword-operator-lflang">
+.
+</span>
+<span class="source-lf variable-other-lflang">
+microstep
+</span>
+<span class="source-lf">
+);
 </span>
 
 <span class="source-lf">
@@ -300,181 +856,19 @@ shutdown
 </span>
 
 <span class="source-lf">
-    lf_print(
-</span>
-<span class="source-lf string-quoted-double-lflang">
-"
-</span>
-<span class="source-lf string-quoted-double-lflang">
-SUCCESS: the source exited successfully.
-</span>
-<span class="source-lf string-quoted-double-lflang">
-"
-</span>
-<span class="source-lf">
-);
-</span>
-
-<span class="source-lf">
-  
-</span>
-<span class="source-lf keyword-operator-lflang">
-=
-</span>
-<span class="source-lf">
-}
-</span>
-
-<span class="source-lf">
-}
-</span>
-
-<span class="source-lf">
-
-</span>
-
-<span class="source-lf comment-line-double-dash-lflang">
-// This needs an STA offset because otherwise it may advance to the stop time while the
-</span>
-
-<span class="source-lf comment-line-double-dash-lflang">
-// physical connection is in the process of assigning a timestamp.
-</span>
-
-<span class="source-lf storage-modifier-lflang">
-reactor
-</span>
-<span class="source-lf">
- 
-</span>
-<span class="source-lf entity-name-type-lflang">
-Destination
-</span>
-<span class="source-lf">
-(STA: 
-</span>
-<span class="source-lf storage-type-lflang">
-time
-</span>
-<span class="source-lf">
- 
-</span>
-<span class="source-lf keyword-operator-lflang">
-=
-</span>
-<span class="source-lf">
- 
-</span>
-<span class="source-lf constant-numeric-int-lflang">
-1
-</span>
-<span class="source-lf">
- ms) {
-</span>
-
-<span class="source-lf">
-  
-</span>
-<span class="source-lf storage-modifier-lflang">
-input
-</span>
-<span class="source-lf">
- 
-</span>
-<span class="source-lf variable-other-lflang">
-x
-</span>
-<span class="source-lf">
-:
-</span>
-<span class="source-lf meta-embedded-block-cpp">
- 
-</span>
-<span class="source-lf meta-embedded-block-cpp storage-type-lflang">
-int
-</span>
-
-<span class="source-lf">
-  
-</span>
-<span class="source-lf storage-modifier-lflang">
-state
-</span>
-<span class="source-lf">
- 
-</span>
-<span class="source-lf variable-other-lflang">
-s
-</span>
-<span class="source-lf">
-:
-</span>
-<span class="source-lf meta-embedded-block-cpp">
- 
-</span>
-<span class="source-lf meta-embedded-block-cpp storage-type-lflang">
-int
-</span>
-<span class="source-lf meta-embedded-block-cpp">
- 
-</span>
-<span class="source-lf">
-=
-</span>
-<span class="source-lf">
- 
-</span>
-<span class="source-lf constant-numeric-int-lflang">
-1
-</span>
-
-<span class="source-lf">
-
-</span>
-
-<span class="source-lf">
-  
-</span>
-<span class="source-lf keyword-control-lflang">
-reaction
-</span>
-<span class="source-lf">
-(
-</span>
-<span class="source-lf">
-x) {
-</span>
-<span class="source-lf keyword-operator-lflang">
-=
-</span>
-
-<span class="source-lf comment-line-double-dash-lflang">
-    
-</span>
-<span class="source-lf comment-line-double-dash-lflang">
-// printf("%d\n", x->value);
-</span>
-
-<span class="source-lf">
-    if (x
+    if (self
 </span>
 <span class="source-lf keyword-operator-lflang">
 ->
 </span>
 <span class="source-lf">
-value !
+count < 
 </span>
-<span class="source-lf keyword-operator-lflang">
-=
-</span>
-<span class="source-lf">
- self
-</span>
-<span class="source-lf keyword-operator-lflang">
-->
+<span class="source-lf constant-numeric-int-lflang">
+5
 </span>
 <span class="source-lf">
-s) {
+) {
 </span>
 
 <span class="source-lf">
@@ -484,7 +878,7 @@ s) {
 "
 </span>
 <span class="source-lf string-quoted-double-lflang">
-Expected %d and got %d.
+Gather received only %d inputs. Expected at least 5.
 </span>
 <span class="source-lf string-quoted-double-lflang">
 "
@@ -496,134 +890,11 @@ Expected %d and got %d.
 ->
 </span>
 <span class="source-lf">
-s, x
-</span>
-<span class="source-lf keyword-operator-lflang">
-->
-</span>
-<span class="source-lf">
-value);
+count);
 </span>
 
 <span class="source-lf">
     }
-</span>
-
-<span class="source-lf">
-    self
-</span>
-<span class="source-lf keyword-operator-lflang">
-->
-</span>
-<span class="source-lf">
-s
-</span>
-<span class="source-lf keyword-operator-lflang">
-+
-</span>
-<span class="source-lf keyword-operator-lflang">
-+
-</span>
-<span class="source-lf">
-;
-</span>
-
-<span class="source-lf">
-  
-</span>
-<span class="source-lf keyword-operator-lflang">
-=
-</span>
-<span class="source-lf">
-}
-</span>
-
-<span class="source-lf">
-
-</span>
-
-<span class="source-lf">
-  
-</span>
-<span class="source-lf keyword-control-lflang">
-reaction
-</span>
-<span class="source-lf">
-(
-</span>
-<span class="source-lf support-variable-lflang">
-shutdown
-</span>
-<span class="source-lf">
-) {
-</span>
-<span class="source-lf keyword-operator-lflang">
-=
-</span>
-
-<span class="source-lf">
-    lf_print(
-</span>
-<span class="source-lf string-quoted-double-lflang">
-"
-</span>
-<span class="source-lf string-quoted-double-lflang">
-**** shutdown reaction invoked.
-</span>
-<span class="source-lf string-quoted-double-lflang">
-"
-</span>
-<span class="source-lf">
-);
-</span>
-
-<span class="source-lf">
-    lf_print(
-</span>
-<span class="source-lf string-quoted-double-lflang">
-"
-</span>
-<span class="source-lf string-quoted-double-lflang">
-Approx. time per reaction: 
-</span>
-<span class="source-lf string-quoted-double-lflang">
-"
-</span>
-<span class="source-lf">
- PRINTF_TIME 
-</span>
-<span class="source-lf string-quoted-double-lflang">
-"
-</span>
-<span class="source-lf string-quoted-double-lflang">
- ns
-</span>
-<span class="source-lf string-quoted-double-lflang">
-"
-</span>
-<span class="source-lf">
-, lf_time_physical_elapsed()
-</span>
-<span class="source-lf keyword-operator-lflang">
-/
-</span>
-<span class="source-lf">
-(self
-</span>
-<span class="source-lf keyword-operator-lflang">
-->
-</span>
-<span class="source-lf">
-s
-</span>
-<span class="source-lf keyword-operator-lflang">
-+
-</span>
-<span class="source-lf constant-numeric-int-lflang">
-1
-</span>
-<span class="source-lf">
-));
 </span>
 
 <span class="source-lf">
@@ -654,10 +925,14 @@ federated
 reactor
 </span>
 <span class="source-lf">
-(period: 
+ {
 </span>
-<span class="source-lf storage-type-lflang">
-time
+
+<span class="source-lf">
+  
+</span>
+<span class="source-lf variable-other-constant-reactorinstance-lflang">
+pi
 </span>
 <span class="source-lf">
  
@@ -667,25 +942,25 @@ time
 </span>
 <span class="source-lf">
  
+</span>
+<span class="source-lf keyword-control-new-lflang">
+new
+</span>
+<span class="source-lf">
+[
 </span>
 <span class="source-lf constant-numeric-int-lflang">
-10
+4
 </span>
 <span class="source-lf">
- 
-</span>
-<span class="source-lf constant-numeric-lflang">
-usec
-</span>
-<span class="source-lf">
-) {
+] Pi()
 </span>
 
 <span class="source-lf">
   
 </span>
 <span class="source-lf variable-other-constant-reactorinstance-lflang">
-c
+g
 </span>
 <span class="source-lf">
  
@@ -703,41 +978,7 @@ new
  
 </span>
 <span class="source-lf entity-name-type-lflang">
-Clock
-</span>
-<span class="source-lf">
-(period
-</span>
-<span class="source-lf keyword-operator-lflang">
-=
-</span>
-<span class="source-lf">
-period)
-</span>
-
-<span class="source-lf">
-  
-</span>
-<span class="source-lf variable-other-constant-reactorinstance-lflang">
-d
-</span>
-<span class="source-lf">
- 
-</span>
-<span class="source-lf keyword-operator-lflang">
-=
-</span>
-<span class="source-lf">
- 
-</span>
-<span class="source-lf keyword-control-new-lflang">
-new
-</span>
-<span class="source-lf">
- 
-</span>
-<span class="source-lf entity-name-type-lflang">
-Destination
+Gather
 </span>
 <span class="source-lf">
 ()
@@ -747,31 +988,68 @@ Destination
   
 </span>
 <span class="source-lf variable-other-constant-reactorinstance-lflang">
-c
+pi
 </span>
 <span class="source-lf keyword-operator-lflang">
 .
 </span>
 <span class="source-lf variable-other-lflang">
-y
+out
 </span>
 <span class="source-lf">
  
 </span>
 <span class="source-lf keyword-operator-lflang">
-~>
+->
 </span>
 <span class="source-lf">
  
 </span>
 <span class="source-lf variable-other-constant-reactorinstance-lflang">
-d
+g
 </span>
 <span class="source-lf keyword-operator-lflang">
 .
 </span>
 <span class="source-lf variable-other-lflang">
-x
+in
+</span>
+
+<span class="source-lf">
+  (
+</span>
+<span class="source-lf variable-other-constant-reactorinstance-lflang">
+g
+</span>
+<span class="source-lf keyword-operator-lflang">
+.
+</span>
+<span class="source-lf variable-other-lflang">
+next
+</span>
+<span class="source-lf">
+)
+</span>
+<span class="source-lf keyword-operator-lflang">
++
+</span>
+<span class="source-lf">
+ 
+</span>
+<span class="source-lf keyword-operator-lflang">
+->
+</span>
+<span class="source-lf">
+ 
+</span>
+<span class="source-lf variable-other-constant-reactorinstance-lflang">
+pi
+</span>
+<span class="source-lf keyword-operator-lflang">
+.
+</span>
+<span class="source-lf variable-other-lflang">
+trigger
 </span>
 
 <span class="source-lf">

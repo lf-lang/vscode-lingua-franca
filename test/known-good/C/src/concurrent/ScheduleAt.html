@@ -1080,16 +1080,7 @@ microstep;
 </span>
 
 <span class="source-lf">
-    if (elapsed_time 
-</span>
-<span class="source-lf keyword-operator-lflang">
-=
-</span>
-<span class="source-lf keyword-operator-lflang">
-=
-</span>
-<span class="source-lf">
- self
+    if (self
 </span>
 <span class="source-lf keyword-operator-lflang">
 ->
@@ -1098,7 +1089,7 @@ microstep;
 action
 </span>
 <span class="source-lf">
-_hit_list_times[self->action_hit_list_index] &&
+_hit_list_index < 9 && elapsed_time == self->action_hit_list_times[self->action_hit_list_index] &&
 </span>
 
 <span class="source-lf">
