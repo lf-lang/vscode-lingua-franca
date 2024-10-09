@@ -1,38 +1,3 @@
-<span class="source-lf comment-block-lflang">
-/**
-</span>
-
-<span class="source-lf comment-block-lflang">
- * Test a source-destination scenario where the source falls behind real-time, and reaches the
-</span>
-
-<span class="source-lf comment-block-lflang">
- * timeout much later than the destination. In this test, the destination closes the connection
-</span>
-
-<span class="source-lf comment-block-lflang">
- * early, causing the transmission to fail. Warnings will be printed.
-</span>
-
-<span class="source-lf comment-block-lflang">
- *
-</span>
-
-<span class="source-lf comment-block-lflang">
- * The test fails if the federation does not exit normally. This variant has a physical connection
-</span>
-
-<span class="source-lf comment-block-lflang">
- * between source and destination.
-</span>
-
-<span class="source-lf comment-block-lflang">
- 
-</span>
-<span class="source-lf comment-block-lflang">
-*/
-</span>
-
 <span class="source-lf meta-targetspec-lflang keyword-control-lflang">
 target
 </span>
@@ -47,25 +12,6 @@ C
 </span>
 
 <span class="source-lf meta-targetspec-lflang variable-parameter-lflang">
-  timeout
-</span>
-<span class="source-lf meta-targetspec-lflang">
-: 
-</span>
-<span class="source-lf meta-targetspec-lflang constant-numeric-int-lflang">
-1
-</span>
-<span class="source-lf meta-targetspec-lflang">
- 
-</span>
-<span class="source-lf meta-targetspec-lflang constant-numeric-lflang">
-msec
-</span>
-<span class="source-lf meta-targetspec-lflang">
-,
-</span>
-
-<span class="source-lf meta-targetspec-lflang variable-parameter-lflang">
   coordination
 </span>
 <span class="source-lf meta-targetspec-lflang">
@@ -73,6 +19,12 @@ msec
 </span>
 <span class="source-lf meta-targetspec-lflang storage-type-lflang">
 decentralized
+</span>
+<span class="source-lf meta-targetspec-lflang">
+  
+</span>
+<span class="source-lf meta-targetspec-lflang comment-line-double-dash-lflang">
+// logging: debug
 </span>
 
 <span class="source-lf meta-targetspec-lflang">
@@ -90,28 +42,10 @@ reactor
  
 </span>
 <span class="source-lf entity-name-type-lflang">
-Clock
+Client
 </span>
 <span class="source-lf">
-(offset: 
-</span>
-<span class="source-lf storage-type-lflang">
-time
-</span>
-<span class="source-lf">
- 
-</span>
-<span class="source-lf keyword-operator-lflang">
-=
-</span>
-<span class="source-lf">
- 
-</span>
-<span class="source-lf constant-numeric-int-lflang">
-0
-</span>
-<span class="source-lf">
-, period: 
+(STP_offset: 
 </span>
 <span class="source-lf storage-type-lflang">
 time
@@ -132,10 +66,32 @@ time
  
 </span>
 <span class="source-lf constant-numeric-lflang">
-sec
+day
 </span>
 <span class="source-lf">
 ) {
+</span>
+
+<span class="source-lf">
+  
+</span>
+<span class="source-lf storage-modifier-lflang">
+input
+</span>
+<span class="source-lf">
+ 
+</span>
+<span class="source-lf variable-other-lflang">
+server_message
+</span>
+<span class="source-lf">
+:
+</span>
+<span class="source-lf meta-embedded-block-cpp">
+ 
+</span>
+<span class="source-lf meta-embedded-block-cpp storage-type-lflang">
+int
 </span>
 
 <span class="source-lf">
@@ -148,7 +104,7 @@ output
  
 </span>
 <span class="source-lf variable-other-lflang">
-y
+client_message
 </span>
 <span class="source-lf">
 :
@@ -158,50 +114,6 @@ y
 </span>
 <span class="source-lf meta-embedded-block-cpp storage-type-lflang">
 int
-</span>
-
-<span class="source-lf">
-  
-</span>
-<span class="source-lf storage-modifier-lflang">
-timer
-</span>
-<span class="source-lf">
- t(offset, period)
-</span>
-
-<span class="source-lf">
-  
-</span>
-<span class="source-lf storage-modifier-lflang">
-state
-</span>
-<span class="source-lf">
- 
-</span>
-<span class="source-lf variable-other-lflang">
-count
-</span>
-<span class="source-lf">
-:
-</span>
-<span class="source-lf meta-embedded-block-cpp">
- 
-</span>
-<span class="source-lf meta-embedded-block-cpp storage-type-lflang">
-int
-</span>
-<span class="source-lf meta-embedded-block-cpp">
- 
-</span>
-<span class="source-lf">
-=
-</span>
-<span class="source-lf">
- 
-</span>
-<span class="source-lf constant-numeric-int-lflang">
-0
 </span>
 
 <span class="source-lf">
@@ -217,53 +129,30 @@ reaction
 <span class="source-lf">
 (
 </span>
-<span class="source-lf">
-t) 
-</span>
-<span class="source-lf keyword-operator-lflang">
-->
+<span class="source-lf support-variable-lflang">
+startup
 </span>
 <span class="source-lf">
- y {
+) {
 </span>
 <span class="source-lf keyword-operator-lflang">
 =
 </span>
 
 <span class="source-lf">
-    (self
+    lf_print(
 </span>
-<span class="source-lf keyword-operator-lflang">
-->
+<span class="source-lf string-quoted-double-lflang">
+"
 </span>
-<span class="source-lf">
-count)
+<span class="source-lf string-quoted-double-lflang">
+Client Startup!
 </span>
-<span class="source-lf keyword-operator-lflang">
-+
-</span>
-<span class="source-lf keyword-operator-lflang">
-+
+<span class="source-lf string-quoted-double-lflang">
+"
 </span>
 <span class="source-lf">
-;
-</span>
-
-<span class="source-lf comment-line-double-dash-lflang">
-    
-</span>
-<span class="source-lf comment-line-double-dash-lflang">
-//printf("Reacting at time " PRINTF_TIME ".\n", lf_time_logical_elapsed());
-</span>
-
-<span class="source-lf">
-    lf_set(y, self
-</span>
-<span class="source-lf keyword-operator-lflang">
-->
-</span>
-<span class="source-lf">
-count);
+);
 </span>
 
 <span class="source-lf">
@@ -289,14 +178,55 @@ reaction
 <span class="source-lf">
 (
 </span>
-<span class="source-lf support-variable-lflang">
-shutdown
+<span class="source-lf">
+server_message) 
+</span>
+<span class="source-lf keyword-operator-lflang">
+->
 </span>
 <span class="source-lf">
-) {
+ client_message {
 </span>
 <span class="source-lf keyword-operator-lflang">
 =
+</span>
+
+<span class="source-lf">
+    int val 
+</span>
+<span class="source-lf keyword-operator-lflang">
+=
+</span>
+<span class="source-lf">
+ server_message
+</span>
+<span class="source-lf keyword-operator-lflang">
+->
+</span>
+<span class="source-lf">
+value 
+</span>
+<span class="source-lf keyword-operator-lflang">
++
+</span>
+<span class="source-lf">
+ 
+</span>
+<span class="source-lf constant-numeric-int-lflang">
+1
+</span>
+<span class="source-lf">
+;
+</span>
+
+<span class="source-lf">
+    lf_sleep(MSEC(
+</span>
+<span class="source-lf constant-numeric-int-lflang">
+100
+</span>
+<span class="source-lf">
+));
 </span>
 
 <span class="source-lf">
@@ -306,7 +236,102 @@ shutdown
 "
 </span>
 <span class="source-lf string-quoted-double-lflang">
-SUCCESS: the source exited successfully.
+client: %d
+</span>
+<span class="source-lf string-quoted-double-lflang">
+"
+</span>
+<span class="source-lf">
+, val);
+</span>
+
+<span class="source-lf">
+    if (val 
+</span>
+<span class="source-lf keyword-operator-lflang">
+=
+</span>
+<span class="source-lf keyword-operator-lflang">
+=
+</span>
+<span class="source-lf">
+ 
+</span>
+<span class="source-lf constant-numeric-int-lflang">
+9
+</span>
+<span class="source-lf">
+) {
+</span>
+
+<span class="source-lf">
+      lf_print(
+</span>
+<span class="source-lf string-quoted-double-lflang">
+"
+</span>
+<span class="source-lf string-quoted-double-lflang">
+client requesting stop
+</span>
+<span class="source-lf string-quoted-double-lflang">
+"
+</span>
+<span class="source-lf">
+);
+</span>
+
+<span class="source-lf">
+      lf_request_stop();
+</span>
+
+<span class="source-lf">
+    }
+</span>
+
+<span class="source-lf">
+    lf_set(client_message, val);
+</span>
+
+<span class="source-lf">
+  
+</span>
+<span class="source-lf keyword-operator-lflang">
+=
+</span>
+<span class="source-lf">
+} 
+</span>
+<span class="source-lf keyword-control-lflang">
+STP
+</span>
+<span class="source-lf">
+(
+</span>
+<span class="source-lf constant-numeric-int-lflang">
+0
+</span>
+<span class="source-lf">
+) {
+</span>
+<span class="source-lf keyword-operator-lflang">
+=
+</span>
+
+<span class="source-lf comment-line-double-dash-lflang">
+    
+</span>
+<span class="source-lf comment-line-double-dash-lflang">
+// Zero STAA because STA is large and gets added.
+</span>
+
+<span class="source-lf">
+    lf_print_error_and_exit(
+</span>
+<span class="source-lf string-quoted-double-lflang">
+"
+</span>
+<span class="source-lf string-quoted-double-lflang">
+Client STP Violated!
 </span>
 <span class="source-lf string-quoted-double-lflang">
 "
@@ -333,14 +358,6 @@ SUCCESS: the source exited successfully.
 
 </span>
 
-<span class="source-lf comment-line-double-dash-lflang">
-// This needs an STA offset because otherwise it may advance to the stop time while the
-</span>
-
-<span class="source-lf comment-line-double-dash-lflang">
-// physical connection is in the process of assigning a timestamp.
-</span>
-
 <span class="source-lf storage-modifier-lflang">
 reactor
 </span>
@@ -348,10 +365,10 @@ reactor
  
 </span>
 <span class="source-lf entity-name-type-lflang">
-Destination
+Server
 </span>
 <span class="source-lf">
-(STA: 
+(STP_offset: 
 </span>
 <span class="source-lf storage-type-lflang">
 time
@@ -369,7 +386,35 @@ time
 1
 </span>
 <span class="source-lf">
- ms) {
+ 
+</span>
+<span class="source-lf constant-numeric-lflang">
+day
+</span>
+<span class="source-lf">
+) {
+</span>
+
+<span class="source-lf">
+  
+</span>
+<span class="source-lf storage-modifier-lflang">
+output
+</span>
+<span class="source-lf">
+ 
+</span>
+<span class="source-lf variable-other-lflang">
+server_message
+</span>
+<span class="source-lf">
+:
+</span>
+<span class="source-lf meta-embedded-block-cpp">
+ 
+</span>
+<span class="source-lf meta-embedded-block-cpp storage-type-lflang">
+int
 </span>
 
 <span class="source-lf">
@@ -382,7 +427,7 @@ input
  
 </span>
 <span class="source-lf variable-other-lflang">
-x
+client_message1
 </span>
 <span class="source-lf">
 :
@@ -398,13 +443,13 @@ int
   
 </span>
 <span class="source-lf storage-modifier-lflang">
-state
+input
 </span>
 <span class="source-lf">
  
 </span>
 <span class="source-lf variable-other-lflang">
-s
+client_message2
 </span>
 <span class="source-lf">
 :
@@ -414,18 +459,6 @@ s
 </span>
 <span class="source-lf meta-embedded-block-cpp storage-type-lflang">
 int
-</span>
-<span class="source-lf meta-embedded-block-cpp">
- 
-</span>
-<span class="source-lf">
-=
-</span>
-<span class="source-lf">
- 
-</span>
-<span class="source-lf constant-numeric-int-lflang">
-1
 </span>
 
 <span class="source-lf">
@@ -441,91 +474,46 @@ reaction
 <span class="source-lf">
 (
 </span>
+<span class="source-lf support-variable-lflang">
+startup
+</span>
 <span class="source-lf">
-x) {
+) 
+</span>
+<span class="source-lf keyword-operator-lflang">
+->
+</span>
+<span class="source-lf">
+ server_message {
 </span>
 <span class="source-lf keyword-operator-lflang">
 =
 </span>
 
-<span class="source-lf comment-line-double-dash-lflang">
-    
-</span>
-<span class="source-lf comment-line-double-dash-lflang">
-// printf("%d\n", x->value);
-</span>
-
 <span class="source-lf">
-    if (x
-</span>
-<span class="source-lf keyword-operator-lflang">
-->
-</span>
-<span class="source-lf">
-value !
-</span>
-<span class="source-lf keyword-operator-lflang">
-=
-</span>
-<span class="source-lf">
- self
-</span>
-<span class="source-lf keyword-operator-lflang">
-->
-</span>
-<span class="source-lf">
-s) {
-</span>
-
-<span class="source-lf">
-      lf_print_error_and_exit(
+    lf_print(
 </span>
 <span class="source-lf string-quoted-double-lflang">
 "
 </span>
 <span class="source-lf string-quoted-double-lflang">
-Expected %d and got %d.
+Server Startup!
 </span>
 <span class="source-lf string-quoted-double-lflang">
 "
 </span>
 <span class="source-lf">
-, self
-</span>
-<span class="source-lf keyword-operator-lflang">
-->
-</span>
-<span class="source-lf">
-s, x
-</span>
-<span class="source-lf keyword-operator-lflang">
-->
-</span>
-<span class="source-lf">
-value);
+);
 </span>
 
 <span class="source-lf">
-    }
+    lf_set(server_message, 
 </span>
-
-<span class="source-lf">
-    self
-</span>
-<span class="source-lf keyword-operator-lflang">
-->
+<span class="source-lf constant-numeric-int-lflang">
+0
 </span>
 <span class="source-lf">
-s
-</span>
-<span class="source-lf keyword-operator-lflang">
-+
-</span>
-<span class="source-lf keyword-operator-lflang">
-+
-</span>
-<span class="source-lf">
-;
+);
 </span>
 
 <span class="source-lf">
@@ -551,14 +539,84 @@ reaction
 <span class="source-lf">
 (
 </span>
-<span class="source-lf support-variable-lflang">
-shutdown
+<span class="source-lf">
+client_message1, client_message2) 
+</span>
+<span class="source-lf keyword-operator-lflang">
+->
 </span>
 <span class="source-lf">
-) {
+ server_message {
 </span>
 <span class="source-lf keyword-operator-lflang">
 =
+</span>
+
+<span class="source-lf">
+    int val 
+</span>
+<span class="source-lf keyword-operator-lflang">
+=
+</span>
+<span class="source-lf">
+ client_message1
+</span>
+<span class="source-lf keyword-operator-lflang">
+->
+</span>
+<span class="source-lf">
+value;
+</span>
+
+<span class="source-lf">
+    if (val < client_message2
+</span>
+<span class="source-lf keyword-operator-lflang">
+->
+</span>
+<span class="source-lf">
+value) val 
+</span>
+<span class="source-lf keyword-operator-lflang">
+=
+</span>
+<span class="source-lf">
+ client_message2
+</span>
+<span class="source-lf keyword-operator-lflang">
+->
+</span>
+<span class="source-lf">
+value;
+</span>
+
+<span class="source-lf">
+    lf_sleep(MSEC(
+</span>
+<span class="source-lf constant-numeric-int-lflang">
+100
+</span>
+<span class="source-lf">
+));
+</span>
+
+<span class="source-lf">
+    val 
+</span>
+<span class="source-lf keyword-operator-lflang">
++
+</span>
+<span class="source-lf keyword-operator-lflang">
+=
+</span>
+<span class="source-lf">
+ 
+</span>
+<span class="source-lf constant-numeric-int-lflang">
+1
+</span>
+<span class="source-lf">
+;
 </span>
 
 <span class="source-lf">
@@ -568,7 +626,42 @@ shutdown
 "
 </span>
 <span class="source-lf string-quoted-double-lflang">
-**** shutdown reaction invoked.
+server: %d
+</span>
+<span class="source-lf string-quoted-double-lflang">
+"
+</span>
+<span class="source-lf">
+, val);
+</span>
+
+<span class="source-lf">
+    if (val 
+</span>
+<span class="source-lf keyword-operator-lflang">
+=
+</span>
+<span class="source-lf keyword-operator-lflang">
+=
+</span>
+<span class="source-lf">
+ 
+</span>
+<span class="source-lf constant-numeric-int-lflang">
+8
+</span>
+<span class="source-lf">
+) {
+</span>
+
+<span class="source-lf">
+      lf_print(
+</span>
+<span class="source-lf string-quoted-double-lflang">
+"
+</span>
+<span class="source-lf string-quoted-double-lflang">
+server requesting stop
 </span>
 <span class="source-lf string-quoted-double-lflang">
 "
@@ -578,52 +671,67 @@ shutdown
 </span>
 
 <span class="source-lf">
-    lf_print(
+      lf_set(server_message, val);
 </span>
-<span class="source-lf string-quoted-double-lflang">
-"
-</span>
-<span class="source-lf string-quoted-double-lflang">
-Approx. time per reaction: 
-</span>
-<span class="source-lf string-quoted-double-lflang">
-"
-</span>
+
 <span class="source-lf">
- PRINTF_TIME 
+      lf_request_stop();
 </span>
-<span class="source-lf string-quoted-double-lflang">
-"
-</span>
-<span class="source-lf string-quoted-double-lflang">
- ns
-</span>
-<span class="source-lf string-quoted-double-lflang">
-"
-</span>
+
 <span class="source-lf">
-, lf_time_physical_elapsed()
+    }
+</span>
+
+<span class="source-lf">
+    lf_set(server_message, val);
+</span>
+
+<span class="source-lf">
+  
 </span>
 <span class="source-lf keyword-operator-lflang">
-/
+=
 </span>
 <span class="source-lf">
-(self
+} 
 </span>
-<span class="source-lf keyword-operator-lflang">
-->
+<span class="source-lf keyword-control-lflang">
+STP
 </span>
 <span class="source-lf">
-s
-</span>
-<span class="source-lf keyword-operator-lflang">
-+
+(
 </span>
 <span class="source-lf constant-numeric-int-lflang">
-1
+0
 </span>
 <span class="source-lf">
-));
+) {
+</span>
+<span class="source-lf keyword-operator-lflang">
+=
+</span>
+
+<span class="source-lf comment-line-double-dash-lflang">
+    
+</span>
+<span class="source-lf comment-line-double-dash-lflang">
+// Zero STAA because STA is large and gets added.
+</span>
+
+<span class="source-lf">
+    lf_print_error_and_exit(
+</span>
+<span class="source-lf string-quoted-double-lflang">
+"
+</span>
+<span class="source-lf string-quoted-double-lflang">
+Server STP Violated!
+</span>
+<span class="source-lf string-quoted-double-lflang">
+"
+</span>
+<span class="source-lf">
+);
 </span>
 
 <span class="source-lf">
@@ -654,38 +762,14 @@ federated
 reactor
 </span>
 <span class="source-lf">
-(period: 
-</span>
-<span class="source-lf storage-type-lflang">
-time
-</span>
-<span class="source-lf">
- 
-</span>
-<span class="source-lf keyword-operator-lflang">
-=
-</span>
-<span class="source-lf">
- 
-</span>
-<span class="source-lf constant-numeric-int-lflang">
-10
-</span>
-<span class="source-lf">
- 
-</span>
-<span class="source-lf constant-numeric-lflang">
-usec
-</span>
-<span class="source-lf">
-) {
+ {
 </span>
 
 <span class="source-lf">
   
 </span>
 <span class="source-lf variable-other-constant-reactorinstance-lflang">
-c
+client1
 </span>
 <span class="source-lf">
  
@@ -703,41 +787,7 @@ new
  
 </span>
 <span class="source-lf entity-name-type-lflang">
-Clock
-</span>
-<span class="source-lf">
-(period
-</span>
-<span class="source-lf keyword-operator-lflang">
-=
-</span>
-<span class="source-lf">
-period)
-</span>
-
-<span class="source-lf">
-  
-</span>
-<span class="source-lf variable-other-constant-reactorinstance-lflang">
-d
-</span>
-<span class="source-lf">
- 
-</span>
-<span class="source-lf keyword-operator-lflang">
-=
-</span>
-<span class="source-lf">
- 
-</span>
-<span class="source-lf keyword-control-new-lflang">
-new
-</span>
-<span class="source-lf">
- 
-</span>
-<span class="source-lf entity-name-type-lflang">
-Destination
+Client
 </span>
 <span class="source-lf">
 ()
@@ -747,31 +797,204 @@ Destination
   
 </span>
 <span class="source-lf variable-other-constant-reactorinstance-lflang">
-c
-</span>
-<span class="source-lf keyword-operator-lflang">
-.
-</span>
-<span class="source-lf variable-other-lflang">
-y
+client2
 </span>
 <span class="source-lf">
  
 </span>
 <span class="source-lf keyword-operator-lflang">
-~>
+=
+</span>
+<span class="source-lf">
+ 
+</span>
+<span class="source-lf keyword-control-new-lflang">
+new
+</span>
+<span class="source-lf">
+ 
+</span>
+<span class="source-lf entity-name-type-lflang">
+Client
+</span>
+<span class="source-lf">
+()
+</span>
+
+<span class="source-lf">
+  
+</span>
+<span class="source-lf variable-other-constant-reactorinstance-lflang">
+server
+</span>
+<span class="source-lf">
+ 
+</span>
+<span class="source-lf keyword-operator-lflang">
+=
+</span>
+<span class="source-lf">
+ 
+</span>
+<span class="source-lf keyword-control-new-lflang">
+new
+</span>
+<span class="source-lf">
+ 
+</span>
+<span class="source-lf entity-name-type-lflang">
+Server
+</span>
+<span class="source-lf">
+()
+</span>
+
+<span class="source-lf">
+  
+</span>
+<span class="source-lf variable-other-constant-reactorinstance-lflang">
+server
+</span>
+<span class="source-lf keyword-operator-lflang">
+.
+</span>
+<span class="source-lf variable-other-lflang">
+server_message
+</span>
+<span class="source-lf">
+ 
+</span>
+<span class="source-lf keyword-operator-lflang">
+->
 </span>
 <span class="source-lf">
  
 </span>
 <span class="source-lf variable-other-constant-reactorinstance-lflang">
-d
+client1
 </span>
 <span class="source-lf keyword-operator-lflang">
 .
 </span>
 <span class="source-lf variable-other-lflang">
-x
+server_message
+</span>
+
+<span class="source-lf">
+  
+</span>
+<span class="source-lf variable-other-constant-reactorinstance-lflang">
+client1
+</span>
+<span class="source-lf keyword-operator-lflang">
+.
+</span>
+<span class="source-lf variable-other-lflang">
+client_message
+</span>
+<span class="source-lf">
+ 
+</span>
+<span class="source-lf keyword-operator-lflang">
+->
+</span>
+<span class="source-lf">
+ 
+</span>
+<span class="source-lf variable-other-constant-reactorinstance-lflang">
+server
+</span>
+<span class="source-lf keyword-operator-lflang">
+.
+</span>
+<span class="source-lf variable-other-lflang">
+client_message1
+</span>
+<span class="source-lf">
+ 
+</span>
+<span class="source-lf keyword-control-lflang">
+after
+</span>
+<span class="source-lf">
+ 
+</span>
+<span class="source-lf constant-numeric-int-lflang">
+0
+</span>
+
+<span class="source-lf">
+  
+</span>
+<span class="source-lf variable-other-constant-reactorinstance-lflang">
+server
+</span>
+<span class="source-lf keyword-operator-lflang">
+.
+</span>
+<span class="source-lf variable-other-lflang">
+server_message
+</span>
+<span class="source-lf">
+ 
+</span>
+<span class="source-lf keyword-operator-lflang">
+->
+</span>
+<span class="source-lf">
+ 
+</span>
+<span class="source-lf variable-other-constant-reactorinstance-lflang">
+client2
+</span>
+<span class="source-lf keyword-operator-lflang">
+.
+</span>
+<span class="source-lf variable-other-lflang">
+server_message
+</span>
+
+<span class="source-lf">
+  
+</span>
+<span class="source-lf variable-other-constant-reactorinstance-lflang">
+client2
+</span>
+<span class="source-lf keyword-operator-lflang">
+.
+</span>
+<span class="source-lf variable-other-lflang">
+client_message
+</span>
+<span class="source-lf">
+ 
+</span>
+<span class="source-lf keyword-operator-lflang">
+->
+</span>
+<span class="source-lf">
+ 
+</span>
+<span class="source-lf variable-other-constant-reactorinstance-lflang">
+server
+</span>
+<span class="source-lf keyword-operator-lflang">
+.
+</span>
+<span class="source-lf variable-other-lflang">
+client_message2
+</span>
+<span class="source-lf">
+ 
+</span>
+<span class="source-lf keyword-control-lflang">
+after
+</span>
+<span class="source-lf">
+ 
+</span>
+<span class="source-lf constant-numeric-int-lflang">
+0
 </span>
 
 <span class="source-lf">

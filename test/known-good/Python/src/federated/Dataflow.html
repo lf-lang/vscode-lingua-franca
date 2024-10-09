@@ -73,25 +73,13 @@ reactor
 Client
 </span>
 <span class="source-lf">
-(STP_offset 
+(STA
 </span>
 <span class="source-lf keyword-operator-lflang">
 =
 </span>
 <span class="source-lf">
- 
-</span>
-<span class="source-lf meta-embedded-block-py">
-{=
-</span>
-<span class="source-lf meta-embedded-block-py">
- FOREVER 
-</span>
-<span class="source-lf meta-embedded-block-py">
-=}
-</span>
-<span class="source-lf">
-) {
+forever) {
 </span>
 
 <span class="source-lf">
@@ -206,11 +194,11 @@ reaction
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-    if val<49:
+    # Need to unconditionally produce output or downstream could lock up waiting for it.
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-        client_message.set(val)
+    client_message.set(val)
 </span>
 
 <span class="source-lf meta-embedded-block-py">
@@ -226,20 +214,14 @@ reaction
 STP
 </span>
 <span class="source-lf">
-(
-</span>
-<span class="source-lf constant-numeric-int-lflang">
-10
-</span>
-<span class="source-lf">
- s) 
+(forever) 
 </span>
 <span class="source-lf meta-embedded-block-py">
 {=
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-    print("Client STP Violated!")
+    print("Client STAA Violated!")
 </span>
 
 <span class="source-lf meta-embedded-block-py">
@@ -271,25 +253,13 @@ reactor
 Server
 </span>
 <span class="source-lf">
-(STP_offset 
+(STA
 </span>
 <span class="source-lf keyword-operator-lflang">
 =
 </span>
 <span class="source-lf">
- 
-</span>
-<span class="source-lf meta-embedded-block-py">
-{=
-</span>
-<span class="source-lf meta-embedded-block-py">
- FOREVER 
-</span>
-<span class="source-lf meta-embedded-block-py">
-=}
-</span>
-<span class="source-lf">
-) {
+forever) {
 </span>
 
 <span class="source-lf">
@@ -431,11 +401,11 @@ reaction
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-    if val<48:
+    # Need to unconditionally produce output or downstream could lock up waiting for it.
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-        server_message.set(val)
+    server_message.set(val)
 </span>
 
 <span class="source-lf meta-embedded-block-py">
@@ -451,20 +421,14 @@ reaction
 STP
 </span>
 <span class="source-lf">
-(
-</span>
-<span class="source-lf constant-numeric-int-lflang">
-10
-</span>
-<span class="source-lf">
- s) 
+(forever) 
 </span>
 <span class="source-lf meta-embedded-block-py">
 {=
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-    print("Server STP Violated!")
+    print("Server STAA Violated!")
 </span>
 
 <span class="source-lf meta-embedded-block-py">
@@ -496,25 +460,13 @@ federated
 reactor
 </span>
 <span class="source-lf">
-(STP_offset 
+(STA
 </span>
 <span class="source-lf keyword-operator-lflang">
 =
 </span>
 <span class="source-lf">
- 
-</span>
-<span class="source-lf meta-embedded-block-py">
-{=
-</span>
-<span class="source-lf meta-embedded-block-py">
- FOREVER 
-</span>
-<span class="source-lf meta-embedded-block-py">
-=}
-</span>
-<span class="source-lf">
-) {
+forever) {
 </span>
 
 <span class="source-lf">
