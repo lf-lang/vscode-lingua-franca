@@ -3,7 +3,14 @@
 ![Open VSX Downloads](https://img.shields.io/open-vsx/dt/lf-lang/vscode-lingua-franca?label=Open%20VSX%20Registry%20%E2%A4%93)
 ![Visual Studio Marketplace Downloads](https://img.shields.io/visual-studio-marketplace/d/lf-lang.vscode-lingua-franca?label=VS%20Marketplace%20%E2%A4%93)
 
-This extension adds language support for [Lingua Franca (LF)](https://www.lf-lang.org/). It is based on the LF Language and Diagram Server and provides:
+This extension adds language support for [Lingua Franca (LF)](https://www.lf-lang.org/).
+
+## ✨ Check out the new Lingua Franca Package Explorer! ✨
+Click on the LF icon in the Activity Bar on the left, which features two distinct tree-view sections:
+   * **Local Libraries:** Unpublished libraries found in the local filesystem under `./src/lib`;
+   * **Lingo Libraries:** Published libraries downloaded into the workspace using the [Lingo package manager](https://github.com/lf-lang/lingo/).
+
+## Other features
 * find references
 * folding ranges
 * get workspace symbols
@@ -15,9 +22,6 @@ This extension adds language support for [Lingua Franca (LF)](https://www.lf-lan
 * target code validation upon build or file save
 * user-triggered build (<kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>P</kbd>, then `Lingua Franca: Build`) 
 * user-triggered build and run (<kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>P</kbd>, then `Lingua Franca: Build and Run`) 
-* Lingua Franca Package Explorer (click on the LF icon in the Activity Bar on the left), which features two distinct tree-view sections:
-   * **Local Libraries:** Unpublished libraries found in the local filesystem under `./src/lib`;
-   * **Lingo Libraries:** Published libraries downloaded into the workspace using the Lingo package manager.
 
 ## Quick Start
  1. Install this plugin from the [VSCode
