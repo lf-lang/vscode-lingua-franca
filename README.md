@@ -5,10 +5,15 @@
 
 This extension adds language support for [Lingua Franca (LF)](https://www.lf-lang.org/).
 
-## ✨ Check out the new Lingua Franca Package Explorer! ✨
-Click on the LF icon in the Activity Bar on the left, which features two distinct tree-view sections:
-   * **Local Libraries:** Unpublished libraries found in the local filesystem under `./src/lib`;
-   * **Lingo Libraries:** Published libraries downloaded into the workspace using the [Lingo package manager](https://github.com/lf-lang/lingo/).
+## ✨ Discover the New Lingua Franca Package Explorer! ✨
+
+Access the Package Explorer effortlessly by clicking on the LF icon in the Activity Bar on the left side of your screen. This will open a tree view that organizes all your Lingua Franca projects in your workspace.
+
+For each project, you’ll find the following sections:
+
+- **Lingo Packages:** View published libraries downloaded via the [Lingo package manager](https://github.com/lf-lang/lingo/), if any are included in your project.
+- **Local Libraries:** Discover any unpublished libraries located in `./src/lib` within your project, if available.
+- **Source Files:** Navigate through all `.lf` source files found in the `./src` folder of each project.
 
 ## Other features
 * find references
