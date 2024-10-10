@@ -67,14 +67,6 @@
                     "dark": "#57cc99",
                     "light": "#57cc99"
                 }
-            },
-            {
-                "id": "editorIcon.notCurrentProject",
-                "description": "Color for a TreeIteem label",
-                "defaults": {
-                    "dark": "#fcbf49",
-                    "light": "#fcbf49"
-                }
             }
         ],
         "semanticTokenScopes": [

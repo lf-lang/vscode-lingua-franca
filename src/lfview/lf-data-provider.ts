@@ -127,7 +127,7 @@ export class LFDataProviderNode extends vscode.TreeItem {
             newIcon, 
             sameRootAsEditor 
                 ? new vscode.ThemeColor('editorIcon.currentProject') 
-                : new vscode.ThemeColor('editorIcon.notCurrentProject')
+                : undefined
         );
     }
     
@@ -219,11 +219,11 @@ export class LFDataProvider implements vscode.TreeDataProvider<LFDataProviderNod
     private data: LFDataProviderNode[] = [];
 
     // Utility properties
-    private searchSourceFiles: string = 'src/*.lf';
-    private searchPathLocal: string = 'src/lib/*.lf';
+    private searchSourceFiles: vscode.GlobPattern = 'src/**/*.lf';
+    private searchPathLocal: vscode.GlobPattern = 'src/lib/*.lf';
     private searchPathLibrary: vscode.GlobPattern  = 'build/lfc_include/**/src/lib/*.lf';
     private exclude_path_local: vscode.GlobPattern = '**/build/**'; // only for local LF libraries
-    private exclude_path_src: vscode.GlobPattern = `{${this.exclude_path_local},**/fed-gen/**,**/src-gen/***}`
+    private exclude_path_src: vscode.GlobPattern = `{${this.exclude_path_local},${this.searchPathLocal},**/fed-gen/**,**/src-gen/***}`
 
     // Event emitter for tree data change
     private _onDidChangeTreeData: vscode.EventEmitter<LFDataProviderNode | undefined | null | void> = new vscode.EventEmitter<LFDataProviderNode | undefined | null | void>();
