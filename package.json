@@ -282,7 +282,7 @@
         "viewsWelcome": [
             {
               "view": "lf-lang-projects",
-              "contents": "No Lingua Franca project found. [Learn more](https://www.lf-lang.org/docs/) about setting up a Lingua Franca project structure.\n[Refresh](command:linguafranca.refreshEntries)"
+              "contents": "No Lingua Franca project found. [Learn more](https://www.lf-lang.org/docs/) about setting up a Lingua Franca project structure.\n[Open Lingua Franca Project](command:linguafranca.openFolder)"
             }
           ]
     },
