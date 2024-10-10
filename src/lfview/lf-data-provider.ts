@@ -183,7 +183,7 @@ export class LFDataProviderNode extends vscode.TreeItem {
             return editor.document.uri.fsPath.startsWith(this.uri.fsPath);
         }
         const pathSegments = this.uri.fsPath.split('/');
-        const srcOrBuildIndex = pathSegments.indexOf(this.type === LFDataProviderNodeType.LIBRARY ? 'build' : 'src');
+        const srcOrBuildIndex = pathSegments.lastIndexOf(this.type === LFDataProviderNodeType.LIBRARY ? 'build' : 'src');
         
         if (srcOrBuildIndex === -1) {
             return false;
@@ -219,9 +219,9 @@ export class LFDataProvider implements vscode.TreeDataProvider<LFDataProviderNod
     private data: LFDataProviderNode[] = [];
 
     // Utility properties
-    private searchSourceFiles: string = '**/src/*.lf';
-    private searchPathLocal: string = '**/src/lib/*.lf';
-    private searchPathLibrary: vscode.GlobPattern  = '**/build/lfc_include/**/src/lib/*.lf';
+    private searchSourceFiles: string = 'src/*.lf';
+    private searchPathLocal: string = 'src/lib/*.lf';
+    private searchPathLibrary: vscode.GlobPattern  = 'build/lfc_include/**/src/lib/*.lf';
     private exclude_path_local: vscode.GlobPattern = '**/build/**'; // only for local LF libraries
     private exclude_path_src: vscode.GlobPattern = `{${this.exclude_path_local},**/fed-gen/**,**/src-gen/***}`
 
@@ -245,7 +245,6 @@ export class LFDataProvider implements vscode.TreeDataProvider<LFDataProviderNod
         private client: LanguageClient,
         private context: vscode.ExtensionContext,
     ) {
-
         // Register to file system changes: Create, Delete, Rename, Change
         this.watchFileChanges(this.context);
 
@@ -361,7 +360,6 @@ export class LFDataProvider implements vscode.TreeDataProvider<LFDataProviderNod
                 updateIfExists(LFDataProviderNodeType.SOURCE);
             }
         });
-    
         this._onDidChangeTreeData.fire(undefined);
     }
     
@@ -401,7 +399,6 @@ export class LFDataProvider implements vscode.TreeDataProvider<LFDataProviderNod
         }
         this._onDidChangeTreeData.fire(undefined);
     }
-
     findFiles(searchPath: string | vscode.GlobPattern, exclude_path: vscode.GlobPattern | null, type: LFDataProviderNodeType): void {
         vscode.workspace.findFiles(searchPath, exclude_path ? exclude_path : null).then(uris => {
             uris.forEach(uri => {
@@ -577,7 +574,7 @@ export class LFDataProvider implements vscode.TreeDataProvider<LFDataProviderNod
      */
     buildRoot(uri: string, type: LFDataProviderNodeType | null): LFDataProviderNode {
         const splittedUri = uri.split('/');
-            const srcIdx = splittedUri.indexOf(!type || type == LFDataProviderNodeType.LIBRARY ? 'build' : 'src');
+            const srcIdx = splittedUri.lastIndexOf(!type || type == LFDataProviderNodeType.LIBRARY ? 'build' : 'src');
             const projectLabel = splittedUri[srcIdx - 1];
 
             const existingProject = this.data.find(item => item.label === projectLabel);
@@ -598,7 +595,7 @@ export class LFDataProvider implements vscode.TreeDataProvider<LFDataProviderNod
      */
     buildLibraryRoot(uri: string, root: LFDataProviderNode, dataNode: LFDataProviderNode): LFDataProviderNode {
         const splittedUri = uri.split('/');
-        const srcIdx = splittedUri.indexOf('src');
+        const srcIdx = splittedUri.lastIndexOf('src');
         const projectLabel = splittedUri[srcIdx - 1];
 
         let lingo = this.findOrCreateSubNode(root, "Lingo Packages", LFDataProviderNodeRole.SUB, LFDataProviderNodeType.LIBRARY, dataNode);
@@ -703,7 +700,7 @@ export class LFDataProvider implements vscode.TreeDataProvider<LFDataProviderNod
      */
     getLibraryPath(path: string) {
         const segments = path.split('/');
-        const srcIndex = segments.indexOf('src');
+        const srcIndex = segments.lastIndexOf('src');
 
         // Check if the 'src' directory was found and there's at least one segment before it
         if (srcIndex === -1 || srcIndex === 0) {
@@ -764,7 +761,7 @@ export class LFDataProvider implements vscode.TreeDataProvider<LFDataProviderNod
      */
     goToLingoTomlCommand(node: LFDataProviderNode) {
         const segments = node.uri.fsPath.split('/');
-        const srcIdx = segments.indexOf('build');
+        const srcIdx = segments.lastIndexOf('build');
         let newUri = segments.slice(0, srcIdx).join('/').concat('/Lingo.toml');
         vscode.workspace.openTextDocument(vscode.Uri.parse(newUri)).then(doc => {
             vscode.window.showTextDocument(doc);
