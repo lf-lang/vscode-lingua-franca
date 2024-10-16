@@ -67,14 +67,6 @@
                     "dark": "#57cc99",
                     "light": "#57cc99"
                 }
-            },
-            {
-                "id": "editorIcon.notCurrentProject",
-                "description": "Color for a TreeIteem label",
-                "defaults": {
-                    "dark": "#fcbf49",
-                    "light": "#fcbf49"
-                }
             }
         ],
         "semanticTokenScopes": [
@@ -266,7 +258,7 @@
             "activitybar": [
                 {
                     "id": "lf-lang",
-                    "title": "Lingua Franca Projects",
+                    "title": "Lingua Franca Package Explorer",
                     "icon": "images/logo/lf-logo-dark.svg"
                 }
             ]
@@ -278,7 +270,13 @@
                     "name": ""
                 }
               ]
-        }
+        },
+        "viewsWelcome": [
+            {
+              "view": "lf-lang-projects",
+              "contents": "No Lingua Franca project found. [Learn more](https://www.lf-lang.org/docs/) about setting up a Lingua Franca project structure.\n[Open Lingua Franca Project](command:linguafranca.openFolder)"
+            }
+          ]
     },
     "devDependencies": {
         "@types/chai": "^4.3.1",

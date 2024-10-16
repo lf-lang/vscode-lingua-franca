@@ -17,6 +17,7 @@ import { registerCollapseAllCommand,
     registerGoToLingoTomlCommand,
     registerImportReactorCommand,
     registerIncludeProjectCommand,
+    registerOpenFolderCommand,
     registerOpenInSplitViewCommand,
     registerOpenInTerminalCommand,
     registerRefreshCommand} from './lfview/lf-data-provider-commands';
@@ -99,6 +100,7 @@ export async function activate(context: vscode.ExtensionContext) {
     registerGoToLingoTomlCommand(context, lfDataProvider);
     registerIncludeProjectCommand(context, lfDataProvider);
     registerOpenInTerminalCommand(context);
+    registerOpenFolderCommand(context);
 
     context.subscriptions.push(vscode.commands.registerCommand(
         "linguafranca.checkDocker", checkDependencies.checkDocker

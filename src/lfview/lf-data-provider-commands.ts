@@ -103,3 +103,22 @@ export function registerOpenInTerminalCommand(context: vscode.ExtensionContext) 
     ));
 }
 
+export function registerOpenFolderCommand(context: vscode.ExtensionContext) {
+    context.subscriptions.push(vscode.commands.registerCommand(
+        'linguafranca.openFolder', async ( ) => {
+            // Prompt the user to select a folder
+            const folderUri = await vscode.window.showOpenDialog({
+                canSelectFolders: true, // Allow folder selection
+                canSelectFiles: false,  // Disallow file selection
+                canSelectMany: false,   // Allow only a single folder
+                openLabel: 'Select Folder'
+            });
+    
+            if (folderUri && folderUri[0]) {
+                // Use vscode.openFolder to open the selected folder
+                vscode.commands.executeCommand('vscode.openFolder', folderUri[0], false);
+            }
+        }
+    ));
+}
+
