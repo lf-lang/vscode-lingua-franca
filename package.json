@@ -258,7 +258,7 @@
             "activitybar": [
                 {
                     "id": "lf-lang",
-                    "title": "Lingua Franca Projects",
+                    "title": "Lingua Franca Package Explorer",
                     "icon": "images/logo/lf-logo-dark.svg"
                 }
             ]

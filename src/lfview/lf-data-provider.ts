@@ -402,6 +402,13 @@ export class LFDataProvider implements vscode.TreeDataProvider<LFDataProviderNod
         this._onDidChangeTreeData.fire(undefined);
     }
 
+    /**
+     * Finds files matching the provided search path and excludes files matching the exclude path. Processes the found files and adds them to the LFDataProvider tree.
+     *
+     * @param searchPath - The search path pattern to use for finding files.
+     * @param excludePath - The exclude path pattern to use for filtering out files.
+     * @param type - The type of the node (e.g., LOCAL, LIBRARY, SOURCE).
+     */
     findFiles(
         searchPath: string | vscode.GlobPattern,
         excludePath: vscode.GlobPattern | null,
@@ -627,7 +634,7 @@ export class LFDataProvider implements vscode.TreeDataProvider<LFDataProviderNod
         const srcIdx = splittedUri.lastIndexOf('src');
         const projectLabel = splittedUri[srcIdx - 1];
 
-        let lingo = this.findOrCreateSubNode(root, "Lingo Packages", LFDataProviderNodeRole.SUB, LFDataProviderNodeType.LIBRARY, dataNode);
+        let lingo = this.findOrCreateSubNode(root, "Installed Packages", LFDataProviderNodeRole.SUB, LFDataProviderNodeType.LIBRARY, dataNode);
         const existingProject = lingo.children!.find(item => item.label === projectLabel);
         if (!existingProject) {
             const projectUri = splittedUri.slice(0, srcIdx).join('/') + '/';
@@ -682,7 +689,7 @@ export class LFDataProvider implements vscode.TreeDataProvider<LFDataProviderNod
     }
 
     /**
-     * Imports the reactor downloaded via Lingo, associated with the selected LFDataProviderNode into the active 
+     * Imports the reactor downloaded via `Lingo`, associated with the selected LFDataProviderNode into the active 
      * Lingua Franca program.
      *
      * @param node - The node representing the reactor to import.
@@ -765,7 +772,7 @@ export class LFDataProvider implements vscode.TreeDataProvider<LFDataProviderNod
     /**
      * Retrieves the target position for the specified URI.
      * @param uri - The URI for which to retrieve the target position.
-     * @returns A Promise that resolves to the {@code NodePosition} for the target, or {@code undefined} if the target position could not be determined.
+     * @returns A Promise that resolves to the `NodePosition` for the target, or `undefined` if the target position could not be determined.
      */
     async getTargetPosition(uri: vscode.Uri): Promise<NodePosition | undefined> {
         return this.client.onReady().then(() => {
@@ -784,18 +791,27 @@ export class LFDataProvider implements vscode.TreeDataProvider<LFDataProviderNod
     }
 
     /**
-     * Opens the Lingo.toml file associated with the given LFDataProviderNode.
+     * Opens the `Lingo.toml` file associated with the given LFDataProviderNode.
      *
      * @param node - The LFDataProviderNode for which to open the Lingo.toml file.
      */
     goToLingoTomlCommand(node: LFDataProviderNode) {
         const segments = node.uri.fsPath.split('/');
         const srcIdx = segments.lastIndexOf('build');
+    
+        if (srcIdx === -1) {
+            vscode.window.showErrorMessage('Invalid URI: "build" directory not found.');
+            return;
+        }
+    
         let newUri = segments.slice(0, srcIdx).join('/').concat('/Lingo.toml');
         
-        vscode.workspace.openTextDocument(vscode.Uri.parse(newUri)).then(doc => {
-            vscode.window.showTextDocument(doc);
-        });
+        vscode.workspace.openTextDocument(vscode.Uri.file(newUri))
+            .then(doc => {
+                vscode.window.showTextDocument(doc);
+            }, (error: Error) => {
+                vscode.window.showErrorMessage(`Failed to open Lingo.toml: ${error.message}`);
+            });
     }
 
 }
