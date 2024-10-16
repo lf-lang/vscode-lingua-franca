@@ -184,15 +184,15 @@ export class LFDataProviderNode extends vscode.TreeItem {
             return editor.document.uri.fsPath.startsWith(this.uri.fsPath);
         }
     
-        const pathSegments = this.uri.fsPath.split('/');
+        const pathSegments = this.uri.path.split('/');
         const srcOrBuildIndex = pathSegments.lastIndexOf(this.type === LFDataProviderNodeType.LIBRARY ? 'build' : 'src');
     
         if (srcOrBuildIndex === -1) {
             return false;
         }
     
-        const rootPath = path.resolve(...pathSegments.slice(0, srcOrBuildIndex));
-        return editor.document.uri.fsPath.startsWith(rootPath);
+        const rootPath = pathSegments.slice(0, srcOrBuildIndex).join('/');
+        return editor.document.uri.path.startsWith(rootPath);
     }
 }
 
@@ -674,7 +674,7 @@ export class LFDataProvider implements vscode.TreeDataProvider<LFDataProviderNod
                 vscode.window.showErrorMessage('The active editor must be a Ligua Franca program.');
                 return;
             }
-            const relativePath = this.getRelativePath(editor.document.uri.fsPath, node.uri.fsPath);
+            const relativePath = this.getRelativePath(editor.document.uri.path, node.uri.path);
             const importText = `import ${node.label!.toString()} from "${relativePath}"\n`;
             const position = await this.getTargetPosition(editor.document.uri);
             this.addTextOnActiveEditor(editor, position!.end, importText);
@@ -695,7 +695,7 @@ export class LFDataProvider implements vscode.TreeDataProvider<LFDataProviderNod
                 vscode.window.showErrorMessage('The active editor must be a Ligua Franca program.');
                 return;
             }
-            const relativePath = this.getLibraryPath(node.uri.fsPath);
+            const relativePath = this.getLibraryPath(node.uri.path);
             const importText = `import ${node.label!.toString()} from <${relativePath}>\n`;
             const position = await this.getTargetPosition(editor.document.uri);
             this.addTextOnActiveEditor(editor, position!.end, importText);
@@ -718,7 +718,7 @@ export class LFDataProvider implements vscode.TreeDataProvider<LFDataProviderNod
      * @returns The relative path between the source and target files.
      */
     getRelativePath(source: string, target: string) {
-        return path.relative(path.dirname(source), target);
+        return path.relative(path.dirname(source), target).replace(/\\/g, '/');
     }
 
     /**
