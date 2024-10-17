@@ -79,18 +79,6 @@ export function registerGoToLingoTomlCommand(context: vscode.ExtensionContext, p
     ));
 }
 
-export function registerIncludeProjectCommand(context: vscode.ExtensionContext, provider: LFDataProvider) {
-    context.subscriptions.push(vscode.commands.registerCommand(
-        'linguafranca.includeProject', (node: LFDataProviderNode) => {
-            vscode.window.showInformationMessage('The "Include Project" feature is not implemented yet.', 'Details').then(selection => {
-                if (selection === "Details") {
-                vscode.window.showInformationMessage('Please use the Lingo command line to include the selected library in your current project. Once included, the library will appear under the "Lingo Packages" section.');
-                }
-            });
-        }
-    ));
-}
-
 export function registerOpenInTerminalCommand(context: vscode.ExtensionContext) {
     context.subscriptions.push(vscode.commands.registerCommand(
         'linguafranca.openInTerminal', (node: LFDataProviderNode) => {

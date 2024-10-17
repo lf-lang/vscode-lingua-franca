@@ -16,7 +16,6 @@ import { registerCollapseAllCommand,
     registerGoToFileCommand,
     registerGoToLingoTomlCommand,
     registerImportReactorCommand,
-    registerIncludeProjectCommand,
     registerOpenFolderCommand,
     registerOpenInSplitViewCommand,
     registerOpenInTerminalCommand,
@@ -98,7 +97,6 @@ export async function activate(context: vscode.ExtensionContext) {
     registerImportReactorCommand(context, lfDataProvider);
     registerCollapseAllCommand(context);
     registerGoToLingoTomlCommand(context, lfDataProvider);
-    registerIncludeProjectCommand(context, lfDataProvider);
     registerOpenInTerminalCommand(context);
     registerOpenFolderCommand(context);
 

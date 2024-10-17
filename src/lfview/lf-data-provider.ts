@@ -796,7 +796,7 @@ export class LFDataProvider implements vscode.TreeDataProvider<LFDataProviderNod
      * @param node - The LFDataProviderNode for which to open the Lingo.toml file.
      */
     goToLingoTomlCommand(node: LFDataProviderNode) {
-        const segments = node.uri.fsPath.split('/');
+        const segments = node.uri.path.split('/');
         const srcIdx = segments.lastIndexOf('build');
     
         if (srcIdx === -1) {
@@ -804,7 +804,7 @@ export class LFDataProvider implements vscode.TreeDataProvider<LFDataProviderNod
             return;
         }
     
-        let newUri = segments.slice(0, srcIdx).join('/').concat('/Lingo.toml');
+        let newUri = segments.slice(0, srcIdx).join(path.sep).concat(`${path.sep}Lingo.toml`);
         
         vscode.workspace.openTextDocument(vscode.Uri.file(newUri))
             .then(doc => {
