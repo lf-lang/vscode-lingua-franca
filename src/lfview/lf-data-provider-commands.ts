@@ -49,11 +49,17 @@ export function registerOpenInSplitViewCommand(context: vscode.ExtensionContext,
 export function registerImportReactorCommand(context: vscode.ExtensionContext, provider: LFDataProvider) {
     context.subscriptions.push(vscode.commands.registerCommand(
         'linguafranca.importReactor', async (node: LFDataProviderNode) => {
-            if(node.type === LFDataProviderNodeType.LOCAL) {
-                await provider.importReactorCommand(node);
+            const editor = vscode.window.activeTextEditor;
+
+            if (!editor) {
+                vscode.window.showErrorMessage('No active editor found.');
+                return;
             }
-            else {
-                await provider.importLibraryReactorCommand(node);
+
+            if (node.type === LFDataProviderNodeType.LOCAL) {
+                await provider.importReactorCommand(node, editor);
+            } else {
+                await provider.importLibraryReactorCommand(node, editor);
             }
         }
     ));

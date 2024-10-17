@@ -674,18 +674,15 @@ export class LFDataProvider implements vscode.TreeDataProvider<LFDataProviderNod
      * @param node - The node representing the reactor to import.
      * @returns A Promise that resolves when the import text has been added to the active editor and the document saved.
      */
-    async importReactorCommand(node: LFDataProviderNode) {
-        const editor = vscode.window.activeTextEditor;
-        if (editor) {
-            if (!editor.document.uri.fsPath.endsWith('.lf')) {
-                vscode.window.showErrorMessage('The active editor must be a Ligua Franca program.');
-                return;
-            }
-            const relativePath = this.getRelativePath(editor.document.uri.path, node.uri.path);
-            const importText = `import ${node.label!.toString()} from "${relativePath}"\n`;
-            const position = await this.getTargetPosition(editor.document.uri);
-            this.addTextOnActiveEditor(editor, position!.end, importText);
+    async importReactorCommand(node: LFDataProviderNode, editor: vscode.TextEditor): Promise<void> {
+        if (!editor.document.uri.path.endsWith('.lf')) {
+            vscode.window.showErrorMessage('The active editor must be a Ligua Franca program.');
+            return;
         }
+        const relativePath = this.getRelativePath(editor.document.uri.path, node.uri.path);
+        const importText = `import ${node.label!.toString()} from "${relativePath}"\n`;
+        const position = await this.getTargetPosition(editor.document.uri);
+        this.addTextOnActiveEditor(editor, position!.end, importText);
     }
 
     /**
@@ -695,18 +692,15 @@ export class LFDataProvider implements vscode.TreeDataProvider<LFDataProviderNod
      * @param node - The node representing the reactor to import.
      * @returns A Promise that resolves when the import text has been added to the active editor and the document saved.
      */
-    async importLibraryReactorCommand(node: LFDataProviderNode) {
-        const editor = vscode.window.activeTextEditor;
-        if (editor) {
-            if (!editor.document.uri.fsPath.endsWith('.lf')) {
-                vscode.window.showErrorMessage('The active editor must be a Ligua Franca program.');
-                return;
-            }
-            const relativePath = this.getLibraryPath(node.uri.path);
-            const importText = `import ${node.label!.toString()} from <${relativePath}>\n`;
-            const position = await this.getTargetPosition(editor.document.uri);
-            this.addTextOnActiveEditor(editor, position!.end, importText);
+    async importLibraryReactorCommand(node: LFDataProviderNode, editor: vscode.TextEditor): Promise<void> {
+        if (!editor.document.uri.fsPath.endsWith('.lf')) {
+            vscode.window.showErrorMessage('The active editor must be a Ligua Franca program.');
+            return;
         }
+        const relativePath = this.getLibraryPath(node.uri.path);
+        const importText = `import ${node.label!.toString()} from <${relativePath}>\n`;
+        const position = await this.getTargetPosition(editor.document.uri);
+        this.addTextOnActiveEditor(editor, position!.end, importText);
     }
 
     /**
