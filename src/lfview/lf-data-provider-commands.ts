@@ -49,11 +49,17 @@ export function registerOpenInSplitViewCommand(context: vscode.ExtensionContext,
 export function registerImportReactorCommand(context: vscode.ExtensionContext, provider: LFDataProvider) {
     context.subscriptions.push(vscode.commands.registerCommand(
         'linguafranca.importReactor', async (node: LFDataProviderNode) => {
-            if(node.type === LFDataProviderNodeType.LOCAL) {
-                await provider.importReactorCommand(node);
+            const editor = vscode.window.activeTextEditor;
+
+            if (!editor) {
+                vscode.window.showErrorMessage('No active editor found.');
+                return;
             }
-            else {
-                await provider.importLibraryReactorCommand(node);
+
+            if (node.type === LFDataProviderNodeType.LOCAL) {
+                await provider.importReactorCommand(node, editor);
+            } else {
+                await provider.importLibraryReactorCommand(node, editor);
             }
         }
     ));
@@ -75,18 +81,6 @@ export function registerGoToLingoTomlCommand(context: vscode.ExtensionContext, p
     context.subscriptions.push(vscode.commands.registerCommand(
         'linguafranca.goToLingoToml', (node: LFDataProviderNode) => {
             provider.goToLingoTomlCommand(node);
-        }
-    ));
-}
-
-export function registerIncludeProjectCommand(context: vscode.ExtensionContext, provider: LFDataProvider) {
-    context.subscriptions.push(vscode.commands.registerCommand(
-        'linguafranca.includeProject', (node: LFDataProviderNode) => {
-            vscode.window.showInformationMessage('The "Include Project" feature is not implemented yet.', 'Details').then(selection => {
-                if (selection === "Details") {
-                vscode.window.showInformationMessage('Please use the Lingo command line to include the selected library in your current project. Once included, the library will appear under the "Lingo Packages" section.');
-                }
-            });
         }
     ));
 }
