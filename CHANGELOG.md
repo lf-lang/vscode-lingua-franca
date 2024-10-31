@@ -1,5 +1,32 @@
 # Changelog
  
+## [v0.9.0](https://github.com/lf-lang/vscode-lingua-franca/tree/v0.9.0) (2024-10-31)
+
+**Highlights**
+
+This release of Lingua Franca adds support for reusable and publishable packages, providing the necessary infrastructure to develop a community-driven ecosystem of Lingua Franca packages. The VS code extension now features an integrated package explorer, and the diagrams provide colored highlighting for selected diagram edges. Other new features include C support for a new hardware platform called Patmos, several minor syntax and API improvements, and a new Alpine-based default Docker image for Python. This release also includes numerous bug fixes, such as preventing hangs during timeouts, addressing issues in decentralized coordination, improving error handling, and fixing concurrency issues in the C runtime.
+
+**🚀 New Features**
+
+- Lingua Franca Package Explorer: extensions to UI in VScode plugin [\#156](https://github.com/lf-lang/vscode-lingua-franca/pull/156) (@edwardalee)
+
+**✨ Enhancements**
+
+- Indexing single Lingua Franca projects [\#181](https://github.com/lf-lang/vscode-lingua-franca/pull/181) (@vinzbarbuto)
+
+**🔧 Fixes**
+
+- Resolve goToLingoToml for Windows [\#183](https://github.com/lf-lang/vscode-lingua-franca/pull/183) (@vinzbarbuto)
+
+**📖 Documentation**
+
+- Updated contributing guide to include the debugging workflow. [\#177](https://github.com/lf-lang/vscode-lingua-franca/pull/177) (@soerendomroes)
+- Updated README to reflect recent UI changes [\#180](https://github.com/lf-lang/vscode-lingua-franca/pull/180) (@vinzbarbuto)
+- Update documentation link [\#182](https://github.com/lf-lang/vscode-lingua-franca/pull/182) (@vinzbarbuto)
+
+- Adjustment of version numbers for nightly releases [\#175](https://github.com/lf-lang/vscode-lingua-franca/pull/175) (@lhstrh)
+
+ 
 ## [v0.8.2](https://github.com/lf-lang/vscode-lingua-franca/tree/v0.8.2) (2024-08-02)
 
 **Highlights**
