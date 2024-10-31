@@ -2,7 +2,7 @@
     "name": "vscode-lingua-franca",
     "displayName": "Lingua Franca",
     "description": "Lingua Franca for Visual Studio Code. Provides lints, code completion and navigation, interactive diagrams, and more.",
-    "version": "0.8.2",
+    "version": "0.9.0",
     "publisher": "lf-lang",
     "icon": "images/icon.png",
     "license": "BSD-2-Clause",
@@ -149,7 +149,6 @@
                 "title": "Open in Terminal",
                 "icon": "$(terminal)"
             }
-
         ],
         "configuration": {
             "title": "LinguaFranca",
@@ -215,9 +214,8 @@
                     "group": "navigation@2",
                     "when": "view == lf-lang-projects"
                 }
-
             ],
-            "view/item/context" : [
+            "view/item/context": [
                 {
                     "command": "linguafranca.openInTerminal",
                     "group": "inline@1",
@@ -264,14 +262,14 @@
                     "id": "lf-lang-projects",
                     "name": ""
                 }
-              ]
+            ]
         },
         "viewsWelcome": [
             {
-              "view": "lf-lang-projects",
-              "contents": "No Lingua Franca project found. [Learn more](https://www.lf-lang.org/docs/tools/code-extension) about setting up a Lingua Franca project structure.\n[Open Lingua Franca Project](command:linguafranca.openFolder)"
+                "view": "lf-lang-projects",
+                "contents": "No Lingua Franca project found. [Learn more](https://www.lf-lang.org/docs/tools/code-extension) about setting up a Lingua Franca project structure.\n[Open Lingua Franca Project](command:linguafranca.openFolder)"
             }
-          ]
+        ]
     },
     "devDependencies": {
         "@types/chai": "^4.3.1",
