@@ -58,6 +58,8 @@ git clone --recurse-submodules https://github.com/lf-lang/vscode-lingua-franca.g
 && npm run install-extension
 ```
 
+If you are using `cursor`, then run `npm run install-extension-cursor` instead (or in addition).
+
 ## Requirements
 This extension requires **Java 17 or up** in order to run its embedded Lingua Franca language server. You might need to install additional software to be able to build or execute target code produced by the Lingua Franca compiler. The extension reports missing dependencies upon attempting to build or run.
 

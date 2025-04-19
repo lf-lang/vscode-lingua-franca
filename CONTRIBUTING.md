@@ -37,6 +37,8 @@ git clone --recurse-submodules https://github.com/lf-lang/vscode-lingua-franca.g
 The `npm run install-extension` installs the extension so that when you start `code` it will use your local extension.
 To revert to using the released or pre-released version, use the extension manager in VSCode.
 
+If you are using `cursor`, then run `npm run install-extension-cursor` instead (or in addition).
+
 If you want to debug the extension with the language server bundled in a jar see [suggested debugging workflow](#suggested-debugging-workflow).
 If you want to debug the extension together with the language server see [below](#debugging-interactions-between-the-language-server-and-vs-code).
 
