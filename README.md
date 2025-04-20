@@ -3,23 +3,26 @@
 [![Open VSX Downloads](https://img.shields.io/open-vsx/dt/lf-lang/vscode-lingua-franca?label=Open%20VSX%20Registry%20%E2%A4%93)](https://open-vsx.org/extension/lf-lang/vscode-lingua-franca)
 [![Visual Studio Marketplace Downloads](https://img.shields.io/visual-studio-marketplace/d/lf-lang.vscode-lingua-franca?label=VS%20Marketplace%20%E2%A4%93)](https://marketplace.visualstudio.com/items?itemName=lf-lang.vscode-lingua-franca)
 
-This extension adds language support for [Lingua Franca (LF)](https://www.lf-lang.org/).
+This extension adds language support for developing [Lingua Franca (LF)](https://www.lf-lang.org/) in [VS Code](https://code.visualstudio.com) and compatible tools such as [Cursor](https://www.cursor.com).
+
+## Automatic Diagram Synthesis
+
+Using [KlighD](https://github.com/kieler/KLighD), interactive diagrams are automatically generated while you edit your LF programs.  You can also manually request a diagram update by clicking on the diagram icon: ![image](https://user-images.githubusercontent.com/33707478/130875545-ad78a9b7-a07b-4eb9-be59-f6c758cc816b.png).
 
 ## Lingua Franca Package Explorer
 
-Click on the LF icon in the Activity Bar on the left to access the Package Explorer.
+Click on the LF icon in the Activity Bar on the left in VS Code (or in the menu in the left sidebar in Cursor) to access the Lingua Franca Package Explorer.
 This will open a tree view, showing:
 
-- **Installed Packages**—library packages installed via the [Lingo package manager](https://github.com/lf-lang/lingo/);
-- **Local Libraries**—unpublished libraries located in `./src/lib` within your project; and
-- **Source Files**—all `.lf` source files located in the `./src` folder.
+- *Installed Packages*—library packages installed via the [Lingo package manager](https://github.com/lf-lang/lingo/);
+- *Local Libraries*—unpublished libraries located in `./src/lib` within your project; and
+- *Source Files*—all `.lf` source files located in the `./src` folder or in subfolders.
 
 ## Other features
-* find references
+* find references to symbols
 * folding ranges
 * get workspace symbols
 * hover
-* [KlighD](https://github.com/kieler/KLighD)-based interactive diagrams (click on diagrams icon: ![image](https://user-images.githubusercontent.com/33707478/130875545-ad78a9b7-a07b-4eb9-be59-f6c758cc816b.png))
 * syntax highlighting
 * target syntax highlighting
 * code validation upon edit
@@ -36,29 +39,7 @@ This will open a tree view, showing:
     Name>/src` folder and putting a file in it that has the `.lf` extension.
  3. Open a Lingua Franca project (`File > Add Folder to Workspace...`). The Explorer (upper left in sidebar) should now show your project files. Open the `.lf` file you created.
  4. (Optional) Show the diagram for this file by clicking on the diagrams icon at the upper right: ![image](https://user-images.githubusercontent.com/33707478/130875545-ad78a9b7-a07b-4eb9-be59-f6c758cc816b.png))
- 5. Compile the `.lf` file and run it using the run button left of the diagrams button or by typing (<kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>P</kbd>, then `Lingua Franca: Build and Run`).
-
-## Use Local Clone
-
-If you wish to make changes to the VS Code extension or to the `lingua-franca` repository that it uses, you can make a local clone an install that as your VS Code extension:
-
-```
-git clone --recurse-submodules git@github.com:lf-lang/vscode-lingua-franca.git \
-&& cd vscode-lingua-franca \
-&& npm install \
-&& npm run install-extension
-```
-
-If you do not have a public key set up for authentication with GitHub, you can also use HTTPS:
-
-```
-git clone --recurse-submodules https://github.com/lf-lang/vscode-lingua-franca.git \
-&& cd vscode-lingua-franca \
-&& npm install \
-&& npm run install-extension
-```
-
-If you are using `cursor`, then run `npm run install-extension-cursor` instead (or in addition).
+ 5. Compile the `.lf` file and run it using the run button at the top or by typing (<kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>P</kbd>, then `Lingua Franca: Build and Run`).
 
 ## Requirements
 This extension requires **Java 17 or up** in order to run its embedded Lingua Franca language server. You might need to install additional software to be able to build or execute target code produced by the Lingua Franca compiler. The extension reports missing dependencies upon attempting to build or run.
@@ -66,17 +47,18 @@ This extension requires **Java 17 or up** in order to run its embedded Lingua Fr
 ## Settings
 
 To configure automatic code generation, add the following to `.vscode/settings.json` with either true or false to generate code on save:
+
 ```json
 {
     "linguafranca.generateCodeOnSave": false
 }
 ```
 
-## Contributing
+## For Developers and Contributors
+
+See [Contributing](https://github.com/lf-lang/vscode-lingua-franca/blob/main/CONTRIBUTING.md) for hints on modifying this extension.
 We very much appreciate contributions in the form of 
-[code, tests, documentation](https://github.com/lf-lang/vscode-lingua-franca/pulls), [bug reports, and feature requests](https://github.com/lf-lang/vscode-lingua-franca/issues). 
-For more details, see
-[CONTRIBUTING.md](https://github.com/lf-lang/vscode-lingua-franca/blob/main/CONTRIBUTING.md).
+[pull requests](https://github.com/lf-lang/vscode-lingua-franca/pulls) for code, tests, and documentation, as well as [bug reports and feature requests](https://github.com/lf-lang/vscode-lingua-franca/issues). 
 
 ### Join us!
 <a href="https://github.com/lf-lang/vscode-lingua-franca/graphs/contributors">
