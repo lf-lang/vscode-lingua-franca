@@ -26,7 +26,7 @@
 </span>
 
 <span class="source-lf comment-line-double-dash-lflang">
-# reason for failing: in_.intended_tag are not supported in python target
+# reason for failing: inp.intended_tag are not supported in python target
 </span>
 
 <span class="source-lf meta-targetspec-lflang keyword-control-lflang">
@@ -164,7 +164,7 @@ input
  
 </span>
 <span class="source-lf variable-other-lflang">
-in_
+inp
 </span>
 
 <span class="source-lf">
@@ -203,22 +203,22 @@ c
 reaction
 </span>
 <span class="source-lf">
-(in_) 
+(inp) 
 </span>
 <span class="source-lf meta-embedded-block-py">
 {=
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-    print(f"At tag ({lf.time.logical_elapsed()}, {lf.tag().microstep}), received {in_.value}. "
+    print(f"At tag ({lf.time.logical_elapsed()}, {lf.tag().microstep}), received {inp.value}. "
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-        f"The original intended tag of the message was ({in_.intended_tag.time-lf.time.start()}, {in_.intended_tag.microstep}).")
+        f"The original intended tag of the message was ({inp.intended_tag.time-lf.time.start()}, {inp.intended_tag.microstep}).")
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-    if in_.value != self.c:
+    if inp.value != self.c:
 </span>
 
 <span class="source-lf meta-embedded-block-py">
@@ -409,7 +409,7 @@ p
 .
 </span>
 <span class="source-lf variable-other-lflang">
-in_
+inp
 </span>
 <span class="source-lf">
  

@@ -152,7 +152,7 @@ input
  
 </span>
 <span class="source-lf variable-other-lflang">
-in_
+inp
 </span>
 
 <span class="source-lf">
@@ -191,7 +191,7 @@ c
 reaction
 </span>
 <span class="source-lf">
-(in_) 
+(inp) 
 </span>
 <span class="source-lf meta-embedded-block-py">
 {=
@@ -202,15 +202,15 @@ reaction
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-    print("At time {}, received {}".format(elapsed_time, in_.value))
+    print("At time {}, received {}".format(elapsed_time, inp.value))
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-    print(f"Physical time of arrival: {in_.physical_time_of_arrival}")
+    print(f"Physical time of arrival: {inp.physical_time_of_arrival}")
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-    if in_.value != self.c:
+    if inp.value != self.c:
 </span>
 
 <span class="source-lf meta-embedded-block-py">
@@ -222,7 +222,7 @@ reaction
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-    STP_discrepency = lf.time.logical() + self.STP_offset - in_.physical_time_of_arrival
+    STP_discrepency = lf.time.logical() + self.STP_offset - inp.physical_time_of_arrival
 </span>
 
 <span class="source-lf meta-embedded-block-py">
@@ -256,13 +256,7 @@ reaction
 =}
 </span>
 <span class="source-lf">
- 
-</span>
-<span class="source-lf keyword-control-lflang">
-STP
-</span>
-<span class="source-lf">
-(STP_offset) 
+ STAA(STP_offset) 
 </span>
 <span class="source-lf meta-embedded-block-py">
 {=
@@ -496,7 +490,7 @@ p
 .
 </span>
 <span class="source-lf variable-other-lflang">
-in_
+inp
 </span>
 
 <span class="source-lf">

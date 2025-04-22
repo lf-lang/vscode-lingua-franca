@@ -95,7 +95,7 @@ startup
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-    print("Sending 'Hello World!' message from source federate.");
+    print("Sending 'Hello World!' message from source federate.")
 </span>
 
 <span class="source-lf meta-embedded-block-py">
@@ -144,7 +144,7 @@ input
  
 </span>
 <span class="source-lf variable-other-lflang">
-_in
+inp
 </span>
 
 <span class="source-lf">
@@ -217,22 +217,22 @@ startup
 reaction
 </span>
 <span class="source-lf">
-(_in) 
+(inp) 
 </span>
 <span class="source-lf meta-embedded-block-py">
 {=
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-    print(f"At logical time {lf.time.logical_elapsed()}, destination received {_in.value}")
+    print(f"At logical time {lf.time.logical_elapsed()}, destination received {inp.value}")
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-    if _in.value != "Hello World!":
+    if inp.value != "Hello World!":
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-      sys.stderr.write("ERROR: Expected to receive 'Hello World!'\n");
+      sys.stderr.write("ERROR: Expected to receive 'Hello World!'\n")
 </span>
 
 <span class="source-lf meta-embedded-block-py">
@@ -430,7 +430,7 @@ d
 .
 </span>
 <span class="source-lf variable-other-lflang">
-_in
+inp
 </span>
 <span class="source-lf">
   

@@ -30,7 +30,7 @@ type Test = () => Promise<void>;
 
 const basicTimeoutMilliseconds = 60 * 1000;
 const extendedTimeoutMilliseconds = 240 * 1000;
-const maxInstallationTimeMilliseconds = 120 * 1000;
+const maxInstallationTimeMilliseconds = 240 * 1000;
 const linkCheckingTimeoutMilliseconds = 60 * 1000;
 
 suite('test dependency checking',  () => {

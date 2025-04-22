@@ -138,7 +138,7 @@ input
  
 </span>
 <span class="source-lf variable-other-lflang">
-_in
+inp
 </span>
 
 <span class="source-lf">
@@ -152,18 +152,18 @@ _in
 reaction
 </span>
 <span class="source-lf">
-(_in) 
+(inp) 
 </span>
 <span class="source-lf meta-embedded-block-py">
 {=
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-    print("Received: name = {:s}, value = {:d}".format(_in.value.name, _in.value.value))
+    print("Received: name = {:s}, value = {:d}".format(inp.value.name, inp.value.value))
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-    if _in.value.value != self.expected:
+    if inp.value.value != self.expected:
 </span>
 
 <span class="source-lf meta-embedded-block-py">
@@ -234,7 +234,7 @@ input
  
 </span>
 <span class="source-lf variable-other-lflang">
-_in
+inp
 </span>
 
 <span class="source-lf">
@@ -265,7 +265,7 @@ out
 reaction
 </span>
 <span class="source-lf">
-(_in) 
+(inp) 
 </span>
 <span class="source-lf keyword-operator-lflang">
 ->
@@ -278,15 +278,15 @@ reaction
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-    print(_in.value.value)
+    print(inp.value.value)
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-    _in.value.value *= self.scale;
+    inp.value.value *= self.scale;
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-    out.set(_in.value)
+    out.set(inp.value)
 </span>
 
 <span class="source-lf meta-embedded-block-py">
@@ -518,7 +518,7 @@ c1
 .
 </span>
 <span class="source-lf variable-other-lflang">
-_in
+inp
 </span>
 
 <span class="source-lf">
@@ -549,7 +549,7 @@ c2
 .
 </span>
 <span class="source-lf variable-other-lflang">
-_in
+inp
 </span>
 
 <span class="source-lf">
@@ -580,7 +580,7 @@ p1
 .
 </span>
 <span class="source-lf variable-other-lflang">
-_in
+inp
 </span>
 
 <span class="source-lf">
@@ -611,7 +611,7 @@ p2
 .
 </span>
 <span class="source-lf variable-other-lflang">
-_in
+inp
 </span>
 
 <span class="source-lf">

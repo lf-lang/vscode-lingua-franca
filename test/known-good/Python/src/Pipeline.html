@@ -58,7 +58,7 @@ input
  
 </span>
 <span class="source-lf variable-other-lflang">
-_in
+inp
 </span>
 
 <span class="source-lf">
@@ -85,7 +85,7 @@ out
 reaction
 </span>
 <span class="source-lf">
-(_in) 
+(inp) 
 </span>
 <span class="source-lf keyword-operator-lflang">
 ->
@@ -114,7 +114,7 @@ reaction
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-    out.set(_in.value + offset)
+    out.set(inp.value + offset)
 </span>
 
 <span class="source-lf meta-embedded-block-py">
@@ -155,7 +155,7 @@ input
  
 </span>
 <span class="source-lf variable-other-lflang">
-_in
+inp
 </span>
 
 <span class="source-lf">
@@ -219,7 +219,7 @@ received
 reaction
 </span>
 <span class="source-lf">
-(_in) 
+(inp) 
 </span>
 <span class="source-lf meta-embedded-block-py">
 {=
@@ -230,11 +230,11 @@ reaction
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-    print("Received: {:d} at logical time {:d}".format(_in.value, lf.time.logical_elapsed()))
+    print("Received: {:d} at logical time {:d}".format(inp.value, lf.time.logical_elapsed()))
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-    if _in.value != (self.count + 40000):
+    if inp.value != (self.count + 40000):
 </span>
 
 <span class="source-lf meta-embedded-block-py">
@@ -554,7 +554,7 @@ c2
 .
 </span>
 <span class="source-lf variable-other-lflang">
-_in
+inp
 </span>
 <span class="source-lf">
  
@@ -603,7 +603,7 @@ c3
 .
 </span>
 <span class="source-lf variable-other-lflang">
-_in
+inp
 </span>
 <span class="source-lf">
  
@@ -652,7 +652,7 @@ c4
 .
 </span>
 <span class="source-lf variable-other-lflang">
-_in
+inp
 </span>
 <span class="source-lf">
  
@@ -701,7 +701,7 @@ p
 .
 </span>
 <span class="source-lf variable-other-lflang">
-_in
+inp
 </span>
 
 <span class="source-lf">
@@ -730,7 +730,7 @@ c1
 .
 </span>
 <span class="source-lf variable-other-lflang">
-_in
+inp
 </span>
 <span class="source-lf">
  
@@ -740,7 +740,7 @@ _in
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-    c1._in.set(self.count)
+    c1.inp.set(self.count)
 </span>
 
 <span class="source-lf meta-embedded-block-py">
