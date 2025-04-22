@@ -221,7 +221,7 @@ input
  
 </span>
 <span class="source-lf variable-other-lflang">
-_in
+inp
 </span>
 
 <span class="source-lf">
@@ -285,7 +285,7 @@ inputs_received
 reaction
 </span>
 <span class="source-lf">
-(_in) 
+(inp) 
 </span>
 <span class="source-lf meta-embedded-block-py">
 {=
@@ -300,15 +300,15 @@ reaction
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-    print("At time {:d}, received list ".format(lf.time.logical_elapsed()), _in.value)
+    print("At time {:d}, received list ".format(lf.time.logical_elapsed()), inp.value)
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-    print("Received: [%s]" % ", ".join(map(str, _in.value)))
+    print("Received: [%s]" % ", ".join(map(str, inp.value)))
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-    if _in.value != [(x * self.scale * self.iteration) for x in [1, 2, 3]]:
+    if inp.value != [(x * self.scale * self.iteration) for x in [1, 2, 3]]:
 </span>
 
 <span class="source-lf meta-embedded-block-py">
@@ -320,7 +320,7 @@ reaction
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-    if len(_in.value) != 3:
+    if len(inp.value) != 3:
 </span>
 
 <span class="source-lf meta-embedded-block-py">
@@ -499,7 +499,7 @@ p
 .
 </span>
 <span class="source-lf variable-other-lflang">
-_in
+inp
 </span>
 <span class="source-lf">
  

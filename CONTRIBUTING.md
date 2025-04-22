@@ -3,25 +3,27 @@
 This repo provides the [Lingua Franca](https://www.lf-lang.org/) (LF) [Visual
 Studio Code](https://code.visualstudio.com/) (VSCode) extension built around the
 LF Language and Diagram Server (LDS).
+It also supports VS Code-compatible tools such as [Cursor](https://www.cursor.com).
 
 This file contains information for building and using the extension in a
 developer setup. If you just want to use the extension, then you can download it
 from the VSCode marketplace. See
-[README.md](https://github.com/lf-lang/vscode-lingua-franca/) for more info.
+[README.md](README.md) for more info.
 
 ## Getting started
 
-To check out the repository, build from source, and install the VS Code plugin, make sure you have the following dependencies:
+To check out the repository, build from source, and install the VS Code plugin from your local copy, make sure you have the following dependencies:
 
-- `rust`. Rust versions preceding 1.76.0 are not guaranteed to work. See [this web page](https://www.rust-lang.org/tools/install) for instructions on installing Rust.
-- `npm`. `npm` versions preceding 10.4.0 are not guaranteed to work. We are currently using npm v18.17.0.
+- **rust**. Rust versions preceding 1.76.0 are not guaranteed to work. See [this web page](https://www.rust-lang.org/tools/install) for instructions on installing Rust.
+- **npm**. `npm` versions preceding 10.4.0 are not guaranteed to work. We are currently using npm v18.17.0.
 
-Then, run the following command to install the required NPM packages:
+Run the following command to install the required NPM packages and install the extension in VS Code:
 
 ```
 git clone --recurse-submodules git@github.com:lf-lang/vscode-lingua-franca.git \
 && cd vscode-lingua-franca \
-&& npm install
+&& npm install \
+&& npm run install-extension
 ```
 
 If you do not have a public key set up for authentication with GitHub, you can also use HTTPS:
@@ -29,19 +31,24 @@ If you do not have a public key set up for authentication with GitHub, you can a
 ```
 git clone --recurse-submodules https://github.com/lf-lang/vscode-lingua-franca.git \
 && cd vscode-lingua-franca \
-&& npm install
+&& npm install \
+&& npm run install-extension
 ```
 
-Install the VS Code extension by calling `npm run install-extension`.
-If you want to debug the extension with the language server bundled in a jar see [here](#suggested-debugging-workflow).
+The `npm run install-extension` installs the extension so that when you start `code` it will use your local extension.
+To revert to using the released or pre-released version, use the extension manager in VSCode to switch to either the released or pre-release version.
+
+If you are using `cursor`, then run `npm run install-extension-cursor` instead (or in addition) to use the local version of the extension in cursor.
+
+If you want to debug the extension with the language server bundled in a jar see [suggested debugging workflow](#suggested-debugging-workflow).
 If you want to debug the extension together with the language server see [below](#debugging-interactions-between-the-language-server-and-vs-code).
 
-### Trouble Shooting
+### Troubleshooting
 
-#### VS Code is not detected on Mac OS X
+#### code or cursor is not found
 
-If you have VS Code installed, it might not get recognized if it is not on your `PATH`.
-To add `code` to your `PATH` and allow our install script to find it, open the command pallete in VS Code (<kbd>ctrl</kbd>+<kbd>p</kbd>) and type `Install 'code' command in PATH`.
+If you have VS Code or Cursor installed, it might not get recognized if it is not on your `PATH`.
+To add `code` to your `PATH` and allow our install script to find it, open the command pallete in VS Code (<kbd>ctrl</kbd>+<kbd>p</kbd> or <kbd>Command</kbd>+<kbd>Shift</kbd>+<kbd>p</kbd>) and type `Shell Command: Install 'code' command in PATH`. It is similar for `cursor`.
 
 #### Maven uses an incompatible JDK
 
@@ -86,10 +93,6 @@ Please keep your PRs manageable and easy to review.
 
 ## Suggested debugging workflow
 
-For development purposes, it is possible to manually perform an incremental build simply by bypassing Maven and Gradle entirely and
-instead running the Python script `./uf.py`. This script will re-compile Java and Kotlin files and add them to the fat jar using
-the `jar` command with the `-uf` flag.
-
 We suggest the following workflow for debugging the extension (implemented in TypeScript):
 
 1. Run the command `npm run compile` to generate JavaScript together with a source map (in the `out` directory). The source map is necessary for breakpoints to work.
@@ -105,10 +108,10 @@ We suggest the following workflow for debugging the language server (implemented
 - To build Kotlin files, [the Kotlin JVM compiler](https://github.com/JetBrains/kotlin/releases/tag/v1.5.30) `kotlinc` is required. It must be the JVM compiler, not the native compiler.
 
 2. Ensure that the language and diagram server fat JAR exists. This file is called `./lib/lflang-lds.jar`. If it does not exist, then it is necessary to build it using the build task: `npm run build`.
-3. Run the command: `./uf.py <CANONICAL_NAME>` or `npm run amend-jar -- <CANONICAL_NAME>`, where <CANONICAL_NAME> is either:
+3. Run the command: `npm run amend-jar -- <CANONICAL_NAME>`, where `<CANONICAL_NAME>` is either:
 
 - the canonical name of a package that you would like to update, or
-- the canonical name of the class that you would like to update. An example would be: `./uf.py org.lflang.FileConfig`. This will also update any nested classes, and it should work as you would expect even for Kotlin files that do not include exactly one top-level class.
+- the canonical name of the class that you would like to update. An example would be: `org.lflang.FileConfig`. This will also update any nested classes, and it should work as you would expect even for Kotlin files that do not include exactly one top-level class.
 
 4. Open `./src/extension.ts` in Visual Studio Code.
 5. Press <kbd>F5</kbd> to run the extension in a new Extension Development Host window.
