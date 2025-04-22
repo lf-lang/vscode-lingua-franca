@@ -154,7 +154,7 @@ input
  
 </span>
 <span class="source-lf variable-other-lflang">
-in_
+inp
 </span>
 
 <span class="source-lf">
@@ -291,22 +291,22 @@ reaction
 reaction
 </span>
 <span class="source-lf">
-(in_) 
+(inp) 
 </span>
 <span class="source-lf meta-embedded-block-py">
 {=
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-    print("Received {}.".format(in_.value))
+    print("Received {}.".format(inp.value))
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-    if in_.value != self.expected:
+    if inp.value != self.expected:
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-      self.sys.stderr.write("Expected {} but got {}.\n".format(self.expected_start, in_.value))
+      self.sys.stderr.write("Expected {} but got {}.\n".format(self.expected_start, inp.value))
 </span>
 
 <span class="source-lf meta-embedded-block-py">
@@ -324,20 +324,14 @@ reaction
 =}
 </span>
 <span class="source-lf">
- 
-</span>
-<span class="source-lf keyword-control-lflang">
-STP
-</span>
-<span class="source-lf">
-(stp_offset_param) 
+ STAA(stp_offset_param) 
 </span>
 <span class="source-lf meta-embedded-block-py">
 {=
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-    print("Received {} late.".format(in_.value))
+    print("Received {} late.".format(inp.value))
 </span>
 
 <span class="source-lf meta-embedded-block-py">
@@ -349,7 +343,7 @@ STP
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-    self.sys.stderr.write("STP offset was violated by ({}, {}).".format(current_tag.time - in_.intended_tag.time, current_tag.microstep - in_.intended_tag.microstep))
+    self.sys.stderr.write("STP offset was violated by ({}, {}).".format(current_tag.time - inp.intended_tag.time, current_tag.microstep - inp.intended_tag.microstep))
 </span>
 
 <span class="source-lf meta-embedded-block-py">
@@ -570,7 +564,7 @@ b
 .
 </span>
 <span class="source-lf variable-other-lflang">
-in_
+inp
 </span>
 
 <span class="source-lf">
@@ -601,7 +595,7 @@ a
 .
 </span>
 <span class="source-lf variable-other-lflang">
-in_
+inp
 </span>
 
 <span class="source-lf">

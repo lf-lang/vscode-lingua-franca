@@ -28,6 +28,28 @@ Python
 <span class="source-lf meta-targetspec-lflang storage-type-lflang">
 decentralized
 </span>
+<span class="source-lf meta-targetspec-lflang">
+,
+</span>
+
+<span class="source-lf meta-targetspec-lflang variable-parameter-lflang">
+  files
+</span>
+<span class="source-lf meta-targetspec-lflang">
+: [
+</span>
+<span class="source-lf meta-targetspec-lflang string-quoted-double-lflang">
+"
+</span>
+<span class="source-lf meta-targetspec-lflang string-quoted-double-lflang">
+pickle_serializer
+</span>
+<span class="source-lf meta-targetspec-lflang string-quoted-double-lflang">
+"
+</span>
+<span class="source-lf meta-targetspec-lflang">
+]
+</span>
 
 <span class="source-lf meta-targetspec-lflang">
 }
@@ -48,7 +70,29 @@ preamble
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-  os.system("pip install ./src/serialization/pickle_serializer/ --user")
+  # Note that both federates will try to install the pickle_serializer package. One will likely fail,
+</span>
+
+<span class="source-lf meta-embedded-block-py">
+  # but the other will succeed.
+</span>
+
+<span class="source-lf meta-embedded-block-py">
+  cwd = os.path.abspath(__file__)
+</span>
+
+<span class="source-lf meta-embedded-block-py">
+  os.system(f"pip install {cwd}/../pickle_serializer/")
+</span>
+
+<span class="source-lf meta-embedded-block-py">
+  
+</span>
+<span class="source-lf meta-embedded-block-py keyword-control-import-python">
+import
+</span>
+<span class="source-lf meta-embedded-block-py">
+ pickle_serializer
 </span>
 
 <span class="source-lf meta-embedded-block-py">
@@ -587,6 +631,18 @@ client_message
 </span>
 <span class="source-lf">
  
+</span>
+<span class="source-lf keyword-control-lflang">
+after
+</span>
+<span class="source-lf">
+ 
+</span>
+<span class="source-lf constant-numeric-int-lflang">
+100
+</span>
+<span class="source-lf">
+ ms 
 </span>
 <span class="source-lf keyword-control-lflang">
 serializer

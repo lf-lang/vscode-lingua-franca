@@ -57,7 +57,7 @@ input
  
 </span>
 <span class="source-lf variable-other-lflang">
-_in
+inp
 </span>
 
 <span class="source-lf">
@@ -141,7 +141,7 @@ reaction
 reaction
 </span>
 <span class="source-lf">
-(_in) 
+(inp) 
 </span>
 <span class="source-lf keyword-operator-lflang">
 ->
@@ -154,7 +154,7 @@ reaction
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-    a.schedule(self.delay, _in.value)
+    a.schedule(self.delay, inp.value)
 </span>
 
 <span class="source-lf meta-embedded-block-py">
@@ -195,7 +195,7 @@ input
  
 </span>
 <span class="source-lf variable-other-lflang">
-_in
+inp
 </span>
 
 <span class="source-lf">
@@ -297,14 +297,14 @@ startup
 reaction
 </span>
 <span class="source-lf">
-(_in) 
+(inp) 
 </span>
 <span class="source-lf meta-embedded-block-py">
 {=
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-    print("Received: ", _in.value)
+    print("Received: ", inp.value)
 </span>
 
 <span class="source-lf meta-embedded-block-py">
@@ -340,11 +340,11 @@ reaction
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-    if _in.value != 42:
+    if inp.value != 42:
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-      sys.stderr.write("ERROR: Expected input value to be 42. It was {:d}.\n".format(_in.value))
+      sys.stderr.write("ERROR: Expected input value to be 42. It was {:d}.\n".format(inp.value))
 </span>
 
 <span class="source-lf meta-embedded-block-py">
@@ -515,7 +515,7 @@ t
 .
 </span>
 <span class="source-lf variable-other-lflang">
-_in
+inp
 </span>
 
 <span class="source-lf">
@@ -550,7 +550,7 @@ d
 .
 </span>
 <span class="source-lf variable-other-lflang">
-_in
+inp
 </span>
 <span class="source-lf">
  
@@ -560,7 +560,7 @@ _in
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-    d._in.set(42)
+    d.inp.set(42)
 </span>
 
 <span class="source-lf meta-embedded-block-py">

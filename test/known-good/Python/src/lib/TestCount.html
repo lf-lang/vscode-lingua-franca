@@ -174,7 +174,7 @@ input
  
 </span>
 <span class="source-lf variable-other-lflang">
-in_
+inp
 </span>
 
 <span class="source-lf">
@@ -188,18 +188,18 @@ in_
 reaction
 </span>
 <span class="source-lf">
-(in_) 
+(inp) 
 </span>
 <span class="source-lf meta-embedded-block-py">
 {=
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-    print("Received {}.".format(in_.value))
+    print("Received {}.".format(inp.value))
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-    if in_.value != self.count:
+    if inp.value != self.count:
 </span>
 
 <span class="source-lf meta-embedded-block-py">
@@ -211,11 +211,11 @@ reaction
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-    self.count += self.stride;
+    self.count += self.stride
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-    self.inputs_received += 1;
+    self.inputs_received += 1
 </span>
 
 <span class="source-lf meta-embedded-block-py">
@@ -261,7 +261,7 @@ shutdown
 </span>
 
 <span class="source-lf meta-embedded-block-py">
-      self.sys.exit(1)
+      exit(1)
 </span>
 
 <span class="source-lf meta-embedded-block-py">
