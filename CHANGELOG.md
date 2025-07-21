@@ -1,5 +1,22 @@
 # Changelog
  
+## [v0.10.0](https://github.com/lf-lang/vscode-lingua-franca/tree/v0.10.0) (2025-07-21)
+
+**Highlights**
+
+This release of the VSCode extension incorporates version 0.10.0 of Lingua Franca.  See the [change log](https://github.com/lf-lang/lingua-franca/releases) for details.
+
+**✨ Enhancements**
+
+- Updates docs and add cursor support [\#186](https://github.com/lf-lang/vscode-lingua-franca/pull/186) (@edwardalee)
+
+**📖 Documentation**
+
+- Updates docs and add cursor support [\#186](https://github.com/lf-lang/vscode-lingua-franca/pull/186) (@edwardalee)
+
+- Updated known-good tests and npm audit fixes [\#187](https://github.com/lf-lang/vscode-lingua-franca/pull/187) (@lhstrh)
+
+ 
 ## [v0.9.0](https://github.com/lf-lang/vscode-lingua-franca/tree/v0.9.0) (2024-10-31)
 
 **Highlights**
