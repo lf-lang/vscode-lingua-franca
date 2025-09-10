@@ -19,3 +19,4 @@ uf.py
 package-lock.json
 developer-notes.md
 temp*
+editor-support/lfwasm/wasmtest/
