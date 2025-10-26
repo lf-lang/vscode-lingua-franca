@@ -19,23 +19,23 @@
 </span>
 
 <span class="source-lf comment-block-lflang">
- * This version of the test does not use a centralized coordinator to advance tag. Therefore, the
+ * This version of the test does not use a centralized coordinator to advance the tag. Therefore,
 </span>
 
 <span class="source-lf comment-block-lflang">
- * receiver will rely on an STP offset (initially zero) to wait long enough for messages to arrive
+ * the receiver will rely on an STP offset (initially zero) to wait long enough for messages to
 </span>
 
 <span class="source-lf comment-block-lflang">
- * before advancing its tag. In this test, the STP offset is initially zero and gradually raised
+ * arrive before advancing its tag. In this test, the STP offset is initially zero and gradually
 </span>
 
 <span class="source-lf comment-block-lflang">
- * every time an STP violation is perceived until no STP violation is observed. Therefore, the exact
+ * raised every time an STP violation is perceived until no STP violation is observed. Therefore,
 </span>
 
 <span class="source-lf comment-block-lflang">
- * outcome of the test will depend on actual runtime timing.
+ * the exact outcome of the test will depend on actual runtime timing.
 </span>
 
 <span class="source-lf comment-block-lflang">

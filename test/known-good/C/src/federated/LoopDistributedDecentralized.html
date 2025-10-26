@@ -3,7 +3,11 @@
 </span>
 
 <span class="source-lf comment-block-lflang">
- * This tests a feedback loop with physical actions and decentralized coordination.
+ * This tests a feedback loop with physical actions and decentralized coordination. NOTE: This test
+</span>
+
+<span class="source-lf comment-block-lflang">
+ * is flaky. It fails occasionally in CI.
 </span>
 
 <span class="source-lf comment-block-lflang">
@@ -42,19 +46,6 @@ C
 </span>
 <span class="source-lf meta-targetspec-lflang storage-type-lflang">
 decentralized
-</span>
-<span class="source-lf meta-targetspec-lflang">
-,
-</span>
-
-<span class="source-lf meta-targetspec-lflang variable-parameter-lflang">
-  logging
-</span>
-<span class="source-lf meta-targetspec-lflang">
-: 
-</span>
-<span class="source-lf meta-targetspec-lflang storage-type-lflang">
-LOG
 </span>
 <span class="source-lf meta-targetspec-lflang">
 ,
@@ -280,6 +271,30 @@ false
 </span>
 <span class="source-lf">
 ref) {
+</span>
+
+<span class="source-lf comment-line-double-dash-lflang">
+      
+</span>
+<span class="source-lf comment-line-double-dash-lflang">
+// Give time for the execution to start to avoid flaky error with an event scheduled
+</span>
+
+<span class="source-lf comment-line-double-dash-lflang">
+      
+</span>
+<span class="source-lf comment-line-double-dash-lflang">
+// before the start time.
+</span>
+
+<span class="source-lf">
+      lf_sleep(MSEC(
+</span>
+<span class="source-lf constant-numeric-int-lflang">
+100
+</span>
+<span class="source-lf">
+));
 </span>
 
 <span class="source-lf">

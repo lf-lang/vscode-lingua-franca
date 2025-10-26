@@ -418,7 +418,13 @@ value);
 "
 </span>
 <span class="source-lf">
- PRINTF_TIME, 
+ PRINTF_TIME, lf_time_physical() 
+</span>
+<span class="source-lf keyword-operator-lflang">
+-
+</span>
+<span class="source-lf">
+ 
 </span>
 <span class="source-lf variable-other-constant-reactorinstance-lflang">
 current_tag
@@ -430,13 +436,7 @@ current_tag
 time
 </span>
 <span class="source-lf">
- 
-</span>
-<span class="source-lf keyword-operator-lflang">
--
-</span>
-<span class="source-lf">
- lf_time_physical());
+);
 </span>
 
 <span class="source-lf">
@@ -584,7 +584,13 @@ value);
 "
 </span>
 <span class="source-lf">
- PRINTF_TIME, 
+ PRINTF_TIME, lf_time_physical() 
+</span>
+<span class="source-lf keyword-operator-lflang">
+-
+</span>
+<span class="source-lf">
+ 
 </span>
 <span class="source-lf variable-other-constant-reactorinstance-lflang">
 current_tag
@@ -596,13 +602,7 @@ current_tag
 time
 </span>
 <span class="source-lf">
- 
-</span>
-<span class="source-lf keyword-operator-lflang">
--
-</span>
-<span class="source-lf">
- lf_time_physical());
+);
 </span>
 
 <span class="source-lf">
@@ -805,7 +805,7 @@ Did not receive anything.
 </span>
 
 <span class="source-lf comment-line-double-dash-lflang">
-// The STP offset here will force STP violations in a and b.
+// The delay here will force STP violations in the Platform.
 </span>
 
 <span class="source-lf storage-modifier-lflang">
@@ -819,6 +819,18 @@ Delay
 </span>
 <span class="source-lf">
 (STP_offset: 
+</span>
+<span class="source-lf storage-type-lflang">
+time
+</span>
+<span class="source-lf">
+ 
+</span>
+<span class="source-lf keyword-operator-lflang">
+=
+</span>
+<span class="source-lf">
+ forever, delay: 
 </span>
 <span class="source-lf storage-type-lflang">
 time
@@ -910,6 +922,16 @@ in)
 </span>
 
 <span class="source-lf">
+    lf_sleep(self
+</span>
+<span class="source-lf keyword-operator-lflang">
+->
+</span>
+<span class="source-lf">
+delay);
+</span>
+
+<span class="source-lf">
     lf_set(out, in
 </span>
 <span class="source-lf keyword-operator-lflang">
@@ -942,21 +964,24 @@ value);
     
 </span>
 <span class="source-lf comment-line-double-dash-lflang">
-// With the 250ms above, STP violations shouldn't occur, but they do
+// With the forever above, STP violations shouldn't occur, but we can just have the
 </span>
 
 <span class="source-lf comment-line-double-dash-lflang">
     
 </span>
 <span class="source-lf comment-line-double-dash-lflang">
-// occur sometimes in CI.  Here, we can just have the behavior be the
+// behavior be the same as when it does not occur.
 </span>
 
-<span class="source-lf comment-line-double-dash-lflang">
-    
+<span class="source-lf">
+    lf_sleep(self
 </span>
-<span class="source-lf comment-line-double-dash-lflang">
-// same as when it does not occur.
+<span class="source-lf keyword-operator-lflang">
+->
+</span>
+<span class="source-lf">
+delay);
 </span>
 
 <span class="source-lf">

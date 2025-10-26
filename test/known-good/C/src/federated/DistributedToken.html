@@ -3,23 +3,19 @@
 </span>
 
 <span class="source-lf comment-block-lflang">
- * Distributed LF program where a MessageGenerator creates a string message that is sent via the RTI
+ * Distributed LF program where a MessageGenerator creates a string message that is sent to a
 </span>
 
 <span class="source-lf comment-block-lflang">
- * (runtime infrastructure) to a receiver that prints the message. The type is char*, so this tests
+ * receiver that prints the message. The type is char*, so this tests the transport of
 </span>
 
 <span class="source-lf comment-block-lflang">
- * the transport of token-encapsulated messages. Three executable programs are generated,
+ * token-encapsulated messages. Three executable programs are generated, Distributed,
 </span>
 
 <span class="source-lf comment-block-lflang">
- * Distributed, Distributed_Sender, and Distributed_Receiver. The RTI is realized in the first of
-</span>
-
-<span class="source-lf comment-block-lflang">
- * these and is identified as a "launcher," so it launches the other two programs.
+ * Distributed_Sender, and Distributed_Receiver.
 </span>
 
 <span class="source-lf comment-block-lflang">
