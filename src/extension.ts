@@ -56,10 +56,7 @@ export async function activate(context: vscode.ExtensionContext) {
     // Set up language client
     const serverOptions: ServerOptions = createServerOptions(context);
     const clientOptions: LanguageClientOptions = {
-        documentSelector: ['lflang'],
-        synchronize: {
-            fileEvents: vscode.workspace.createFileSystemWatcher('**/*.*')
-        }
+        documentSelector: ['lflang']
     };
     client = new LanguageClient('LF Language Server', serverOptions, clientOptions);
     // enable tracing (.Off, .Messages, Verbose)
