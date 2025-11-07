@@ -18,8 +18,6 @@ export const python3Message = `Python version ${config.pythonVersion} or higher 
     + `compiling LF programs with the Python target.`;
 export const nodeMessage = 'Node.js is required for executing LF programs with the TypeScript '
     + 'target.';
-export const rtiMessage = 'The Lingua Franca runtime infrastructure (RTI) is required for executing'
-    + ' federated LF programs.';
 export const pnpmMessage = 'In order to compile LF programs with the TypeScript target, it is '
     + 'necessary to install PNPM.';
 export const rustMessage = 'The Rust compiler is required for compiling LF programs with the Rust '
@@ -28,7 +26,7 @@ export const cmakeMessage = `CMake version ${config.cmakeVersion} or higher is r
     + `compiling LF programs with the C or C++ target.`;
 export const dockerMessage = 'Docker is required for running LF programs in a container.';
 
-export enum Dependency { Pylint, Java, Python3, Node, Rti, Docker, Pnpm, Rust, Cmake }
+export enum Dependency { Pylint, Java, Python3, Node, Docker, Pnpm, Rust, Cmake }
 
 const wrongVersionMessageOf = (originalMessage: string) =>
     (badResult: versionChecker.VersionCheckResult) =>
@@ -249,20 +247,6 @@ export const watcherConfig: CheckSet[] = [
                         null
                     )
                 ),
-                isEssential: true
-            },
-        ]
-    },
-    {
-        regexp: /(?=\bfederated\s+(realtime\s+)?reactor\b)/,
-        checks: [
-            {
-                name: Dependency.Rti,
-                checker: versionChecker.rtiVersionChecker,
-                message: () => rtiMessage,
-                requiredVersion: config.rtiVersion,
-                installLink: 'https://www.lf-lang.org/docs/handbook/distributed-execution#installation-of-the-rti',
-                installCommand: () => null,
                 isEssential: true
             },
         ]

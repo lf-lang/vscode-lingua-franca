@@ -167,26 +167,6 @@ suite('test dependency checking',  () => {
         }
     });
 
-    test('rti', async function() {
-        if (os.platform() == 'win32') this.test?.skip();  // No Windows federated support.
-        this.timeout(basicTimeoutMilliseconds);
-        const spy = getMockMessageShower();
-        switch (dependencies) {
-        case DependencyStatus.Present:
-            await expectSuccess(Dependency.Rti, spy);
-            break;
-        case DependencyStatus.Missing0:
-        case DependencyStatus.Outdated:
-            this.test?.skip();
-        case DependencyStatus.Missing1:
-            await expectFailure(Dependency.Rti, spy);
-            expect(spy).to.have.been.called.with(checkDependencies.rtiMessage + " " + checkDependencies.caveat);
-            break;
-        default:
-            throw new Error('unreachable');
-        }
-    });
-
     test('hyperlinks', async function() {
         this.timeout(linkCheckingTimeoutMilliseconds);
         if (dependencies != DependencyStatus.Present) this.test?.skip();
