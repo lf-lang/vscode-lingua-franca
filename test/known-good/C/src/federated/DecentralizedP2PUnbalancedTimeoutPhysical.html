@@ -333,14 +333,6 @@ SUCCESS: the source exited successfully.
 
 </span>
 
-<span class="source-lf comment-line-double-dash-lflang">
-// This needs an STA offset because otherwise it may advance to the stop time while the
-</span>
-
-<span class="source-lf comment-line-double-dash-lflang">
-// physical connection is in the process of assigning a timestamp.
-</span>
-
 <span class="source-lf storage-modifier-lflang">
 reactor
 </span>
@@ -351,25 +343,7 @@ reactor
 Destination
 </span>
 <span class="source-lf">
-(STA: 
-</span>
-<span class="source-lf storage-type-lflang">
-time
-</span>
-<span class="source-lf">
- 
-</span>
-<span class="source-lf keyword-operator-lflang">
-=
-</span>
-<span class="source-lf">
- 
-</span>
-<span class="source-lf constant-numeric-int-lflang">
-1
-</span>
-<span class="source-lf">
- ms) {
+ {
 </span>
 
 <span class="source-lf">
@@ -713,6 +687,36 @@ Clock
 </span>
 <span class="source-lf">
 period)
+</span>
+
+<span class="source-lf comment-line-double-dash-lflang">
+  
+</span>
+<span class="source-lf comment-line-double-dash-lflang">
+// This needs a `maxwait` because otherwise it may advance to the stop time while the
+</span>
+
+<span class="source-lf comment-line-double-dash-lflang">
+  
+</span>
+<span class="source-lf comment-line-double-dash-lflang">
+// physical connection is in the process of assigning a timestamp.
+</span>
+
+<span class="source-lf">
+  
+</span>
+<span class="source-lf keyword-operator-lflang">
+@
+</span>
+<span class="source-lf">
+maxwait(
+</span>
+<span class="source-lf constant-numeric-int-lflang">
+1
+</span>
+<span class="source-lf">
+ ms)
 </span>
 
 <span class="source-lf">
