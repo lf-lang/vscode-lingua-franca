@@ -299,23 +299,10 @@ client requesting stop
 =
 </span>
 <span class="source-lf">
-} STAA(
-</span>
-<span class="source-lf constant-numeric-int-lflang">
-0
-</span>
-<span class="source-lf">
-) {
+} tardy {
 </span>
 <span class="source-lf keyword-operator-lflang">
 =
-</span>
-
-<span class="source-lf comment-line-double-dash-lflang">
-    
-</span>
-<span class="source-lf comment-line-double-dash-lflang">
-// Zero STAA because STA is large and gets added.
 </span>
 
 <span class="source-lf">
@@ -362,31 +349,7 @@ reactor
 Server
 </span>
 <span class="source-lf">
-(STP_offset: 
-</span>
-<span class="source-lf storage-type-lflang">
-time
-</span>
-<span class="source-lf">
- 
-</span>
-<span class="source-lf keyword-operator-lflang">
-=
-</span>
-<span class="source-lf">
- 
-</span>
-<span class="source-lf constant-numeric-int-lflang">
-1
-</span>
-<span class="source-lf">
- 
-</span>
-<span class="source-lf constant-numeric-lflang">
-day
-</span>
-<span class="source-lf">
-) {
+ {
 </span>
 
 <span class="source-lf">
@@ -687,13 +650,7 @@ server requesting stop
 =
 </span>
 <span class="source-lf">
-} STAA(
-</span>
-<span class="source-lf constant-numeric-int-lflang">
-0
-</span>
-<span class="source-lf">
-) {
+} tardy {
 </span>
 <span class="source-lf keyword-operator-lflang">
 =
@@ -703,7 +660,7 @@ server requesting stop
     
 </span>
 <span class="source-lf comment-line-double-dash-lflang">
-// Zero STAA because STA is large and gets added.
+// This should not occur.
 </span>
 
 <span class="source-lf">
@@ -807,6 +764,16 @@ Client
 </span>
 <span class="source-lf">
 ()
+</span>
+
+<span class="source-lf">
+  
+</span>
+<span class="source-lf keyword-operator-lflang">
+@
+</span>
+<span class="source-lf">
+maxwait(forever)
 </span>
 
 <span class="source-lf">
