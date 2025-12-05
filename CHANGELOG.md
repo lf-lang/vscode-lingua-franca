@@ -1,5 +1,25 @@
 # Changelog
  
+## [v0.11.0](https://github.com/lf-lang/vscode-lingua-franca/tree/v0.11.0) (2025-12-05)
+
+**Highlights**
+
+This release of the VSCode extension incorporates version 0.11.0 of Lingua Franca.  See the [change log](https://github.com/lf-lang/lingua-franca/releases) for details.  This release of the extension also supports the new (still preliminary) [`reactor-uc` runtime system and code generator](https://github.com/lf-lang/reactor-uc) that is particularly tuned for embedded platforms.
+
+**✨ Enhancements**
+
+- Align to LF master [\#190](https://github.com/lf-lang/vscode-lingua-franca/pull/190) (@edwardalee)
+- Support reactor-uC target in VS Code extension [\#193](https://github.com/lf-lang/vscode-lingua-franca/pull/193) (@edwardalee)
+- Update lingua-franca submodule and known-good [\#197](https://github.com/lf-lang/vscode-lingua-franca/pull/197) (@edwardalee)
+
+**🔧 Fixes**
+
+- Fix enclave outline and update test configuration [\#191](https://github.com/lf-lang/vscode-lingua-franca/pull/191) (@edwardalee)
+- Make lfwasm before building the VS Code extension [\#192](https://github.com/lf-lang/vscode-lingua-franca/pull/192) (@edwardalee)
+- Remove check for installed RTI (not needed anymore) [\#195](https://github.com/lf-lang/vscode-lingua-franca/pull/195) (@edwardalee)
+
+
+ 
 ## [v0.10.1](https://github.com/lf-lang/vscode-lingua-franca/tree/v0.10.1) (2025-08-03)
 
 **Highlights**
