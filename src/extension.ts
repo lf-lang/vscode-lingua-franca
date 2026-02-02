@@ -21,6 +21,7 @@ import { registerCollapseAllCommand,
     registerOpenInTerminalCommand,
     registerRefreshCommand} from './lfview/lf-data-provider-commands';
 import * as extensionVersion from './extension_version';
+import { registerHeatMapHandler } from './heatmap';
 
 let client: LanguageClient;
 let socket: Socket;
@@ -74,6 +75,9 @@ export async function activate(context: vscode.ExtensionContext) {
     // Register build commands and new file command
     registerBuildCommands(context, client);
     registerNewFileCommand(context);
+
+    // Register heat map notification handler and toggle command
+    registerHeatMapHandler(context, client);
 
     // Registers a tree data provider and creates a tree view for the 'lf-lang-local' view
     const lfDataProvider = new LFDataProvider(client, context);

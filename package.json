@@ -148,6 +148,10 @@
                 "command": "linguafranca.openInTerminal",
                 "title": "Open in Terminal",
                 "icon": "$(terminal)"
+            },
+            {
+                "command": "linguafranca.toggleHeatMap",
+                "title": "Lingua Franca: Toggle Heat Map Visualization"
             }
         ],
         "configuration": {
