@@ -1,5 +1,13 @@
 # Changelog
  
+## [v0.12.0](https://github.com/lf-lang/vscode-lingua-franca/tree/v0.12.0) (2026-04-16)
+
+**Highlights**
+
+This release of the VSCode extension incorporates version 0.12.0 of Lingua Franca.  See the [change log](https://github.com/lf-lang/lingua-franca/releases) for details.  This release of the extension also supports ongoing development of the [`reactor-uc` runtime system and code generator](https://github.com/lf-lang/reactor-uc) that is particularly tuned for embedded platforms.
+
+
+ 
 ## [v0.11.0](https://github.com/lf-lang/vscode-lingua-franca/tree/v0.11.0) (2025-12-05)
 
 **Highlights**
