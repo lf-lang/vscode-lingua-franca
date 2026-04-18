@@ -1,5 +1,11 @@
 # Changelog
  
+## [v0.12.1](https://github.com/lf-lang/vscode-lingua-franca/tree/v0.12.1) (2026-04-17)
+
+**Highlights**
+
+This release of the VSCode extension incorporates version 0.12.1 of Lingua Franca.  See the [change log](https://github.com/lf-lang/lingua-franca/releases) for details.
+ 
 ## [v0.12.0](https://github.com/lf-lang/vscode-lingua-franca/tree/v0.12.0) (2026-04-16)
 
 **Highlights**
