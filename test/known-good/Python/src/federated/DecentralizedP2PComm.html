@@ -102,15 +102,6 @@ Platform
 0
 </span>
 <span class="source-lf">
-, stp_offset_param
-</span>
-<span class="source-lf keyword-operator-lflang">
-=
-</span>
-<span class="source-lf constant-numeric-int-lflang">
-0
-</span>
-<span class="source-lf">
 ) {
 </span>
 
@@ -324,7 +315,7 @@ reaction
 =}
 </span>
 <span class="source-lf">
- STAA(stp_offset_param) 
+ tardy 
 </span>
 <span class="source-lf meta-embedded-block-py">
 {=
@@ -429,6 +420,22 @@ DecentralizedP2PComm
 <span class="source-lf">
   
 </span>
+<span class="source-lf keyword-operator-lflang">
+@
+</span>
+<span class="source-lf">
+maxwait(
+</span>
+<span class="source-lf constant-numeric-int-lflang">
+0
+</span>
+<span class="source-lf">
+)
+</span>
+
+<span class="source-lf">
+  
+</span>
 <span class="source-lf variable-other-constant-reactorinstance-lflang">
 a
 </span>
@@ -460,22 +467,20 @@ Platform
 100
 </span>
 <span class="source-lf">
-, stp_offset_param 
+)
+</span>
+
+<span class="source-lf">
+  
 </span>
 <span class="source-lf keyword-operator-lflang">
-=
+@
 </span>
 <span class="source-lf">
- 
+maxwait(
 </span>
 <span class="source-lf constant-numeric-int-lflang">
-10
-</span>
-<span class="source-lf">
- 
-</span>
-<span class="source-lf constant-numeric-lflang">
-msec
+0
 </span>
 <span class="source-lf">
 )
@@ -515,25 +520,23 @@ Platform
 100
 </span>
 <span class="source-lf">
-, stp_offset_param 
+)
+</span>
+
+<span class="source-lf">
+  
 </span>
 <span class="source-lf keyword-operator-lflang">
-=
+@
 </span>
 <span class="source-lf">
- 
+absent_after(
 </span>
 <span class="source-lf constant-numeric-int-lflang">
 10
 </span>
 <span class="source-lf">
- 
-</span>
-<span class="source-lf constant-numeric-lflang">
-msec
-</span>
-<span class="source-lf">
-)
+ ms)
 </span>
 
 <span class="source-lf">
@@ -565,6 +568,22 @@ b
 </span>
 <span class="source-lf variable-other-lflang">
 inp
+</span>
+
+<span class="source-lf">
+  
+</span>
+<span class="source-lf keyword-operator-lflang">
+@
+</span>
+<span class="source-lf">
+absent_after(
+</span>
+<span class="source-lf constant-numeric-int-lflang">
+10
+</span>
+<span class="source-lf">
+ ms)
 </span>
 
 <span class="source-lf">

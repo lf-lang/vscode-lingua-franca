@@ -7,15 +7,15 @@
 </span>
 
 <span class="source-lf comment-block-lflang">
- * present in decentralized coordination. The Looper reactors have the default zero STP offset, so
+ * present in decentralized coordination. The Looper reactors have maxwait of zero, so they can
 </span>
 
 <span class="source-lf comment-block-lflang">
- * they can advance their time to the timer time immediately. Their second reaction, however, has
+ * advance their time to the timer time immediately. Their second reaction, however, has larger
 </span>
 
 <span class="source-lf comment-block-lflang">
- * larger STAA offset (100 ms), so they stall to wait for input. The test ensures that their third
+ * absent_after (100 ms), so they stall to wait for input. The test ensures that their third
 </span>
 
 <span class="source-lf comment-block-lflang">
@@ -510,7 +510,7 @@ count;
 =
 </span>
 <span class="source-lf">
-} STAA(stp) {
+} tardy {
 </span>
 <span class="source-lf keyword-operator-lflang">
 =
@@ -547,7 +547,7 @@ count;
 "
 </span>
 <span class="source-lf string-quoted-double-lflang">
-STP offset was violated. Received %d. Logical time is behind physical time by %s.
+STP violation. Received %d. Logical time is behind physical time by %s.
 </span>
 <span class="source-lf string-quoted-double-lflang">
 "
@@ -782,7 +782,7 @@ reaction(t) was invoked before reaction(in). Precedence order was not kept.
 "
 </span>
 <span class="source-lf string-quoted-double-lflang">
-Assumed input was absent because STAA expired.
+Assumed input was absent because absent_after expired.
 </span>
 <span class="source-lf string-quoted-double-lflang">
 "
@@ -954,6 +954,22 @@ time
 <span class="source-lf">
   
 </span>
+<span class="source-lf keyword-operator-lflang">
+@
+</span>
+<span class="source-lf">
+maxwait(
+</span>
+<span class="source-lf constant-numeric-int-lflang">
+0
+</span>
+<span class="source-lf">
+)
+</span>
+
+<span class="source-lf">
+  
+</span>
 <span class="source-lf variable-other-constant-reactorinstance-lflang">
 left
 </span>
@@ -985,13 +1001,29 @@ Looper
  
 </span>
 <span class="source-lf constant-numeric-int-lflang">
-50
+100
 </span>
 <span class="source-lf">
  
 </span>
 <span class="source-lf constant-numeric-lflang">
 msec
+</span>
+<span class="source-lf">
+)
+</span>
+
+<span class="source-lf">
+  
+</span>
+<span class="source-lf keyword-operator-lflang">
+@
+</span>
+<span class="source-lf">
+maxwait(
+</span>
+<span class="source-lf constant-numeric-int-lflang">
+0
 </span>
 <span class="source-lf">
 )
@@ -1043,7 +1075,7 @@ Looper
  
 </span>
 <span class="source-lf constant-numeric-int-lflang">
-50
+100
 </span>
 <span class="source-lf">
  
@@ -1053,6 +1085,22 @@ msec
 </span>
 <span class="source-lf">
 )
+</span>
+
+<span class="source-lf">
+  
+</span>
+<span class="source-lf keyword-operator-lflang">
+@
+</span>
+<span class="source-lf">
+absent_after(
+</span>
+<span class="source-lf constant-numeric-int-lflang">
+100
+</span>
+<span class="source-lf">
+ ms)
 </span>
 
 <span class="source-lf">
@@ -1084,6 +1132,22 @@ right
 </span>
 <span class="source-lf variable-other-lflang">
 in
+</span>
+
+<span class="source-lf">
+  
+</span>
+<span class="source-lf keyword-operator-lflang">
+@
+</span>
+<span class="source-lf">
+absent_after(
+</span>
+<span class="source-lf constant-numeric-int-lflang">
+100
+</span>
+<span class="source-lf">
+ ms)
 </span>
 
 <span class="source-lf">
