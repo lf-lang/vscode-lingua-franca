@@ -66,7 +66,7 @@ export async function activate(context: vscode.ExtensionContext) {
     const refId = await vscode.commands.executeCommand(
         'klighd-vscode.setLanguageClient',
         client,
-        ['lf']
+        ['lf', 'ulf']
     );
 
     client.start();

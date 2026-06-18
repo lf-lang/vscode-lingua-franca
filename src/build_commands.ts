@@ -1,6 +1,20 @@
 import * as vscode from 'vscode';
+import * as path from 'path';
+import which from 'which';
 import { LanguageClient } from 'vscode-languageclient';
 import { getTerminal, MessageDisplayHelper } from './utils';
+
+/** The repository that provides the `ulfc` compiler for the reactor-uc target. */
+const REACTOR_UC_REPO = 'https://github.com/lf-lang/reactor-uc';
+
+/**
+ * Return whether the given document is a reactor-uc Lingua Franca file (i.e. has a `.ulf`
+ * extension), which is compiled with `ulfc` rather than the standard build pipeline.
+ * @param textDocument A document in the user's editor.
+ */
+function isUlfDocument(textDocument: vscode.TextDocument): boolean {
+    return textDocument.uri.toString().endsWith('.ulf');
+}
 
 /**
  * Return the URI of the given document, if the document is a Lingua Franca file; else, return
@@ -11,7 +25,7 @@ import { getTerminal, MessageDisplayHelper } from './utils';
  */
 function getLfUri(textDocument: vscode.TextDocument, failSilently = false): string | undefined {
     const uri: string = textDocument.uri.toString();
-    if (!uri.endsWith('.lf')) {
+    if (!uri.endsWith('.lf') && !uri.endsWith('.ulf')) {
         if (!failSilently) {
             vscode.window.showErrorMessage(
                 'The currently active file is not a Lingua Franca source file.'
@@ -52,7 +66,7 @@ const getWorkspace =
     if (roots) {
       for (const root of roots) {
         const files: vscode.Uri[] = await vscode.workspace.findFiles(
-            new vscode.RelativePattern(root, "**/*.lf")
+            new vscode.RelativePattern(root, "**/*.{lf,ulf}")
         );
         lf_files = lf_files.concat(files);
         lingo_tomls = lingo_tomls.concat(await vscode.workspace.findFiles(
@@ -100,6 +114,57 @@ async function getJson(uri: string): Promise<string> {
 }
 
 /**
+ * Verify that the environment required to build reactor-uc (`.ulf`) programs is available.
+ * Specifically, this checks that the `ulfc` compiler is on the PATH and that the
+ * `REACTOR_UC_PATH` environment variable points to a clone of the reactor-uc repository.
+ * If either is missing, an error message is shown that points to the repository.
+ * @param withLogs A messageShowerTransformer that lets the user request to view logs.
+ * @returns Whether the reactor-uc build environment is satisfied.
+ */
+async function checkReactorUcEnvironment(withLogs: MessageShowerTransformer): Promise<boolean> {
+    let ulfc: string | undefined;
+    try {
+        ulfc = await which('ulfc');
+    } catch {
+        ulfc = undefined;
+    }
+    const reactorUcPath = process.env.REACTOR_UC_PATH;
+    const problems: string[] = [];
+    if (!ulfc) {
+        problems.push('the `ulfc` compiler could not be found on your PATH');
+    }
+    if (!reactorUcPath) {
+        problems.push('the `REACTOR_UC_PATH` environment variable is not set');
+    }
+    if (problems.length > 0) {
+        withLogs(vscode.window.showErrorMessage)(
+            `Cannot build this reactor-uc (.ulf) program because ${problems.join(' and ')}. `
+            + `Install the reactor-uc compiler and set REACTOR_UC_PATH to a clone of `
+            + `${REACTOR_UC_REPO}.`
+        );
+        return false;
+    }
+    return true;
+}
+
+/**
+ * Build (and, if requested, run) a reactor-uc (`.ulf`) program using the `ulfc` compiler.
+ * @param withLogs A messageShowerTransformer that lets the user request to view logs.
+ * @param textEditor The editor containing the `.ulf` file to build.
+ */
+async function buildReactorUc(withLogs: MessageShowerTransformer, textEditor: vscode.TextEditor) {
+    const successful = vscode.workspace.saveAll();
+    if (!successful) return;
+    if (!(await checkReactorUcEnvironment(withLogs))) return;
+    const filePath = textEditor.document.uri.fsPath;
+    const cwd = path.dirname(filePath);
+    const terminal = getTerminal('Lingua Franca: Run', cwd);
+    terminal.show(true);
+    terminal.sendText(`cd "${cwd}"`);
+    terminal.sendText(`ulfc "${filePath}"`);
+}
+
+/**
  * Return the action that should be taken in case of a request to build.
  * @param withLogs A messageShowerTransformer that lets the user request to view logs.
  * @param client The language client.
@@ -109,6 +174,10 @@ const build = (withLogs: MessageShowerTransformer, client: LanguageClient) =>
         async (textEditor: vscode.TextEditor) => {
     const uri = getLfUri(textEditor.document);
     if (!uri) return;
+    if (isUlfDocument(textEditor.document)) {
+        await buildReactorUc(withLogs, textEditor);
+        return;
+    }
     const successful = vscode.workspace.saveAll();
     if (!successful) return;
     const args = {"uri": uri, "json": await getJson(uri)};
@@ -130,6 +199,10 @@ const buildAndRun = (withLogs: MessageShowerTransformer, client: LanguageClient)
         async (textEditor: vscode.TextEditor) => {
     const uri = getLfUri(textEditor.document);
     if (!uri) return;
+    if (isUlfDocument(textEditor.document)) {
+        await buildReactorUc(withLogs, textEditor);
+        return;
+    }
     const successful = vscode.workspace.saveAll();
     if (!successful) {
         return;
@@ -188,6 +261,8 @@ export function registerBuildCommands(context: vscode.ExtensionContext, client: 
         if (!enabled) return;
         const uri = getLfUri(textDocument, true);
         if (!uri) return; // This is not an LF document, so do nothing.
+        // reactor-uc (.ulf) files are built with `ulfc`, not the standard build pipeline.
+        if (isUlfDocument(textDocument)) return;
         client.sendNotification('generator/partialBuild', uri);
     });
     vscode.workspace.onDidChangeConfiguration(() => {

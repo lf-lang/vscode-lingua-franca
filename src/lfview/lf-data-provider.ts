@@ -60,7 +60,7 @@ export class LFDataProviderNode extends vscode.TreeItem {
         type?: LFDataProviderNodeType | undefined,
         children?: LFDataProviderNode[] | undefined,
         position?: NodePosition | undefined) {
-        let newLabel = type === LFDataProviderNodeType.SOURCE ? label : label.replace('.lf', '');
+        let newLabel = type === LFDataProviderNodeType.SOURCE ? label : label.replace(/\.u?lf$/, '');
         super(newLabel, role === LFDataProviderNodeRole.REACTOR ||
             (role === LFDataProviderNodeRole.FILE && type === LFDataProviderNodeType.SOURCE)
             ? vscode.TreeItemCollapsibleState.None : vscode.TreeItemCollapsibleState.Collapsed);
@@ -221,9 +221,9 @@ export class LFDataProvider implements vscode.TreeDataProvider<LFDataProviderNod
     private data: LFDataProviderNode[] = [];
 
     // Utility properties
-    private searchSourceFiles: vscode.GlobPattern = 'src/**/*.lf}';
-    private searchPathLocal: vscode.GlobPattern = 'src/lib/*.lf';
-    private searchPathLibrary: vscode.GlobPattern = 'build/lfc_include/**/src/lib/*.lf';
+    private searchSourceFiles: vscode.GlobPattern = 'src/**/*.{lf,ulf}';
+    private searchPathLocal: vscode.GlobPattern = 'src/lib/*.{lf,ulf}';
+    private searchPathLibrary: vscode.GlobPattern = 'build/lfc_include/**/src/lib/*.{lf,ulf}';
     private exclude_path_local: vscode.GlobPattern = '**/build/**'; // only for local LF libraries
     private exclude_path_src: vscode.GlobPattern = `{${this.exclude_path_local},src/lib/**,**/fed-gen/**,**/src-gen/**}`
 
@@ -286,7 +286,7 @@ export class LFDataProvider implements vscode.TreeDataProvider<LFDataProviderNod
      * @param context - The extension context, used to manage the subscriptions.
      */
     watchFileChanges(context: vscode.ExtensionContext): void {
-        this.watcher = vscode.workspace.createFileSystemWatcher(`**/*.lf`, false, false, false);
+        this.watcher = vscode.workspace.createFileSystemWatcher(`**/*.{lf,ulf}`, false, false, false);
         this.watcher.onDidChange(() => {
             this.refreshTree();
         }),
@@ -675,7 +675,7 @@ export class LFDataProvider implements vscode.TreeDataProvider<LFDataProviderNod
      * @returns A Promise that resolves when the import text has been added to the active editor and the document saved.
      */
     async importReactorCommand(node: LFDataProviderNode, editor: vscode.TextEditor): Promise<void> {
-        if (!editor.document.uri.path.endsWith('.lf')) {
+        if (!editor.document.uri.path.endsWith('.lf') && !editor.document.uri.path.endsWith('.ulf')) {
             vscode.window.showErrorMessage('The active editor must be a Ligua Franca program.');
             return;
         }
@@ -693,7 +693,7 @@ export class LFDataProvider implements vscode.TreeDataProvider<LFDataProviderNod
      * @returns A Promise that resolves when the import text has been added to the active editor and the document saved.
      */
     async importLibraryReactorCommand(node: LFDataProviderNode, editor: vscode.TextEditor): Promise<void> {
-        if (!editor.document.uri.fsPath.endsWith('.lf')) {
+        if (!editor.document.uri.fsPath.endsWith('.lf') && !editor.document.uri.fsPath.endsWith('.ulf')) {
             vscode.window.showErrorMessage('The active editor must be a Ligua Franca program.');
             return;
         }
