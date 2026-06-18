@@ -195,7 +195,7 @@ async function checkReactorUcEnvironment(withLogs: MessageShowerTransformer): Pr
  * @param textEditor The editor containing the `.ulf` file to build.
  */
 async function buildReactorUc(withLogs: MessageShowerTransformer, textEditor: vscode.TextEditor) {
-    const successful = vscode.workspace.saveAll();
+    const successful = await vscode.workspace.saveAll();
     if (!successful) return;
     if (!(await checkReactorUcEnvironment(withLogs))) return;
     const filePath = textEditor.document.uri.fsPath;
