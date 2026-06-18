@@ -693,30 +693,14 @@ period)
   
 </span>
 <span class="source-lf comment-line-double-dash-lflang">
-// This needs a `maxwait` because otherwise it may advance to the stop time while the
+// THe default `maxwait` of forever ensures that the Destination does not shut
 </span>
 
 <span class="source-lf comment-line-double-dash-lflang">
   
 </span>
 <span class="source-lf comment-line-double-dash-lflang">
-// physical connection is in the process of assigning a timestamp.
-</span>
-
-<span class="source-lf">
-  
-</span>
-<span class="source-lf keyword-operator-lflang">
-@
-</span>
-<span class="source-lf">
-maxwait(
-</span>
-<span class="source-lf constant-numeric-int-lflang">
-1
-</span>
-<span class="source-lf">
- ms)
+// down before the Clock has even had a chance to start up, which would make the test flaky.
 </span>
 
 <span class="source-lf">
