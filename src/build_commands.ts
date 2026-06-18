@@ -220,7 +220,7 @@ const build = (withLogs: MessageShowerTransformer, client: LanguageClient) =>
         await buildReactorUc(withLogs, textEditor);
         return;
     }
-    const successful = vscode.workspace.saveAll();
+    const successful = await vscode.workspace.saveAll();
     if (!successful) return;
     const args = {"uri": uri, "json": await getJson(uri)};
     // const args = [ uri, await getJson(uri)];
