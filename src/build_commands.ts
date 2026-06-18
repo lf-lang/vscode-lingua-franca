@@ -1,6 +1,7 @@
 import * as vscode from 'vscode';
 import * as path from 'path';
 import which from 'which';
+import { execFile } from 'child_process';
 import { LanguageClient } from 'vscode-languageclient';
 import { getTerminal, MessageDisplayHelper } from './utils';
 
@@ -114,6 +115,35 @@ async function getJson(uri: string): Promise<string> {
 }
 
 /**
+ * Probe the user's interactive login shell for the reactor-uc build environment. Running an
+ * interactive shell ensures that aliases, shell functions, and variables defined in startup
+ * files (e.g. `.zshrc`) are resolved, which is not the case for the extension host's
+ * environment. This mirrors what the integrated terminal will see when it runs the build.
+ * @returns Whether `ulfc` resolves in the shell and the value of `REACTOR_UC_PATH`, if any.
+ */
+function probeReactorUcShellEnvironment(): Promise<{ ulfcAvailable: boolean, reactorUcPath: string | undefined }> {
+    return new Promise((resolve) => {
+        const shell = vscode.env.shell || process.env.SHELL;
+        if (!shell) {
+            resolve({ ulfcAvailable: false, reactorUcPath: undefined });
+            return;
+        }
+        // `command -v` resolves aliases, functions, and executables; the marker lines let us
+        // parse the result unambiguously.
+        const script =
+            'command -v ulfc >/dev/null 2>&1 && echo __ULFC_FOUND__; '
+            + 'echo "__REACTOR_UC_PATH__=$REACTOR_UC_PATH"';
+        execFile(shell, ['-ic', script], { timeout: 8000 }, (_error, stdout) => {
+            const out = stdout ?? '';
+            const ulfcAvailable = out.includes('__ULFC_FOUND__');
+            const match = out.match(/__REACTOR_UC_PATH__=(.*)/);
+            const value = match ? match[1].trim() : '';
+            resolve({ ulfcAvailable, reactorUcPath: value.length > 0 ? value : undefined });
+        });
+    });
+}
+
+/**
  * Verify that the environment required to build reactor-uc (`.ulf`) programs is available.
  * Specifically, this checks that the `ulfc` compiler is on the PATH and that the
  * `REACTOR_UC_PATH` environment variable points to a clone of the reactor-uc repository.
@@ -122,16 +152,28 @@ async function getJson(uri: string): Promise<string> {
  * @returns Whether the reactor-uc build environment is satisfied.
  */
 async function checkReactorUcEnvironment(withLogs: MessageShowerTransformer): Promise<boolean> {
-    let ulfc: string | undefined;
+    let ulfcAvailable = false;
     try {
-        ulfc = await which('ulfc');
+        await which('ulfc');
+        ulfcAvailable = true;
     } catch {
-        ulfc = undefined;
+        ulfcAvailable = false;
     }
-    const reactorUcPath = process.env.REACTOR_UC_PATH;
+    let reactorUcPath = process.env.REACTOR_UC_PATH;
+
+    // `ulfc` is frequently provided as a shell alias or function, and `REACTOR_UC_PATH` may be
+    // exported only in shell startup files. Neither is visible to the extension host's PATH/env,
+    // so fall back to probing the user's interactive login shell (which is also what the
+    // integrated terminal uses to actually run the build).
+    if (!ulfcAvailable || !reactorUcPath) {
+        const probe = await probeReactorUcShellEnvironment();
+        ulfcAvailable = ulfcAvailable || probe.ulfcAvailable;
+        reactorUcPath = reactorUcPath || probe.reactorUcPath;
+    }
+
     const problems: string[] = [];
-    if (!ulfc) {
-        problems.push('the `ulfc` compiler could not be found on your PATH');
+    if (!ulfcAvailable) {
+        problems.push('the `ulfc` compiler could not be found');
     }
     if (!reactorUcPath) {
         problems.push('the `REACTOR_UC_PATH` environment variable is not set');
