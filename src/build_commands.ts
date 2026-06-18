@@ -245,7 +245,7 @@ const buildAndRun = (withLogs: MessageShowerTransformer, client: LanguageClient)
         await buildReactorUc(withLogs, textEditor);
         return;
     }
-    const successful = vscode.workspace.saveAll();
+    const successful = await vscode.workspace.saveAll();
     if (!successful) {
         return;
     }
