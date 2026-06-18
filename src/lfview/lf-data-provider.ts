@@ -676,7 +676,7 @@ export class LFDataProvider implements vscode.TreeDataProvider<LFDataProviderNod
      */
     async importReactorCommand(node: LFDataProviderNode, editor: vscode.TextEditor): Promise<void> {
         if (!editor.document.uri.path.endsWith('.lf') && !editor.document.uri.path.endsWith('.ulf')) {
-            vscode.window.showErrorMessage('The active editor must be a Ligua Franca program.');
+            vscode.window.showErrorMessage('The active editor must be a Lingua Franca program.');
             return;
         }
         const relativePath = this.getRelativePath(editor.document.uri.path, node.uri.path);
