@@ -281,7 +281,8 @@ export class LFDataProvider implements vscode.TreeDataProvider<LFDataProviderNod
     }
 
     /**
-     * Subscribes to various file change events (delete, rename, create) and refreshes the LF data provider tree when an .lf file is affected.
+     * Subscribes to various file change events (delete, rename, create) and refreshes the LF data provider tree when an 
+     * .lf or .ulf file is affected.
      * Also subscribes to changes in the LF watcher and refreshes the tree when a change is detected.
      * @param context - The extension context, used to manage the subscriptions.
      */
