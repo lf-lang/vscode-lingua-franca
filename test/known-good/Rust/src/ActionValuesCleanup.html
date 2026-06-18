@@ -112,7 +112,7 @@ Ordering
 </span>
 
 <span class="source-lf">
-    static mut DROPPED: 
+    static DROPPED: 
 </span>
 <span class="source-lf storage-type-lflang">
 AtomicBool
@@ -187,10 +187,6 @@ Drop
 </span>
 
 <span class="source-lf">
-        unsafe {
-</span>
-
-<span class="source-lf">
           
 </span>
 <span class="source-lf variable-other-constant-reactorinstance-lflang">
@@ -222,10 +218,6 @@ SeqCst
 </span>
 <span class="source-lf">
 );
-</span>
-
-<span class="source-lf">
-        }
 </span>
 
 <span class="source-lf">
@@ -613,7 +605,7 @@ is_none
 </span>
 
 <span class="source-lf">
-      assert!(unsafe { 
+      assert!(
 </span>
 <span class="source-lf variable-other-constant-reactorinstance-lflang">
 DROPPED
@@ -637,7 +629,7 @@ Ordering
 SeqCst
 </span>
 <span class="source-lf">
-) });
+));
 </span>
 
 <span class="source-lf">
