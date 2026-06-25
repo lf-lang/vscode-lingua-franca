@@ -5,11 +5,11 @@ import { execFile } from 'child_process';
 import { LanguageClient } from 'vscode-languageclient';
 import { getTerminal, MessageDisplayHelper } from './utils';
 
-/** The repository that provides the `ulfc` compiler for the reactor-uc target. */
+/** The repository that provides the `ulfc` compiler for the micro-LF. */
 const REACTOR_UC_REPO = 'https://github.com/lf-lang/reactor-uc';
 
 /**
- * Return whether the given document is a reactor-uc Lingua Franca file (i.e. has a `.ulf`
+ * Return whether the given document is a micro-LF Lingua Franca file (i.e. has a `.ulf`
  * extension), which is compiled with `ulfc` rather than the standard build pipeline.
  * @param textDocument A document in the user's editor.
  */
@@ -115,7 +115,7 @@ async function getJson(uri: string): Promise<string> {
 }
 
 /**
- * Probe the user's interactive login shell for the reactor-uc build environment. Running an
+ * Probe the user's interactive login shell for the micro-LF build environment. Running an
  * interactive shell ensures that aliases, shell functions, and variables defined in startup
  * files (e.g. `.zshrc`) are resolved, which is not the case for the extension host's
  * environment. This mirrors what the integrated terminal will see when it runs the build.
@@ -144,12 +144,12 @@ function probeReactorUcShellEnvironment(): Promise<{ ulfcAvailable: boolean, rea
 }
 
 /**
- * Verify that the environment required to build reactor-uc (`.ulf`) programs is available.
+ * Verify that the environment required to build micro-LF (`.ulf`) programs is available.
  * Specifically, this checks that the `ulfc` compiler is on the PATH and that the
- * `REACTOR_UC_PATH` environment variable points to a clone of the reactor-uc repository.
+ * `REACTOR_UC_PATH` environment variable points to a clone of the micro-LF repository.
  * If either is missing, an error message is shown that points to the repository.
  * @param withLogs A messageShowerTransformer that lets the user request to view logs.
- * @returns Whether the reactor-uc build environment is satisfied.
+ * @returns Whether the micro-LF build environment is satisfied.
  */
 async function checkReactorUcEnvironment(withLogs: MessageShowerTransformer): Promise<boolean> {
     let ulfcAvailable = false;
@@ -180,8 +180,8 @@ async function checkReactorUcEnvironment(withLogs: MessageShowerTransformer): Pr
     }
     if (problems.length > 0) {
         withLogs(vscode.window.showErrorMessage)(
-            `Cannot build this reactor-uc (.ulf) program because ${problems.join(' and ')}. `
-            + `Install the reactor-uc compiler and set REACTOR_UC_PATH to a clone of `
+            `Cannot build this micro-LF (.ulf) program because ${problems.join(' and ')}. `
+            + `Install the micro-LF compiler and set REACTOR_UC_PATH to a clone of `
             + `${REACTOR_UC_REPO}.`
         );
         return false;
@@ -190,7 +190,7 @@ async function checkReactorUcEnvironment(withLogs: MessageShowerTransformer): Pr
 }
 
 /**
- * Build (and, if requested, run) a reactor-uc (`.ulf`) program using the `ulfc` compiler.
+ * Build (and, if requested, run) a micro-LF (`.ulf`) program using the `ulfc` compiler.
  * @param withLogs A messageShowerTransformer that lets the user request to view logs.
  * @param textEditor The editor containing the `.ulf` file to build.
  */
@@ -303,7 +303,7 @@ export function registerBuildCommands(context: vscode.ExtensionContext, client: 
         if (!enabled) return;
         const uri = getLfUri(textDocument, true);
         if (!uri) return; // This is not an LF document, so do nothing.
-        // reactor-uc (.ulf) files are built with `ulfc`, not the standard build pipeline.
+        // micro-LF (.ulf) files are built with `ulfc`, not the standard build pipeline.
         if (isUlfDocument(textDocument)) return;
         client.sendNotification('generator/partialBuild', uri);
     });
