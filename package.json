@@ -41,7 +41,8 @@
                     "Lingua Franca"
                 ],
                 "extensions": [
-                    ".lf"
+                    ".lf",
+                    ".ulf"
                 ],
                 "configuration": "./language-configuration.json"
             }
