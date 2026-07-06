@@ -18,6 +18,31 @@ function isUlfDocument(textDocument: vscode.TextDocument): boolean {
 }
 
 /**
+ * Return the package root for a micro-LF source file, mirroring `FileConfig.findPackageRoot`.
+ * If an ancestor directory named `src` exists, the package root is its parent; otherwise the
+ * source file's directory is the package root.
+ */
+function getUlfPackageRoot(filePath: string): string {
+    let dir = path.dirname(filePath);
+    while (true) {
+        if (path.basename(dir) === 'src') {
+            return path.dirname(dir);
+        }
+        const parent = path.dirname(dir);
+        if (parent === dir) {
+            return path.dirname(filePath);
+        }
+        dir = parent;
+    }
+}
+
+/** Return the path to the generated binary, relative to the package root. */
+function getUlfBinaryRelativePath(filePath: string): string {
+    const binaryName = path.basename(filePath, path.extname(filePath));
+    return path.join('bin', binaryName);
+}
+
+/**
  * Return the URI of the given document, if the document is a Lingua Franca file; else, return
  * undefined.
  * @param textDocument A document in the user's editor.
@@ -203,21 +228,33 @@ async function checkReactorUcEnvironment(withLogs: MessageShowerTransformer): Pr
 }
 
 /**
- * Build (and, if requested, run) a micro-LF (`.ulf`) program using `ulfc-dev` or `ulfc`.
+ * Build a micro-LF (`.ulf`) program using `ulfc-dev` or `ulfc`, optionally running the
+ * generated binary afterward.
  * @param withLogs A messageShowerTransformer that lets the user request to view logs.
  * @param textEditor The editor containing the `.ulf` file to build.
+ * @param runAfterBuild Whether to run the generated binary if the build succeeds.
  */
-async function buildReactorUc(withLogs: MessageShowerTransformer, textEditor: vscode.TextEditor) {
+async function buildReactorUc(
+    withLogs: MessageShowerTransformer,
+    textEditor: vscode.TextEditor,
+    runAfterBuild: boolean
+) {
     const successful = await vscode.workspace.saveAll();
     if (!successful) return;
     const ulfcCommand = await checkReactorUcEnvironment(withLogs);
     if (!ulfcCommand) return;
     const filePath = textEditor.document.uri.fsPath;
-    const cwd = path.dirname(filePath);
-    const terminal = getTerminal('Lingua Franca: Run', cwd);
+    const packageRoot = getUlfPackageRoot(filePath);
+    const ulfRelPath = path.relative(packageRoot, filePath).split(path.sep).join('/');
+    const binaryRelPath = getUlfBinaryRelativePath(filePath);
+    const terminal = getTerminal('Lingua Franca: Run', packageRoot);
     terminal.show(true);
-    terminal.sendText(`cd "${cwd}"`);
-    terminal.sendText(`${ulfcCommand} "${filePath}"`);
+    let command = `cd "${packageRoot}" && ${ulfcCommand} "${ulfRelPath}"`;
+    if (runAfterBuild) {
+        // Only run if ulfc produced a host-native binary (e.g. with @platform("Native")).
+        command += ` && test -x "./${binaryRelPath}" && "./${binaryRelPath}"`;
+    }
+    terminal.sendText(command);
 }
 
 /**
@@ -231,7 +268,7 @@ const build = (withLogs: MessageShowerTransformer, client: LanguageClient) =>
     const uri = getLfUri(textEditor.document);
     if (!uri) return;
     if (isUlfDocument(textEditor.document)) {
-        await buildReactorUc(withLogs, textEditor);
+        await buildReactorUc(withLogs, textEditor, false);
         return;
     }
     const successful = await vscode.workspace.saveAll();
@@ -256,7 +293,7 @@ const buildAndRun = (withLogs: MessageShowerTransformer, client: LanguageClient)
     const uri = getLfUri(textEditor.document);
     if (!uri) return;
     if (isUlfDocument(textEditor.document)) {
-        await buildReactorUc(withLogs, textEditor);
+        await buildReactorUc(withLogs, textEditor, true);
         return;
     }
     const successful = await vscode.workspace.saveAll();
