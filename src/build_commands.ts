@@ -119,45 +119,58 @@ async function getJson(uri: string): Promise<string> {
  * interactive shell ensures that aliases, shell functions, and variables defined in startup
  * files (e.g. `.zshrc`) are resolved, which is not the case for the extension host's
  * environment. This mirrors what the integrated terminal will see when it runs the build.
- * @returns Whether `ulfc` resolves in the shell and the value of `REACTOR_UC_PATH`, if any.
+ * @returns The resolved `ulfc-dev` or `ulfc` command, if any, and the value of
+ * `REACTOR_UC_PATH`, if set.
  */
-function probeReactorUcShellEnvironment(): Promise<{ ulfcAvailable: boolean, reactorUcPath: string | undefined }> {
+function probeReactorUcShellEnvironment(): Promise<{ ulfcCommand: string | undefined, reactorUcPath: string | undefined }> {
     return new Promise((resolve) => {
         const shell = vscode.env.shell || process.env.SHELL;
         if (!shell) {
-            resolve({ ulfcAvailable: false, reactorUcPath: undefined });
+            resolve({ ulfcCommand: undefined, reactorUcPath: undefined });
             return;
         }
         // `command -v` resolves aliases, functions, and executables; the marker lines let us
         // parse the result unambiguously.
         const script =
-            'command -v ulfc >/dev/null 2>&1 && echo __ULFC_FOUND__; '
+            'if command -v ulfc-dev >/dev/null 2>&1; then echo __ULFC_DEV_FOUND__; '
+            + 'elif command -v ulfc >/dev/null 2>&1; then echo __ULFC_FOUND__; fi; '
             + 'echo "__REACTOR_UC_PATH__=$REACTOR_UC_PATH"';
         execFile(shell, ['-ic', script], { timeout: 8000 }, (_error, stdout) => {
             const out = stdout ?? '';
-            const ulfcAvailable = out.includes('__ULFC_FOUND__');
+            let ulfcCommand: string | undefined;
+            if (out.includes('__ULFC_DEV_FOUND__')) {
+                ulfcCommand = 'ulfc-dev';
+            } else if (out.includes('__ULFC_FOUND__')) {
+                ulfcCommand = 'ulfc';
+            }
             const match = out.match(/__REACTOR_UC_PATH__=(.*)/);
             const value = match ? match[1].trim() : '';
-            resolve({ ulfcAvailable, reactorUcPath: value.length > 0 ? value : undefined });
+            resolve({ ulfcCommand, reactorUcPath: value.length > 0 ? value : undefined });
         });
     });
 }
 
 /**
  * Verify that the environment required to build micro-LF (`.ulf`) programs is available.
- * Specifically, this checks that the `ulfc` compiler is on the PATH and that the
- * `REACTOR_UC_PATH` environment variable points to a clone of the micro-LF repository.
- * If either is missing, an error message is shown that points to the repository.
+ * Specifically, this checks that `ulfc-dev` or `ulfc` is on the PATH (preferring `ulfc-dev`)
+ * and that the `REACTOR_UC_PATH` environment variable points to a clone of the micro-LF
+ * repository. If either is missing, an error message is shown that points to the repository.
  * @param withLogs A messageShowerTransformer that lets the user request to view logs.
- * @returns Whether the micro-LF build environment is satisfied.
+ * @returns The compiler command to invoke (`ulfc-dev` or `ulfc`), or undefined if the
+ * environment is not satisfied.
  */
-async function checkReactorUcEnvironment(withLogs: MessageShowerTransformer): Promise<boolean> {
-    let ulfcAvailable = false;
+async function checkReactorUcEnvironment(withLogs: MessageShowerTransformer): Promise<string | undefined> {
+    let ulfcCommand: string | undefined;
     try {
-        await which('ulfc');
-        ulfcAvailable = true;
+        await which('ulfc-dev');
+        ulfcCommand = 'ulfc-dev';
     } catch {
-        ulfcAvailable = false;
+        try {
+            await which('ulfc');
+            ulfcCommand = 'ulfc';
+        } catch {
+            ulfcCommand = undefined;
+        }
     }
     let reactorUcPath = process.env.REACTOR_UC_PATH;
 
@@ -165,15 +178,15 @@ async function checkReactorUcEnvironment(withLogs: MessageShowerTransformer): Pr
     // exported only in shell startup files. Neither is visible to the extension host's PATH/env,
     // so fall back to probing the user's interactive login shell (which is also what the
     // integrated terminal uses to actually run the build).
-    if (!ulfcAvailable || !reactorUcPath) {
+    if (!ulfcCommand || !reactorUcPath) {
         const probe = await probeReactorUcShellEnvironment();
-        ulfcAvailable = ulfcAvailable || probe.ulfcAvailable;
+        ulfcCommand = ulfcCommand || probe.ulfcCommand;
         reactorUcPath = reactorUcPath || probe.reactorUcPath;
     }
 
     const problems: string[] = [];
-    if (!ulfcAvailable) {
-        problems.push('the `ulfc` compiler could not be found');
+    if (!ulfcCommand) {
+        problems.push('neither the `ulfc-dev` nor the `ulfc` compiler could be found');
     }
     if (!reactorUcPath) {
         problems.push('the `REACTOR_UC_PATH` environment variable is not set');
@@ -184,26 +197,27 @@ async function checkReactorUcEnvironment(withLogs: MessageShowerTransformer): Pr
             + `Install the micro-LF compiler and set REACTOR_UC_PATH to a clone of `
             + `${REACTOR_UC_REPO}.`
         );
-        return false;
+        return undefined;
     }
-    return true;
+    return ulfcCommand;
 }
 
 /**
- * Build (and, if requested, run) a micro-LF (`.ulf`) program using the `ulfc` compiler.
+ * Build (and, if requested, run) a micro-LF (`.ulf`) program using `ulfc-dev` or `ulfc`.
  * @param withLogs A messageShowerTransformer that lets the user request to view logs.
  * @param textEditor The editor containing the `.ulf` file to build.
  */
 async function buildReactorUc(withLogs: MessageShowerTransformer, textEditor: vscode.TextEditor) {
     const successful = await vscode.workspace.saveAll();
     if (!successful) return;
-    if (!(await checkReactorUcEnvironment(withLogs))) return;
+    const ulfcCommand = await checkReactorUcEnvironment(withLogs);
+    if (!ulfcCommand) return;
     const filePath = textEditor.document.uri.fsPath;
     const cwd = path.dirname(filePath);
     const terminal = getTerminal('Lingua Franca: Run', cwd);
     terminal.show(true);
     terminal.sendText(`cd "${cwd}"`);
-    terminal.sendText(`ulfc "${filePath}"`);
+    terminal.sendText(`${ulfcCommand} "${filePath}"`);
 }
 
 /**
