@@ -1,12 +1,35 @@
 import * as vscode from 'vscode';
 import * as path from 'path';
+import { existsSync } from 'fs';
 import which from 'which';
 import { execFile } from 'child_process';
 import { LanguageClient } from 'vscode-languageclient';
 import { getTerminal, MessageDisplayHelper } from './utils';
 
+/** Relative path from a reactor-uc clone to the development compiler. */
+const REACTOR_UC_ULFC_DEV = path.join('ulf', 'bin', 'ulfc-dev');
+
+/** Relative path from a reactor-uc clone to the release compiler. */
+const REACTOR_UC_ULFC = path.join('ulf', 'bin', 'ulfc');
+
 /** The repository that provides the `ulfc` compiler for the micro-LF. */
 const REACTOR_UC_REPO = 'https://github.com/lf-lang/reactor-uc';
+
+/**
+ * Return a shell-ready path to `ulfc-dev` or `ulfc` under the given reactor-uc clone,
+ * preferring `ulfc-dev`.
+ */
+function resolveUlfcInReactorUc(reactorUcPath: string): string | undefined {
+    const ulfcDev = path.join(reactorUcPath, REACTOR_UC_ULFC_DEV);
+    if (existsSync(ulfcDev)) {
+        return `"${ulfcDev}"`;
+    }
+    const ulfc = path.join(reactorUcPath, REACTOR_UC_ULFC);
+    if (existsSync(ulfc)) {
+        return `"${ulfc}"`;
+    }
+    return undefined;
+}
 
 /**
  * Return whether the given document is a micro-LF Lingua Franca file (i.e. has a `.ulf`
@@ -158,7 +181,11 @@ function probeReactorUcShellEnvironment(): Promise<{ ulfcCommand: string | undef
         // parse the result unambiguously.
         const script =
             'if command -v ulfc-dev >/dev/null 2>&1; then echo __ULFC_DEV_FOUND__; '
-            + 'elif command -v ulfc >/dev/null 2>&1; then echo __ULFC_FOUND__; fi; '
+            + 'elif command -v ulfc >/dev/null 2>&1; then echo __ULFC_FOUND__; '
+            + 'elif [ -n "$REACTOR_UC_PATH" ] && [ -x "$REACTOR_UC_PATH/ulf/bin/ulfc-dev" ]; then '
+            + 'echo __ULFC_DEV_REACTOR_UC__; '
+            + 'elif [ -n "$REACTOR_UC_PATH" ] && [ -x "$REACTOR_UC_PATH/ulf/bin/ulfc" ]; then '
+            + 'echo __ULFC_REACTOR_UC__; fi; '
             + 'echo "__REACTOR_UC_PATH__=$REACTOR_UC_PATH"';
         execFile(shell, ['-ic', script], { timeout: 8000 }, (_error, stdout) => {
             const out = stdout ?? '';
@@ -167,6 +194,10 @@ function probeReactorUcShellEnvironment(): Promise<{ ulfcCommand: string | undef
                 ulfcCommand = 'ulfc-dev';
             } else if (out.includes('__ULFC_FOUND__')) {
                 ulfcCommand = 'ulfc';
+            } else if (out.includes('__ULFC_DEV_REACTOR_UC__')) {
+                ulfcCommand = '"$REACTOR_UC_PATH/ulf/bin/ulfc-dev"';
+            } else if (out.includes('__ULFC_REACTOR_UC__')) {
+                ulfcCommand = '"$REACTOR_UC_PATH/ulf/bin/ulfc"';
             }
             const match = out.match(/__REACTOR_UC_PATH__=(.*)/);
             const value = match ? match[1].trim() : '';
@@ -177,12 +208,11 @@ function probeReactorUcShellEnvironment(): Promise<{ ulfcCommand: string | undef
 
 /**
  * Verify that the environment required to build micro-LF (`.ulf`) programs is available.
- * Specifically, this checks that `ulfc-dev` or `ulfc` is on the PATH (preferring `ulfc-dev`)
- * and that the `REACTOR_UC_PATH` environment variable points to a clone of the micro-LF
- * repository. If either is missing, an error message is shown that points to the repository.
+ * Specifically, this checks that `ulfc-dev` or `ulfc` is available, preferring `ulfc-dev` on
+ * the PATH and falling back to `${REACTOR_UC_PATH}/ulf/bin/ulfc-dev` (or `ulfc`), and that
+ * `REACTOR_UC_PATH` points to a clone of the micro-LF repository.
  * @param withLogs A messageShowerTransformer that lets the user request to view logs.
- * @returns The compiler command to invoke (`ulfc-dev` or `ulfc`), or undefined if the
- * environment is not satisfied.
+ * @returns The compiler command to invoke, or undefined if the environment is not satisfied.
  */
 async function checkReactorUcEnvironment(withLogs: MessageShowerTransformer): Promise<string | undefined> {
     let ulfcCommand: string | undefined;
@@ -209,9 +239,16 @@ async function checkReactorUcEnvironment(withLogs: MessageShowerTransformer): Pr
         reactorUcPath = reactorUcPath || probe.reactorUcPath;
     }
 
+    if (!ulfcCommand && reactorUcPath) {
+        ulfcCommand = resolveUlfcInReactorUc(reactorUcPath);
+    }
+
     const problems: string[] = [];
     if (!ulfcCommand) {
-        problems.push('neither the `ulfc-dev` nor the `ulfc` compiler could be found');
+        problems.push(
+            'neither `ulfc-dev` nor `ulfc` could be found on the PATH '
+            + 'nor under `$REACTOR_UC_PATH/ulf/bin/`'
+        );
     }
     if (!reactorUcPath) {
         problems.push('the `REACTOR_UC_PATH` environment variable is not set');
