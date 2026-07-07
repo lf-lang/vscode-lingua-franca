@@ -1,12 +1,35 @@
 import * as vscode from 'vscode';
 import * as path from 'path';
+import { existsSync } from 'fs';
 import which from 'which';
 import { execFile } from 'child_process';
 import { LanguageClient } from 'vscode-languageclient';
 import { getTerminal, MessageDisplayHelper } from './utils';
 
+/** Relative path from a reactor-uc clone to the development compiler. */
+const REACTOR_UC_ULFC_DEV = path.join('ulf', 'bin', 'ulfc-dev');
+
+/** Relative path from a reactor-uc clone to the release compiler. */
+const REACTOR_UC_ULFC = path.join('ulf', 'bin', 'ulfc');
+
 /** The repository that provides the `ulfc` compiler for the micro-LF. */
 const REACTOR_UC_REPO = 'https://github.com/lf-lang/reactor-uc';
+
+/**
+ * Return a shell-ready path to `ulfc-dev` or `ulfc` under the given reactor-uc clone,
+ * preferring `ulfc-dev`.
+ */
+function resolveUlfcInReactorUc(reactorUcPath: string): string | undefined {
+    const ulfcDev = path.join(reactorUcPath, REACTOR_UC_ULFC_DEV);
+    if (existsSync(ulfcDev)) {
+        return `"${ulfcDev}"`;
+    }
+    const ulfc = path.join(reactorUcPath, REACTOR_UC_ULFC);
+    if (existsSync(ulfc)) {
+        return `"${ulfc}"`;
+    }
+    return undefined;
+}
 
 /**
  * Return whether the given document is a micro-LF Lingua Franca file (i.e. has a `.ulf`
@@ -15,6 +38,31 @@ const REACTOR_UC_REPO = 'https://github.com/lf-lang/reactor-uc';
  */
 function isUlfDocument(textDocument: vscode.TextDocument): boolean {
     return textDocument.uri.toString().endsWith('.ulf');
+}
+
+/**
+ * Return the package root for a micro-LF source file, mirroring `FileConfig.findPackageRoot`.
+ * If an ancestor directory named `src` exists, the package root is its parent; otherwise the
+ * source file's directory is the package root.
+ */
+function getUlfPackageRoot(filePath: string): string {
+    let dir = path.dirname(filePath);
+    while (true) {
+        if (path.basename(dir) === 'src') {
+            return path.dirname(dir);
+        }
+        const parent = path.dirname(dir);
+        if (parent === dir) {
+            return path.dirname(filePath);
+        }
+        dir = parent;
+    }
+}
+
+/** Return the path to the generated binary, relative to the package root. */
+function getUlfBinaryRelativePath(filePath: string): string {
+    const binaryName = path.basename(filePath, path.extname(filePath));
+    return path.join('bin', binaryName);
 }
 
 /**
@@ -119,45 +167,65 @@ async function getJson(uri: string): Promise<string> {
  * interactive shell ensures that aliases, shell functions, and variables defined in startup
  * files (e.g. `.zshrc`) are resolved, which is not the case for the extension host's
  * environment. This mirrors what the integrated terminal will see when it runs the build.
- * @returns Whether `ulfc` resolves in the shell and the value of `REACTOR_UC_PATH`, if any.
+ * @returns The resolved `ulfc-dev` or `ulfc` command, if any, and the value of
+ * `REACTOR_UC_PATH`, if set.
  */
-function probeReactorUcShellEnvironment(): Promise<{ ulfcAvailable: boolean, reactorUcPath: string | undefined }> {
+function probeReactorUcShellEnvironment(): Promise<{ ulfcCommand: string | undefined, reactorUcPath: string | undefined }> {
     return new Promise((resolve) => {
         const shell = vscode.env.shell || process.env.SHELL;
         if (!shell) {
-            resolve({ ulfcAvailable: false, reactorUcPath: undefined });
+            resolve({ ulfcCommand: undefined, reactorUcPath: undefined });
             return;
         }
         // `command -v` resolves aliases, functions, and executables; the marker lines let us
         // parse the result unambiguously.
         const script =
-            'command -v ulfc >/dev/null 2>&1 && echo __ULFC_FOUND__; '
+            'if command -v ulfc-dev >/dev/null 2>&1; then echo __ULFC_DEV_FOUND__; '
+            + 'elif command -v ulfc >/dev/null 2>&1; then echo __ULFC_FOUND__; '
+            + 'elif [ -n "$REACTOR_UC_PATH" ] && [ -x "$REACTOR_UC_PATH/ulf/bin/ulfc-dev" ]; then '
+            + 'echo __ULFC_DEV_REACTOR_UC__; '
+            + 'elif [ -n "$REACTOR_UC_PATH" ] && [ -x "$REACTOR_UC_PATH/ulf/bin/ulfc" ]; then '
+            + 'echo __ULFC_REACTOR_UC__; fi; '
             + 'echo "__REACTOR_UC_PATH__=$REACTOR_UC_PATH"';
         execFile(shell, ['-ic', script], { timeout: 8000 }, (_error, stdout) => {
             const out = stdout ?? '';
-            const ulfcAvailable = out.includes('__ULFC_FOUND__');
+            let ulfcCommand: string | undefined;
+            if (out.includes('__ULFC_DEV_FOUND__')) {
+                ulfcCommand = 'ulfc-dev';
+            } else if (out.includes('__ULFC_FOUND__')) {
+                ulfcCommand = 'ulfc';
+            } else if (out.includes('__ULFC_DEV_REACTOR_UC__')) {
+                ulfcCommand = '"$REACTOR_UC_PATH/ulf/bin/ulfc-dev"';
+            } else if (out.includes('__ULFC_REACTOR_UC__')) {
+                ulfcCommand = '"$REACTOR_UC_PATH/ulf/bin/ulfc"';
+            }
             const match = out.match(/__REACTOR_UC_PATH__=(.*)/);
             const value = match ? match[1].trim() : '';
-            resolve({ ulfcAvailable, reactorUcPath: value.length > 0 ? value : undefined });
+            resolve({ ulfcCommand, reactorUcPath: value.length > 0 ? value : undefined });
         });
     });
 }
 
 /**
  * Verify that the environment required to build micro-LF (`.ulf`) programs is available.
- * Specifically, this checks that the `ulfc` compiler is on the PATH and that the
- * `REACTOR_UC_PATH` environment variable points to a clone of the micro-LF repository.
- * If either is missing, an error message is shown that points to the repository.
+ * Specifically, this checks that `ulfc-dev` or `ulfc` is available, preferring `ulfc-dev` on
+ * the PATH and falling back to `${REACTOR_UC_PATH}/ulf/bin/ulfc-dev` (or `ulfc`), and that
+ * `REACTOR_UC_PATH` points to a clone of the micro-LF repository.
  * @param withLogs A messageShowerTransformer that lets the user request to view logs.
- * @returns Whether the micro-LF build environment is satisfied.
+ * @returns The compiler command to invoke, or undefined if the environment is not satisfied.
  */
-async function checkReactorUcEnvironment(withLogs: MessageShowerTransformer): Promise<boolean> {
-    let ulfcAvailable = false;
+async function checkReactorUcEnvironment(withLogs: MessageShowerTransformer): Promise<string | undefined> {
+    let ulfcCommand: string | undefined;
     try {
-        await which('ulfc');
-        ulfcAvailable = true;
+        await which('ulfc-dev');
+        ulfcCommand = 'ulfc-dev';
     } catch {
-        ulfcAvailable = false;
+        try {
+            await which('ulfc');
+            ulfcCommand = 'ulfc';
+        } catch {
+            ulfcCommand = undefined;
+        }
     }
     let reactorUcPath = process.env.REACTOR_UC_PATH;
 
@@ -165,15 +233,22 @@ async function checkReactorUcEnvironment(withLogs: MessageShowerTransformer): Pr
     // exported only in shell startup files. Neither is visible to the extension host's PATH/env,
     // so fall back to probing the user's interactive login shell (which is also what the
     // integrated terminal uses to actually run the build).
-    if (!ulfcAvailable || !reactorUcPath) {
+    if (!ulfcCommand || !reactorUcPath) {
         const probe = await probeReactorUcShellEnvironment();
-        ulfcAvailable = ulfcAvailable || probe.ulfcAvailable;
+        ulfcCommand = ulfcCommand || probe.ulfcCommand;
         reactorUcPath = reactorUcPath || probe.reactorUcPath;
     }
 
+    if (!ulfcCommand && reactorUcPath) {
+        ulfcCommand = resolveUlfcInReactorUc(reactorUcPath);
+    }
+
     const problems: string[] = [];
-    if (!ulfcAvailable) {
-        problems.push('the `ulfc` compiler could not be found');
+    if (!ulfcCommand) {
+        problems.push(
+            'neither `ulfc-dev` nor `ulfc` could be found on the PATH '
+            + 'nor under `$REACTOR_UC_PATH/ulf/bin/`'
+        );
     }
     if (!reactorUcPath) {
         problems.push('the `REACTOR_UC_PATH` environment variable is not set');
@@ -184,26 +259,39 @@ async function checkReactorUcEnvironment(withLogs: MessageShowerTransformer): Pr
             + `Install the micro-LF compiler and set REACTOR_UC_PATH to a clone of `
             + `${REACTOR_UC_REPO}.`
         );
-        return false;
+        return undefined;
     }
-    return true;
+    return ulfcCommand;
 }
 
 /**
- * Build (and, if requested, run) a micro-LF (`.ulf`) program using the `ulfc` compiler.
+ * Build a micro-LF (`.ulf`) program using `ulfc-dev` or `ulfc`, optionally running the
+ * generated binary afterward.
  * @param withLogs A messageShowerTransformer that lets the user request to view logs.
  * @param textEditor The editor containing the `.ulf` file to build.
+ * @param runAfterBuild Whether to run the generated binary if the build succeeds.
  */
-async function buildReactorUc(withLogs: MessageShowerTransformer, textEditor: vscode.TextEditor) {
+async function buildReactorUc(
+    withLogs: MessageShowerTransformer,
+    textEditor: vscode.TextEditor,
+    runAfterBuild: boolean
+) {
     const successful = await vscode.workspace.saveAll();
     if (!successful) return;
-    if (!(await checkReactorUcEnvironment(withLogs))) return;
+    const ulfcCommand = await checkReactorUcEnvironment(withLogs);
+    if (!ulfcCommand) return;
     const filePath = textEditor.document.uri.fsPath;
-    const cwd = path.dirname(filePath);
-    const terminal = getTerminal('Lingua Franca: Run', cwd);
+    const packageRoot = getUlfPackageRoot(filePath);
+    const ulfRelPath = path.relative(packageRoot, filePath).split(path.sep).join('/');
+    const binaryRelPath = getUlfBinaryRelativePath(filePath);
+    const terminal = getTerminal('Lingua Franca: Run', packageRoot);
     terminal.show(true);
-    terminal.sendText(`cd "${cwd}"`);
-    terminal.sendText(`ulfc "${filePath}"`);
+    let command = `cd "${packageRoot}" && ${ulfcCommand} "${ulfRelPath}"`;
+    if (runAfterBuild) {
+        // Only run if ulfc produced a host-native binary (e.g. with @platform("Native")).
+        command += ` && test -x "./${binaryRelPath}" && "./${binaryRelPath}"`;
+    }
+    terminal.sendText(command);
 }
 
 /**
@@ -217,7 +305,7 @@ const build = (withLogs: MessageShowerTransformer, client: LanguageClient) =>
     const uri = getLfUri(textEditor.document);
     if (!uri) return;
     if (isUlfDocument(textEditor.document)) {
-        await buildReactorUc(withLogs, textEditor);
+        await buildReactorUc(withLogs, textEditor, false);
         return;
     }
     const successful = await vscode.workspace.saveAll();
@@ -242,7 +330,7 @@ const buildAndRun = (withLogs: MessageShowerTransformer, client: LanguageClient)
     const uri = getLfUri(textEditor.document);
     if (!uri) return;
     if (isUlfDocument(textEditor.document)) {
-        await buildReactorUc(withLogs, textEditor);
+        await buildReactorUc(withLogs, textEditor, true);
         return;
     }
     const successful = await vscode.workspace.saveAll();
