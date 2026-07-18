@@ -20,6 +20,8 @@ This will open a tree view, showing:
 - *Local Libraries*—unpublished libraries located in `./src/lib` within your project; and
 - *Source Files*—all `.lf` source files located in the `./src` folder, listed hierarchically by directory.
 
+`README.md` files found in these directories (and at the project root) are also listed; clicking one opens it in Markdown preview. Directories named `private` are excluded.
+
 ## Other features
 * find references to symbols
 * folding ranges
