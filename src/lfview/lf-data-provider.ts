@@ -869,11 +869,13 @@ export class LFDataProvider implements vscode.TreeDataProvider<LFDataProviderNod
         } else {
             markerIdx = splittedUri.lastIndexOf('src');
         }
-        const projectLabel = splittedUri[markerIdx - 1];
+        const projectLabel = markerIdx === -1 ? "Unknown" : splittedUri[markerIdx - 1];
 
         const existingProject = this.data.find(item => item.label === projectLabel);
         if (!existingProject) {
-            const projectUri = splittedUri.slice(0, markerIdx).join('/') + '/';
+            const projectUri = markerIdx === -1
+                ? uri
+                : splittedUri.slice(0, markerIdx).join('/') + '/';
             const root = new LFDataProviderNode(projectLabel, projectUri, LFDataProviderNodeRole.PROJECT, type!, []);
             this.data.push(root);
             return root;
