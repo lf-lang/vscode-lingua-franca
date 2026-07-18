@@ -531,7 +531,14 @@ export class LFDataProvider implements vscode.TreeDataProvider<LFDataProviderNod
      */
     findGlobalPackages(): void {
         const lfPackages = process.env.LF_PACKAGES;
-        if (!lfPackages || !fs.existsSync(lfPackages) || !fs.statSync(lfPackages).isDirectory()) {
+        if (!lfPackages) {
+            return;
+        }
+        try {
+            if (!fs.existsSync(lfPackages) || !fs.statSync(lfPackages).isDirectory()) {
+                return;
+            }
+        } catch {
             return;
         }
 
