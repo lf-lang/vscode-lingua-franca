@@ -252,7 +252,7 @@ export class LFDataProvider implements vscode.TreeDataProvider<LFDataProviderNod
     private searchPathLocal: vscode.GlobPattern = 'src/lib/*.{lf,ulf}';
     private searchPathLibrary: vscode.GlobPattern = 'build/lfc_include/**/src/lib/*.{lf,ulf}';
     private searchPathLocalPackage: vscode.GlobPattern = 'lf-packages/**/src/lib/**/*.{lf,ulf}';
-    private exclude_path_local: vscode.GlobPattern = '{**/build/**,**/lf-packages/**}'; // only for local LF libraries
+    private exclude_path_local: vscode.GlobPattern = '**/{build,lf-packages}/**'; // only for local LF libraries
     private exclude_path_src: vscode.GlobPattern = `{${this.exclude_path_local},src/lib/**,**/fed-gen/**,**/src-gen/**}`
 
     // Event emitter for tree data change
