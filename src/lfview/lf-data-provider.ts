@@ -847,10 +847,10 @@ export class LFDataProvider implements vscode.TreeDataProvider<LFDataProviderNod
     compareLabels(a: LFDataProviderNode, b: LFDataProviderNode): number {
         const labelA = typeof a.label === 'string'
             ? a.label
-            : a.uri.fsPath.split('/').pop() || '';
+            : path.basename(a.uri.fsPath);
         const labelB = typeof b.label === 'string'
             ? b.label
-            : b.uri.fsPath.split('/').pop() || '';
+            : path.basename(b.uri.fsPath);
         return labelA.localeCompare(labelB);
     }
 
