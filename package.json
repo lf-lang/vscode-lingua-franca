@@ -225,12 +225,12 @@
                 {
                     "command": "linguafranca.goToFile",
                     "group": "inline@2",
-                    "when": "viewItem == file-local || viewItem == file-lingo || viewItem == file-local-included || viewItem == reactor || viewItem == reactor-included"
+                    "when": "viewItem == file-local || viewItem == file-lingo || viewItem == file-local-included || viewItem == reactor || viewItem == reactor-included || viewItem == readme"
                 },
                 {
                     "command": "linguafranca.openInSplitView",
                     "group": "inline@3",
-                    "when": "viewItem == file-local || viewItem == file-lingo || viewItem == file-local-included"
+                    "when": "viewItem == file-local || viewItem == file-lingo || viewItem == file-local-included || viewItem == readme"
                 },
                 {
                     "command": "linguafranca.openInSplitView",

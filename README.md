@@ -14,9 +14,13 @@ Using [KlighD](https://github.com/kieler/KLighD), interactive diagrams are autom
 Click on the LF icon in the Activity Bar on the left in VS Code (or in the menu in the left sidebar in Cursor) to access the Lingua Franca Package Explorer.
 This will open a tree view, showing:
 
-- *Installed Packages*—library packages installed via the [Lingo package manager](https://github.com/lf-lang/lingo/);
+- *Global Packages*—packages from the directory pointed to by the `LF_PACKAGES` environment variable (shown only when that variable is set);
+- *Local Packages*—packages located in `./lf-packages` within your project, listed hierarchically by package and subpackage;
+- *Lingo Packages*—library packages installed via the [Lingo package manager](https://github.com/lf-lang/lingo/);
 - *Local Libraries*—unpublished libraries located in `./src/lib` within your project; and
-- *Source Files*—all `.lf` source files located in the `./src` folder or in subfolders.
+- *Source Files*—all `.lf` source files located in the `./src` folder, listed hierarchically by directory.
+
+`README.md` files found in these directories (and at the project root) are also listed; clicking one opens it in Markdown preview. Directories named `private` are excluded.
 
 ## Other features
 * find references to symbols
