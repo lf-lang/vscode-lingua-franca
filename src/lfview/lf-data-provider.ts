@@ -1,5 +1,6 @@
 import * as vscode from 'vscode';
 import * as path from 'path';
+import * as fs from 'fs';
 import { LanguageClient } from 'vscode-languageclient';
 
 /**
@@ -24,14 +25,18 @@ export enum LFDataProviderNodeRole {
 /**
  * Defines the different types of nodes that can be displayed in the LFDataProvider tree view.
  * 
- * @property LOCAL - Represents a local library node.
- * @property LIBRARY - Represents a library node.
+ * @property LOCAL - Represents a local library node (`src/lib`).
+ * @property LIBRARY - Represents a Lingo-installed package node (`build/lfc_include`).
  * @property SOURCE - Represents a source file node.
+ * @property LOCAL_PACKAGE - Represents a local package node (`lf-packages`).
+ * @property GLOBAL_PACKAGE - Represents a global package node (`LF_PACKAGES`).
  */
 export enum LFDataProviderNodeType {
     LOCAL = 1,
     LIBRARY = 2,
-    SOURCE = 3
+    SOURCE = 3,
+    LOCAL_PACKAGE = 4,
+    GLOBAL_PACKAGE = 5
 }
 
 /**
@@ -115,6 +120,12 @@ export class LFDataProviderNode extends vscode.TreeItem {
                     case LFDataProviderNodeType.SOURCE:
                         newIcon = 'circuit-board';
                         break;
+                    case LFDataProviderNodeType.LOCAL_PACKAGE:
+                        newIcon = 'package';
+                        break;
+                    case LFDataProviderNodeType.GLOBAL_PACKAGE:
+                        newIcon = 'globe';
+                        break;
                     default:
                         newIcon = 'default-icon'; // fallback for unknown types
                 }
@@ -155,7 +166,9 @@ export class LFDataProviderNode extends vscode.TreeItem {
             case LFDataProviderNodeRole.FILE:
                 if (type === LFDataProviderNodeType.LOCAL) {
                     value = sameRootAsEditor ? 'file-local-included' : 'file-local';
-                } else if (type === LFDataProviderNodeType.LIBRARY) {
+                } else if (type === LFDataProviderNodeType.LIBRARY
+                    || type === LFDataProviderNodeType.LOCAL_PACKAGE
+                    || type === LFDataProviderNodeType.GLOBAL_PACKAGE) {
                     value = 'file-lingo';
                 }
                 break;
@@ -184,14 +197,28 @@ export class LFDataProviderNode extends vscode.TreeItem {
             return editor.document.uri.fsPath.startsWith(this.uri.fsPath);
         }
     
+        // Global packages are available to any Lingua Franca file in the workspace.
+        if (this.type === LFDataProviderNodeType.GLOBAL_PACKAGE) {
+            return (vscode.workspace.workspaceFolders ?? []).some(folder =>
+                editor.document.uri.fsPath.startsWith(folder.uri.fsPath));
+        }
+
         const pathSegments = this.uri.path.split('/');
-        const srcOrBuildIndex = pathSegments.lastIndexOf(this.type === LFDataProviderNodeType.LIBRARY ? 'build' : 'src');
-    
-        if (srcOrBuildIndex === -1) {
+        let marker: string;
+        if (this.type === LFDataProviderNodeType.LIBRARY) {
+            marker = 'build';
+        } else if (this.type === LFDataProviderNodeType.LOCAL_PACKAGE) {
+            marker = 'lf-packages';
+        } else {
+            marker = 'src';
+        }
+        const markerIndex = pathSegments.lastIndexOf(marker);
+
+        if (markerIndex === -1) {
             return false;
         }
-    
-        const rootPath = pathSegments.slice(0, srcOrBuildIndex).join('/');
+
+        const rootPath = pathSegments.slice(0, markerIndex).join('/');
         return editor.document.uri.path.startsWith(rootPath);
     }
 }
@@ -224,7 +251,8 @@ export class LFDataProvider implements vscode.TreeDataProvider<LFDataProviderNod
     private searchSourceFiles: vscode.GlobPattern = 'src/**/*.{lf,ulf}';
     private searchPathLocal: vscode.GlobPattern = 'src/lib/*.{lf,ulf}';
     private searchPathLibrary: vscode.GlobPattern = 'build/lfc_include/**/src/lib/*.{lf,ulf}';
-    private exclude_path_local: vscode.GlobPattern = '**/build/**'; // only for local LF libraries
+    private searchPathLocalPackage: vscode.GlobPattern = 'lf-packages/**/src/lib/**/*.{lf,ulf}';
+    private exclude_path_local: vscode.GlobPattern = '{**/build/**,**/lf-packages/**}'; // only for local LF libraries
     private exclude_path_src: vscode.GlobPattern = `{${this.exclude_path_local},src/lib/**,**/fed-gen/**,**/src-gen/**}`
 
     // Event emitter for tree data change
@@ -360,6 +388,8 @@ export class LFDataProvider implements vscode.TreeDataProvider<LFDataProviderNod
 
                 updateIfExists(LFDataProviderNodeType.LOCAL);
                 updateIfExists(LFDataProviderNodeType.LIBRARY);
+                updateIfExists(LFDataProviderNodeType.LOCAL_PACKAGE);
+                updateIfExists(LFDataProviderNodeType.GLOBAL_PACKAGE);
                 updateIfExists(LFDataProviderNodeType.SOURCE);
             }
         });
@@ -398,6 +428,10 @@ export class LFDataProvider implements vscode.TreeDataProvider<LFDataProviderNod
                 this.findFiles(this.searchPathLocal, this.exclude_path_local, LFDataProviderNodeType.LOCAL);
                 // Find all lingo downloaded reactor libraries
                 this.findFiles(this.searchPathLibrary, null, LFDataProviderNodeType.LIBRARY);
+                // Find all local packages under lf-packages
+                this.findFiles(this.searchPathLocalPackage, null, LFDataProviderNodeType.LOCAL_PACKAGE);
+                // Find all global packages under LF_PACKAGES, if set
+                this.findGlobalPackages();
             });
         }
         this._onDidChangeTreeData.fire(undefined);
@@ -454,11 +488,18 @@ export class LFDataProvider implements vscode.TreeDataProvider<LFDataProviderNod
      * @param type - The type of the node (e.g., LOCAL, LIBRARY, SOURCE).
      */
     addDataItem(dataNode: LFDataProviderNode, type: LFDataProviderNodeType) {
-        const root = this.buildRoot(dataNode.uri.toString(), type);
         const node = this.createNode(dataNode, type, LFDataProviderNodeRole.FILE);
 
         // Add child nodes if applicable
         this.addChildNodes(dataNode, node, type);
+
+        if (type === LFDataProviderNodeType.GLOBAL_PACKAGE) {
+            this.handleGlobalPackageNode(node, dataNode);
+            this.sortData();
+            return;
+        }
+
+        const root = this.buildRoot(dataNode.uri.toString(), type);
 
         switch (type) {
             case LFDataProviderNodeType.LIBRARY:
@@ -467,6 +508,9 @@ export class LFDataProvider implements vscode.TreeDataProvider<LFDataProviderNod
             case LFDataProviderNodeType.LOCAL:
                 this.handleLocalNode(root, node, dataNode);
                 break;
+            case LFDataProviderNodeType.LOCAL_PACKAGE:
+                this.handleLocalPackageNode(root, node, dataNode);
+                break;
             case LFDataProviderNodeType.SOURCE:
                 this.handleSourceNode(root, node, dataNode);
                 break;
@@ -474,6 +518,80 @@ export class LFDataProvider implements vscode.TreeDataProvider<LFDataProviderNod
 
         // Sort data after adding the new node
         this.sortData();
+    }
+
+    /**
+     * Finds library files under the directory pointed to by the `LF_PACKAGES` environment variable
+     * and adds them under the "Global Libraries" category. The category is created whenever
+     * `LF_PACKAGES` is set and refers to an existing directory.
+     */
+    findGlobalPackages(): void {
+        const lfPackages = process.env.LF_PACKAGES;
+        if (!lfPackages || !fs.existsSync(lfPackages) || !fs.statSync(lfPackages).isDirectory()) {
+            return;
+        }
+
+        // Ensure the category is visible even before any package files are discovered.
+        this.ensureGlobalLibrariesCategory(lfPackages);
+
+        const pattern = new vscode.RelativePattern(
+            vscode.Uri.file(lfPackages), '**/src/lib/**/*.{lf,ulf}');
+        vscode.workspace.findFiles(pattern).then(uris => {
+            uris.forEach(uri => {
+                this.client.sendRequest('generator/getLibraryReactors', uri.toString()).then(node => {
+                    if (node) {
+                        this.addDataItem(node as LFDataProviderNode, LFDataProviderNodeType.GLOBAL_PACKAGE);
+                    } else {
+                        vscode.window.showErrorMessage('Error retrieving data from the Language Server');
+                    }
+                });
+            });
+        });
+    }
+
+    /**
+     * Ensures each workspace project has a "Global Libraries" category node.
+     * @param lfPackagesPath - Absolute path from the `LF_PACKAGES` environment variable.
+     */
+    ensureGlobalLibrariesCategory(lfPackagesPath: string): void {
+        const placeholder = new LFDataProviderNode(
+            "Global Libraries",
+            vscode.Uri.file(lfPackagesPath).toString(),
+            LFDataProviderNodeRole.SUB,
+            LFDataProviderNodeType.GLOBAL_PACKAGE,
+            []
+        );
+        for (const root of this.ensureWorkspaceProjectRoots()) {
+            this.findOrCreateSubNode(
+                root, "Global Libraries", LFDataProviderNodeRole.SUB,
+                LFDataProviderNodeType.GLOBAL_PACKAGE, placeholder);
+        }
+        this.sortData();
+    }
+
+    /**
+     * Ensures a project root node exists for each workspace folder.
+     * @returns The project root nodes corresponding to open workspace folders.
+     */
+    ensureWorkspaceProjectRoots(): LFDataProviderNode[] {
+        return (vscode.workspace.workspaceFolders ?? []).map(folder => {
+            const folderPath = folder.uri.fsPath.replace(/[/\\]+$/, '');
+            const existing = this.data.find(item =>
+                item.role === LFDataProviderNodeRole.PROJECT
+                && item.uri.fsPath.replace(/[/\\]+$/, '') === folderPath);
+            if (existing) {
+                return existing;
+            }
+            const root = new LFDataProviderNode(
+                path.basename(folderPath),
+                folder.uri.toString(),
+                LFDataProviderNodeRole.PROJECT,
+                LFDataProviderNodeType.SOURCE,
+                []
+            );
+            this.data.push(root);
+            return root;
+        });
     }
 
     /**
@@ -515,7 +633,7 @@ export class LFDataProvider implements vscode.TreeDataProvider<LFDataProviderNod
      */
     handleLibraryNode(root: LFDataProviderNode, node: LFDataProviderNode, dataNode: LFDataProviderNode) {
         const libraryRoot = this.buildLibraryRoot(dataNode.uri.toString(), root, dataNode);
-        if (!libraryRoot.children?.some(n => n.label === node.label)) {
+        if (!libraryRoot.children?.some(n => n.label === node.label && n.uri.toString() === node.uri.toString())) {
             libraryRoot.children!.push(node);
         }
     }
@@ -530,6 +648,61 @@ export class LFDataProvider implements vscode.TreeDataProvider<LFDataProviderNod
         let localNode = this.findOrCreateSubNode(root, "Local Libraries", LFDataProviderNodeRole.SUB, LFDataProviderNodeType.LOCAL, dataNode);
         if (!localNode.children?.some(n => n.label === node.label))
             localNode.children!.push(node);
+    }
+
+    /**
+     * Handles the addition of a LOCAL_PACKAGE type node under "Local Packages".
+     * Builds a hierarchy of package → optional subpackages → file → reactors.
+     * @param root - The project root node of the tree.
+     * @param node - The file node to add to the tree.
+     * @param dataNode - The data node being added.
+     */
+    handleLocalPackageNode(root: LFDataProviderNode, node: LFDataProviderNode, dataNode: LFDataProviderNode) {
+        const localPackages = this.findOrCreateSubNode(
+            root, "Local Packages", LFDataProviderNodeRole.SUB, LFDataProviderNodeType.LOCAL_PACKAGE, dataNode);
+        const packageRoot = this.buildLocalPackageRoot(dataNode.uri.toString(), localPackages);
+        const parent = this.ensurePackageLibPath(
+            packageRoot, dataNode.uri.toString(), LFDataProviderNodeType.LOCAL_PACKAGE);
+        if (!parent.children?.some(n => n.label === node.label && n.uri.toString() === node.uri.toString())) {
+            parent.children!.push(node);
+        }
+    }
+
+    /**
+     * Handles the addition of a GLOBAL_PACKAGE type node under "Global Libraries".
+     * Attaches the package hierarchy to each workspace project root.
+     * @param node - The file node to add to the tree.
+     * @param dataNode - The data node being added.
+     */
+    handleGlobalPackageNode(node: LFDataProviderNode, dataNode: LFDataProviderNode) {
+        const lfPackages = process.env.LF_PACKAGES;
+        if (!lfPackages) {
+            return;
+        }
+
+        const roots = this.ensureWorkspaceProjectRoots();
+        roots.forEach((root, index) => {
+            const globalLibraries = this.findOrCreateSubNode(
+                root, "Global Libraries", LFDataProviderNodeRole.SUB,
+                LFDataProviderNodeType.GLOBAL_PACKAGE, dataNode);
+            const packageRoot = this.buildExternalPackageRoot(
+                dataNode.uri.toString(), globalLibraries, lfPackages, LFDataProviderNodeType.GLOBAL_PACKAGE);
+            const parent = this.ensurePackageLibPath(
+                packageRoot, dataNode.uri.toString(), LFDataProviderNodeType.GLOBAL_PACKAGE);
+
+            // Reuse the created node for the first project; clone for additional roots.
+            const fileNode = index === 0
+                ? node
+                : (() => {
+                    const clone = this.createNode(dataNode, LFDataProviderNodeType.GLOBAL_PACKAGE, LFDataProviderNodeRole.FILE);
+                    this.addChildNodes(dataNode, clone, LFDataProviderNodeType.GLOBAL_PACKAGE);
+                    return clone;
+                })();
+
+            if (!parent.children?.some(n => n.label === fileNode.label && n.uri.toString() === fileNode.uri.toString())) {
+                parent.children!.push(fileNode);
+            }
+        });
     }
 
     /**
@@ -605,18 +778,25 @@ export class LFDataProvider implements vscode.TreeDataProvider<LFDataProviderNod
     }
 
     /**
-     * Builds the root node of the LFDataProviderNode tree in the Local Libraries view based on the provided URI.
+     * Builds the root node of the LFDataProviderNode tree based on the provided URI.
      * @param uri The URI of the project to build the root node for.
      * @returns The root `LFDataProviderNode` for the project.
      */
     buildRoot(uri: string, type: LFDataProviderNodeType | null): LFDataProviderNode {
         const splittedUri = uri.split('/');
-        const srcIdx = splittedUri.lastIndexOf(!type || type == LFDataProviderNodeType.LIBRARY ? 'build' : 'src');
-        const projectLabel = splittedUri[srcIdx - 1];
+        let markerIdx: number;
+        if (!type || type === LFDataProviderNodeType.LIBRARY) {
+            markerIdx = splittedUri.lastIndexOf('build');
+        } else if (type === LFDataProviderNodeType.LOCAL_PACKAGE) {
+            markerIdx = splittedUri.lastIndexOf('lf-packages');
+        } else {
+            markerIdx = splittedUri.lastIndexOf('src');
+        }
+        const projectLabel = splittedUri[markerIdx - 1];
 
         const existingProject = this.data.find(item => item.label === projectLabel);
         if (!existingProject) {
-            const projectUri = splittedUri.slice(0, srcIdx).join('/') + '/';
+            const projectUri = splittedUri.slice(0, markerIdx).join('/') + '/';
             const root = new LFDataProviderNode(projectLabel, projectUri, LFDataProviderNodeRole.PROJECT, type!, []);
             this.data.push(root);
             return root;
@@ -625,7 +805,7 @@ export class LFDataProvider implements vscode.TreeDataProvider<LFDataProviderNod
     }
 
     /**
-     * Builds or retrieves the root node for a library project based on the URI.
+     * Builds or retrieves the root node for a Lingo-installed package based on the URI.
      * @param uri - The URI of the data node.
      * @param root - The root node of the tree.
      * @returns The root node for the library project.
@@ -635,15 +815,120 @@ export class LFDataProvider implements vscode.TreeDataProvider<LFDataProviderNod
         const srcIdx = splittedUri.lastIndexOf('src');
         const projectLabel = splittedUri[srcIdx - 1];
 
-        let lingo = this.findOrCreateSubNode(root, "Installed Packages", LFDataProviderNodeRole.SUB, LFDataProviderNodeType.LIBRARY, dataNode);
+        let lingo = this.findOrCreateSubNode(root, "Lingo Packages", LFDataProviderNodeRole.SUB, LFDataProviderNodeType.LIBRARY, dataNode);
         const existingProject = lingo.children!.find(item => item.label === projectLabel);
         if (!existingProject) {
             const projectUri = splittedUri.slice(0, srcIdx).join('/') + '/';
-            const root = new LFDataProviderNode(projectLabel, projectUri, LFDataProviderNodeRole.ROOT, LFDataProviderNodeType.LIBRARY, []);
-            lingo.children!.push(root);
-            return root;
+            const pkgRoot = new LFDataProviderNode(projectLabel, projectUri, LFDataProviderNodeRole.ROOT, LFDataProviderNodeType.LIBRARY, []);
+            lingo.children!.push(pkgRoot);
+            return pkgRoot;
         }
         return existingProject;
+    }
+
+    /**
+     * Builds or retrieves the package node under "Local Packages" for a file in `lf-packages`.
+     * @param uri - The URI of the data node.
+     * @param localPackages - The "Local Packages" category node.
+     * @returns The package root node.
+     */
+    buildLocalPackageRoot(uri: string, localPackages: LFDataProviderNode): LFDataProviderNode {
+        const splittedUri = uri.replace(/\\/g, '/').split('/');
+        const lfPackagesIdx = splittedUri.lastIndexOf('lf-packages');
+        if (lfPackagesIdx === -1 || lfPackagesIdx + 1 >= splittedUri.length) {
+            return localPackages;
+        }
+        const packageLabel = splittedUri[lfPackagesIdx + 1];
+        const existingPackage = localPackages.children!.find(item => item.label === packageLabel);
+        if (!existingPackage) {
+            const packageUri = splittedUri.slice(0, lfPackagesIdx + 2).join('/') + '/';
+            const pkgRoot = new LFDataProviderNode(
+                packageLabel, packageUri, LFDataProviderNodeRole.ROOT, LFDataProviderNodeType.LOCAL_PACKAGE, []);
+            localPackages.children!.push(pkgRoot);
+            return pkgRoot;
+        }
+        return existingPackage;
+    }
+
+    /**
+     * Builds or retrieves a package node under a category for packages rooted at an absolute directory
+     * (used for `LF_PACKAGES` / Global Libraries).
+     * @param uri - The URI of the library file.
+     * @param categoryNode - The category node (e.g. "Global Libraries").
+     * @param packagesRootPath - Absolute filesystem path of the packages root directory.
+     * @param type - The node type for created package nodes.
+     * @returns The package root node.
+     */
+    buildExternalPackageRoot(
+        uri: string,
+        categoryNode: LFDataProviderNode,
+        packagesRootPath: string,
+        type: LFDataProviderNodeType
+    ): LFDataProviderNode {
+        const filePath = uri.startsWith('file:')
+            ? vscode.Uri.parse(uri).fsPath
+            : uri;
+        const relative = path.relative(packagesRootPath, filePath);
+        if (!relative || relative.startsWith('..') || path.isAbsolute(relative)) {
+            return categoryNode;
+        }
+        const packageLabel = relative.split(path.sep)[0];
+        const existingPackage = categoryNode.children!.find(item => item.label === packageLabel);
+        if (!existingPackage) {
+            const packageUri = vscode.Uri.file(path.join(packagesRootPath, packageLabel)).toString() + '/';
+            const pkgRoot = new LFDataProviderNode(
+                packageLabel, packageUri, LFDataProviderNodeRole.ROOT, type, []);
+            categoryNode.children!.push(pkgRoot);
+            return pkgRoot;
+        }
+        return existingPackage;
+    }
+
+    /**
+     * Ensures intermediate subpackage directory nodes exist under a package for the path
+     * segments between `src/lib` and the library file.
+     * @param packageRoot - The package root node.
+     * @param uri - The URI of the library file.
+     * @param type - The node type for created subpackage nodes.
+     * @returns The parent node under which the file node should be attached.
+     */
+    ensurePackageLibPath(
+        packageRoot: LFDataProviderNode,
+        uri: string,
+        type: LFDataProviderNodeType
+    ): LFDataProviderNode {
+        const filePath = (uri.startsWith('file:') ? vscode.Uri.parse(uri).fsPath : uri)
+            .replace(/\\/g, '/');
+        const splittedUri = filePath.split('/');
+        let libIdx = -1;
+        for (let i = 0; i < splittedUri.length - 1; i++) {
+            if (splittedUri[i] === 'src' && splittedUri[i + 1] === 'lib') {
+                libIdx = i + 1;
+                break;
+            }
+        }
+        if (libIdx === -1) {
+            return packageRoot;
+        }
+
+        // Directory segments under src/lib, excluding the file name
+        const afterLib = splittedUri.slice(libIdx + 1, -1);
+        let current = packageRoot;
+        for (const segment of afterLib) {
+            let child = current.children?.find(
+                n => n.label === segment && n.role === LFDataProviderNodeRole.ROOT);
+            if (!child) {
+                const segmentIdx = splittedUri.indexOf(segment, libIdx + 1);
+                const segmentUri = vscode.Uri.file(
+                    splittedUri.slice(0, segmentIdx + 1).join('/')
+                ).toString() + '/';
+                child = new LFDataProviderNode(
+                    segment, segmentUri, LFDataProviderNodeRole.ROOT, type, []);
+                current.children!.push(child);
+            }
+            current = child;
+        }
+        return current;
     }
 
     /**
@@ -730,7 +1015,7 @@ export class LFDataProvider implements vscode.TreeDataProvider<LFDataProviderNod
      * @returns The path to the library file, or an empty string if the path is invalid.
      */
     getLibraryPath(uri: string) {
-        const segments = uri.split('/');
+        const segments = uri.replace(/\\/g, '/').split('/');
         const srcIndex = segments.lastIndexOf('src');
 
         // Check if the 'src' directory was found and there's at least one segment before it
@@ -739,9 +1024,14 @@ export class LFDataProvider implements vscode.TreeDataProvider<LFDataProviderNod
             return '';
         }
 
-        // The project name is the segment before 'src'
+        // The package name is the segment before 'src'
         const libraryName = segments[srcIndex - 1];
-        // The file name is the last segment of the path
+        // Preserve subdirectory segments under src/lib (e.g. package/subdir/File.lf)
+        if (segments[srcIndex + 1] === 'lib') {
+            const relativeUnderLib = segments.slice(srcIndex + 2).join('/');
+            return `${libraryName}/${relativeUnderLib}`;
+        }
+
         const fileName = segments[segments.length - 1];
         return `${libraryName}/${fileName}`;
     }
