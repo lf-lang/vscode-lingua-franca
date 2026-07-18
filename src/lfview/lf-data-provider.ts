@@ -51,6 +51,7 @@ export enum LFDataProviderNodeType {
 export class LFDataProviderNode extends vscode.TreeItem {
 
     children: LFDataProviderNode[] | undefined;
+    parent: LFDataProviderNode | undefined;
     role: string;
     position: NodePosition | undefined;
     type: LFDataProviderNodeType | undefined;
@@ -73,6 +74,8 @@ export class LFDataProviderNode extends vscode.TreeItem {
         this.children = children;
         this.role = role;
         this.type = type;
+        // Keep parent pointers in sync when children are provided at construction time.
+        this.children?.forEach(child => { child.parent = this; });
         this.updateIcon(role, type);
         this.updateContextValue(role, type);
         if (position) { this.position = position; }
@@ -83,6 +86,17 @@ export class LFDataProviderNode extends vscode.TreeItem {
                 arguments: [this.uri]
             }
         }
+    }
+
+    /**
+     * Appends a child node and records the parent link used by {@link LFDataProvider.getParent}.
+     */
+    addChild(child: LFDataProviderNode): void {
+        if (!this.children) {
+            this.children = [];
+        }
+        child.parent = this;
+        this.children.push(child);
     }
 
     /**
@@ -101,7 +115,13 @@ export class LFDataProviderNode extends vscode.TreeItem {
                 newIcon = 'project';
                 break;
             case LFDataProviderNodeRole.ROOT:
-                newIcon = type === LFDataProviderNodeType.SOURCE ? 'folder' : 'root-folder';
+                if (type === LFDataProviderNodeType.SOURCE) {
+                    newIcon = this.collapsibleState === vscode.TreeItemCollapsibleState.Expanded
+                        ? 'folder-opened' : 'folder';
+                } else {
+                    newIcon = this.collapsibleState === vscode.TreeItemCollapsibleState.Expanded
+                        ? 'root-folder-opened' : 'root-folder';
+                }
                 break;
             case LFDataProviderNodeRole.FILE:
                 newIcon = 'file-code';
@@ -300,8 +320,13 @@ export class LFDataProvider implements vscode.TreeDataProvider<LFDataProviderNod
         }
     }
 
-    getParent?(element: LFDataProviderNode): vscode.ProviderResult<LFDataProviderNode> {
-        throw new Error('Method not implemented.');
+    /**
+     * Returns the parent of a node. VS Code calls this when restoring selection/expansion
+     * after {@link onDidChangeTreeData} (e.g. when a click opens a file and refreshes icons).
+     * Throwing here corrupts tree indentation, so this must return a real parent link.
+     */
+    getParent(element: LFDataProviderNode): vscode.ProviderResult<LFDataProviderNode> {
+        return element.parent;
     }
 
     resolveTreeItem?(item: vscode.TreeItem, element: LFDataProviderNode, token: vscode.CancellationToken): vscode.ProviderResult<vscode.TreeItem> {
@@ -631,7 +656,7 @@ export class LFDataProvider implements vscode.TreeDataProvider<LFDataProviderNod
     addChildNodes(dataNode: LFDataProviderNode, node: LFDataProviderNode, type: LFDataProviderNodeType) {
         if (type !== LFDataProviderNodeType.SOURCE && dataNode.children?.length) {
             dataNode.children.forEach((child: LFDataProviderNode) => {
-                node.children!.push(this.createNode(child, type, LFDataProviderNodeRole.REACTOR));
+                node.addChild(this.createNode(child, type, LFDataProviderNodeRole.REACTOR));
             });
         }
     }
@@ -645,7 +670,7 @@ export class LFDataProvider implements vscode.TreeDataProvider<LFDataProviderNod
     handleLibraryNode(root: LFDataProviderNode, node: LFDataProviderNode, dataNode: LFDataProviderNode) {
         const libraryRoot = this.buildLibraryRoot(dataNode.uri.toString(), root, dataNode);
         if (!libraryRoot.children?.some(n => n.label === node.label && n.uri.toString() === node.uri.toString())) {
-            libraryRoot.children!.push(node);
+            libraryRoot.addChild(node);
         }
     }
 
@@ -658,7 +683,7 @@ export class LFDataProvider implements vscode.TreeDataProvider<LFDataProviderNod
     handleLocalNode(root: LFDataProviderNode, node: LFDataProviderNode, dataNode: LFDataProviderNode) {
         let localNode = this.findOrCreateSubNode(root, "Local Libraries", LFDataProviderNodeRole.SUB, LFDataProviderNodeType.LOCAL, dataNode);
         if (!localNode.children?.some(n => n.label === node.label))
-            localNode.children!.push(node);
+            localNode.addChild(node);
     }
 
     /**
@@ -675,7 +700,7 @@ export class LFDataProvider implements vscode.TreeDataProvider<LFDataProviderNod
         const parent = this.ensurePackageLibPath(
             packageRoot, dataNode.uri.toString(), LFDataProviderNodeType.LOCAL_PACKAGE);
         if (!parent.children?.some(n => n.label === node.label && n.uri.toString() === node.uri.toString())) {
-            parent.children!.push(node);
+            parent.addChild(node);
         }
     }
 
@@ -711,7 +736,7 @@ export class LFDataProvider implements vscode.TreeDataProvider<LFDataProviderNod
                 })();
 
             if (!parent.children?.some(n => n.label === fileNode.label && n.uri.toString() === fileNode.uri.toString())) {
-                parent.children!.push(fileNode);
+                parent.addChild(fileNode);
             }
         });
     }
@@ -728,7 +753,7 @@ export class LFDataProvider implements vscode.TreeDataProvider<LFDataProviderNod
             root, "Source Files", LFDataProviderNodeRole.SUB, LFDataProviderNodeType.SOURCE, dataNode);
         const parent = this.ensureSourceFilePath(srcNode, dataNode.uri.toString());
         if (!parent.children?.some(n => n.label === node.label && n.uri.toString() === node.uri.toString())) {
-            parent.children!.push(node);
+            parent.addChild(node);
         }
     }
 
@@ -760,7 +785,7 @@ export class LFDataProvider implements vscode.TreeDataProvider<LFDataProviderNod
                 ).toString() + '/';
                 child = new LFDataProviderNode(
                     segment, segmentUri, LFDataProviderNodeRole.ROOT, LFDataProviderNodeType.SOURCE, []);
-                current.children!.push(child);
+                current.addChild(child);
             }
             current = child;
         }
@@ -787,7 +812,7 @@ export class LFDataProvider implements vscode.TreeDataProvider<LFDataProviderNod
                 type,
                 []
             );
-            root.children!.push(subNode);
+            root.addChild(subNode);
         }
 
         return subNode;
@@ -906,7 +931,7 @@ export class LFDataProvider implements vscode.TreeDataProvider<LFDataProviderNod
         if (!existingProject) {
             const projectUri = splittedUri.slice(0, srcIdx).join('/') + '/';
             const pkgRoot = new LFDataProviderNode(projectLabel, projectUri, LFDataProviderNodeRole.ROOT, LFDataProviderNodeType.LIBRARY, []);
-            lingo.children!.push(pkgRoot);
+            lingo.addChild(pkgRoot);
             return pkgRoot;
         }
         return existingProject;
@@ -930,7 +955,7 @@ export class LFDataProvider implements vscode.TreeDataProvider<LFDataProviderNod
             const packageUri = splittedUri.slice(0, lfPackagesIdx + 2).join('/') + '/';
             const pkgRoot = new LFDataProviderNode(
                 packageLabel, packageUri, LFDataProviderNodeRole.ROOT, LFDataProviderNodeType.LOCAL_PACKAGE, []);
-            localPackages.children!.push(pkgRoot);
+            localPackages.addChild(pkgRoot);
             return pkgRoot;
         }
         return existingPackage;
@@ -964,7 +989,7 @@ export class LFDataProvider implements vscode.TreeDataProvider<LFDataProviderNod
             const packageUri = vscode.Uri.file(path.join(packagesRootPath, packageLabel)).toString() + '/';
             const pkgRoot = new LFDataProviderNode(
                 packageLabel, packageUri, LFDataProviderNodeRole.ROOT, type, []);
-            categoryNode.children!.push(pkgRoot);
+            categoryNode.addChild(pkgRoot);
             return pkgRoot;
         }
         return existingPackage;
@@ -1009,7 +1034,7 @@ export class LFDataProvider implements vscode.TreeDataProvider<LFDataProviderNod
                 ).toString() + '/';
                 child = new LFDataProviderNode(
                     segment, segmentUri, LFDataProviderNodeRole.ROOT, type, []);
-                current.children!.push(child);
+                current.addChild(child);
             }
             current = child;
         }
