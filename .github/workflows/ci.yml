@@ -22,6 +22,11 @@ jobs:
         with:
           submodules: recursive
           fetch-depth: 1
+      # @vscode/test-electron@3.1.0 requires Node >= 22 (and its types use Buffer generics).
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
       - name: Build the extension
         uses: ./.github/actions/build
       - name: Run tests (Linux)
