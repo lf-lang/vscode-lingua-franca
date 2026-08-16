@@ -1,5 +1,39 @@
 # Changelog
  
+## [v0.13.0](https://github.com/lf-lang/vscode-lingua-franca/tree/v0.13.0) (2026-08-16)
+
+** Highlights **
+
+This release updates the lingua-franca submodule to pull in a number of major features, mostly concerning federated programs:
+
+- **Security:** You can now encrypt communication between federates using TLS (Transport Layer Security), a public-key encryption technology that is standard on the internet.  You can also specify to use SST (Secure Swarm Toolkit), A decentralized authorization and communication security framework using the [iotauth](https://github.com/iotauth/iotauth) platform. See the [Security](https://www.lf-lang.org/docs/reference/security/) page of the handbook.
+
+- **Package System:** You can create and use packages of reusable reactors more simply without using [lingo](https://www.lf-lang.org/blog/lingo/). An evolving set of [standard packages](https://github.com/lf-lang/pkgs) is in progress. See the [Importing Packages](https://www.lf-lang.org/docs/writing-reactors/importing-packages/) page of the handbook.
+
+- **Transient Federates:** Federated programs in the C and Python targets can have transient federates, which need not be present when the federation starts up and can come and go during the execution of the federation. See the [Transient Federates](https://www.lf-lang.org/docs/writing-reactors/transient-federates/) page of the handbook.
+
+- **Polyglot Federations:** A new `Polyglot` target supports creating federations where some federates use the C target and some use the Python target. See See the [Polyglot Federations](https://www.lf-lang.org/docs/writing-reactors/polyglot/) page of the handbook.
+
+- **Protobuf Serialization:** Communication between federates can now use [Protocol Buffers](https://github.com/protocolbuffers/protobuf), Google's data interchange format, also known as `protobufs`.
+
+- **Control over Start Time:** You can now specify on the command line that the start time of a program should be a multiple of a time value. Use the `--start-time-multiple <num> <units>` or `-m <num> <units>` command-line arguments.
+
+**✨ Enhancements**
+
+- Updated lingua-franca [\#205](https://github.com/lf-lang/vscode-lingua-franca/pull/205) (@edwardalee)
+- Support .ulf filename extension and micro-LF build and run. [\#207](https://github.com/lf-lang/vscode-lingua-franca/pull/207) (@edwardalee)
+- Make the target declaration optional for .ulf files and support Build and Run for micro-LF [\#208](https://github.com/lf-lang/vscode-lingua-franca/pull/208) (@edwardalee)
+- Integrate new package system from lingua-franca master [\#209](https://github.com/lf-lang/vscode-lingua-franca/pull/209) (@edwardalee)
+- Update package explorer to support new package system [\#210](https://github.com/lf-lang/vscode-lingua-franca/pull/210) (@edwardalee)
+- Align lingua-franca to pull in support for .ulf files in packages [\#211](https://github.com/lf-lang/vscode-lingua-franca/pull/211) (@edwardalee)
+- Pull master with transient federates supported [\#212](https://github.com/lf-lang/vscode-lingua-franca/pull/212) (@edwardalee)
+
+**🔧 Fixes**
+
+- Pull in diagram fix from lingua-franca [\#206](https://github.com/lf-lang/vscode-lingua-franca/pull/206) (@edwardalee)
+
+
+ 
 ## [v0.12.1](https://github.com/lf-lang/vscode-lingua-franca/tree/v0.12.1) (2026-04-17)
 
 **Highlights**
