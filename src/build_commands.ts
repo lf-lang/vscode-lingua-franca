@@ -387,13 +387,14 @@ export function registerBuildCommands(context: vscode.ExtensionContext, client: 
         'linguafranca.buildAndRun', buildAndRun(withLogs, client)
     ));
     let enabled = buildOnSaveEnabled();
-    vscode.workspace.onDidSaveTextDocument((textDocument: vscode.TextDocument) => {
+    vscode.workspace.onDidSaveTextDocument(async (textDocument: vscode.TextDocument) => {
         if (!enabled) return;
         const uri = getLfUri(textDocument, true);
         if (!uri) return; // This is not an LF document, so do nothing.
         // micro-LF (.ulf) files are built with `ulfc`, not the standard build pipeline.
         if (isUlfDocument(textDocument)) return;
-        client.sendNotification('generator/partialBuild', uri);
+        const args = {"uri": uri, "json": await getJson(uri)};
+        client.sendNotification('generator/partialBuild', args);
     });
     vscode.workspace.onDidChangeConfiguration(() => {
         enabled = buildOnSaveEnabled();
